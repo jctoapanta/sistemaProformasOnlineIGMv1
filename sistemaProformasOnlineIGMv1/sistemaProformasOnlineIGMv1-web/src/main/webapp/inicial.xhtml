@@ -25,13 +25,13 @@
                 Proformas Online IGM
             </ui:insert>
         </title>
+        
     </h:head>
     <h:body onunload="dlg4.hide();">
         <table cellspacing="10px">
             <tr>
                 <td id="top">
                     <ui:insert name="session">
-
                         <p:idleMonitor onactive="sessionTimeOutDialog.show();" timeout="#{session.maxInactiveInterval * 1000}" />
                         <p:dialog header="#{bundle.sesionCaducada}" widgetVar="sessionTimeOutDialog"
                                   modal="true" closable="false" width="400" visible="false">

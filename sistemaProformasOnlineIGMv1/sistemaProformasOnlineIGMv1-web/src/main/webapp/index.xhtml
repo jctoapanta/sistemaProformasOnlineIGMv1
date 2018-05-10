@@ -3,14 +3,22 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:p="http://primefaces.org/ui">
+          <style type="text/css">
+              
+              #h_bodyid{
+                  background-color: lightslategrey;
+              }
+
+          </style>
     <h:head>
-        <title>Facelet Title</title>
+        <title>.::Sistema de Proformas Online IGM::.</title>
         <h:outputStylesheet name="css/jsfcrud.css"/>
     </h:head>
-    <h:body>
+    <h:body id="h_bodyid">
         <div align="center">
-            <h:form>
-                <p:panel id="pnlPrincipal" header="Login" style="width: 350px">
+            <h:form >
+                <div align="center"><img src="resources/images/igm.png"></img></div>  
+                <p:panel id="pnlPrincipal" header="Login" style="background-color: lightsteelblue; width: 350px">
                     <h:panelGrid id="pngPrincipal" columns="2">
                         <h:outputText id="outUsuario" value="#{bundle.Usuario}: " styleClass="texto_negrita_derecha"/>
                         <h:inputText id="intUsuario" value="#{login.aliasBase}" maxlength="30"/>
