@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="TivaViewDlg" widgetVar="TivaViewDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.ViewTivaTitle}">
+            <h:form id="TivaViewForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{tivaController.selected != null}">
+                        <h:outputText value="#{bundle.ViewTivaLabel_idIva}"/>
+                        <h:outputText value="#{tivaController.selected.idIva}" title="#{bundle.ViewTivaTitle_idIva}"/>
+                        <h:outputText value="#{bundle.ViewTivaLabel_idPeriodo}"/>
+                        <h:outputText value="#{tivaController.selected.idPeriodo}" title="#{bundle.ViewTivaTitle_idPeriodo}"/>
+                        <h:outputText value="#{bundle.ViewTivaLabel_idSucursal}"/>
+                        <h:outputText value="#{tivaController.selected.idSucursal}" title="#{bundle.ViewTivaTitle_idSucursal}"/>
+                        <h:outputText value="#{bundle.ViewTivaLabel_idProforma}"/>
+                        <h:outputText value="#{tivaController.selected.idProforma}" title="#{bundle.ViewTivaTitle_idProforma}"/>
+                        <h:outputText value="#{bundle.ViewTivaLabel_noReg}"/>
+                        <h:outputText value="#{tivaController.selected.noReg}" title="#{bundle.ViewTivaTitle_noReg}"/>
+                        <h:outputText value="#{bundle.ViewTivaLabel_porcentajeIva}"/>
+                        <h:outputText value="#{tivaController.selected.porcentajeIva}" title="#{bundle.ViewTivaTitle_porcentajeIva}"/>
+                        <h:outputText value="#{bundle.ViewTivaLabel_idResponsable}"/>
+                        <h:outputText value="#{tivaController.selected.idResponsable}" title="#{bundle.ViewTivaTitle_idResponsable}"/>
+                        <h:outputText value="#{bundle.ViewTivaLabel_idModificador}"/>
+                        <h:outputText value="#{tivaController.selected.idModificador}" title="#{bundle.ViewTivaTitle_idModificador}"/>
+                        <h:outputText value="#{bundle.ViewTivaLabel_fechaCreacion}"/>
+                        <h:outputText value="#{tivaController.selected.fechaCreacion}" title="#{bundle.ViewTivaTitle_fechaCreacion}">
+                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                        </h:outputText>
+                        <h:outputText value="#{bundle.ViewTivaLabel_fechaModifica}"/>
+                        <h:outputText value="#{tivaController.selected.fechaModifica}" title="#{bundle.ViewTivaTitle_fechaModifica}">
+                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                        </h:outputText>
+                        <h:outputText value="#{bundle.ViewTivaLabel_version}"/>
+                        <h:outputText value="#{tivaController.selected.version}" title="#{bundle.ViewTivaTitle_version}"/>
+                        <h:outputText value="#{bundle.ViewTivaLabel_estado}"/>
+                        <h:outputText value="#{tivaController.selected.estado}" title="#{bundle.ViewTivaTitle_estado}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="TivaViewDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

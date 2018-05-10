@@ -1,0 +1,57 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package gob.igm.ec.servicios;
+
+import gob.igm.ec.Tproforma;
+import java.util.ArrayList;
+import java.util.List;
+import javax.ejb.Stateless;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
+import org.apache.log4j.Logger;
+
+/**
+ *
+ * @author TOAPANTA_JUAN
+ */
+@Stateless
+public class TproformaFacade extends AbstractFacade<Tproforma> {
+    /** La variable logger. */
+    private static Logger localLogger;
+    @PersistenceContext(unitName = "gob.igm.ec_sistemaProformasOnlineIGMv1-ejb_ejb_1.0-SNAPSHOTPU")
+    private EntityManager em;
+
+    @Override
+    protected EntityManager getEntityManager() {
+        return em;
+    }
+
+    public TproformaFacade() {
+        super(Tproforma.class);
+    }
+    
+        /**
+     * Realiza la b?squeda de usuarios por su nombre. Si recibe % como par?metro
+     * realiza una b?squeda con like.
+     * @param pCiu identificación del cliente
+     * @param pIdPeriodo identificación del periodo
+     * @return Lista de proformas
+     */
+    public List<Tproforma> buscarProformsXCliente(final String pCiu, final Short pIdPeriodo) {
+        List<Tproforma> proforma = new ArrayList<>();
+        try {
+            TypedQuery<Tproforma> query= em.createNamedQuery("Tproforma.findByIdPeriodoAndCiu",Tproforma.class);
+                    query.setParameter("idPeriodo",  pIdPeriodo);
+                    query.setParameter("ciu", pCiu);
+                    
+            proforma=query.getResultList();
+        } catch (Exception e) {
+            localLogger.error(e);
+        }
+        return proforma;
+    }
+}

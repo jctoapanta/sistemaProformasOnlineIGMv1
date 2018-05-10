@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="TfamiliaViewDlg" widgetVar="TfamiliaViewDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.ViewTfamiliaTitle}">
+            <h:form id="TfamiliaViewForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{tfamiliaController.selected != null}">
+                        <h:outputText value="#{bundle.ViewTfamiliaLabel_idFamilia}"/>
+                        <h:outputText value="#{tfamiliaController.selected.idFamilia}" title="#{bundle.ViewTfamiliaTitle_idFamilia}"/>
+                        <h:outputText value="#{bundle.ViewTfamiliaLabel_descFamilia}"/>
+                        <h:outputText value="#{tfamiliaController.selected.descFamilia}" title="#{bundle.ViewTfamiliaTitle_descFamilia}"/>
+                        <h:outputText value="#{bundle.ViewTfamiliaLabel_idCentroGestion}"/>
+                        <h:outputText value="#{tfamiliaController.selected.idCentroGestion}" title="#{bundle.ViewTfamiliaTitle_idCentroGestion}"/>
+                        <h:outputText value="#{bundle.ViewTfamiliaLabel_idCentroEjecucion}"/>
+                        <h:outputText value="#{tfamiliaController.selected.idCentroEjecucion}" title="#{bundle.ViewTfamiliaTitle_idCentroEjecucion}"/>
+                        <h:outputText value="#{bundle.ViewTfamiliaLabel_tipoFamilia}"/>
+                        <h:outputText value="#{tfamiliaController.selected.tipoFamilia}" title="#{bundle.ViewTfamiliaTitle_tipoFamilia}"/>
+                        <h:outputText value="#{bundle.ViewTfamiliaLabel_LEspecial}"/>
+                        <h:outputText value="#{tfamiliaController.selected.LEspecial}" title="#{bundle.ViewTfamiliaTitle_LEspecial}"/>
+                        <h:outputText value="#{bundle.ViewTfamiliaLabel_idSubfamilia}"/>
+                        <h:outputText value="#{tfamiliaController.selected.idSubfamilia}" title="#{bundle.ViewTfamiliaTitle_idSubfamilia}"/>
+                        <h:outputText value="#{bundle.ViewTfamiliaLabel_LServiciosinop}"/>
+                        <h:outputText value="#{tfamiliaController.selected.LServiciosinop}" title="#{bundle.ViewTfamiliaTitle_LServiciosinop}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="TfamiliaViewDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

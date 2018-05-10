@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="TdetproformaViewDlg" widgetVar="TdetproformaViewDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.ViewTdetproformaTitle}">
+            <h:form id="TdetproformaViewForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{tdetproformaController.selected != null}">
+                        <h:outputText value="#{bundle.ViewTdetproformaLabel_tdetproformaPK_noReg}"/>
+                        <h:outputText value="#{tdetproformaController.selected.tdetproformaPK.noReg}" title="#{bundle.ViewTdetproformaTitle_tdetproformaPK_noReg}"/>
+                        <h:outputText value="#{bundle.ViewTdetproformaLabel_detalleItem}"/>
+                        <h:outputText value="#{tdetproformaController.selected.detalleItem}" title="#{bundle.ViewTdetproformaTitle_detalleItem}"/>
+                        <h:outputText value="#{bundle.ViewTdetproformaLabel_cantidad}"/>
+                        <h:outputText value="#{tdetproformaController.selected.cantidad}" title="#{bundle.ViewTdetproformaTitle_cantidad}"/>
+                        <h:outputText value="#{bundle.ViewTdetproformaLabel_pvpTotal}"/>
+                        <h:outputText value="#{tdetproformaController.selected.pvpTotal}" title="#{bundle.ViewTdetproformaTitle_pvpTotal}"/>
+                        <h:outputText value="#{bundle.ViewTdetproformaLabel_formato}"/>
+                        <h:outputText value="#{tdetproformaController.selected.formato}" title="#{bundle.ViewTdetproformaTitle_formato}"/>
+                        <h:outputText value="#{bundle.ViewTdetproformaLabel_tipoItem}"/>
+                        <h:outputText value="#{tdetproformaController.selected.tipoItem}" title="#{bundle.ViewTdetproformaTitle_tipoItem}"/>
+                        <h:outputText value="#{bundle.ViewTdetproformaLabel_ivaPorcentaje}"/>
+                        <h:outputText value="#{tdetproformaController.selected.ivaPorcentaje}" title="#{bundle.ViewTdetproformaTitle_ivaPorcentaje}"/>
+                        <h:outputText value="#{bundle.ViewTdetproformaLabel_descuento}"/>
+                        <h:outputText value="#{tdetproformaController.selected.descuento}" title="#{bundle.ViewTdetproformaTitle_descuento}"/>
+                        <h:outputText value="#{bundle.ViewTdetproformaLabel_LAcepta}"/>
+                        <h:outputText value="#{tdetproformaController.selected.LAcepta}" title="#{bundle.ViewTdetproformaTitle_LAcepta}"/>
+                        <h:outputText value="#{bundle.ViewTdetproformaLabel_idFactura}"/>
+                        <h:outputText value="#{tdetproformaController.selected.idFactura}" title="#{bundle.ViewTdetproformaTitle_idFactura}"/>
+                        <h:outputText value="#{bundle.ViewTdetproformaLabel_periodoFactura}"/>
+                        <h:outputText value="#{tdetproformaController.selected.periodoFactura}" title="#{bundle.ViewTdetproformaTitle_periodoFactura}"/>
+                        <h:outputText value="#{bundle.ViewTdetproformaLabel_periodocodigo}"/>
+                        <h:outputText value="#{tdetproformaController.selected.periodocodigo}" title="#{bundle.ViewTdetproformaTitle_periodocodigo}"/>
+                        <h:outputText value="#{bundle.ViewTdetproformaLabel_codsec}"/>
+                        <h:outputText value="#{tdetproformaController.selected.codsec}" title="#{bundle.ViewTdetproformaTitle_codsec}"/>
+                        <h:outputText value="#{bundle.ViewTdetproformaLabel_idCentroGestion}"/>
+                        <h:outputText value="#{tdetproformaController.selected.idCentroGestion}" title="#{bundle.ViewTdetproformaTitle_idCentroGestion}"/>
+                        <h:outputText value="#{bundle.ViewTdetproformaLabel_idProyecto}"/>
+                        <h:outputText value="#{tdetproformaController.selected.idProyecto}" title="#{bundle.ViewTdetproformaTitle_idProyecto}"/>
+                        <h:outputText value="#{bundle.ViewTdetproformaLabel_idFacturaAnterior}"/>
+                        <h:outputText value="#{tdetproformaController.selected.idFacturaAnterior}" title="#{bundle.ViewTdetproformaTitle_idFacturaAnterior}"/>
+                        <h:outputText value="#{bundle.ViewTdetproformaLabel_periodoFacturaAnterior}"/>
+                        <h:outputText value="#{tdetproformaController.selected.periodoFacturaAnterior}" title="#{bundle.ViewTdetproformaTitle_periodoFacturaAnterior}"/>
+                        <h:outputText value="#{bundle.ViewTdetproformaLabel_numDesde}"/>
+                        <h:outputText value="#{tdetproformaController.selected.numDesde}" title="#{bundle.ViewTdetproformaTitle_numDesde}"/>
+                        <h:outputText value="#{bundle.ViewTdetproformaLabel_numHasta}"/>
+                        <h:outputText value="#{tdetproformaController.selected.numHasta}" title="#{bundle.ViewTdetproformaTitle_numHasta}"/>
+                        <h:outputText value="#{bundle.ViewTdetproformaLabel_numActual}"/>
+                        <h:outputText value="#{tdetproformaController.selected.numActual}" title="#{bundle.ViewTdetproformaTitle_numActual}"/>
+                        <h:outputText value="#{bundle.ViewTdetproformaLabel_obsLiberaProf}"/>
+                        <h:outputText value="#{tdetproformaController.selected.obsLiberaProf}" title="#{bundle.ViewTdetproformaTitle_obsLiberaProf}"/>
+                        <h:outputText value="#{bundle.ViewTdetproformaLabel_impreso}"/>
+                        <h:outputText value="#{tdetproformaController.selected.impreso}" title="#{bundle.ViewTdetproformaTitle_impreso}"/>
+                        <h:outputText value="#{bundle.ViewTdetproformaLabel_dimension}"/>
+                        <h:outputText value="#{tdetproformaController.selected.dimension}" title="#{bundle.ViewTdetproformaTitle_dimension}"/>
+                        <h:outputText value="#{bundle.ViewTdetproformaLabel_fecimp}"/>
+                        <h:outputText value="#{tdetproformaController.selected.fecimp}" title="#{bundle.ViewTdetproformaTitle_fecimp}">
+                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                        </h:outputText>
+                        <h:outputText value="#{bundle.ViewTdetproformaLabel_idItem}"/>
+                        <h:outputText value="#{tdetproformaController.selected.idItem}" title="#{bundle.ViewTdetproformaTitle_idItem}"/>
+                        <h:outputText value="#{bundle.ViewTdetproformaLabel_idIva}"/>
+                        <h:outputText value="#{tdetproformaController.selected.idIva}" title="#{bundle.ViewTdetproformaTitle_idIva}"/>
+                        <h:outputText value="#{bundle.ViewTdetproformaLabel_idPloter}"/>
+                        <h:outputText value="#{tdetproformaController.selected.idPloter}" title="#{bundle.ViewTdetproformaTitle_idPloter}"/>
+                        <h:outputText value="#{bundle.ViewTdetproformaLabel_tproforma}"/>
+                        <h:outputText value="#{tdetproformaController.selected.tproforma}" title="#{bundle.ViewTdetproformaTitle_tproforma}"/>
+                        <h:outputText value="#{bundle.ViewTdetproformaLabel_idTipoCarta}"/>
+                        <h:outputText value="#{tdetproformaController.selected.idTipoCarta}" title="#{bundle.ViewTdetproformaTitle_idTipoCarta}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="TdetproformaViewDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>
