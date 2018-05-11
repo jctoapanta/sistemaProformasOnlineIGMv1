@@ -92,6 +92,7 @@ public class Login extends FacesUtil implements Serializable {
                 cliente.setCiu(tentidad.getCiu());
                 cliente.setApellidos(tentidad.getApellidos());
                 cliente.setNombres(tentidad.getNombres());
+                cliente.setDireccion(tentidad.getDireccion());
             }
             if (getUsuario().isEmpty()){
                 JsfUtil.addErrorMessage("Usuario no existe o Clave incorrecta, favor verifique");
