@@ -39,7 +39,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Tproforma.findAll", query = "SELECT t FROM Tproforma t"),
     //@NamedQuery(name = "Tproforma.updateComprobante", query = "UPDATE Tproforma t SET t.comprobantePago=:comprobantePago WHERE ID_PROFORMA=:idProforma"),
     @NamedQuery(name = "Tproforma.findByIdPeriodo", query = "SELECT t FROM Tproforma t WHERE t.tproformaPK.idPeriodo = :idPeriodo"),
-    @NamedQuery(name = "Tproforma.findByIdPeriodoAndCiu", query = "SELECT t FROM Tproforma t WHERE t.tproformaPK.idPeriodo = :idPeriodo and t.ciu.ciu = :ciu"),
+    @NamedQuery(name = "Tproforma.findByIdPeriodoAndCiu", query = "SELECT t FROM Tproforma t WHERE t.tproformaPK.idPeriodo = :idPeriodo and t.ciu.ciu = :ciu and t.comprobantePago is null"),
     @NamedQuery(name = "Tproforma.findByIdSucursal", query = "SELECT t FROM Tproforma t WHERE t.tproformaPK.idSucursal = :idSucursal"),
     @NamedQuery(name = "Tproforma.findByIdProforma", query = "SELECT t FROM Tproforma t WHERE t.tproformaPK.idProforma = :idProforma"),
     @NamedQuery(name = "Tproforma.findByEstado", query = "SELECT t FROM Tproforma t WHERE t.estado = :estado"),

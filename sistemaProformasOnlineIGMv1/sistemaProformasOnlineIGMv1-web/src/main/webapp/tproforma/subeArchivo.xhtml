@@ -26,10 +26,10 @@
                         
                         <p:outputLabel value="Adjuntar archivo: "  
                                         style="font-weight: bold"/>
-                        <p:fileUpload value="#{fileUploadView.file}"
+                        <p:fileUpload value="#{tproformaController.file}"
                                   mode="advanced" 
                                   dragDropSupport="false"
-                                  fileUploadListener="#{fileUploadView.upload}"
+                                  fileUploadListener="#{tproformaController.upload}"
                                   uploadLabel="Subir imágen" 
                                   sizeLimit="51200" 
                                   cancelLabel="Cancelar" 

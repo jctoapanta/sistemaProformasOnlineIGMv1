@@ -26,6 +26,8 @@ import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
 import javax.inject.Inject;
+import org.primefaces.event.FileUploadEvent;
+import org.primefaces.model.UploadedFile;
 
 @Named("tproformaController")
 @SessionScoped
@@ -225,5 +227,23 @@ public class TproformaController implements Serializable {
      */
     public void setItemsXCiu(List<Tproforma> itemsXCiu) {
         this.itemsXCiu = itemsXCiu;
+    }
+    
+    private UploadedFile file;
+
+    public UploadedFile getFile() {
+        return file;
+    }
+
+    public void setFile(UploadedFile file) {
+        this.file = file;
+    }
+    
+    public void upload(FileUploadEvent e){
+        try {
+            this.ejbFacade.upload(e);
+        } catch (Exception ex) {
+            Logger.getLogger(TproformaController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 }

@@ -39,7 +39,7 @@
 
                         <p:column>
                             <f:facet name="header">
-                                <h:outputText value="#{bundle.ListTproformaTitle_tproformaPK_idPeriodo}"/>
+                                <h:outputText  value="#{bundle.ListTproformaTitle_tproformaPK_idPeriodo}"/>
                             </f:facet>
                             <h:outputText value="#{item.tproformaPK.idPeriodo}"/>
                         </p:column>
@@ -74,18 +74,6 @@
                             <h:outputText value="#{item.fechaCreacion}">
                                 <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
                             </h:outputText>
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{bundle.ListTproformaTitle_LVentaOnline}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.LVentaOnline}"/>
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{bundle.ListTproformaTitle_tsucursal}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.tsucursal}"/>
                         </p:column>
                         <f:facet name="footer">
                             <p:commandButton id="createButton" icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{tproformaController.prepareCreate}" update=":TproformaCreateForm" oncomplete="PF('TproformaCreateDialog').show()"/>
