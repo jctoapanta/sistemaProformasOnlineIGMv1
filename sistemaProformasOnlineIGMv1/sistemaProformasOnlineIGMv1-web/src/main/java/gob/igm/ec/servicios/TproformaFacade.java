@@ -63,7 +63,7 @@ public class TproformaFacade extends AbstractFacade<Tproforma> {
             FileUtils.copyInputStreamToFile(e.getFile().getInputstream(), destFile);
             
             Properties props = new Properties();
-            props.put("mail.smtp.host", "192.168.3.242");
+            props.put("mail.smtp.host", "192.168.3.242"); //igm.gob.ec192.168.3.242
             props.setProperty("mail.smtp.port", "25");
 
             Session session = Session.getDefaultInstance(props, null);

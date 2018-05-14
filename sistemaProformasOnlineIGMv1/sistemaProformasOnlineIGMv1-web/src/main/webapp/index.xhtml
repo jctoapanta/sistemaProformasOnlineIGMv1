@@ -15,6 +15,7 @@
         <h:outputStylesheet name="css/jsfcrud.css"/>
     </h:head>
     <h:body id="h_bodyid">
+        <p:growl id="growl" life="3000" />
         <div align="center">
             <h:form >
                 <div align="center"><img src="resources/images/igm.png"></img></div>  
@@ -26,7 +27,7 @@
                         <h:inputSecret id="intClave" value="#{login.clave}" maxlength="50"/>
                         <br />
                         <p:commandButton id="btnLoginInicial" value="#{bundle.Ingresar}" action="#{login.ingresar}" ajax="false"
-                                         styleClass="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" update="pnlPrincipal"/>
+                                         styleClass="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" update="pnlPrincipal growl"/>
                         <br />
                         <div>
                             <h:commandLink id="lnkRegistro" value="#{bundle.Registro}-#{bundle.Usuario}" action="/registro" actionListener="#{tentidadController.prepareCreate}"/>
