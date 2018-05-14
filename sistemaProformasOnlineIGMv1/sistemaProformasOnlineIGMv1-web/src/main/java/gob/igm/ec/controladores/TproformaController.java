@@ -241,7 +241,8 @@ public class TproformaController implements Serializable {
     
     public void upload(FileUploadEvent e){
         try {
-            this.ejbFacade.upload(e);
+            Long id_proforma=selected.getTproformaPK().getIdProforma();
+            this.ejbFacade.upload(e.getFile(), id_proforma);
         } catch (Exception ex) {
             Logger.getLogger(TproformaController.class.getName()).log(Level.SEVERE, null, ex);
         }

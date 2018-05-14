@@ -55,40 +55,39 @@ public class TproformaFacade extends AbstractFacade<Tproforma> {
     
     FacesMessage mensaje = new FacesMessage();
 
-    public void upload(FileUploadEvent e) throws Exception {
-        if (e.getFile() != null) {
-            //if (this.getFile() != null) {
-            //ENVIO MAIL-INICIO
-            File destFile = new File(e.getFile().getFileName()); 
-            FileUtils.copyInputStreamToFile(e.getFile().getInputstream(), destFile);
+    public void upload(UploadedFile e, Long id_proforma) throws Exception {
+        
+        if (e != null) {
+            //ENVIO MAIL-carga
+            File destFile = new File(e.getFileName()); 
+            FileUtils.copyInputStreamToFile(e.getInputstream(), destFile);
             
             Properties props = new Properties();
-            props.put("mail.smtp.host", "192.168.3.242"); //igm.gob.ec192.168.3.242
+            props.put("mail.smtp.host", "mail.igm.gob.ec");
             props.setProperty("mail.smtp.port", "25");
 
             Session session = Session.getDefaultInstance(props, null);
             
-            Class.forName("oracle.jdbc.OracleDriver");
-            
-            Connection cn = DriverManager.getConnection("jdbc:oracle:thin:@192.168.35.88:1521:GEO", "PTV", "PPTVIGM2009");
-            PreparedStatement st = cn.prepareStatement("UPDATE TPROFORMA SET COMPROBANTE_PAGO=? WHERE ID_PROFORMA=999");
-            st.setBinaryStream(1, e.getFile().getInputstream());// file.getInputstream());
-            st.executeUpdate();
-            cn.close();
+            //CARGA  de archivo en Base de Datos
+            try (Connection cn = em.unwrap(Connection.class)) {
+                PreparedStatement st = cn.prepareStatement("UPDATE TPROFORMA SET COMPROBANTE_PAGO=? WHERE ID_PROFORMA=?");
+                st.setBinaryStream(1, e.getInputstream());// file.getInputstream());
+                st.setLong(2, id_proforma);
+                st.executeUpdate();
+            }
             mensaje.setSeverity(FacesMessage.SEVERITY_ERROR);
             mensaje.setSummary("Archivo subido con éxito");
             
-            //ENVIO ARCHIVO
+            //ENVIO de correo con adjunto
             // Se compone la parte del texto
             BodyPart texto = new MimeBodyPart();
             texto.setText("VERIFIQUE COMPROBANTE DE PAGO");
 
             // Se compone el adjunto con la imagen
             BodyPart adjunto = new MimeBodyPart();
-            FileDataSource ds=new FileDataSource(e.getFile().getFileName());
+            FileDataSource ds=new FileDataSource(e.getFileName());
             adjunto.setDataHandler(
                 new DataHandler(ds));    
-                /*new DataHandler(new FileDataSource("/home/prueba.txt")));*/
             adjunto.setFileName(destFile.toString());
 
             // Una MultiParte para agrupar texto e imagen.
@@ -111,7 +110,6 @@ public class TproformaFacade extends AbstractFacade<Tproforma> {
             t.connect();
             t.sendMessage(message, message.getAllRecipients());
             t.close();            
-            //ENVIO MAIL-FIN
         } else {
             mensaje.setSeverity(FacesMessage.SEVERITY_ERROR);
             mensaje.setSummary("No se encuentra el archivo");
