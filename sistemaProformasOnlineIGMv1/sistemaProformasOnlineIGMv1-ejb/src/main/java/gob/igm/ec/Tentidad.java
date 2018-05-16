@@ -8,6 +8,7 @@ package gob.igm.ec;
 import java.io.Serializable;
 import java.util.Collection;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -28,21 +29,22 @@ import javax.xml.bind.annotation.XmlTransient;
 @Table(name = "TENTIDAD")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Tentidad.findAll", query = "SELECT t FROM Tentidad t"),
-    @NamedQuery(name = "Tentidad.findByCiu", query = "SELECT t FROM Tentidad t WHERE t.ciu = :ciu"),
-    @NamedQuery(name = "Tentidad.findByNombres", query = "SELECT t FROM Tentidad t WHERE t.nombres = :nombres"),
-    @NamedQuery(name = "Tentidad.findByApellidos", query = "SELECT t FROM Tentidad t WHERE t.apellidos = :apellidos"),
-    @NamedQuery(name = "Tentidad.findByDireccion", query = "SELECT t FROM Tentidad t WHERE t.direccion = :direccion"),
-    @NamedQuery(name = "Tentidad.findByTelefonoConvencional", query = "SELECT t FROM Tentidad t WHERE t.telefonoConvencional = :telefonoConvencional"),
-    @NamedQuery(name = "Tentidad.findByTelefonoCelular", query = "SELECT t FROM Tentidad t WHERE t.telefonoCelular = :telefonoCelular"),
-    @NamedQuery(name = "Tentidad.findByFax", query = "SELECT t FROM Tentidad t WHERE t.fax = :fax"),
-    @NamedQuery(name = "Tentidad.findByEmail", query = "SELECT t FROM Tentidad t WHERE t.email = :email"),
-    @NamedQuery(name = "Tentidad.findByCCtble", query = "SELECT t FROM Tentidad t WHERE t.cCtble = :cCtble"),
-    @NamedQuery(name = "Tentidad.findByIdCreador", query = "SELECT t FROM Tentidad t WHERE t.idCreador = :idCreador"),
-    @NamedQuery(name = "Tentidad.findByIdModificador", query = "SELECT t FROM Tentidad t WHERE t.idModificador = :idModificador"),
-    @NamedQuery(name = "Tentidad.findByClave", query = "SELECT t FROM Tentidad t WHERE t.clave = :clave"),
-    @NamedQuery(name = "Tentidad.findByLNatural", query = "SELECT t FROM Tentidad t WHERE t.lNatural = :lNatural")})
+    @NamedQuery(name = "Tentidad.findAll", query = "SELECT t FROM Tentidad t")
+    , @NamedQuery(name = "Tentidad.findByCiu", query = "SELECT t FROM Tentidad t WHERE t.ciu = :ciu")
+    , @NamedQuery(name = "Tentidad.findByNombres", query = "SELECT t FROM Tentidad t WHERE t.nombres = :nombres")
+    , @NamedQuery(name = "Tentidad.findByApellidos", query = "SELECT t FROM Tentidad t WHERE t.apellidos = :apellidos")
+    , @NamedQuery(name = "Tentidad.findByDireccion", query = "SELECT t FROM Tentidad t WHERE t.direccion = :direccion")
+    , @NamedQuery(name = "Tentidad.findByTelefonoConvencional", query = "SELECT t FROM Tentidad t WHERE t.telefonoConvencional = :telefonoConvencional")
+    , @NamedQuery(name = "Tentidad.findByTelefonoCelular", query = "SELECT t FROM Tentidad t WHERE t.telefonoCelular = :telefonoCelular")
+    , @NamedQuery(name = "Tentidad.findByFax", query = "SELECT t FROM Tentidad t WHERE t.fax = :fax")
+    , @NamedQuery(name = "Tentidad.findByEmail", query = "SELECT t FROM Tentidad t WHERE t.email = :email")
+    , @NamedQuery(name = "Tentidad.findByCCtble", query = "SELECT t FROM Tentidad t WHERE t.cCtble = :cCtble")
+    , @NamedQuery(name = "Tentidad.findByIdCreador", query = "SELECT t FROM Tentidad t WHERE t.idCreador = :idCreador")
+    , @NamedQuery(name = "Tentidad.findByIdModificador", query = "SELECT t FROM Tentidad t WHERE t.idModificador = :idModificador")
+    , @NamedQuery(name = "Tentidad.findByClave", query = "SELECT t FROM Tentidad t WHERE t.clave = :clave")
+    , @NamedQuery(name = "Tentidad.findByLNatural", query = "SELECT t FROM Tentidad t WHERE t.lNatural = :lNatural")})
 public class Tentidad implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -85,7 +87,9 @@ public class Tentidad implements Serializable {
     private String clave;
     @Column(name = "L_NATURAL")
     private Short lNatural;
-    @OneToMany(mappedBy = "ciu")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "ciu")
+    private Collection<Tdireccionesusr> tdireccionesusrCollection;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "ciu")
     private Collection<Tproforma> tproformaCollection;
 
     public Tentidad() {
@@ -197,6 +201,15 @@ public class Tentidad implements Serializable {
 
     public void setLNatural(Short lNatural) {
         this.lNatural = lNatural;
+    }
+
+    @XmlTransient
+    public Collection<Tdireccionesusr> getTdireccionesusrCollection() {
+        return tdireccionesusrCollection;
+    }
+
+    public void setTdireccionesusrCollection(Collection<Tdireccionesusr> tdireccionesusrCollection) {
+        this.tdireccionesusrCollection = tdireccionesusrCollection;
     }
 
     @XmlTransient

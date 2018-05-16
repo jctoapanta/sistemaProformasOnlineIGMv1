@@ -16,7 +16,7 @@ import javax.validation.constraints.NotNull;
  * @author TOAPANTA_JUAN
  */
 @Embeddable
-public class TcantonPK implements Serializable {
+public class TtarifarioPK implements Serializable {
 
     @Basic(optional = false)
     @NotNull
@@ -27,10 +27,10 @@ public class TcantonPK implements Serializable {
     @Column(name = "ID_CANTON")
     private int idCanton;
 
-    public TcantonPK() {
+    public TtarifarioPK() {
     }
 
-    public TcantonPK(int idProvincia, int idCanton) {
+    public TtarifarioPK(int idProvincia, int idCanton) {
         this.idProvincia = idProvincia;
         this.idCanton = idCanton;
     }
@@ -62,10 +62,10 @@ public class TcantonPK implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof TcantonPK)) {
+        if (!(object instanceof TtarifarioPK)) {
             return false;
         }
-        TcantonPK other = (TcantonPK) object;
+        TtarifarioPK other = (TtarifarioPK) object;
         if (this.idProvincia != other.idProvincia) {
             return false;
         }
@@ -77,7 +77,7 @@ public class TcantonPK implements Serializable {
 
     @Override
     public String toString() {
-        return "gob.igm.ec.TcantonPK[ idProvincia=" + idProvincia + ", idCanton=" + idCanton + " ]";
+        return "gob.igm.ec.TtarifarioPK[ idProvincia=" + idProvincia + ", idCanton=" + idCanton + " ]";
     }
     
 }

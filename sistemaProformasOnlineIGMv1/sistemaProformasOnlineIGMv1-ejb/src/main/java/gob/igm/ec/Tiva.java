@@ -33,20 +33,21 @@ import javax.xml.bind.annotation.XmlTransient;
 @Table(name = "TIVA")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Tiva.findAll", query = "SELECT t FROM Tiva t"),
-    @NamedQuery(name = "Tiva.findByIdIva", query = "SELECT t FROM Tiva t WHERE t.idIva = :idIva"),
-    @NamedQuery(name = "Tiva.findByIdPeriodo", query = "SELECT t FROM Tiva t WHERE t.idPeriodo = :idPeriodo"),
-    @NamedQuery(name = "Tiva.findByIdSucursal", query = "SELECT t FROM Tiva t WHERE t.idSucursal = :idSucursal"),
-    @NamedQuery(name = "Tiva.findByIdProforma", query = "SELECT t FROM Tiva t WHERE t.idProforma = :idProforma"),
-    @NamedQuery(name = "Tiva.findByNoReg", query = "SELECT t FROM Tiva t WHERE t.noReg = :noReg"),
-    @NamedQuery(name = "Tiva.findByPorcentajeIva", query = "SELECT t FROM Tiva t WHERE t.porcentajeIva = :porcentajeIva"),
-    @NamedQuery(name = "Tiva.findByIdResponsable", query = "SELECT t FROM Tiva t WHERE t.idResponsable = :idResponsable"),
-    @NamedQuery(name = "Tiva.findByIdModificador", query = "SELECT t FROM Tiva t WHERE t.idModificador = :idModificador"),
-    @NamedQuery(name = "Tiva.findByFechaCreacion", query = "SELECT t FROM Tiva t WHERE t.fechaCreacion = :fechaCreacion"),
-    @NamedQuery(name = "Tiva.findByFechaModifica", query = "SELECT t FROM Tiva t WHERE t.fechaModifica = :fechaModifica"),
-    @NamedQuery(name = "Tiva.findByVersion", query = "SELECT t FROM Tiva t WHERE t.version = :version"),
-    @NamedQuery(name = "Tiva.findByEstado", query = "SELECT t FROM Tiva t WHERE t.estado = :estado")})
+    @NamedQuery(name = "Tiva.findAll", query = "SELECT t FROM Tiva t")
+    , @NamedQuery(name = "Tiva.findByIdIva", query = "SELECT t FROM Tiva t WHERE t.idIva = :idIva")
+    , @NamedQuery(name = "Tiva.findByIdPeriodo", query = "SELECT t FROM Tiva t WHERE t.idPeriodo = :idPeriodo")
+    , @NamedQuery(name = "Tiva.findByIdSucursal", query = "SELECT t FROM Tiva t WHERE t.idSucursal = :idSucursal")
+    , @NamedQuery(name = "Tiva.findByIdProforma", query = "SELECT t FROM Tiva t WHERE t.idProforma = :idProforma")
+    , @NamedQuery(name = "Tiva.findByNoReg", query = "SELECT t FROM Tiva t WHERE t.noReg = :noReg")
+    , @NamedQuery(name = "Tiva.findByPorcentajeIva", query = "SELECT t FROM Tiva t WHERE t.porcentajeIva = :porcentajeIva")
+    , @NamedQuery(name = "Tiva.findByIdResponsable", query = "SELECT t FROM Tiva t WHERE t.idResponsable = :idResponsable")
+    , @NamedQuery(name = "Tiva.findByIdModificador", query = "SELECT t FROM Tiva t WHERE t.idModificador = :idModificador")
+    , @NamedQuery(name = "Tiva.findByFechaCreacion", query = "SELECT t FROM Tiva t WHERE t.fechaCreacion = :fechaCreacion")
+    , @NamedQuery(name = "Tiva.findByFechaModifica", query = "SELECT t FROM Tiva t WHERE t.fechaModifica = :fechaModifica")
+    , @NamedQuery(name = "Tiva.findByVersion", query = "SELECT t FROM Tiva t WHERE t.version = :version")
+    , @NamedQuery(name = "Tiva.findByEstado", query = "SELECT t FROM Tiva t WHERE t.estado = :estado")})
 public class Tiva implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -56,7 +57,7 @@ public class Tiva implements Serializable {
     @Column(name = "ID_PERIODO")
     private Short idPeriodo;
     @Column(name = "ID_SUCURSAL")
-    private long idSucursal;
+    private Short idSucursal;
     @Column(name = "ID_PROFORMA")
     private Long idProforma;
     @Column(name = "NO_REG")
@@ -105,11 +106,11 @@ public class Tiva implements Serializable {
         this.idPeriodo = idPeriodo;
     }
 
-    public long getIdSucursal() {
+    public Short getIdSucursal() {
         return idSucursal;
     }
 
-    public void setIdSucursal(long idSucursal) {
+    public void setIdSucursal(Short idSucursal) {
         this.idSucursal = idSucursal;
     }
 

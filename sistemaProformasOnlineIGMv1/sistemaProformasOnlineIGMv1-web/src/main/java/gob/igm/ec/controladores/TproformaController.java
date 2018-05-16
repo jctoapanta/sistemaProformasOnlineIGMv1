@@ -35,17 +35,14 @@ public class TproformaController implements Serializable {
 
     @Inject
     private Login login;
-    
-    
+
     @EJB
     private gob.igm.ec.servicios.TproformaFacade ejbFacade;
     private List<Tproforma> items = null;
     private List<Tproforma> itemsXCiu = null;
     private Tproforma selected;
     private EncriptUtil encriptUtil;
-    
 
-    
     public TproformaController() {
     }
 
@@ -100,22 +97,24 @@ public class TproformaController implements Serializable {
         }
         return items;
     }
-    
+
     /**
      * @param items the items to set
      */
     public void setItems(List<Tproforma> items) {
         this.items = items;
     }
-    
-    /** La variable logger. */
+
+    /**
+     * La variable logger.
+     */
     private static org.apache.log4j.Logger logger;
-    
+
     /**
      * Recupera las proformas asociadas al cliente logueado
+     *
      * @return items
-    */
-    
+     */
     private void persist(PersistAction persistAction, String successMessage) {
         if (selected != null) {
             setEmbeddableKeys();
@@ -213,10 +212,10 @@ public class TproformaController implements Serializable {
      */
     public List<Tproforma> getItemsXCiu() {
         Date fechaActual = new Date();
-        Short vIdPeriodo; 
+        Short vIdPeriodo;
         vIdPeriodo = Short.parseShort(new SimpleDateFormat("yy").format(fechaActual));
-        itemsXCiu=this.ejbFacade.buscarProformsXCliente(login.getAliasBase(), vIdPeriodo);
-        if (itemsXCiu.isEmpty()){
+        itemsXCiu = this.ejbFacade.buscarProformsXCliente(login.getAliasBase(), vIdPeriodo);
+        if (itemsXCiu.isEmpty()) {
             JsfUtil.addErrorMessage("Usted no dispone de Proformas");
         }
         return itemsXCiu;
@@ -228,7 +227,7 @@ public class TproformaController implements Serializable {
     public void setItemsXCiu(List<Tproforma> itemsXCiu) {
         this.itemsXCiu = itemsXCiu;
     }
-    
+
     private UploadedFile file;
 
     public UploadedFile getFile() {
@@ -238,10 +237,10 @@ public class TproformaController implements Serializable {
     public void setFile(UploadedFile file) {
         this.file = file;
     }
-    
-    public void upload(FileUploadEvent e){
+
+    public void upload(FileUploadEvent e) {
         try {
-            Long id_proforma=selected.getTproformaPK().getIdProforma();
+            Long id_proforma = selected.getTproformaPK().getIdProforma();
             this.ejbFacade.upload(e.getFile(), id_proforma);
         } catch (Exception ex) {
             Logger.getLogger(TproformaController.class.getName()).log(Level.SEVERE, null, ex);

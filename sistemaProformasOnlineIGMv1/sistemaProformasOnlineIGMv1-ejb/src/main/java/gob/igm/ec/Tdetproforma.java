@@ -31,35 +31,36 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Table(name = "TDETPROFORMA")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Tdetproforma.findAll", query = "SELECT t FROM Tdetproforma t"),
-    @NamedQuery(name = "Tdetproforma.findByIdPeriodo", query = "SELECT t FROM Tdetproforma t WHERE t.tdetproformaPK.idPeriodo = :idPeriodo"),
-    @NamedQuery(name = "Tdetproforma.findByIdSucursal", query = "SELECT t FROM Tdetproforma t WHERE t.tdetproformaPK.idSucursal = :idSucursal"),
-    @NamedQuery(name = "Tdetproforma.findByIdProforma", query = "SELECT t FROM Tdetproforma t WHERE t.tdetproformaPK.idProforma = :idProforma"),
-    @NamedQuery(name = "Tdetproforma.findByNoReg", query = "SELECT t FROM Tdetproforma t WHERE t.tdetproformaPK.noReg = :noReg"),
-    @NamedQuery(name = "Tdetproforma.findByDetalleItem", query = "SELECT t FROM Tdetproforma t WHERE t.detalleItem = :detalleItem"),
-    @NamedQuery(name = "Tdetproforma.findByCantidad", query = "SELECT t FROM Tdetproforma t WHERE t.cantidad = :cantidad"),
-    @NamedQuery(name = "Tdetproforma.findByPvpTotal", query = "SELECT t FROM Tdetproforma t WHERE t.pvpTotal = :pvpTotal"),
-    @NamedQuery(name = "Tdetproforma.findByFormato", query = "SELECT t FROM Tdetproforma t WHERE t.formato = :formato"),
-    @NamedQuery(name = "Tdetproforma.findByTipoItem", query = "SELECT t FROM Tdetproforma t WHERE t.tipoItem = :tipoItem"),
-    @NamedQuery(name = "Tdetproforma.findByIvaPorcentaje", query = "SELECT t FROM Tdetproforma t WHERE t.ivaPorcentaje = :ivaPorcentaje"),
-    @NamedQuery(name = "Tdetproforma.findByDescuento", query = "SELECT t FROM Tdetproforma t WHERE t.descuento = :descuento"),
-    @NamedQuery(name = "Tdetproforma.findByLAcepta", query = "SELECT t FROM Tdetproforma t WHERE t.lAcepta = :lAcepta"),
-    @NamedQuery(name = "Tdetproforma.findByIdFactura", query = "SELECT t FROM Tdetproforma t WHERE t.idFactura = :idFactura"),
-    @NamedQuery(name = "Tdetproforma.findByPeriodoFactura", query = "SELECT t FROM Tdetproforma t WHERE t.periodoFactura = :periodoFactura"),
-    @NamedQuery(name = "Tdetproforma.findByPeriodocodigo", query = "SELECT t FROM Tdetproforma t WHERE t.periodocodigo = :periodocodigo"),
-    @NamedQuery(name = "Tdetproforma.findByCodsec", query = "SELECT t FROM Tdetproforma t WHERE t.codsec = :codsec"),
-    @NamedQuery(name = "Tdetproforma.findByIdCentroGestion", query = "SELECT t FROM Tdetproforma t WHERE t.idCentroGestion = :idCentroGestion"),
-    @NamedQuery(name = "Tdetproforma.findByIdProyecto", query = "SELECT t FROM Tdetproforma t WHERE t.idProyecto = :idProyecto"),
-    @NamedQuery(name = "Tdetproforma.findByIdFacturaAnterior", query = "SELECT t FROM Tdetproforma t WHERE t.idFacturaAnterior = :idFacturaAnterior"),
-    @NamedQuery(name = "Tdetproforma.findByPeriodoFacturaAnterior", query = "SELECT t FROM Tdetproforma t WHERE t.periodoFacturaAnterior = :periodoFacturaAnterior"),
-    @NamedQuery(name = "Tdetproforma.findByNumDesde", query = "SELECT t FROM Tdetproforma t WHERE t.numDesde = :numDesde"),
-    @NamedQuery(name = "Tdetproforma.findByNumHasta", query = "SELECT t FROM Tdetproforma t WHERE t.numHasta = :numHasta"),
-    @NamedQuery(name = "Tdetproforma.findByNumActual", query = "SELECT t FROM Tdetproforma t WHERE t.numActual = :numActual"),
-    @NamedQuery(name = "Tdetproforma.findByObsLiberaProf", query = "SELECT t FROM Tdetproforma t WHERE t.obsLiberaProf = :obsLiberaProf"),
-    @NamedQuery(name = "Tdetproforma.findByImpreso", query = "SELECT t FROM Tdetproforma t WHERE t.impreso = :impreso"),
-    @NamedQuery(name = "Tdetproforma.findByDimension", query = "SELECT t FROM Tdetproforma t WHERE t.dimension = :dimension"),
-    @NamedQuery(name = "Tdetproforma.findByFecimp", query = "SELECT t FROM Tdetproforma t WHERE t.fecimp = :fecimp")})
+    @NamedQuery(name = "Tdetproforma.findAll", query = "SELECT t FROM Tdetproforma t")
+    , @NamedQuery(name = "Tdetproforma.findByIdSucursal", query = "SELECT t FROM Tdetproforma t WHERE t.tdetproformaPK.idSucursal = :idSucursal")
+    , @NamedQuery(name = "Tdetproforma.findByIdPeriodo", query = "SELECT t FROM Tdetproforma t WHERE t.tdetproformaPK.idPeriodo = :idPeriodo")
+    , @NamedQuery(name = "Tdetproforma.findByIdProforma", query = "SELECT t FROM Tdetproforma t WHERE t.tdetproformaPK.idProforma = :idProforma")
+    , @NamedQuery(name = "Tdetproforma.findByNoReg", query = "SELECT t FROM Tdetproforma t WHERE t.tdetproformaPK.noReg = :noReg")
+    , @NamedQuery(name = "Tdetproforma.findByDetalleItem", query = "SELECT t FROM Tdetproforma t WHERE t.detalleItem = :detalleItem")
+    , @NamedQuery(name = "Tdetproforma.findByCantidad", query = "SELECT t FROM Tdetproforma t WHERE t.cantidad = :cantidad")
+    , @NamedQuery(name = "Tdetproforma.findByPvpTotal", query = "SELECT t FROM Tdetproforma t WHERE t.pvpTotal = :pvpTotal")
+    , @NamedQuery(name = "Tdetproforma.findByFormato", query = "SELECT t FROM Tdetproforma t WHERE t.formato = :formato")
+    , @NamedQuery(name = "Tdetproforma.findByTipoItem", query = "SELECT t FROM Tdetproforma t WHERE t.tipoItem = :tipoItem")
+    , @NamedQuery(name = "Tdetproforma.findByIvaPorcentaje", query = "SELECT t FROM Tdetproforma t WHERE t.ivaPorcentaje = :ivaPorcentaje")
+    , @NamedQuery(name = "Tdetproforma.findByDescuento", query = "SELECT t FROM Tdetproforma t WHERE t.descuento = :descuento")
+    , @NamedQuery(name = "Tdetproforma.findByLAcepta", query = "SELECT t FROM Tdetproforma t WHERE t.lAcepta = :lAcepta")
+    , @NamedQuery(name = "Tdetproforma.findByIdFactura", query = "SELECT t FROM Tdetproforma t WHERE t.idFactura = :idFactura")
+    , @NamedQuery(name = "Tdetproforma.findByPeriodoFactura", query = "SELECT t FROM Tdetproforma t WHERE t.periodoFactura = :periodoFactura")
+    , @NamedQuery(name = "Tdetproforma.findByPeriodocodigo", query = "SELECT t FROM Tdetproforma t WHERE t.periodocodigo = :periodocodigo")
+    , @NamedQuery(name = "Tdetproforma.findByCodsec", query = "SELECT t FROM Tdetproforma t WHERE t.codsec = :codsec")
+    , @NamedQuery(name = "Tdetproforma.findByIdCentroGestion", query = "SELECT t FROM Tdetproforma t WHERE t.idCentroGestion = :idCentroGestion")
+    , @NamedQuery(name = "Tdetproforma.findByIdProyecto", query = "SELECT t FROM Tdetproforma t WHERE t.idProyecto = :idProyecto")
+    , @NamedQuery(name = "Tdetproforma.findByIdFacturaAnterior", query = "SELECT t FROM Tdetproforma t WHERE t.idFacturaAnterior = :idFacturaAnterior")
+    , @NamedQuery(name = "Tdetproforma.findByPeriodoFacturaAnterior", query = "SELECT t FROM Tdetproforma t WHERE t.periodoFacturaAnterior = :periodoFacturaAnterior")
+    , @NamedQuery(name = "Tdetproforma.findByNumDesde", query = "SELECT t FROM Tdetproforma t WHERE t.numDesde = :numDesde")
+    , @NamedQuery(name = "Tdetproforma.findByNumHasta", query = "SELECT t FROM Tdetproforma t WHERE t.numHasta = :numHasta")
+    , @NamedQuery(name = "Tdetproforma.findByNumActual", query = "SELECT t FROM Tdetproforma t WHERE t.numActual = :numActual")
+    , @NamedQuery(name = "Tdetproforma.findByObsLiberaProf", query = "SELECT t FROM Tdetproforma t WHERE t.obsLiberaProf = :obsLiberaProf")
+    , @NamedQuery(name = "Tdetproforma.findByImpreso", query = "SELECT t FROM Tdetproforma t WHERE t.impreso = :impreso")
+    , @NamedQuery(name = "Tdetproforma.findByDimension", query = "SELECT t FROM Tdetproforma t WHERE t.dimension = :dimension")
+    , @NamedQuery(name = "Tdetproforma.findByFecimp", query = "SELECT t FROM Tdetproforma t WHERE t.fecimp = :fecimp")})
 public class Tdetproforma implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @EmbeddedId
     protected TdetproformaPK tdetproformaPK;
@@ -121,18 +122,12 @@ public class Tdetproforma implements Serializable {
     @JoinColumn(name = "ID_IVA", referencedColumnName = "ID_IVA")
     @ManyToOne
     private Tiva idIva;
-    @JoinColumn(name = "ID_PLOTER", referencedColumnName = "ID_PLOTER")
-    @ManyToOne
-    private Tploters idPloter;
     @JoinColumns({
-        @JoinColumn(name = "ID_PERIODO", referencedColumnName = "ID_PERIODO", insertable = false, updatable = false),
-        @JoinColumn(name = "ID_SUCURSAL", referencedColumnName = "ID_SUCURSAL", insertable = false, updatable = false),
-        @JoinColumn(name = "ID_PROFORMA", referencedColumnName = "ID_PROFORMA", insertable = false, updatable = false)})
+        @JoinColumn(name = "ID_SUCURSAL", referencedColumnName = "ID_SUCURSAL", insertable = false, updatable = false)
+        , @JoinColumn(name = "ID_PERIODO", referencedColumnName = "ID_PERIODO", insertable = false, updatable = false)
+        , @JoinColumn(name = "ID_PROFORMA", referencedColumnName = "ID_PROFORMA", insertable = false, updatable = false)})
     @ManyToOne(optional = false)
     private Tproforma tproforma;
-    @JoinColumn(name = "ID_TIPO_CARTA", referencedColumnName = "ID_TIPO_CARTA")
-    @ManyToOne
-    private Ttipocarta idTipoCarta;
 
     public Tdetproforma() {
     }
@@ -141,8 +136,8 @@ public class Tdetproforma implements Serializable {
         this.tdetproformaPK = tdetproformaPK;
     }
 
-    public Tdetproforma(short idPeriodo, long idSucursal, long idProforma, short noReg) {
-        this.tdetproformaPK = new TdetproformaPK(idPeriodo, idSucursal, idProforma, noReg);
+    public Tdetproforma(long idSucursal, short idPeriodo, long idProforma, short noReg) {
+        this.tdetproformaPK = new TdetproformaPK(idSucursal, idPeriodo, idProforma, noReg);
     }
 
     public TdetproformaPK getTdetproformaPK() {
@@ -353,28 +348,12 @@ public class Tdetproforma implements Serializable {
         this.idIva = idIva;
     }
 
-    public Tploters getIdPloter() {
-        return idPloter;
-    }
-
-    public void setIdPloter(Tploters idPloter) {
-        this.idPloter = idPloter;
-    }
-
     public Tproforma getTproforma() {
         return tproforma;
     }
 
     public void setTproforma(Tproforma tproforma) {
         this.tproforma = tproforma;
-    }
-
-    public Ttipocarta getIdTipoCarta() {
-        return idTipoCarta;
-    }
-
-    public void setIdTipoCarta(Ttipocarta idTipoCarta) {
-        this.idTipoCarta = idTipoCarta;
     }
 
     @Override

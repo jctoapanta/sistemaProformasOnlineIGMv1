@@ -1,9 +1,9 @@
 package gob.igm.ec.controladores;
 
-import gob.igm.ec.Tentidad;
+import gob.igm.ec.Tdireccionesusr;
 import gob.igm.ec.controladores.util.JsfUtil;
 import gob.igm.ec.controladores.util.JsfUtil.PersistAction;
-import gob.igm.ec.servicios.TentidadFacade;
+import gob.igm.ec.servicios.TdireccionesusrFacade;
 
 import java.io.Serializable;
 import java.util.List;
@@ -19,23 +19,23 @@ import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
 
-@Named("tentidadController")
+@Named("tdireccionesusrController")
 @SessionScoped
-public class TentidadController implements Serializable {
+public class TdireccionesusrController implements Serializable {
 
     @EJB
-    private gob.igm.ec.servicios.TentidadFacade ejbFacade;
-    private List<Tentidad> items = null;
-    private Tentidad selected;
+    private gob.igm.ec.servicios.TdireccionesusrFacade ejbFacade;
+    private List<Tdireccionesusr> items = null;
+    private Tdireccionesusr selected;
 
-    public TentidadController() {
+    public TdireccionesusrController() {
     }
 
-    public Tentidad getSelected() {
+    public Tdireccionesusr getSelected() {
         return selected;
     }
 
-    public void setSelected(Tentidad selected) {
+    public void setSelected(Tdireccionesusr selected) {
         this.selected = selected;
     }
 
@@ -45,36 +45,36 @@ public class TentidadController implements Serializable {
     protected void initializeEmbeddableKey() {
     }
 
-    private TentidadFacade getFacade() {
+    private TdireccionesusrFacade getFacade() {
         return ejbFacade;
     }
 
-    public Tentidad prepareCreate() {
-        selected = new Tentidad();
+    public Tdireccionesusr prepareCreate() {
+        selected = new Tdireccionesusr();
         initializeEmbeddableKey();
         return selected;
     }
 
     public void create() {
-        persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("TentidadCreated"));
+        persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("TdireccionesusrCreated"));
         if (!JsfUtil.isValidationFailed()) {
             items = null;    // Invalidate list of items to trigger re-query.
         }
     }
 
     public void update() {
-        persist(PersistAction.UPDATE, ResourceBundle.getBundle("/Bundle").getString("TentidadUpdated"));
+        persist(PersistAction.UPDATE, ResourceBundle.getBundle("/Bundle").getString("TdireccionesusrUpdated"));
     }
 
     public void destroy() {
-        persist(PersistAction.DELETE, ResourceBundle.getBundle("/Bundle").getString("TentidadDeleted"));
+        persist(PersistAction.DELETE, ResourceBundle.getBundle("/Bundle").getString("TdireccionesusrDeleted"));
         if (!JsfUtil.isValidationFailed()) {
             selected = null; // Remove selection
             items = null;    // Invalidate list of items to trigger re-query.
         }
     }
 
-    public List<Tentidad> getItems() {
+    public List<Tdireccionesusr> getItems() {
         if (items == null) {
             items = getFacade().findAll();
         }
@@ -109,38 +109,38 @@ public class TentidadController implements Serializable {
         }
     }
 
-    public Tentidad getTentidad(java.lang.String id) {
+    public Tdireccionesusr getTdireccionesusr(java.lang.Long id) {
         return getFacade().find(id);
     }
 
-    public List<Tentidad> getItemsAvailableSelectMany() {
+    public List<Tdireccionesusr> getItemsAvailableSelectMany() {
         return getFacade().findAll();
     }
 
-    public List<Tentidad> getItemsAvailableSelectOne() {
+    public List<Tdireccionesusr> getItemsAvailableSelectOne() {
         return getFacade().findAll();
     }
 
-    @FacesConverter(forClass = Tentidad.class)
-    public static class TentidadControllerConverter implements Converter {
+    @FacesConverter(forClass = Tdireccionesusr.class)
+    public static class TdireccionesusrControllerConverter implements Converter {
 
         @Override
         public Object getAsObject(FacesContext facesContext, UIComponent component, String value) {
             if (value == null || value.length() == 0) {
                 return null;
             }
-            TentidadController controller = (TentidadController) facesContext.getApplication().getELResolver().
-                    getValue(facesContext.getELContext(), null, "tentidadController");
-            return controller.getTentidad(getKey(value));
+            TdireccionesusrController controller = (TdireccionesusrController) facesContext.getApplication().getELResolver().
+                    getValue(facesContext.getELContext(), null, "tdireccionesusrController");
+            return controller.getTdireccionesusr(getKey(value));
         }
 
-        java.lang.String getKey(String value) {
-            java.lang.String key;
-            key = value;
+        java.lang.Long getKey(String value) {
+            java.lang.Long key;
+            key = Long.valueOf(value);
             return key;
         }
 
-        String getStringKey(java.lang.String value) {
+        String getStringKey(java.lang.Long value) {
             StringBuilder sb = new StringBuilder();
             sb.append(value);
             return sb.toString();
@@ -151,11 +151,11 @@ public class TentidadController implements Serializable {
             if (object == null) {
                 return null;
             }
-            if (object instanceof Tentidad) {
-                Tentidad o = (Tentidad) object;
-                return getStringKey(o.getCiu());
+            if (object instanceof Tdireccionesusr) {
+                Tdireccionesusr o = (Tdireccionesusr) object;
+                return getStringKey(o.getIdDireccion());
             } else {
-                Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "object {0} is of type {1}; expected type: {2}", new Object[]{object, object.getClass().getName(), Tentidad.class.getName()});
+                Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "object {0} is of type {1}; expected type: {2}", new Object[]{object, object.getClass().getName(), Tdireccionesusr.class.getName()});
                 return null;
             }
         }

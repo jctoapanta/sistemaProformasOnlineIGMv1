@@ -14,7 +14,6 @@ import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinColumns;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
@@ -36,40 +35,38 @@ import javax.xml.bind.annotation.XmlTransient;
 @Table(name = "TPROFORMA")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Tproforma.findAll", query = "SELECT t FROM Tproforma t"),
-    @NamedQuery(name = "Tproforma.findByIdPeriodo", query = "SELECT t FROM Tproforma t WHERE t.tproformaPK.idPeriodo = :idPeriodo"),
-    @NamedQuery(name = "Tproforma.findByIdPeriodoAndCiu", query = "SELECT t FROM Tproforma t WHERE t.tproformaPK.idPeriodo = :idPeriodo and t.ciu.ciu = :ciu and t.comprobantePago is null"),
-    @NamedQuery(name = "Tproforma.findByIdSucursal", query = "SELECT t FROM Tproforma t WHERE t.tproformaPK.idSucursal = :idSucursal"),
-    @NamedQuery(name = "Tproforma.findByIdProforma", query = "SELECT t FROM Tproforma t WHERE t.tproformaPK.idProforma = :idProforma"),
-    @NamedQuery(name = "Tproforma.findByEstado", query = "SELECT t FROM Tproforma t WHERE t.estado = :estado"),
-    @NamedQuery(name = "Tproforma.findByTipoProforma", query = "SELECT t FROM Tproforma t WHERE t.tipoProforma = :tipoProforma"),
-    @NamedQuery(name = "Tproforma.findByNumPedido", query = "SELECT t FROM Tproforma t WHERE t.numPedido = :numPedido"),
-    @NamedQuery(name = "Tproforma.findByObsProforma", query = "SELECT t FROM Tproforma t WHERE t.obsProforma = :obsProforma"),
-    @NamedQuery(name = "Tproforma.findByEspecTecnica", query = "SELECT t FROM Tproforma t WHERE t.especTecnica = :especTecnica"),
-    @NamedQuery(name = "Tproforma.findByValidezDias", query = "SELECT t FROM Tproforma t WHERE t.validezDias = :validezDias"),
-    @NamedQuery(name = "Tproforma.findByTiempoEntrega", query = "SELECT t FROM Tproforma t WHERE t.tiempoEntrega = :tiempoEntrega"),
-    @NamedQuery(name = "Tproforma.findByContacto", query = "SELECT t FROM Tproforma t WHERE t.contacto = :contacto"),
-    @NamedQuery(name = "Tproforma.findByFechaRecepcion", query = "SELECT t FROM Tproforma t WHERE t.fechaRecepcion = :fechaRecepcion"),
-    @NamedQuery(name = "Tproforma.findByLAutoriza", query = "SELECT t FROM Tproforma t WHERE t.lAutoriza = :lAutoriza"),
-    @NamedQuery(name = "Tproforma.findByObsAutoriza", query = "SELECT t FROM Tproforma t WHERE t.obsAutoriza = :obsAutoriza"),
-    @NamedQuery(name = "Tproforma.findByFechaCreacion", query = "SELECT t FROM Tproforma t WHERE t.fechaCreacion = :fechaCreacion"),
-    @NamedQuery(name = "Tproforma.findByFechaModificacion", query = "SELECT t FROM Tproforma t WHERE t.fechaModificacion = :fechaModificacion"),
-    @NamedQuery(name = "Tproforma.findByObsModificacion", query = "SELECT t FROM Tproforma t WHERE t.obsModificacion = :obsModificacion"),
-    @NamedQuery(name = "Tproforma.findByIdCreador", query = "SELECT t FROM Tproforma t WHERE t.idCreador = :idCreador"),
-    @NamedQuery(name = "Tproforma.findByIdModificador", query = "SELECT t FROM Tproforma t WHERE t.idModificador = :idModificador"),
-    @NamedQuery(name = "Tproforma.findByIdPeriodoFac", query = "SELECT t FROM Tproforma t WHERE t.idPeriodoFac = :idPeriodoFac"),
-    @NamedQuery(name = "Tproforma.findByIdSucursalFac", query = "SELECT t FROM Tproforma t WHERE t.idSucursalFac = :idSucursalFac"),
-    @NamedQuery(name = "Tproforma.findByIdFactura", query = "SELECT t FROM Tproforma t WHERE t.idFactura = :idFactura"),
-    @NamedQuery(name = "Tproforma.findByIdAutorizador", query = "SELECT t FROM Tproforma t WHERE t.idAutorizador = :idAutorizador"),
-    @NamedQuery(name = "Tproforma.findByFechaConfirmacion", query = "SELECT t FROM Tproforma t WHERE t.fechaConfirmacion = :fechaConfirmacion"),
-    @NamedQuery(name = "Tproforma.findByFechaValidez", query = "SELECT t FROM Tproforma t WHERE t.fechaValidez = :fechaValidez"),
-    @NamedQuery(name = "Tproforma.findByFormaEntrega", query = "SELECT t FROM Tproforma t WHERE t.formaEntrega = :formaEntrega"),
-    @NamedQuery(name = "Tproforma.findByFormaPago", query = "SELECT t FROM Tproforma t WHERE t.formaPago = :formaPago"),
-    @NamedQuery(name = "Tproforma.findByCalle", query = "SELECT t FROM Tproforma t WHERE t.calle = :calle"),
-    @NamedQuery(name = "Tproforma.findByNumeroDireccion", query = "SELECT t FROM Tproforma t WHERE t.numeroDireccion = :numeroDireccion"),
-    @NamedQuery(name = "Tproforma.findByReferencia", query = "SELECT t FROM Tproforma t WHERE t.referencia = :referencia"),
-    @NamedQuery(name = "Tproforma.findByLVentaOnline", query = "SELECT t FROM Tproforma t WHERE t.lVentaOnline = :lVentaOnline")})
+    @NamedQuery(name = "Tproforma.findAll", query = "SELECT t FROM Tproforma t")
+    , @NamedQuery(name = "Tproforma.findByIdPeriodoAndCiu", query = "SELECT t FROM Tproforma t WHERE t.tproformaPK.idPeriodo = :idPeriodo and t.ciu.ciu = :ciu and t.comprobantePago is null")        
+    , @NamedQuery(name = "Tproforma.findByIdSucursal", query = "SELECT t FROM Tproforma t WHERE t.tproformaPK.idSucursal = :idSucursal")
+    , @NamedQuery(name = "Tproforma.findByIdPeriodo", query = "SELECT t FROM Tproforma t WHERE t.tproformaPK.idPeriodo = :idPeriodo")
+    , @NamedQuery(name = "Tproforma.findByIdProforma", query = "SELECT t FROM Tproforma t WHERE t.tproformaPK.idProforma = :idProforma")
+    , @NamedQuery(name = "Tproforma.findByEstado", query = "SELECT t FROM Tproforma t WHERE t.estado = :estado")
+    , @NamedQuery(name = "Tproforma.findByTipoProforma", query = "SELECT t FROM Tproforma t WHERE t.tipoProforma = :tipoProforma")
+    , @NamedQuery(name = "Tproforma.findByNumPedido", query = "SELECT t FROM Tproforma t WHERE t.numPedido = :numPedido")
+    , @NamedQuery(name = "Tproforma.findByObsProforma", query = "SELECT t FROM Tproforma t WHERE t.obsProforma = :obsProforma")
+    , @NamedQuery(name = "Tproforma.findByEspecTecnica", query = "SELECT t FROM Tproforma t WHERE t.especTecnica = :especTecnica")
+    , @NamedQuery(name = "Tproforma.findByValidezDias", query = "SELECT t FROM Tproforma t WHERE t.validezDias = :validezDias")
+    , @NamedQuery(name = "Tproforma.findByTiempoEntrega", query = "SELECT t FROM Tproforma t WHERE t.tiempoEntrega = :tiempoEntrega")
+    , @NamedQuery(name = "Tproforma.findByContacto", query = "SELECT t FROM Tproforma t WHERE t.contacto = :contacto")
+    , @NamedQuery(name = "Tproforma.findByFechaRecepcion", query = "SELECT t FROM Tproforma t WHERE t.fechaRecepcion = :fechaRecepcion")
+    , @NamedQuery(name = "Tproforma.findByLAutoriza", query = "SELECT t FROM Tproforma t WHERE t.lAutoriza = :lAutoriza")
+    , @NamedQuery(name = "Tproforma.findByObsAutoriza", query = "SELECT t FROM Tproforma t WHERE t.obsAutoriza = :obsAutoriza")
+    , @NamedQuery(name = "Tproforma.findByFechaCreacion", query = "SELECT t FROM Tproforma t WHERE t.fechaCreacion = :fechaCreacion")
+    , @NamedQuery(name = "Tproforma.findByFechaModificacion", query = "SELECT t FROM Tproforma t WHERE t.fechaModificacion = :fechaModificacion")
+    , @NamedQuery(name = "Tproforma.findByObsModificacion", query = "SELECT t FROM Tproforma t WHERE t.obsModificacion = :obsModificacion")
+    , @NamedQuery(name = "Tproforma.findByIdCreador", query = "SELECT t FROM Tproforma t WHERE t.idCreador = :idCreador")
+    , @NamedQuery(name = "Tproforma.findByIdModificador", query = "SELECT t FROM Tproforma t WHERE t.idModificador = :idModificador")
+    , @NamedQuery(name = "Tproforma.findByIdPeriodoFac", query = "SELECT t FROM Tproforma t WHERE t.idPeriodoFac = :idPeriodoFac")
+    , @NamedQuery(name = "Tproforma.findByIdSucursalFac", query = "SELECT t FROM Tproforma t WHERE t.idSucursalFac = :idSucursalFac")
+    , @NamedQuery(name = "Tproforma.findByIdFactura", query = "SELECT t FROM Tproforma t WHERE t.idFactura = :idFactura")
+    , @NamedQuery(name = "Tproforma.findByIdAutorizador", query = "SELECT t FROM Tproforma t WHERE t.idAutorizador = :idAutorizador")
+    , @NamedQuery(name = "Tproforma.findByFechaConfirmacion", query = "SELECT t FROM Tproforma t WHERE t.fechaConfirmacion = :fechaConfirmacion")
+    , @NamedQuery(name = "Tproforma.findByFechaValidez", query = "SELECT t FROM Tproforma t WHERE t.fechaValidez = :fechaValidez")
+    , @NamedQuery(name = "Tproforma.findByFormaEntrega", query = "SELECT t FROM Tproforma t WHERE t.formaEntrega = :formaEntrega")
+    , @NamedQuery(name = "Tproforma.findByFormaPago", query = "SELECT t FROM Tproforma t WHERE t.formaPago = :formaPago")
+    , @NamedQuery(name = "Tproforma.findByLVentaOnline", query = "SELECT t FROM Tproforma t WHERE t.lVentaOnline = :lVentaOnline")})
 public class Tproforma implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @EmbeddedId
     protected TproformaPK tproformaPK;
@@ -122,7 +119,7 @@ public class Tproforma implements Serializable {
     @Column(name = "ID_PERIODO_FAC")
     private Short idPeriodoFac;
     @Column(name = "ID_SUCURSAL_FAC")
-    private Long idSucursalFac;
+    private Short idSucursalFac;
     @Column(name = "ID_FACTURA")
     private Long idFactura;
     @Column(name = "ID_AUTORIZADOR")
@@ -137,15 +134,6 @@ public class Tproforma implements Serializable {
     private Short formaEntrega;
     @Column(name = "FORMA_PAGO")
     private Short formaPago;
-    @Size(max = 50)
-    @Column(name = "CALLE")
-    private String calle;
-    @Size(max = 10)
-    @Column(name = "NUMERO_DIRECCION")
-    private String numeroDireccion;
-    @Size(max = 50)
-    @Column(name = "REFERENCIA")
-    private String referencia;
     @Lob
     @Column(name = "COMPROBANTE_PAGO")
     private Serializable comprobantePago;
@@ -153,15 +141,12 @@ public class Tproforma implements Serializable {
     private Short lVentaOnline;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "tproforma")
     private Collection<Tdetproforma> tdetproformaCollection;
+    @JoinColumn(name = "ID_DIRECCION", referencedColumnName = "ID_DIRECCION")
+    @ManyToOne(optional = false)
+    private Tdireccionesusr idDireccion;
     @JoinColumn(name = "CIU", referencedColumnName = "CIU")
-    @ManyToOne
+    @ManyToOne(optional = false)
     private Tentidad ciu;
-    @JoinColumns({
-        @JoinColumn(name = "ID_PROVINCIA", referencedColumnName = "ID_PROVINCIA"),
-        @JoinColumn(name = "ID_CANTON", referencedColumnName = "ID_CANTON"),
-        @JoinColumn(name = "ID_PARROQUIA", referencedColumnName = "ID_PARROQUIA")})
-    @ManyToOne
-    private Tparroquia tparroquia;
     @JoinColumn(name = "ID_SUCURSAL", referencedColumnName = "ID_SUCURSAL", insertable = false, updatable = false)
     @ManyToOne(optional = false)
     private Tsucursal tsucursal;
@@ -178,8 +163,8 @@ public class Tproforma implements Serializable {
         this.idCreador = idCreador;
     }
 
-    public Tproforma(short idPeriodo, long idSucursal, long idProforma) {
-        this.tproformaPK = new TproformaPK(idPeriodo, idSucursal, idProforma);
+    public Tproforma(long idSucursal, short idPeriodo, long idProforma) {
+        this.tproformaPK = new TproformaPK(idSucursal, idPeriodo, idProforma);
     }
 
     public TproformaPK getTproformaPK() {
@@ -326,11 +311,11 @@ public class Tproforma implements Serializable {
         this.idPeriodoFac = idPeriodoFac;
     }
 
-    public Long getIdSucursalFac() {
+    public Short getIdSucursalFac() {
         return idSucursalFac;
     }
 
-    public void setIdSucursalFac(Long idSucursalFac) {
+    public void setIdSucursalFac(Short idSucursalFac) {
         this.idSucursalFac = idSucursalFac;
     }
 
@@ -382,30 +367,6 @@ public class Tproforma implements Serializable {
         this.formaPago = formaPago;
     }
 
-    public String getCalle() {
-        return calle;
-    }
-
-    public void setCalle(String calle) {
-        this.calle = calle;
-    }
-
-    public String getNumeroDireccion() {
-        return numeroDireccion;
-    }
-
-    public void setNumeroDireccion(String numeroDireccion) {
-        this.numeroDireccion = numeroDireccion;
-    }
-
-    public String getReferencia() {
-        return referencia;
-    }
-
-    public void setReferencia(String referencia) {
-        this.referencia = referencia;
-    }
-
     public Serializable getComprobantePago() {
         return comprobantePago;
     }
@@ -431,20 +392,20 @@ public class Tproforma implements Serializable {
         this.tdetproformaCollection = tdetproformaCollection;
     }
 
+    public Tdireccionesusr getIdDireccion() {
+        return idDireccion;
+    }
+
+    public void setIdDireccion(Tdireccionesusr idDireccion) {
+        this.idDireccion = idDireccion;
+    }
+
     public Tentidad getCiu() {
         return ciu;
     }
 
     public void setCiu(Tentidad ciu) {
         this.ciu = ciu;
-    }
-
-    public Tparroquia getTparroquia() {
-        return tparroquia;
-    }
-
-    public void setTparroquia(Tparroquia tparroquia) {
-        this.tparroquia = tparroquia;
     }
 
     public Tsucursal getTsucursal() {

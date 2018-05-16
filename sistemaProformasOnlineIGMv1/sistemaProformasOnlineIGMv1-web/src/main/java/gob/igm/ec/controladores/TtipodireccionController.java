@@ -1,9 +1,9 @@
 package gob.igm.ec.controladores;
 
-import gob.igm.ec.Tentidad;
+import gob.igm.ec.Ttipodireccion;
 import gob.igm.ec.controladores.util.JsfUtil;
 import gob.igm.ec.controladores.util.JsfUtil.PersistAction;
-import gob.igm.ec.servicios.TentidadFacade;
+import gob.igm.ec.servicios.TtipodireccionFacade;
 
 import java.io.Serializable;
 import java.util.List;
@@ -19,23 +19,23 @@ import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
 
-@Named("tentidadController")
+@Named("ttipodireccionController")
 @SessionScoped
-public class TentidadController implements Serializable {
+public class TtipodireccionController implements Serializable {
 
     @EJB
-    private gob.igm.ec.servicios.TentidadFacade ejbFacade;
-    private List<Tentidad> items = null;
-    private Tentidad selected;
+    private gob.igm.ec.servicios.TtipodireccionFacade ejbFacade;
+    private List<Ttipodireccion> items = null;
+    private Ttipodireccion selected;
 
-    public TentidadController() {
+    public TtipodireccionController() {
     }
 
-    public Tentidad getSelected() {
+    public Ttipodireccion getSelected() {
         return selected;
     }
 
-    public void setSelected(Tentidad selected) {
+    public void setSelected(Ttipodireccion selected) {
         this.selected = selected;
     }
 
@@ -45,36 +45,36 @@ public class TentidadController implements Serializable {
     protected void initializeEmbeddableKey() {
     }
 
-    private TentidadFacade getFacade() {
+    private TtipodireccionFacade getFacade() {
         return ejbFacade;
     }
 
-    public Tentidad prepareCreate() {
-        selected = new Tentidad();
+    public Ttipodireccion prepareCreate() {
+        selected = new Ttipodireccion();
         initializeEmbeddableKey();
         return selected;
     }
 
     public void create() {
-        persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("TentidadCreated"));
+        persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("TtipodireccionCreated"));
         if (!JsfUtil.isValidationFailed()) {
             items = null;    // Invalidate list of items to trigger re-query.
         }
     }
 
     public void update() {
-        persist(PersistAction.UPDATE, ResourceBundle.getBundle("/Bundle").getString("TentidadUpdated"));
+        persist(PersistAction.UPDATE, ResourceBundle.getBundle("/Bundle").getString("TtipodireccionUpdated"));
     }
 
     public void destroy() {
-        persist(PersistAction.DELETE, ResourceBundle.getBundle("/Bundle").getString("TentidadDeleted"));
+        persist(PersistAction.DELETE, ResourceBundle.getBundle("/Bundle").getString("TtipodireccionDeleted"));
         if (!JsfUtil.isValidationFailed()) {
             selected = null; // Remove selection
             items = null;    // Invalidate list of items to trigger re-query.
         }
     }
 
-    public List<Tentidad> getItems() {
+    public List<Ttipodireccion> getItems() {
         if (items == null) {
             items = getFacade().findAll();
         }
@@ -109,38 +109,38 @@ public class TentidadController implements Serializable {
         }
     }
 
-    public Tentidad getTentidad(java.lang.String id) {
+    public Ttipodireccion getTtipodireccion(java.lang.Short id) {
         return getFacade().find(id);
     }
 
-    public List<Tentidad> getItemsAvailableSelectMany() {
+    public List<Ttipodireccion> getItemsAvailableSelectMany() {
         return getFacade().findAll();
     }
 
-    public List<Tentidad> getItemsAvailableSelectOne() {
+    public List<Ttipodireccion> getItemsAvailableSelectOne() {
         return getFacade().findAll();
     }
 
-    @FacesConverter(forClass = Tentidad.class)
-    public static class TentidadControllerConverter implements Converter {
+    @FacesConverter(forClass = Ttipodireccion.class)
+    public static class TtipodireccionControllerConverter implements Converter {
 
         @Override
         public Object getAsObject(FacesContext facesContext, UIComponent component, String value) {
             if (value == null || value.length() == 0) {
                 return null;
             }
-            TentidadController controller = (TentidadController) facesContext.getApplication().getELResolver().
-                    getValue(facesContext.getELContext(), null, "tentidadController");
-            return controller.getTentidad(getKey(value));
+            TtipodireccionController controller = (TtipodireccionController) facesContext.getApplication().getELResolver().
+                    getValue(facesContext.getELContext(), null, "ttipodireccionController");
+            return controller.getTtipodireccion(getKey(value));
         }
 
-        java.lang.String getKey(String value) {
-            java.lang.String key;
-            key = value;
+        java.lang.Short getKey(String value) {
+            java.lang.Short key;
+            key = Short.valueOf(value);
             return key;
         }
 
-        String getStringKey(java.lang.String value) {
+        String getStringKey(java.lang.Short value) {
             StringBuilder sb = new StringBuilder();
             sb.append(value);
             return sb.toString();
@@ -151,11 +151,11 @@ public class TentidadController implements Serializable {
             if (object == null) {
                 return null;
             }
-            if (object instanceof Tentidad) {
-                Tentidad o = (Tentidad) object;
-                return getStringKey(o.getCiu());
+            if (object instanceof Ttipodireccion) {
+                Ttipodireccion o = (Ttipodireccion) object;
+                return getStringKey(o.getIdTipoDireccion());
             } else {
-                Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "object {0} is of type {1}; expected type: {2}", new Object[]{object, object.getClass().getName(), Tentidad.class.getName()});
+                Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "object {0} is of type {1}; expected type: {2}", new Object[]{object, object.getClass().getName(), Ttipodireccion.class.getName()});
                 return null;
             }
         }

@@ -3,13 +3,13 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:p="http://primefaces.org/ui">
-          <style type="text/css">
-              
-              #h_bodyid{
-                  background-color: lightslategrey;
-              }
+    <style type="text/css">
 
-          </style>
+        #h_bodyid{
+            background-color: lightslategrey;
+        }
+
+    </style>
     <h:head>
         <title>.::Sistema de Proformas Online IGM::.</title>
         <h:outputStylesheet name="css/jsfcrud.css"/>
@@ -19,12 +19,12 @@
         <div align="center">
             <h:form >
                 <div align="center"><img src="resources/images/igm.png"></img></div>  
-                <p:panel id="pnlPrincipal" header="Login" style="background-color: lightsteelblue; width: 350px">
-                    <h:panelGrid id="pngPrincipal" columns="2">
-                        <h:outputText id="outUsuario" value="#{bundle.Usuario}: " styleClass="texto_negrita_derecha"/>
-                        <h:inputText id="intUsuario" value="#{login.aliasBase}" maxlength="30"/>
-                        <h:outputText id="outClave" value="#{bundle.ListTentidadTitle_clave}:" styleClass="texto_negrita_derecha"/>
-                        <h:inputSecret id="intClave" value="#{login.clave}" maxlength="50"/>
+                    <p:panel id="pnlPrincipal" header="Login" style="background-color: lightsteelblue; width: 350px">
+                        <h:panelGrid id="pngPrincipal" columns="2">
+                            <h:outputText id="outUsuario" value="#{bundle.Usuario}: " styleClass="texto_negrita_derecha"/>
+                            <h:inputText id="intUsuario" value="#{login.aliasBase}" maxlength="30"/>
+                            <h:outputText id="outClave" value="#{bundle.ListTentidadTitle_clave}:" styleClass="texto_negrita_derecha"/>
+                            <h:inputSecret id="intClave" value="#{login.clave}" maxlength="50"/>
                         <br />
                         <p:commandButton id="btnLoginInicial" value="#{bundle.Ingresar}" action="#{login.ingresar}" ajax="false"
                                          styleClass="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" update="pnlPrincipal growl"/>
@@ -36,13 +36,37 @@
                 </p:panel>
             </h:form>
         </div>
-<!--        <dir align="center">
-            <h:link outcome="/tdetproforma/List" value="Show All Tdetproforma Items"/>
-            <br />
-            <h:link outcome="/tentidad/List" value="Show All Tentidad Items"/>
-            <br />
-            <h:link outcome="/tproforma/List" value="Show All Tproforma Items"/>
-        </dir>-->
+        <!--        <dir align="center">
+        <h:link outcome="/tdetproforma/List" value="Show All Tdetproforma Items"/>
+        <br />
+        <h:link outcome="/tentidad/List" value="Show All Tentidad Items"/>
+        <br />
+        <h:link outcome="/tproforma/List" value="Show All Tproforma Items"/>
+    </dir>-->
+        <br />
+        <h:link outcome="/tcanton/List" value="Show All Tcanton Items"/>
+        <br />
+        <h:link outcome="/tdireccionesusr/List" value="Show All Tdireccionesusr Items"/>
+        <br />
+        <h:link outcome="/tentidad/List" value="Show All Tentidad Items"/>
+        <br />
+        <h:link outcome="/tparroquia/List" value="Show All Tparroquia Items"/>
+        <br />
+        <h:link outcome="/tproforma/List" value="Show All Tproforma Items"/>
+        <br />
+        <h:link outcome="/tprovincia/List" value="Show All Tprovincia Items"/>
+        <br />
+        <h:link outcome="/tsucursal/List" value="Show All Tsucursal Items"/>
+        <br />
+        <h:link outcome="/ttipodireccion/List" value="Show All Ttipodireccion Items"/>
     </h:body>
+
+
+
+
+
+
+
+
 </html>
 
