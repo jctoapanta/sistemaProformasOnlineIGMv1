@@ -64,12 +64,6 @@
                         <p:inputText id="formaEntrega" value="#{tproformaController.selected.formaEntrega}" title="#{bundle.CreateTproformaTitle_formaEntrega}" />
                         <p:outputLabel value="#{bundle.CreateTproformaLabel_formaPago}" for="formaPago" />
                         <p:inputText id="formaPago" value="#{tproformaController.selected.formaPago}" title="#{bundle.CreateTproformaTitle_formaPago}" />
-                        <p:outputLabel value="#{bundle.CreateTproformaLabel_calle}" for="calle" />
-                        <p:inputText id="calle" value="#{tproformaController.selected.calle}" title="#{bundle.CreateTproformaTitle_calle}" />
-                        <p:outputLabel value="#{bundle.CreateTproformaLabel_numeroDireccion}" for="numeroDireccion" />
-                        <p:inputText id="numeroDireccion" value="#{tproformaController.selected.numeroDireccion}" title="#{bundle.CreateTproformaTitle_numeroDireccion}" />
-                        <p:outputLabel value="#{bundle.CreateTproformaLabel_referencia}" for="referencia" />
-                        <p:inputText id="referencia" value="#{tproformaController.selected.referencia}" title="#{bundle.CreateTproformaTitle_referencia}" />
                         <p:outputLabel value="#{bundle.CreateTproformaLabel_comprobantePago}" for="comprobantePago" />
                         <p:inputTextarea rows="4" cols="30" id="comprobantePago" value="#{tproformaController.selected.comprobantePago}" title="#{bundle.CreateTproformaTitle_comprobantePago}" />
                         <p:outputLabel value="#{bundle.CreateTproformaLabel_LVentaOnline}" for="LVentaOnline" />
@@ -79,12 +73,6 @@
                             <f:selectItems value="#{tentidadController.itemsAvailableSelectOne}"
                                            var="ciuItem"
                                            itemValue="#{ciuItem}"/>
-                        </p:selectOneMenu>
-                        <p:outputLabel value="#{bundle.CreateTproformaLabel_tparroquia}" for="tparroquia" />
-                        <p:selectOneMenu id="tparroquia" value="#{tproformaController.selected.tparroquia}" >
-                            <f:selectItems value="#{tparroquiaController.itemsAvailableSelectOne}"
-                                           var="tparroquiaItem"
-                                           itemValue="#{tparroquiaItem}"/>
                         </p:selectOneMenu>
                         <p:outputLabel value="#{bundle.CreateTproformaLabel_tsucursal}" for="tsucursal" />
                         <p:selectOneMenu id="tsucursal" value="#{tproformaController.selected.tsucursal}" required="true" requiredMessage="#{bundle.EditTproformaRequiredMessage_tsucursal}">

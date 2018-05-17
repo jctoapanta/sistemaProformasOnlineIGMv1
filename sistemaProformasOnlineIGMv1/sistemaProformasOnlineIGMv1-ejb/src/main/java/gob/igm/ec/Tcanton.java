@@ -34,7 +34,8 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Tcanton.findByIdProvincia", query = "SELECT t FROM Tcanton t WHERE t.tcantonPK.idProvincia = :idProvincia")
     , @NamedQuery(name = "Tcanton.findByIdCanton", query = "SELECT t FROM Tcanton t WHERE t.tcantonPK.idCanton = :idCanton")
     , @NamedQuery(name = "Tcanton.findByCanton", query = "SELECT t FROM Tcanton t WHERE t.canton = :canton")
-    , @NamedQuery(name = "Tcanton.findByLPrincipal", query = "SELECT t FROM Tcanton t WHERE t.lPrincipal = :lPrincipal")})
+    , @NamedQuery(name = "Tcanton.findByLPrincipal", query = "SELECT t FROM Tcanton t WHERE t.lPrincipal = :lPrincipal")
+    , @NamedQuery(name = "Tcanton.findByIdZona", query = "SELECT t FROM Tcanton t WHERE t.idZona = :idZona")})
 public class Tcanton implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -45,6 +46,8 @@ public class Tcanton implements Serializable {
     private String canton;
     @Column(name = "L_PRINCIPAL")
     private Short lPrincipal;
+    @Column(name = "ID_ZONA")
+    private Short idZona;
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "tcanton")
     private Ttarifario ttarifario;
     @JoinColumn(name = "ID_PROVINCIA", referencedColumnName = "ID_PROVINCIA", insertable = false, updatable = false)
@@ -86,6 +89,14 @@ public class Tcanton implements Serializable {
 
     public void setLPrincipal(Short lPrincipal) {
         this.lPrincipal = lPrincipal;
+    }
+
+    public Short getIdZona() {
+        return idZona;
+    }
+
+    public void setIdZona(Short idZona) {
+        this.idZona = idZona;
     }
 
     public Ttarifario getTtarifario() {

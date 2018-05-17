@@ -8,7 +8,6 @@ package gob.igm.ec;
 import java.io.Serializable;
 import java.util.Collection;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -37,7 +36,8 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Tdireccionesusr.findByCallePrincipalDireccion", query = "SELECT t FROM Tdireccionesusr t WHERE t.callePrincipalDireccion = :callePrincipalDireccion")
     , @NamedQuery(name = "Tdireccionesusr.findByNumeroDireccion", query = "SELECT t FROM Tdireccionesusr t WHERE t.numeroDireccion = :numeroDireccion")
     , @NamedQuery(name = "Tdireccionesusr.findByCalleSecundariaDireccion", query = "SELECT t FROM Tdireccionesusr t WHERE t.calleSecundariaDireccion = :calleSecundariaDireccion")
-    , @NamedQuery(name = "Tdireccionesusr.findByReferenciaDireccion", query = "SELECT t FROM Tdireccionesusr t WHERE t.referenciaDireccion = :referenciaDireccion")})
+    , @NamedQuery(name = "Tdireccionesusr.findByReferenciaDireccion", query = "SELECT t FROM Tdireccionesusr t WHERE t.referenciaDireccion = :referenciaDireccion")
+    , @NamedQuery(name = "Tdireccionesusr.findByLEnvio", query = "SELECT t FROM Tdireccionesusr t WHERE t.lEnvio = :lEnvio")})
 public class Tdireccionesusr implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -62,8 +62,10 @@ public class Tdireccionesusr implements Serializable {
     @Size(max = 200)
     @Column(name = "REFERENCIA_DIRECCION")
     private String referenciaDireccion;
+    @Column(name = "L_ENVIO")
+    private Short lEnvio;
     @JoinColumn(name = "CIU", referencedColumnName = "CIU")
-    @ManyToOne(optional = false)
+    @ManyToOne
     private Tentidad ciu;
     @JoinColumns({
         @JoinColumn(name = "ID_PROVINCIA", referencedColumnName = "ID_PROVINCIA")
@@ -74,7 +76,7 @@ public class Tdireccionesusr implements Serializable {
     @JoinColumn(name = "ID_TIPO_DIRECCION", referencedColumnName = "ID_TIPO_DIRECCION")
     @ManyToOne(optional = false)
     private Ttipodireccion idTipoDireccion;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idDireccion")
+    @OneToMany(mappedBy = "idDireccion")
     private Collection<Tproforma> tproformaCollection;
 
     public Tdireccionesusr() {
@@ -128,6 +130,14 @@ public class Tdireccionesusr implements Serializable {
 
     public void setReferenciaDireccion(String referenciaDireccion) {
         this.referenciaDireccion = referenciaDireccion;
+    }
+
+    public Short getLEnvio() {
+        return lEnvio;
+    }
+
+    public void setLEnvio(Short lEnvio) {
+        this.lEnvio = lEnvio;
     }
 
     public Tentidad getCiu() {

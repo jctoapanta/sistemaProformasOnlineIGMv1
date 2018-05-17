@@ -1,15 +1,22 @@
 package gob.igm.ec.controladores;
 
 import gob.igm.ec.Tentidad;
+import gob.igm.ec.controladores.util.EncriptUtil;
 import gob.igm.ec.controladores.util.JsfUtil;
 import gob.igm.ec.controladores.util.JsfUtil.PersistAction;
 import gob.igm.ec.servicios.TentidadFacade;
+import java.io.IOException;
 
 import java.io.Serializable;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
 import javax.ejb.EJB;
 import javax.ejb.EJBException;
 import javax.inject.Named;
@@ -18,6 +25,8 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
+import javax.persistence.EntityManager;
+import validar.*;
 
 @Named("tentidadController")
 @SessionScoped
@@ -25,9 +34,14 @@ public class TentidadController implements Serializable {
 
     @EJB
     private gob.igm.ec.servicios.TentidadFacade ejbFacade;
+    
     private List<Tentidad> items = null;
     private Tentidad selected;
-
+    private String claveConfirma;
+    private String mensaje;
+    private EncriptUtil encriptUtil;
+    private String encriptado;
+    
     public TentidadController() {
     }
 
@@ -62,6 +76,43 @@ public class TentidadController implements Serializable {
         }
     }
 
+    public void booking() {
+        try {
+            List<Object> usuario=null;
+            ValidarIdentificacion validaID=new ValidarIdentificacion();
+            
+            usuario = this.ejbFacade.buscarExisteUsuario(selected.getCiu());
+            if (usuario.isEmpty()){
+                if (validaID.validarCedula(selected.getCiu()) 
+                        || validaID.validarRucPersonaNatural(selected.getCiu()) 
+                        || validaID.validarRucSociedadPrivada(selected.getCiu())){
+                    try {
+                        this.encriptUtil=new EncriptUtil();
+                        encriptado = this.encriptUtil.encrypt3DES(selected.getClave());
+                        selected.setClave(encriptado);
+                    } catch (NoSuchAlgorithmException | InvalidKeyException | NoSuchPaddingException | IOException | IllegalStateException | IllegalBlockSizeException | BadPaddingException ex) {
+                        Logger.getLogger(TentidadController.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("TentidadCreated"));
+                    if (!JsfUtil.isValidationFailed()) {
+                        items = null;    // Invalidate list of items to trigger re-query.
+                    }
+                    
+                } else {
+                    JsfUtil.addErrorMessage("Número de Identificación no válido, verifique su No. Cedula o RUC");
+                }
+            } else {
+                JsfUtil.addErrorMessage("Cliente con Documento de Identificación "+selected.getCiu()+" ya existe.");
+            }
+         
+            prepareCreate();
+            items=null;
+            
+        } catch (Exception ex) {
+            Logger.getLogger(TentidadController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }    
+    
     public void update() {
         persist(PersistAction.UPDATE, ResourceBundle.getBundle("/Bundle").getString("TentidadUpdated"));
     }
@@ -121,6 +172,34 @@ public class TentidadController implements Serializable {
         return getFacade().findAll();
     }
 
+    /**
+     * @return the claveConfirma
+     */
+    public String getClaveConfirma() {
+        return claveConfirma;
+    }
+
+    /**
+     * @param claveConfirma the claveConfirma to set
+     */
+    public void setClaveConfirma(String claveConfirma) {
+        this.claveConfirma = claveConfirma;
+    }
+    
+/**
+     * @return the mensaje
+     */
+    public String getMensaje() {
+        return mensaje;
+    }
+
+    /**
+     * @param mensaje the mensaje to set
+     */
+    public void setMensaje(String mensaje) {
+        this.mensaje = mensaje;
+    }    
+
     @FacesConverter(forClass = Tentidad.class)
     public static class TentidadControllerConverter implements Converter {
 
@@ -159,7 +238,6 @@ public class TentidadController implements Serializable {
                 return null;
             }
         }
-
     }
-
+    
 }

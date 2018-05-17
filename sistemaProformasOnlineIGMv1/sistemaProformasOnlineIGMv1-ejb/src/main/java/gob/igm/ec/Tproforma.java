@@ -142,7 +142,7 @@ public class Tproforma implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "tproforma")
     private Collection<Tdetproforma> tdetproformaCollection;
     @JoinColumn(name = "ID_DIRECCION", referencedColumnName = "ID_DIRECCION")
-    @ManyToOne(optional = false)
+    @ManyToOne
     private Tdireccionesusr idDireccion;
     @JoinColumn(name = "CIU", referencedColumnName = "CIU")
     @ManyToOne(optional = false)

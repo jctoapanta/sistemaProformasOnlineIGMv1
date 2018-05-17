@@ -87,7 +87,7 @@ public class Tentidad implements Serializable {
     private String clave;
     @Column(name = "L_NATURAL")
     private Short lNatural;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "ciu")
+    @OneToMany(mappedBy = "ciu")
     private Collection<Tdireccionesusr> tdireccionesusrCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "ciu")
     private Collection<Tproforma> tproformaCollection;
