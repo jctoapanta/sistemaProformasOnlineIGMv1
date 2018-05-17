@@ -33,21 +33,22 @@ import javax.xml.bind.annotation.XmlTransient;
 @Table(name = "TSUCURSAL")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Tsucursal.findAll", query = "SELECT t FROM Tsucursal t"),
-    @NamedQuery(name = "Tsucursal.findByIdSucursal", query = "SELECT t FROM Tsucursal t WHERE t.idSucursal = :idSucursal"),
-    @NamedQuery(name = "Tsucursal.findByDescSucursal", query = "SELECT t FROM Tsucursal t WHERE t.descSucursal = :descSucursal"),
-    @NamedQuery(name = "Tsucursal.findByDireccion", query = "SELECT t FROM Tsucursal t WHERE t.direccion = :direccion"),
-    @NamedQuery(name = "Tsucursal.findByTelefono", query = "SELECT t FROM Tsucursal t WHERE t.telefono = :telefono"),
-    @NamedQuery(name = "Tsucursal.findByFax", query = "SELECT t FROM Tsucursal t WHERE t.fax = :fax"),
-    @NamedQuery(name = "Tsucursal.findByEmail", query = "SELECT t FROM Tsucursal t WHERE t.email = :email"),
-    @NamedQuery(name = "Tsucursal.findByRuc", query = "SELECT t FROM Tsucursal t WHERE t.ruc = :ruc"),
-    @NamedQuery(name = "Tsucursal.findByIdResponsable", query = "SELECT t FROM Tsucursal t WHERE t.idResponsable = :idResponsable"),
-    @NamedQuery(name = "Tsucursal.findByCCtble", query = "SELECT t FROM Tsucursal t WHERE t.cCtble = :cCtble"),
-    @NamedQuery(name = "Tsucursal.findByIdModificador", query = "SELECT t FROM Tsucursal t WHERE t.idModificador = :idModificador"),
-    @NamedQuery(name = "Tsucursal.findByFechaCreacion", query = "SELECT t FROM Tsucursal t WHERE t.fechaCreacion = :fechaCreacion"),
-    @NamedQuery(name = "Tsucursal.findByFechaModificacion", query = "SELECT t FROM Tsucursal t WHERE t.fechaModificacion = :fechaModificacion"),
-    @NamedQuery(name = "Tsucursal.findByVersion", query = "SELECT t FROM Tsucursal t WHERE t.version = :version")})
+    @NamedQuery(name = "Tsucursal.findAll", query = "SELECT t FROM Tsucursal t")
+    , @NamedQuery(name = "Tsucursal.findByIdSucursal", query = "SELECT t FROM Tsucursal t WHERE t.idSucursal = :idSucursal")
+    , @NamedQuery(name = "Tsucursal.findByDescSucursal", query = "SELECT t FROM Tsucursal t WHERE t.descSucursal = :descSucursal")
+    , @NamedQuery(name = "Tsucursal.findByDireccion", query = "SELECT t FROM Tsucursal t WHERE t.direccion = :direccion")
+    , @NamedQuery(name = "Tsucursal.findByTelefono", query = "SELECT t FROM Tsucursal t WHERE t.telefono = :telefono")
+    , @NamedQuery(name = "Tsucursal.findByFax", query = "SELECT t FROM Tsucursal t WHERE t.fax = :fax")
+    , @NamedQuery(name = "Tsucursal.findByEmail", query = "SELECT t FROM Tsucursal t WHERE t.email = :email")
+    , @NamedQuery(name = "Tsucursal.findByRuc", query = "SELECT t FROM Tsucursal t WHERE t.ruc = :ruc")
+    , @NamedQuery(name = "Tsucursal.findByIdResponsable", query = "SELECT t FROM Tsucursal t WHERE t.idResponsable = :idResponsable")
+    , @NamedQuery(name = "Tsucursal.findByCCtble", query = "SELECT t FROM Tsucursal t WHERE t.cCtble = :cCtble")
+    , @NamedQuery(name = "Tsucursal.findByIdModificador", query = "SELECT t FROM Tsucursal t WHERE t.idModificador = :idModificador")
+    , @NamedQuery(name = "Tsucursal.findByFechaCreacion", query = "SELECT t FROM Tsucursal t WHERE t.fechaCreacion = :fechaCreacion")
+    , @NamedQuery(name = "Tsucursal.findByFechaModificacion", query = "SELECT t FROM Tsucursal t WHERE t.fechaModificacion = :fechaModificacion")
+    , @NamedQuery(name = "Tsucursal.findByVersion", query = "SELECT t FROM Tsucursal t WHERE t.version = :version")})
 public class Tsucursal implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)

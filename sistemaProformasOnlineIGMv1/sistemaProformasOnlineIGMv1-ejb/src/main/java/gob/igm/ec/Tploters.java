@@ -6,19 +6,16 @@
 package gob.igm.ec;
 
 import java.io.Serializable;
-import java.util.Collection;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -28,11 +25,12 @@ import javax.xml.bind.annotation.XmlTransient;
 @Table(name = "TPLOTERS")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Tploters.findAll", query = "SELECT t FROM Tploters t"),
-    @NamedQuery(name = "Tploters.findByIdPloter", query = "SELECT t FROM Tploters t WHERE t.idPloter = :idPloter"),
-    @NamedQuery(name = "Tploters.findByDescPloter", query = "SELECT t FROM Tploters t WHERE t.descPloter = :descPloter"),
-    @NamedQuery(name = "Tploters.findByControl", query = "SELECT t FROM Tploters t WHERE t.control = :control")})
+    @NamedQuery(name = "Tploters.findAll", query = "SELECT t FROM Tploters t")
+    , @NamedQuery(name = "Tploters.findByIdPloter", query = "SELECT t FROM Tploters t WHERE t.idPloter = :idPloter")
+    , @NamedQuery(name = "Tploters.findByDescPloter", query = "SELECT t FROM Tploters t WHERE t.descPloter = :descPloter")
+    , @NamedQuery(name = "Tploters.findByControl", query = "SELECT t FROM Tploters t WHERE t.control = :control")})
 public class Tploters implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -47,8 +45,6 @@ public class Tploters implements Serializable {
     @Size(max = 1)
     @Column(name = "CONTROL")
     private String control;
-    @OneToMany(mappedBy = "idPloter")
-    private Collection<Tdetproforma> tdetproformaCollection;
 
     public Tploters() {
     }
@@ -84,15 +80,6 @@ public class Tploters implements Serializable {
 
     public void setControl(String control) {
         this.control = control;
-    }
-
-    @XmlTransient
-    public Collection<Tdetproforma> getTdetproformaCollection() {
-        return tdetproformaCollection;
-    }
-
-    public void setTdetproformaCollection(Collection<Tdetproforma> tdetproformaCollection) {
-        this.tdetproformaCollection = tdetproformaCollection;
     }
 
     @Override

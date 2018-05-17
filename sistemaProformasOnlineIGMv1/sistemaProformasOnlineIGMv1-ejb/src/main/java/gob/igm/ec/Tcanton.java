@@ -16,6 +16,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -29,12 +30,14 @@ import javax.xml.bind.annotation.XmlTransient;
 @Table(name = "TCANTON")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Tcanton.findAll", query = "SELECT t FROM Tcanton t"),
-    @NamedQuery(name = "Tcanton.findByIdProvincia", query = "SELECT t FROM Tcanton t WHERE t.tcantonPK.idProvincia = :idProvincia"),
-    @NamedQuery(name = "Tcanton.findByIdCanton", query = "SELECT t FROM Tcanton t WHERE t.tcantonPK.idCanton = :idCanton"),
-    @NamedQuery(name = "Tcanton.findByCanton", query = "SELECT t FROM Tcanton t WHERE t.canton = :canton"),
-    @NamedQuery(name = "Tcanton.findByLPrincipal", query = "SELECT t FROM Tcanton t WHERE t.lPrincipal = :lPrincipal")})
+    @NamedQuery(name = "Tcanton.findAll", query = "SELECT t FROM Tcanton t")
+    , @NamedQuery(name = "Tcanton.findByIdProvincia", query = "SELECT t FROM Tcanton t WHERE t.tcantonPK.idProvincia = :idProvincia")
+    , @NamedQuery(name = "Tcanton.findByIdCanton", query = "SELECT t FROM Tcanton t WHERE t.tcantonPK.idCanton = :idCanton")
+    , @NamedQuery(name = "Tcanton.findByCanton", query = "SELECT t FROM Tcanton t WHERE t.canton = :canton")
+    , @NamedQuery(name = "Tcanton.findByLPrincipal", query = "SELECT t FROM Tcanton t WHERE t.lPrincipal = :lPrincipal")
+    , @NamedQuery(name = "Tcanton.findByIdZona", query = "SELECT t FROM Tcanton t WHERE t.idZona = :idZona")})
 public class Tcanton implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @EmbeddedId
     protected TcantonPK tcantonPK;
@@ -43,6 +46,10 @@ public class Tcanton implements Serializable {
     private String canton;
     @Column(name = "L_PRINCIPAL")
     private Short lPrincipal;
+    @Column(name = "ID_ZONA")
+    private Short idZona;
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "tcanton")
+    private Ttarifario ttarifario;
     @JoinColumn(name = "ID_PROVINCIA", referencedColumnName = "ID_PROVINCIA", insertable = false, updatable = false)
     @ManyToOne(optional = false)
     private Tprovincia tprovincia;
@@ -82,6 +89,22 @@ public class Tcanton implements Serializable {
 
     public void setLPrincipal(Short lPrincipal) {
         this.lPrincipal = lPrincipal;
+    }
+
+    public Short getIdZona() {
+        return idZona;
+    }
+
+    public void setIdZona(Short idZona) {
+        this.idZona = idZona;
+    }
+
+    public Ttarifario getTtarifario() {
+        return ttarifario;
+    }
+
+    public void setTtarifario(Ttarifario ttarifario) {
+        this.ttarifario = ttarifario;
     }
 
     public Tprovincia getTprovincia() {

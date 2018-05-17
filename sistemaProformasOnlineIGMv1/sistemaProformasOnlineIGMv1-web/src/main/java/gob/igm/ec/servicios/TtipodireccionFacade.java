@@ -5,7 +5,7 @@
  */
 package gob.igm.ec.servicios;
 
-import gob.igm.ec.Tcanton;
+import gob.igm.ec.Ttipodireccion;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -15,7 +15,7 @@ import javax.persistence.PersistenceContext;
  * @author TOAPANTA_JUAN
  */
 @Stateless
-public class TcantonFacade extends AbstractFacade<Tcanton> {
+public class TtipodireccionFacade extends AbstractFacade<Ttipodireccion> {
 
     @PersistenceContext(unitName = "gob.igm.ec_sistemaProformasOnlineIGMv1-ejb_ejb_1.0-SNAPSHOTPU")
     private EntityManager em;
@@ -25,8 +25,8 @@ public class TcantonFacade extends AbstractFacade<Tcanton> {
         return em;
     }
 
-    public TcantonFacade() {
-        super(Tcanton.class);
+    public TtipodireccionFacade() {
+        super(Ttipodireccion.class);
     }
     
 }

@@ -6,20 +6,16 @@
 package gob.igm.ec;
 
 import java.io.Serializable;
-import java.util.Collection;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -29,16 +25,17 @@ import javax.xml.bind.annotation.XmlTransient;
 @Table(name = "TFAMILIA")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Tfamilia.findAll", query = "SELECT t FROM Tfamilia t"),
-    @NamedQuery(name = "Tfamilia.findByIdFamilia", query = "SELECT t FROM Tfamilia t WHERE t.idFamilia = :idFamilia"),
-    @NamedQuery(name = "Tfamilia.findByDescFamilia", query = "SELECT t FROM Tfamilia t WHERE t.descFamilia = :descFamilia"),
-    @NamedQuery(name = "Tfamilia.findByIdCentroGestion", query = "SELECT t FROM Tfamilia t WHERE t.idCentroGestion = :idCentroGestion"),
-    @NamedQuery(name = "Tfamilia.findByIdCentroEjecucion", query = "SELECT t FROM Tfamilia t WHERE t.idCentroEjecucion = :idCentroEjecucion"),
-    @NamedQuery(name = "Tfamilia.findByTipoFamilia", query = "SELECT t FROM Tfamilia t WHERE t.tipoFamilia = :tipoFamilia"),
-    @NamedQuery(name = "Tfamilia.findByLEspecial", query = "SELECT t FROM Tfamilia t WHERE t.lEspecial = :lEspecial"),
-    @NamedQuery(name = "Tfamilia.findByIdSubfamilia", query = "SELECT t FROM Tfamilia t WHERE t.idSubfamilia = :idSubfamilia"),
-    @NamedQuery(name = "Tfamilia.findByLServiciosinop", query = "SELECT t FROM Tfamilia t WHERE t.lServiciosinop = :lServiciosinop")})
+    @NamedQuery(name = "Tfamilia.findAll", query = "SELECT t FROM Tfamilia t")
+    , @NamedQuery(name = "Tfamilia.findByIdFamilia", query = "SELECT t FROM Tfamilia t WHERE t.idFamilia = :idFamilia")
+    , @NamedQuery(name = "Tfamilia.findByDescFamilia", query = "SELECT t FROM Tfamilia t WHERE t.descFamilia = :descFamilia")
+    , @NamedQuery(name = "Tfamilia.findByIdCentroGestion", query = "SELECT t FROM Tfamilia t WHERE t.idCentroGestion = :idCentroGestion")
+    , @NamedQuery(name = "Tfamilia.findByIdCentroEjecucion", query = "SELECT t FROM Tfamilia t WHERE t.idCentroEjecucion = :idCentroEjecucion")
+    , @NamedQuery(name = "Tfamilia.findByTipoFamilia", query = "SELECT t FROM Tfamilia t WHERE t.tipoFamilia = :tipoFamilia")
+    , @NamedQuery(name = "Tfamilia.findByLEspecial", query = "SELECT t FROM Tfamilia t WHERE t.lEspecial = :lEspecial")
+    , @NamedQuery(name = "Tfamilia.findByIdSubfamilia", query = "SELECT t FROM Tfamilia t WHERE t.idSubfamilia = :idSubfamilia")
+    , @NamedQuery(name = "Tfamilia.findByLServiciosinop", query = "SELECT t FROM Tfamilia t WHERE t.lServiciosinop = :lServiciosinop")})
 public class Tfamilia implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -61,8 +58,6 @@ public class Tfamilia implements Serializable {
     private Short idSubfamilia;
     @Column(name = "L_SERVICIOSINOP")
     private Short lServiciosinop;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idFamilia")
-    private Collection<Titem> titemCollection;
 
     public Tfamilia() {
     }
@@ -133,15 +128,6 @@ public class Tfamilia implements Serializable {
 
     public void setLServiciosinop(Short lServiciosinop) {
         this.lServiciosinop = lServiciosinop;
-    }
-
-    @XmlTransient
-    public Collection<Titem> getTitemCollection() {
-        return titemCollection;
-    }
-
-    public void setTitemCollection(Collection<Titem> titemCollection) {
-        this.titemCollection = titemCollection;
     }
 
     @Override

@@ -32,16 +32,17 @@ import javax.xml.bind.annotation.XmlTransient;
 @Table(name = "TUNIDADMEDIDA")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Tunidadmedida.findAll", query = "SELECT t FROM Tunidadmedida t"),
-    @NamedQuery(name = "Tunidadmedida.findByIdUnidad", query = "SELECT t FROM Tunidadmedida t WHERE t.idUnidad = :idUnidad"),
-    @NamedQuery(name = "Tunidadmedida.findByDescUnidad", query = "SELECT t FROM Tunidadmedida t WHERE t.descUnidad = :descUnidad"),
-    @NamedQuery(name = "Tunidadmedida.findByObsUnidad", query = "SELECT t FROM Tunidadmedida t WHERE t.obsUnidad = :obsUnidad"),
-    @NamedQuery(name = "Tunidadmedida.findByIdResponsable", query = "SELECT t FROM Tunidadmedida t WHERE t.idResponsable = :idResponsable"),
-    @NamedQuery(name = "Tunidadmedida.findByIdModificador", query = "SELECT t FROM Tunidadmedida t WHERE t.idModificador = :idModificador"),
-    @NamedQuery(name = "Tunidadmedida.findByFechaCreacion", query = "SELECT t FROM Tunidadmedida t WHERE t.fechaCreacion = :fechaCreacion"),
-    @NamedQuery(name = "Tunidadmedida.findByFechaModificacion", query = "SELECT t FROM Tunidadmedida t WHERE t.fechaModificacion = :fechaModificacion"),
-    @NamedQuery(name = "Tunidadmedida.findByVersion", query = "SELECT t FROM Tunidadmedida t WHERE t.version = :version")})
+    @NamedQuery(name = "Tunidadmedida.findAll", query = "SELECT t FROM Tunidadmedida t")
+    , @NamedQuery(name = "Tunidadmedida.findByIdUnidad", query = "SELECT t FROM Tunidadmedida t WHERE t.idUnidad = :idUnidad")
+    , @NamedQuery(name = "Tunidadmedida.findByDescUnidad", query = "SELECT t FROM Tunidadmedida t WHERE t.descUnidad = :descUnidad")
+    , @NamedQuery(name = "Tunidadmedida.findByObsUnidad", query = "SELECT t FROM Tunidadmedida t WHERE t.obsUnidad = :obsUnidad")
+    , @NamedQuery(name = "Tunidadmedida.findByIdResponsable", query = "SELECT t FROM Tunidadmedida t WHERE t.idResponsable = :idResponsable")
+    , @NamedQuery(name = "Tunidadmedida.findByIdModificador", query = "SELECT t FROM Tunidadmedida t WHERE t.idModificador = :idModificador")
+    , @NamedQuery(name = "Tunidadmedida.findByFechaCreacion", query = "SELECT t FROM Tunidadmedida t WHERE t.fechaCreacion = :fechaCreacion")
+    , @NamedQuery(name = "Tunidadmedida.findByFechaModificacion", query = "SELECT t FROM Tunidadmedida t WHERE t.fechaModificacion = :fechaModificacion")
+    , @NamedQuery(name = "Tunidadmedida.findByVersion", query = "SELECT t FROM Tunidadmedida t WHERE t.version = :version")})
 public class Tunidadmedida implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)

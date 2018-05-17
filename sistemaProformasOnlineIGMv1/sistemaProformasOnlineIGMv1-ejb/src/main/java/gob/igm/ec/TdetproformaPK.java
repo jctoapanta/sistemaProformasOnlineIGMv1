@@ -17,14 +17,15 @@ import javax.validation.constraints.NotNull;
  */
 @Embeddable
 public class TdetproformaPK implements Serializable {
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "ID_PERIODO")
-    private short idPeriodo;
+
     @Basic(optional = false)
     @NotNull
     @Column(name = "ID_SUCURSAL")
     private long idSucursal;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "ID_PERIODO")
+    private short idPeriodo;
     @Basic(optional = false)
     @NotNull
     @Column(name = "ID_PROFORMA")
@@ -37,19 +38,11 @@ public class TdetproformaPK implements Serializable {
     public TdetproformaPK() {
     }
 
-    public TdetproformaPK(short idPeriodo, long idSucursal, long idProforma, short noReg) {
-        this.idPeriodo = idPeriodo;
+    public TdetproformaPK(long idSucursal, short idPeriodo, long idProforma, short noReg) {
         this.idSucursal = idSucursal;
+        this.idPeriodo = idPeriodo;
         this.idProforma = idProforma;
         this.noReg = noReg;
-    }
-
-    public short getIdPeriodo() {
-        return idPeriodo;
-    }
-
-    public void setIdPeriodo(short idPeriodo) {
-        this.idPeriodo = idPeriodo;
     }
 
     public long getIdSucursal() {
@@ -58,6 +51,14 @@ public class TdetproformaPK implements Serializable {
 
     public void setIdSucursal(long idSucursal) {
         this.idSucursal = idSucursal;
+    }
+
+    public short getIdPeriodo() {
+        return idPeriodo;
+    }
+
+    public void setIdPeriodo(short idPeriodo) {
+        this.idPeriodo = idPeriodo;
     }
 
     public long getIdProforma() {
@@ -79,8 +80,8 @@ public class TdetproformaPK implements Serializable {
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (int) idPeriodo;
         hash += (int) idSucursal;
+        hash += (int) idPeriodo;
         hash += (int) idProforma;
         hash += (int) noReg;
         return hash;
@@ -93,10 +94,10 @@ public class TdetproformaPK implements Serializable {
             return false;
         }
         TdetproformaPK other = (TdetproformaPK) object;
-        if (this.idPeriodo != other.idPeriodo) {
+        if (this.idSucursal != other.idSucursal) {
             return false;
         }
-        if (this.idSucursal != other.idSucursal) {
+        if (this.idPeriodo != other.idPeriodo) {
             return false;
         }
         if (this.idProforma != other.idProforma) {
@@ -110,7 +111,7 @@ public class TdetproformaPK implements Serializable {
 
     @Override
     public String toString() {
-        return "gob.igm.ec.TdetproformaPK[ idPeriodo=" + idPeriodo + ", idSucursal=" + idSucursal + ", idProforma=" + idProforma + ", noReg=" + noReg + " ]";
+        return "gob.igm.ec.TdetproformaPK[ idSucursal=" + idSucursal + ", idPeriodo=" + idPeriodo + ", idProforma=" + idProforma + ", noReg=" + noReg + " ]";
     }
     
 }

@@ -17,6 +17,7 @@ import javax.validation.constraints.NotNull;
  */
 @Embeddable
 public class TparroquiaPK implements Serializable {
+
     @Basic(optional = false)
     @NotNull
     @Column(name = "ID_PROVINCIA")

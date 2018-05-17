@@ -7,19 +7,16 @@ package gob.igm.ec;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.Collection;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -29,13 +26,14 @@ import javax.xml.bind.annotation.XmlTransient;
 @Table(name = "TTIPOCARTA")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Ttipocarta.findAll", query = "SELECT t FROM Ttipocarta t"),
-    @NamedQuery(name = "Ttipocarta.findByIdTipoCarta", query = "SELECT t FROM Ttipocarta t WHERE t.idTipoCarta = :idTipoCarta"),
-    @NamedQuery(name = "Ttipocarta.findByDescCarta", query = "SELECT t FROM Ttipocarta t WHERE t.descCarta = :descCarta"),
-    @NamedQuery(name = "Ttipocarta.findByTamanio", query = "SELECT t FROM Ttipocarta t WHERE t.tamanio = :tamanio"),
-    @NamedQuery(name = "Ttipocarta.findByTipoTamanio", query = "SELECT t FROM Ttipocarta t WHERE t.tipoTamanio = :tipoTamanio"),
-    @NamedQuery(name = "Ttipocarta.findByControl", query = "SELECT t FROM Ttipocarta t WHERE t.control = :control")})
+    @NamedQuery(name = "Ttipocarta.findAll", query = "SELECT t FROM Ttipocarta t")
+    , @NamedQuery(name = "Ttipocarta.findByIdTipoCarta", query = "SELECT t FROM Ttipocarta t WHERE t.idTipoCarta = :idTipoCarta")
+    , @NamedQuery(name = "Ttipocarta.findByDescCarta", query = "SELECT t FROM Ttipocarta t WHERE t.descCarta = :descCarta")
+    , @NamedQuery(name = "Ttipocarta.findByTamanio", query = "SELECT t FROM Ttipocarta t WHERE t.tamanio = :tamanio")
+    , @NamedQuery(name = "Ttipocarta.findByTipoTamanio", query = "SELECT t FROM Ttipocarta t WHERE t.tipoTamanio = :tipoTamanio")
+    , @NamedQuery(name = "Ttipocarta.findByControl", query = "SELECT t FROM Ttipocarta t WHERE t.control = :control")})
 public class Ttipocarta implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -56,8 +54,6 @@ public class Ttipocarta implements Serializable {
     @Size(max = 1)
     @Column(name = "CONTROL")
     private String control;
-    @OneToMany(mappedBy = "idTipoCarta")
-    private Collection<Tdetproforma> tdetproformaCollection;
 
     public Ttipocarta() {
     }
@@ -109,15 +105,6 @@ public class Ttipocarta implements Serializable {
 
     public void setControl(String control) {
         this.control = control;
-    }
-
-    @XmlTransient
-    public Collection<Tdetproforma> getTdetproformaCollection() {
-        return tdetproformaCollection;
-    }
-
-    public void setTdetproformaCollection(Collection<Tdetproforma> tdetproformaCollection) {
-        this.tdetproformaCollection = tdetproformaCollection;
     }
 
     @Override

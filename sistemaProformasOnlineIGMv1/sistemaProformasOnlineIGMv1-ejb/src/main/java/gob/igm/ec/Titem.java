@@ -35,20 +35,21 @@ import javax.xml.bind.annotation.XmlTransient;
 @Table(name = "TITEM")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Titem.findAll", query = "SELECT t FROM Titem t"),
-    @NamedQuery(name = "Titem.findByIdItem", query = "SELECT t FROM Titem t WHERE t.idItem = :idItem"),
-    @NamedQuery(name = "Titem.findByDescItem", query = "SELECT t FROM Titem t WHERE t.descItem = :descItem"),
-    @NamedQuery(name = "Titem.findByPvp", query = "SELECT t FROM Titem t WHERE t.pvp = :pvp"),
-    @NamedQuery(name = "Titem.findByCosto", query = "SELECT t FROM Titem t WHERE t.costo = :costo"),
-    @NamedQuery(name = "Titem.findByLIva", query = "SELECT t FROM Titem t WHERE t.lIva = :lIva"),
-    @NamedQuery(name = "Titem.findByEstado", query = "SELECT t FROM Titem t WHERE t.estado = :estado"),
-    @NamedQuery(name = "Titem.findByLInventariado", query = "SELECT t FROM Titem t WHERE t.lInventariado = :lInventariado"),
-    @NamedQuery(name = "Titem.findByIdCreador", query = "SELECT t FROM Titem t WHERE t.idCreador = :idCreador"),
-    @NamedQuery(name = "Titem.findByIdModificador", query = "SELECT t FROM Titem t WHERE t.idModificador = :idModificador"),
-    @NamedQuery(name = "Titem.findByFechaCreacion", query = "SELECT t FROM Titem t WHERE t.fechaCreacion = :fechaCreacion"),
-    @NamedQuery(name = "Titem.findByDescripcionAnterior", query = "SELECT t FROM Titem t WHERE t.descripcionAnterior = :descripcionAnterior"),
-    @NamedQuery(name = "Titem.findByLVentaOnline", query = "SELECT t FROM Titem t WHERE t.lVentaOnline = :lVentaOnline")})
+    @NamedQuery(name = "Titem.findAll", query = "SELECT t FROM Titem t")
+    , @NamedQuery(name = "Titem.findByIdItem", query = "SELECT t FROM Titem t WHERE t.idItem = :idItem")
+    , @NamedQuery(name = "Titem.findByDescItem", query = "SELECT t FROM Titem t WHERE t.descItem = :descItem")
+    , @NamedQuery(name = "Titem.findByPvp", query = "SELECT t FROM Titem t WHERE t.pvp = :pvp")
+    , @NamedQuery(name = "Titem.findByCosto", query = "SELECT t FROM Titem t WHERE t.costo = :costo")
+    , @NamedQuery(name = "Titem.findByLIva", query = "SELECT t FROM Titem t WHERE t.lIva = :lIva")
+    , @NamedQuery(name = "Titem.findByEstado", query = "SELECT t FROM Titem t WHERE t.estado = :estado")
+    , @NamedQuery(name = "Titem.findByLInventariado", query = "SELECT t FROM Titem t WHERE t.lInventariado = :lInventariado")
+    , @NamedQuery(name = "Titem.findByIdCreador", query = "SELECT t FROM Titem t WHERE t.idCreador = :idCreador")
+    , @NamedQuery(name = "Titem.findByIdModificador", query = "SELECT t FROM Titem t WHERE t.idModificador = :idModificador")
+    , @NamedQuery(name = "Titem.findByFechaCreacion", query = "SELECT t FROM Titem t WHERE t.fechaCreacion = :fechaCreacion")
+    , @NamedQuery(name = "Titem.findByDescripcionAnterior", query = "SELECT t FROM Titem t WHERE t.descripcionAnterior = :descripcionAnterior")
+    , @NamedQuery(name = "Titem.findByLVentaOnline", query = "SELECT t FROM Titem t WHERE t.lVentaOnline = :lVentaOnline")})
 public class Titem implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -84,9 +85,6 @@ public class Titem implements Serializable {
     private String descripcionAnterior;
     @Column(name = "L_VENTA_ONLINE")
     private Short lVentaOnline;
-    @JoinColumn(name = "ID_FAMILIA", referencedColumnName = "ID_FAMILIA")
-    @ManyToOne(optional = false)
-    private Tfamilia idFamilia;
     @JoinColumn(name = "ID_UNIDAD", referencedColumnName = "ID_UNIDAD")
     @ManyToOne
     private Tunidadmedida idUnidad;
@@ -194,14 +192,6 @@ public class Titem implements Serializable {
 
     public void setLVentaOnline(Short lVentaOnline) {
         this.lVentaOnline = lVentaOnline;
-    }
-
-    public Tfamilia getIdFamilia() {
-        return idFamilia;
-    }
-
-    public void setIdFamilia(Tfamilia idFamilia) {
-        this.idFamilia = idFamilia;
     }
 
     public Tunidadmedida getIdUnidad() {

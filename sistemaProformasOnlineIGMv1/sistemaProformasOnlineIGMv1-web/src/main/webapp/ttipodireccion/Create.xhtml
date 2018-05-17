@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="TtipodireccionCreateDlg" widgetVar="TtipodireccionCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateTtipodireccionTitle}">
+            <h:form id="TtipodireccionCreateForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{ttipodireccionController.selected != null}">
+                        <p:outputLabel value="#{bundle.CreateTtipodireccionLabel_idTipoDireccion}" for="idTipoDireccion" />
+                        <p:inputText id="idTipoDireccion" value="#{ttipodireccionController.selected.idTipoDireccion}" title="#{bundle.CreateTtipodireccionTitle_idTipoDireccion}" required="true" requiredMessage="#{bundle.CreateTtipodireccionRequiredMessage_idTipoDireccion}"/>
+                        <p:outputLabel value="#{bundle.CreateTtipodireccionLabel_descTipoDireccion}" for="descTipoDireccion" />
+                        <p:inputText id="descTipoDireccion" value="#{ttipodireccionController.selected.descTipoDireccion}" title="#{bundle.CreateTtipodireccionTitle_descTipoDireccion}" />
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{ttipodireccionController.create}" value="#{bundle.Save}" update="display,:TtipodireccionListForm:datalist,:growl" oncomplete="handleSubmit(args,'TtipodireccionCreateDialog');"/>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="TtipodireccionCreateDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

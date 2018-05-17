@@ -7,6 +7,7 @@ package gob.igm.ec;
 
 import java.io.Serializable;
 import java.util.Collection;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
@@ -29,25 +30,26 @@ import javax.xml.bind.annotation.XmlTransient;
 @Table(name = "TPARROQUIA")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Tparroquia.findAll", query = "SELECT t FROM Tparroquia t"),
-    @NamedQuery(name = "Tparroquia.findByIdProvincia", query = "SELECT t FROM Tparroquia t WHERE t.tparroquiaPK.idProvincia = :idProvincia"),
-    @NamedQuery(name = "Tparroquia.findByIdCanton", query = "SELECT t FROM Tparroquia t WHERE t.tparroquiaPK.idCanton = :idCanton"),
-    @NamedQuery(name = "Tparroquia.findByIdParroquia", query = "SELECT t FROM Tparroquia t WHERE t.tparroquiaPK.idParroquia = :idParroquia"),
-    @NamedQuery(name = "Tparroquia.findByParroquia", query = "SELECT t FROM Tparroquia t WHERE t.parroquia = :parroquia")})
+    @NamedQuery(name = "Tparroquia.findAll", query = "SELECT t FROM Tparroquia t")
+    , @NamedQuery(name = "Tparroquia.findByIdProvincia", query = "SELECT t FROM Tparroquia t WHERE t.tparroquiaPK.idProvincia = :idProvincia")
+    , @NamedQuery(name = "Tparroquia.findByIdCanton", query = "SELECT t FROM Tparroquia t WHERE t.tparroquiaPK.idCanton = :idCanton")
+    , @NamedQuery(name = "Tparroquia.findByIdParroquia", query = "SELECT t FROM Tparroquia t WHERE t.tparroquiaPK.idParroquia = :idParroquia")
+    , @NamedQuery(name = "Tparroquia.findByParroquia", query = "SELECT t FROM Tparroquia t WHERE t.parroquia = :parroquia")})
 public class Tparroquia implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @EmbeddedId
     protected TparroquiaPK tparroquiaPK;
     @Size(max = 50)
     @Column(name = "PARROQUIA")
     private String parroquia;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "tparroquia")
+    private Collection<Tdireccionesusr> tdireccionesusrCollection;
     @JoinColumns({
-        @JoinColumn(name = "ID_PROVINCIA", referencedColumnName = "ID_PROVINCIA", insertable = false, updatable = false),
-        @JoinColumn(name = "ID_CANTON", referencedColumnName = "ID_CANTON", insertable = false, updatable = false)})
+        @JoinColumn(name = "ID_PROVINCIA", referencedColumnName = "ID_PROVINCIA", insertable = false, updatable = false)
+        , @JoinColumn(name = "ID_CANTON", referencedColumnName = "ID_CANTON", insertable = false, updatable = false)})
     @ManyToOne(optional = false)
     private Tcanton tcanton;
-    @OneToMany(mappedBy = "tparroquia")
-    private Collection<Tproforma> tproformaCollection;
 
     public Tparroquia() {
     }
@@ -76,21 +78,21 @@ public class Tparroquia implements Serializable {
         this.parroquia = parroquia;
     }
 
+    @XmlTransient
+    public Collection<Tdireccionesusr> getTdireccionesusrCollection() {
+        return tdireccionesusrCollection;
+    }
+
+    public void setTdireccionesusrCollection(Collection<Tdireccionesusr> tdireccionesusrCollection) {
+        this.tdireccionesusrCollection = tdireccionesusrCollection;
+    }
+
     public Tcanton getTcanton() {
         return tcanton;
     }
 
     public void setTcanton(Tcanton tcanton) {
         this.tcanton = tcanton;
-    }
-
-    @XmlTransient
-    public Collection<Tproforma> getTproformaCollection() {
-        return tproformaCollection;
-    }
-
-    public void setTproformaCollection(Collection<Tproforma> tproformaCollection) {
-        this.tproformaCollection = tproformaCollection;
     }
 
     @Override
