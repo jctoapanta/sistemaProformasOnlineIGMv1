@@ -29,6 +29,20 @@ import javax.faces.model.SelectItem;
 public class OrderBean implements Serializable{
 
     /**
+     * @return the piva
+     */
+    public double getPiva() {
+        return piva;
+    }
+
+    /**
+     * @param piva the piva to set
+     */
+    public void setPiva(double piva) {
+        this.piva = piva;
+    }
+
+    /**
      * @return the totalp
      */
     public BigDecimal getTotalp() {
@@ -52,6 +66,7 @@ public class OrderBean implements Serializable{
 		BigDecimal cantidad;
                 BigDecimal total;
                 BigInteger iva;
+                private double piva;
                 private int seleccionadoItem;
                 private Tentidad entidad=new Tentidad();
                 private BigDecimal totalp=BigDecimal.ZERO;
@@ -104,9 +119,10 @@ public class OrderBean implements Serializable{
 	public String addAction() {
             try{
 	        item=titemServicio.getDatos(this.getSeleccionadoItem());
-		Order order = new Order(item.getDescItem(), this.cantidad,item.getPvp(),item.getLIva());
+               
+		Order order = new Order(item.getDescItem(), this.cantidad,item.getPvp(),this.piva);
 		orderList.add(order);
-                this.totalp = (this.cantidad.multiply(item.getPvp())).add(this.totalp);
+                this.totalp = ((this.cantidad.multiply(item.getPvp())).add(this.totalp)).add(BigDecimal.valueOf(0.12));
 		
 		
             }catch( Exception e ){}
@@ -116,7 +132,8 @@ public class OrderBean implements Serializable{
 	public String deleteAction(Order order) {
 	    
 		orderList.remove(order);
-                 this.totalp = (this.totalp).subtract( (this.cantidad.multiply(item.getPvp())));
+                 this.totalp = ((this.totalp).subtract( (this.cantidad.multiply(item.getPvp())))).subtract(BigDecimal.valueOf(0.12));
+		;
                          return null;
 	}
 
@@ -174,12 +191,28 @@ public class OrderBean implements Serializable{
     
 
 	public static class Order{
+
+        /**
+         * @return the piva
+         */
+        public double getPiva() {
+            return piva;
+        }
+
+        /**
+         * @param piva the piva to set
+         */
+        public void setPiva(double piva) {
+            this.piva = piva;
+        }
 		
 		String descripcion;
                 BigDecimal cantidad;
                 BigDecimal total;
                 BigInteger iva;
+                BigDecimal bigdec;
                 private Tentidad entidad=new Tentidad();
+                private double piva;
                 
                 public Order(){
                      entidad.setCiu("1716542913");
@@ -189,11 +222,12 @@ public class OrderBean implements Serializable{
                 }
                 
                 
-                public Order(String descripcion, BigDecimal cantidad, BigDecimal total, BigInteger iva) {
+                public Order(String descripcion, BigDecimal cantidad, BigDecimal total, double piva) {
 			this.descripcion = descripcion;
 			this.cantidad = cantidad;
 			this.total = total;
-			this.iva = iva;
+			//this.iva = iva;
+                        this.piva=piva;
 		}
 
         public String getDescripcion() {

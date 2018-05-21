@@ -7,23 +7,24 @@
       xmlns:ui="http://java.sun.com/jsf/facelets"
           
       xmlns:p="http://primefaces.org/ui">
-    <h:head>
-    	
-    </h:head>
-    <h:body>
-        <h:form id="frmProforma" style="background: graytext">
-                <p:fieldset style="margin-bottom:10px">
-                    <h:panelGrid columns="2" cellspacing="5">
+
+              <ui:composition template="/template.xhtml">
+                  <ui:define name="body">
+                  <h:form>
+                      
+                    <p:panel>
+                     <h:panelGrid columns="2" cellspacing="5" >
                     <p:outputLabel value="Ciu:" for="ciu"/>
-                    <p:outputLabel id="ciu" value="#{login.cliente.ciu}" style="color: darkgray" />
+                    <p:outputLabel id="ciu" value="#{login.cliente.ciu}" />
                     <p:outputLabel value="Nombres:" for="nombres" />
-                    <p:outputLabel id="nombres" value="#{login.cliente.nombres}" style="color: darkgray"  />
+                    <p:outputLabel id="nombres" value="#{login.cliente.nombres}"/>
                     <p:outputLabel value="Direccion:" for="direccion" />
-                    <p:outputLabel id="direccion" value="#{login.cliente.direccion}" style="color: darkgray" />
+                    <p:outputLabel id="direccion" value="#{login.cliente.direccion}" />
                   
                 </h:panelGrid>
-                    </p:fieldset>
-                
+                   </p:panel>
+                      
+                     
                 <p:fieldset style="margin-bottom:10px;">
                     <table>
                         
@@ -67,27 +68,36 @@
                                     <f:facet name="header">
                                         <h:outputText value="Iva"/>
                                     </f:facet>
-                                    <h:outputText value="#{o.iva}"/>
+                                    <h:outputText value="#{o.piva}"/>
                                 </p:column>
                                <p:column style="width:32px;text-align: center">
                                <f:facet name="header">Action</f:facet>
                                <p:commandButton icon="ui-icon-trash" action="#{order.deleteAction(o)}" ajax="false"/>
     				
                                 </p:column>
-                            </p:dataTable>
+                        
+                        <f:facet name="footer">
+        El valor total de la proforma es: #{order.totalp} de la proforma.
+    </f:facet>
+                            </p:dataTable>  
+                            
+                            
                             </td>
-                        <td>
-                            <p:outputLabel value ="Total: "/>    
-                    <p:outputLabel value="#{order.totalp}"/>
-                        </td>
+                        <td style="left:inherit">
+                            <p:commandButton value="Generar Proforma" style=" position: absolute;
+                          bottom: 75%; right: 50%" />
+                            </td>
                          </table>
                     <h:panelGrid columns="2" cellpadding="5">
                        
                     </h:panelGrid>
-                    </p:fieldset>
-            
-              
-            </h:form>
-    </h:body>
-		
+                    </p:fieldset> 
+                      
+                      
+                      
+                      
+                      
+                  </h:form>
+                      </ui:define>
+   	</ui:composition>
 </html>
