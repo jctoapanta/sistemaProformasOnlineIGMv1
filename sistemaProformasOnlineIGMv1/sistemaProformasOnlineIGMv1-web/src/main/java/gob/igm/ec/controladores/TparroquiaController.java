@@ -18,11 +18,17 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
+import javax.inject.Inject;
 
 @Named("tparroquiaController")
 @SessionScoped
 public class TparroquiaController implements Serializable {
-
+    @Inject
+    private TcantonController tcantoncontroller;
+    
+    @Inject
+    private TprovinciaController tprovinciacontroller;
+    
     @EJB
     private gob.igm.ec.servicios.TparroquiaFacade ejbFacade;
     private List<Tparroquia> items = null;

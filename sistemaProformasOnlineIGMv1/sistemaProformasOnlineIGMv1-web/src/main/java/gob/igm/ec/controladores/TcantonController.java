@@ -6,6 +6,7 @@ import gob.igm.ec.controladores.util.JsfUtil.PersistAction;
 import gob.igm.ec.servicios.TcantonFacade;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -18,6 +19,7 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
+import javax.faces.model.SelectItem;
 
 @Named("tcantonController")
 @SessionScoped
@@ -113,6 +115,13 @@ public class TcantonController implements Serializable {
 
     public Tcanton getTcanton(gob.igm.ec.TcantonPK id) {
         return getFacade().find(id);
+    }
+    
+    public List<SelectItem> getTcantonXProvincia(String id) throws Exception {
+        List<SelectItem> listaCantones=new ArrayList<>();
+        listaCantones=getFacade().buscarCantonesXProvincia(id);
+        System.out.println(listaCantones);
+        return getFacade().buscarCantonesXProvincia(id);
     }
 
     public List<Tcanton> getItemsAvailableSelectMany() {

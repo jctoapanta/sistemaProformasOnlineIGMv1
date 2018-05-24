@@ -25,6 +25,7 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
+import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import validar.*;
 
@@ -32,6 +33,9 @@ import validar.*;
 @SessionScoped
 public class TentidadController implements Serializable {
 
+    @Inject
+    private TdireccionesusrController tdireccion;
+    
     @EJB
     private gob.igm.ec.servicios.TentidadFacade ejbFacade;
     
@@ -76,11 +80,11 @@ public class TentidadController implements Serializable {
         }
     }
 
-    public void booking() {
+    public String booking() {
+        String regla = "/tdireccionesusr/registro";
         try {
             List<Object> usuario=null;
             ValidarIdentificacion validaID=new ValidarIdentificacion();
-            
             usuario = this.ejbFacade.buscarExisteUsuario(selected.getCiu());
             if (usuario.isEmpty()){
                 if (validaID.validarCedula(selected.getCiu()) 
@@ -90,6 +94,7 @@ public class TentidadController implements Serializable {
                         this.encriptUtil=new EncriptUtil();
                         encriptado = this.encriptUtil.encrypt3DES(selected.getClave());
                         selected.setClave(encriptado);
+                        regla = "/tdireccionesusr/List";
                     } catch (NoSuchAlgorithmException | InvalidKeyException | NoSuchPaddingException | IOException | IllegalStateException | IllegalBlockSizeException | BadPaddingException ex) {
                         Logger.getLogger(TentidadController.class.getName()).log(Level.SEVERE, null, ex);
                     }
@@ -105,12 +110,14 @@ public class TentidadController implements Serializable {
                 JsfUtil.addErrorMessage("Cliente con Documento de Identificación "+selected.getCiu()+" ya existe.");
             }
          
-            prepareCreate();
+            //prepareCreate();
             items=null;
             
         } catch (Exception ex) {
             Logger.getLogger(TentidadController.class.getName()).log(Level.SEVERE, null, ex);
         }
+
+        return regla;
     }    
     
     public void update() {

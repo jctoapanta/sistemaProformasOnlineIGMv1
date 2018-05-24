@@ -111,7 +111,7 @@ public class Tprovincia implements Serializable {
 
     @Override
     public String toString() {
-        return "gob.igm.ec.Tprovincia[ idProvincia=" + idProvincia + " ]";
+        return provincia;
     }
     
 }

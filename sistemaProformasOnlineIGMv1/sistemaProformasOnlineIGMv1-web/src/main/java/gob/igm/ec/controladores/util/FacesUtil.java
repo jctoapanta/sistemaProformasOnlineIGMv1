@@ -14,10 +14,14 @@
 package gob.igm.ec.controladores.util;
 
 //import com.gov.ec.produccion.igm.MenuOP;
+import gob.igm.ec.Tprovincia;
+import gob.igm.ec.servicios.TprovinciaFacade;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.Map.Entry;
+import javax.ejb.EJB;
 
 import javax.el.ELContext;
 import javax.faces.application.FacesMessage;
@@ -32,9 +36,29 @@ import org.apache.commons.lang.StringUtils;
  * @author CAIZA_CARLOS
  */
 public class FacesUtil {
-
     /** La variable recursoGeneral. */
     private ResourceBundle recursoGeneral;
+    
+    @EJB
+    private TprovinciaFacade provinciaServicio;
+    
+    private List<Tprovincia> provincias;
+
+    /**
+     * @return the provincias
+     */
+    public List<Tprovincia> getProvincias() {
+        provinciaServicio=new TprovinciaFacade();
+        return provinciaServicio.findAll();
+    }
+
+    /**
+     * @param provincias the provincias to set
+     */
+    public void setProvincias(List<Tprovincia> provincias) {
+        this.provincias = provincias;
+    }
+
 
     /* Inicializa las variables de clase. */
     /**
@@ -172,6 +196,22 @@ public class FacesUtil {
     public void setRecursoGeneral(ResourceBundle recursoGeneral) {
         this.recursoGeneral = recursoGeneral;
     }
+
+    /**
+     * @return the provinciaServicio
+     */
+    public TprovinciaFacade getProvinciaServicio() {
+        return provinciaServicio;
+    }
+
+    /**
+     * @param provinciaServicio the provinciaServicio to set
+     */
+    public void setProvinciaServicio(TprovinciaFacade provinciaServicio) {
+        this.provinciaServicio = provinciaServicio;
+    }
+    
+
 
     /**
      * Retorna el valor MenuOP.

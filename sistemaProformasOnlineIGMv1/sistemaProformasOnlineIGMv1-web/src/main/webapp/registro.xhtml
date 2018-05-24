@@ -19,7 +19,7 @@
                             <p:panelGrid columns="2" style="margin-bottom:10px">
                                 <p:outputLabel for="LNatural" value="#{bundle.TipoPersona}" styleClass="texto_negrita_derecha" />
                                 <p:selectOneRadio id="LNatural" value="#{tentidadController.selected.LNatural}">
-                                    <f:selectItem itemLabel="Natural" itemValue="1" />
+                                    <f:selectItem itemLabel="Natural" itemValue="1"/>
                                     <f:selectItem itemLabel="Jurídica" itemValue="0" />
                                 </p:selectOneRadio>
                             </p:panelGrid>
@@ -31,8 +31,6 @@
                                 <p:inputText id="nombres" value="#{tentidadController.selected.nombres}" title="#{bundle.CreateTentidadTitle_nombres}" required="true" requiredMessage="#{bundle.CreateTentidadRequiredMessage_nombres}"/>
                                 <p:outputLabel value="#{bundle.CreateTentidadLabel_apellidos}" for="apellidos" />
                                 <p:inputText id="apellidos" value="#{tentidadController.selected.apellidos}" title="#{bundle.CreateTentidadTitle_apellidos}" required="true" requiredMessage="#{bundle.CreateTentidadRequiredMessage_apellidos}"/>
-                                <p:outputLabel value="#{bundle.CreateTentidadLabel_direccion}" for="direccion" />
-                                <p:inputText id="direccion" value="#{tentidadController.selected.direccion}" title="#{bundle.CreateTentidadTitle_direccion}" required="true" requiredMessage="#{bundle.CreateTentidadRequiredMessage_direccion}"/>
                                 <p:outputLabel value="#{bundle.CreateTentidadLabel_telefonoConvencional}" for="telefonoConvencional" />
                                 <p:inputText id="telefonoConvencional" value="#{tentidadController.selected.telefonoConvencional}" title="#{bundle.CreateTentidadTitle_telefonoConvencional}" required="true" requiredMessage="#{bundle.CreateTentidadRequiredMessage_telefonoConvencional}"/>
                                 <p:outputLabel value="#{bundle.CreateTentidadLabel_telefonoCelular}" for="telefonoCelular" />
@@ -47,7 +45,9 @@
                                 <p:password id="claveConfirma" value="#{tentidadController.claveConfirma}" title="#{bundle.CreateTentidadTitle_claveConfirmacion}"/>
                             </p:panelGrid>
                         </p:panelGrid>
-                        <p:commandButton action="#{tentidadController.booking}" oncomplete="location.reload(forceGet)" ajax="false" value="#{bundle.Save}" update="@(.ui-message) display growl TentidadBookingForm"/>
+                        <p:commandButton action="#{tentidadController.booking}" oncomplete="location.reload(forceGet)" ajax="false" value="#{bundle.Save}" update="@(.ui-message) display growl TentidadBookingForm">
+                            <f:param name="ciuParam" value="#{tentidadController.selected.ciu}"/>
+                        </p:commandButton>
                         <p:commandButton value="#{bundle.Cancel}" immediate="true" actionListener="/index" oncomplete="location.reload()"/>
                     </h:panelGroup>
                 </h:form>            
