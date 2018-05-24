@@ -8,10 +8,49 @@
 
     <ui:composition>
 
-        <p:dialog id="TdireccionesusrCreateDlg" widgetVar="TdireccionesusrCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateTdireccionesusrTitle}">
+        <p:dialog id="TdireccionesusrCreateDlg" widgetVar="TdireccionesusrCreateDialog" modal="true" resizable="false" appendTo="@(body)"
+                  header="#{bundle.CreateTdireccionesusrTitle}" >
             <h:form id="TdireccionesusrCreateForm">
                 <h:panelGroup id="display">
                     <p:panelGrid columns="2" rendered="#{tdireccionesusrController.selected != null}">
+                        <p:outputLabel value="#{bundle.CreateTcantonLabel_tprovincia}" for="tprovincia" />
+                        <p:selectOneMenu id="tprovincia" required="true" binding="#{tdireccionesusrController.provinciaMenu}" requiredMessage="#{bundle.EditTcantonRequiredMessage_tprovincia}"
+                                          valueChangeListener="#{tdireccionesusrController.changeProvinciaMenu}" immediate="true">
+                            <f:selectItem itemLabel="Seleccione la Provincia"/>
+                            <f:selectItems value="#{tprovinciaController.itemsAvailableSelectOne}"
+                                           var="tprovinciaItem"
+                                           itemValue="#{tprovinciaItem}" />
+                            <p:ajax update="tcanton" process="@form" />
+                        </p:selectOneMenu>
+                        
+                        <p:outputLabel value="#{bundle.CreateTcantonLabel_canton}" for="tcanton" />
+                        <p:selectOneMenu id="tcanton" required="true" binding="#{tdireccionesusrController.cantonMenu}" 
+                                         requiredMessage="#{bundle.EditTcantonRequiredMessage_tcanton}"
+                                          valueChangeListener="#{tdireccionesusrController.changeCantonMenu}"
+                                         immediate="true" >
+                            <f:selectItem itemLabel="Seleccione el Cantón"/>
+                            <f:selectItems value="#{tdireccionesusrController.cantonItems}"
+                                           var="tcantonItem"
+                                           itemValue="#{tcantonItem}"/>
+                            <p:ajax update="tparroquia" process="@form" />
+                        </p:selectOneMenu>
+                        
+                        <p:outputLabel value="#{bundle.CreateTdireccionesusrLabel_tparroquia}" for="tparroquia" />
+                        <p:selectOneMenu id="tparroquia" binding="#{tdireccionesusrController.parroquiaMenu}" required="true"
+                                         value="#{tdireccionesusrController.selected.tparroquia}"
+                                         requiredMessage="#{bundle.EditTdireccionesusrRequiredMessage_tparroquia}">
+                            <f:selectItem itemLabel="Seleccione la Parroquia"/>
+                            <f:selectItems value="#{tdireccionesusrController.parroquiaItems}"
+                                           var="tparroquiaItem"
+                                           itemValue="#{tparroquiaItem}"/>
+                        </p:selectOneMenu>
+                        
+                        <p:outputLabel value="#{bundle.CreateTdireccionesusrLabel_idTipoDireccion}" for="idTipoDireccion" />
+                        <p:selectOneMenu id="idTipoDireccion" value="#{tdireccionesusrController.selected.idTipoDireccion}" required="true" requiredMessage="#{bundle.EditTdireccionesusrRequiredMessage_idTipoDireccion}">
+                            <f:selectItems value="#{ttipodireccionController.itemsAvailableSelectOne}"
+                                           var="idTipoDireccionItem"
+                                           itemValue="#{idTipoDireccionItem}"/>
+                        </p:selectOneMenu>
                         <p:outputLabel value="#{bundle.CreateTdireccionesusrLabel_idDireccion}" for="idDireccion" />
                         <p:inputText id="idDireccion" value="#{tdireccionesusrController.selected.idDireccion}" title="#{bundle.CreateTdireccionesusrTitle_idDireccion}" required="true" requiredMessage="#{bundle.CreateTdireccionesusrRequiredMessage_idDireccion}"/>
                         <p:outputLabel value="#{bundle.CreateTdireccionesusrLabel_callePrincipalDireccion}" for="callePrincipalDireccion" />
@@ -23,28 +62,15 @@
                         <p:outputLabel value="#{bundle.CreateTdireccionesusrLabel_referenciaDireccion}" for="referenciaDireccion" />
                         <p:inputText id="referenciaDireccion" value="#{tdireccionesusrController.selected.referenciaDireccion}" title="#{bundle.CreateTdireccionesusrTitle_referenciaDireccion}" />
                         <p:outputLabel value="#{bundle.CreateTdireccionesusrLabel_ciu}" for="ciu" />
-                        <p:selectOneMenu id="ciu" value="#{tdireccionesusrController.selected.ciu}" required="true" requiredMessage="#{bundle.EditTdireccionesusrRequiredMessage_ciu}">
-                            <f:selectItems value="#{tentidadController.itemsAvailableSelectOne}"
-                                           var="ciuItem"
-                                           itemValue="#{ciuItem}"/>
-                        </p:selectOneMenu>
-                        <p:outputLabel value="#{bundle.CreateTdireccionesusrLabel_tparroquia}" for="tparroquia" />
-                        <p:selectOneMenu id="tparroquia" value="#{tdireccionesusrController.selected.tparroquia}" required="true" requiredMessage="#{bundle.EditTdireccionesusrRequiredMessage_tparroquia}">
-                            <f:selectItems value="#{tparroquiaController.itemsAvailableSelectOne}"
-                                           var="tparroquiaItem"
-                                           itemValue="#{tparroquiaItem}"/>
-                        </p:selectOneMenu>
-                        <p:outputLabel value="#{bundle.CreateTdireccionesusrLabel_idTipoDireccion}" for="idTipoDireccion" />
-                        <p:selectOneMenu id="idTipoDireccion" value="#{tdireccionesusrController.selected.idTipoDireccion}" required="true" requiredMessage="#{bundle.EditTdireccionesusrRequiredMessage_idTipoDireccion}">
-                            <f:selectItems value="#{ttipodireccionController.itemsAvailableSelectOne}"
-                                           var="idTipoDireccionItem"
-                                           itemValue="#{idTipoDireccionItem}"/>
-                        </p:selectOneMenu>
+                        <p:inputText id="ciu" value="#{tentidadController.selected.ciu}" readonly="true"/>
+                        <h:inputHidden id="ciuHidden" value="#{tentidadController.selected.ciu}" binding="#{tdireccionesusrController.ciuH}"/>
                     </p:panelGrid>
                     <p:commandButton actionListener="#{tdireccionesusrController.create}" value="#{bundle.Save}" update="display,:TdireccionesusrListForm:datalist,:growl" oncomplete="handleSubmit(args,'TdireccionesusrCreateDialog');"/>
                     <p:commandButton value="#{bundle.Cancel}" onclick="TdireccionesusrCreateDialog.hide()"/>
+                    
                 </h:panelGroup>
             </h:form>
+            <p:ajax process="@this"></p:ajax>
         </p:dialog>
 
     </ui:composition>

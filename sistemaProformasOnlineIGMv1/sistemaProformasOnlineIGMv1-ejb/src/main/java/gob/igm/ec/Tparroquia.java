@@ -30,7 +30,7 @@ import javax.xml.bind.annotation.XmlTransient;
 @Table(name = "TPARROQUIA")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Tparroquia.findAll", query = "SELECT t FROM Tparroquia t")
+    @NamedQuery(name = "Tparroquia.findAll", query = "SELECT t.parroquia FROM Tparroquia t")
     , @NamedQuery(name = "Tparroquia.findByIdProvincia", query = "SELECT t FROM Tparroquia t WHERE t.tparroquiaPK.idProvincia = :idProvincia")
     , @NamedQuery(name = "Tparroquia.findByIdCanton", query = "SELECT t FROM Tparroquia t WHERE t.tparroquiaPK.idCanton = :idCanton")
     , @NamedQuery(name = "Tparroquia.findByIdParroquia", query = "SELECT t FROM Tparroquia t WHERE t.tparroquiaPK.idParroquia = :idParroquia")
@@ -117,7 +117,7 @@ public class Tparroquia implements Serializable {
 
     @Override
     public String toString() {
-        return "gob.igm.ec.Tparroquia[ tparroquiaPK=" + tparroquiaPK + " ]";
+        return this.parroquia + this.tcanton;
     }
     
 }

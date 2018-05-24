@@ -30,7 +30,6 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
-import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.UploadedFile;
 
 /**

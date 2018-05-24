@@ -6,6 +6,7 @@ import gob.igm.ec.controladores.util.JsfUtil.PersistAction;
 import gob.igm.ec.servicios.TprovinciaFacade;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -118,6 +119,8 @@ public class TprovinciaController implements Serializable {
     }
 
     public List<Tprovincia> getItemsAvailableSelectOne() {
+        List<Tprovincia> provincia=new ArrayList<>();
+        provincia=getFacade().findAll();
         return getFacade().findAll();
     }
 

@@ -22,7 +22,7 @@
                     <p:panel id="pnlPrincipal" header="Login" style="background-color: lightsteelblue; width: 350px">
                         <h:panelGrid id="pngPrincipal" columns="2">
                             <h:outputText id="outUsuario" value="#{bundle.Usuario}: " styleClass="texto_negrita_derecha"/>
-                            <h:inputText id="intUsuario" value="#{login.aliasBase}" maxlength="30"/>
+                            <h:inputText id="intUsuario" value="#{login.aliasBase}" maxlength="13"/>
                             <h:outputText id="outClave" value="#{bundle.ListTentidadTitle_clave}:" styleClass="texto_negrita_derecha"/>
                             <h:inputSecret id="intClave" value="#{login.clave}" maxlength="50"/>
                         <br />
@@ -45,8 +45,6 @@
         <br />
         <h:link outcome="/tcanton/List" value="Show All Tcanton Items"/>
         <br />
-        <h:link outcome="/tdireccionesusr/List" value="Show All Tdireccionesusr Items"/>
-        <br />
         <h:link outcome="/tentidad/List" value="Show All Tentidad Items"/>
         <br />
         <h:link outcome="/tparroquia/List" value="Show All Tparroquia Items"/>
@@ -58,6 +56,8 @@
         <h:link outcome="/tsucursal/List" value="Show All Tsucursal Items"/>
         <br />
         <h:link outcome="/ttipodireccion/List" value="Show All Ttipodireccion Items"/>
+        <h:link outcome="/tdireccionesusr/List" value="Show All Tdireccionesusr Items"/>
+        <br />
     </dir>-->
     </h:body>
 

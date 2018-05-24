@@ -6,9 +6,13 @@
 package gob.igm.ec.servicios;
 
 import gob.igm.ec.Tdireccionesusr;
+import java.util.ArrayList;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
+import org.apache.log4j.Logger;
 
 /**
  *
@@ -16,7 +20,9 @@ import javax.persistence.PersistenceContext;
  */
 @Stateless
 public class TdireccionesusrFacade extends AbstractFacade<Tdireccionesusr> {
-
+    
+    /** La variable logger. */
+    private static Logger localLogger;
     @PersistenceContext(unitName = "gob.igm.ec_sistemaProformasOnlineIGMv1-ejb_ejb_1.0-SNAPSHOTPU")
     private EntityManager em;
 
@@ -29,4 +35,22 @@ public class TdireccionesusrFacade extends AbstractFacade<Tdireccionesusr> {
         super(Tdireccionesusr.class);
     }
     
+        /**
+     * Realiza la b?squeda de direcciones por usuario. Si recibe % como par?metro
+     * realiza una b?squeda con like.
+     * @param pCiu identificación del cliente
+     * @return Lista de proformas
+     */
+    public List<Tdireccionesusr> buscarDireccionesXCliente(final String pCiu) {
+        List<Tdireccionesusr> direccion = new ArrayList<>();
+        try {
+            TypedQuery<Tdireccionesusr> query= em.createNamedQuery("Tdireccionesusr.findByCiu",Tdireccionesusr.class);
+                    query.setParameter("ciu", pCiu);
+                    
+            direccion=query.getResultList();
+        } catch (Exception e) {
+            localLogger.error(e);
+        }
+        return direccion;
+    }    
 }

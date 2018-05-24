@@ -1,12 +1,20 @@
 package gob.igm.ec.controladores;
 
+import gob.igm.ec.Tcanton;
 import gob.igm.ec.Tdireccionesusr;
+import gob.igm.ec.Tentidad;
+import gob.igm.ec.Tprovincia;
+import gob.igm.ec.controladores.util.FacesUtil;
 import gob.igm.ec.controladores.util.JsfUtil;
 import gob.igm.ec.controladores.util.JsfUtil.PersistAction;
+import gob.igm.ec.servicios.TcantonFacade;
 import gob.igm.ec.servicios.TdireccionesusrFacade;
+import gob.igm.ec.servicios.TparroquiaFacade;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -15,20 +23,64 @@ import javax.ejb.EJBException;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.component.UIComponent;
+import javax.faces.component.html.HtmlInputHidden;
+import javax.faces.component.html.HtmlSelectOneMenu;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
+import javax.faces.event.ValueChangeEvent;
+import javax.faces.model.SelectItem;
+import javax.inject.Inject;
 
 @Named("tdireccionesusrController")
 @SessionScoped
-public class TdireccionesusrController implements Serializable {
+public class TdireccionesusrController extends FacesUtil implements Serializable {
 
+    /**
+     * @return the ciuH
+     */
+    public HtmlInputHidden getCiuH() {
+        return ciuH;
+    }
+
+    /**
+     * @param ciuH the ciuH to set
+     */
+    public void setCiuH(HtmlInputHidden ciuH) {
+        this.ciuH = ciuH;
+    }
+
+
+    @Inject
+    private Login login;
+    
+    @Inject
+    private TentidadController tentidadController;
+    
     @EJB
     private gob.igm.ec.servicios.TdireccionesusrFacade ejbFacade;
     private List<Tdireccionesusr> items = null;
+    private List<Tdireccionesusr> direccionesXCiu = null;
     private Tdireccionesusr selected;
+    private TdireccionesusrFacade direccionServicio;
+    @EJB
+    private TcantonFacade cantonServicio;
+    @EJB
+    private TparroquiaFacade parroquiaServicio;
+    
+    private List<SelectItem> provinciaItems = new ArrayList<>();
+    private List<SelectItem> cantonItems = new ArrayList<>();
+    private List<SelectItem> parroquiaItems = new ArrayList<>();
+    private HtmlSelectOneMenu provinciaMenu;
+    private HtmlSelectOneMenu cantonMenu;
+    private HtmlSelectOneMenu parroquiaMenu;
+    private HtmlInputHidden ciuH;
+    
+    /** La variable logger. */
+    private static org.apache.log4j.Logger logger;
 
     public TdireccionesusrController() {
+        ciuH=new HtmlInputHidden();
     }
 
     public Tdireccionesusr getSelected() {
@@ -56,6 +108,9 @@ public class TdireccionesusrController implements Serializable {
     }
 
     public void create() {
+        Tentidad ciu=new Tentidad();
+        ciu.setCiu(ciuH.getValue().toString());
+        this.selected.setCiu(ciu);
         persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("TdireccionesusrCreated"));
         if (!JsfUtil.isValidationFailed()) {
             items = null;    // Invalidate list of items to trigger re-query.
@@ -74,6 +129,14 @@ public class TdireccionesusrController implements Serializable {
         }
     }
 
+    public String showResult() {
+      FacesContext fc = FacesContext.getCurrentInstance();
+      Map<String,String> params = 
+         fc.getExternalContext().getRequestParameterMap();
+        String data = params.get("ciuParam"); 
+      return data;
+   } 
+    
     public List<Tdireccionesusr> getItems() {
         if (items == null) {
             items = getFacade().findAll();
@@ -162,4 +225,174 @@ public class TdireccionesusrController implements Serializable {
 
     }
 
+    /**
+     * @return the direccionesXCiu
+     */
+    public List<Tdireccionesusr> getDireccionesXCiu() {
+        direccionesXCiu = this.ejbFacade.buscarDireccionesXCliente(tentidadController.getSelected().getCiu());
+        if (direccionesXCiu.isEmpty()) {
+            JsfUtil.addErrorMessage("Usted aun no dispone de Direcciones registradas");
+        }
+        return direccionesXCiu;
+    }
+
+    /**
+     * @param direccionesXCiu the direccionesXCiu to set
+     */
+    public void setDireccionesXCiu(List<Tdireccionesusr> direccionesXCiu) {
+        this.direccionesXCiu = direccionesXCiu;
+    }
+    
+    /**
+     * Permite ingresar los datos del usuarios a sesi�n.
+     * @return Regla de navegaci�n
+     */
+    public String registrarDireccion() {
+        //List<Object> usuario;
+        String regla = "/tdireccionesusr/List";
+        try {
+            setDireccionesXCiu(this.direccionServicio.buscarDireccionesXCliente(login.getAliasBase()));
+//            for (Tdireccionesusr tdireccion : direccion) {
+//                direccion.setCiu(tdireccion.getCiu());
+//                direccion.setApellidos(tdireccion.getApellidos());
+//                direccion.setNombres(tdireccion.getNombres());
+//                direccion.setDireccion(tdireccion.getDireccion());
+//            }
+            if (getDireccionesXCiu().isEmpty()){
+                JsfUtil.addErrorMessage("Usted aún no ha registrado su Direcciones");
+                regla = "faces/registro.xhtml";
+            }
+        }
+        catch (Exception ex) {
+            regla = "#";
+            logger.error(ex.getMessage(), ex);
+            super.addErrorMessage(super.getRecursoGeneral().getString("msgErrorLogin"));
+        }
+        return regla;
+    }    
+
+    /**
+     * Funcion para cargar los cantones de acuerdo a las provincias
+     * @param event 
+     */
+    public void changeProvinciaMenu(ValueChangeEvent event) {
+        // Obtiene la provincia seleccionada.
+        String provincia = (String) event.getNewValue();
+
+        if (provincia != null) {
+            
+                // Obtiene los cantones por provincia
+            try {
+                cantonItems=cantonServicio.buscarCantonesXProvincia(provincia);
+            } catch (Exception ex) {
+                Logger.getLogger(TdireccionesusrController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        
+        // Skip validation of non-immediate components and invocation of the submit() method.
+        //FacesContext.getCurrentInstance().renderResponse();
+    }    
+    
+    /**
+     * Funcion para cargar las parroquias de acuerdo a los cantones
+     * @param event 
+     */
+    public void changeCantonMenu(ValueChangeEvent event) {
+        // Obtiene el canton seleccionada.
+        String canton = (String) event.getNewValue();
+
+        if (canton != null) {
+            
+                // Obtiene los cantones por provincia
+            try {
+                parroquiaItems=parroquiaServicio.buscarParroquiasXCantones(canton);
+            } catch (Exception ex) {
+                Logger.getLogger(TdireccionesusrController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }
+    
+    /**
+     * @return the provinciaItems
+     */
+    public List<SelectItem> getProvinciaItems() {
+        return provinciaItems;
+    }
+
+    /**
+     * @param provinciaItems the provinciaItems to set
+     */
+    public void setProvinciaItems(List<SelectItem> provinciaItems) {
+        this.provinciaItems = provinciaItems;
+    }
+
+    /**
+     * @return the cantonItems
+     */
+    public List<SelectItem> getCantonItems() {
+        return cantonItems;
+    }
+
+    /**
+     * @param cantonItems the cantonItems to set
+     */
+    public void setCantonItems(List<SelectItem> cantonItems) {
+        this.cantonItems = cantonItems;
+    }
+
+    /**
+     * @return the parroquiaItems
+     */
+    public List<SelectItem> getParroquiaItems() {
+        return parroquiaItems;
+    }
+
+    /**
+     * @param parroquiaItems the parroquiaItems to set
+     */
+    public void setParroquiaItems(List<SelectItem> parroquiaItems) {
+        this.parroquiaItems = parroquiaItems;
+    }
+
+    /**
+     * @return the provinciaMenu
+     */
+    public HtmlSelectOneMenu getProvinciaMenu() {
+        return provinciaMenu;
+    }
+
+    /**
+     * @param provinciaMenu the provinciaMenu to set
+     */
+    public void setProvinciaMenu(HtmlSelectOneMenu provinciaMenu) {
+        this.provinciaMenu = provinciaMenu;
+    }
+
+    /**
+     * @return the cantonMenu
+     */
+    public HtmlSelectOneMenu getCantonMenu() {
+        return cantonMenu;
+    }
+
+    /**
+     * @param cantonMenu the cantonMenu to set
+     */
+    public void setCantonMenu(HtmlSelectOneMenu cantonMenu) {
+        this.cantonMenu = cantonMenu;
+    }
+
+    /**
+     * @return the parroquiaMenu
+     */
+    public HtmlSelectOneMenu getParroquiaMenu() {
+        return parroquiaMenu;
+    }
+
+    /**
+     * @param parroquiaMenu the parroquiaMenu to set
+     */
+    public void setParroquiaMenu(HtmlSelectOneMenu parroquiaMenu) {
+        this.parroquiaMenu = parroquiaMenu;
+    }
 }

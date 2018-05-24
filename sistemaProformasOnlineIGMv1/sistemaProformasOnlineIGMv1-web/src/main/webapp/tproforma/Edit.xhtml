@@ -75,13 +75,6 @@
                                            var="ciuItem"
                                            itemValue="#{ciuItem}"/>
                         </p:selectOneMenu>
-                        <p:outputLabel value="#{bundle.EditTproformaLabel_tparroquia}" for="tparroquia" />
-                        <p:selectOneMenu id="tparroquia" value="#{tproformaController.selected.tparroquia}" >
-                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
-                            <f:selectItems value="#{tparroquiaController.itemsAvailableSelectOne}"
-                                           var="tparroquiaItem"
-                                           itemValue="#{tparroquiaItem}"/>
-                        </p:selectOneMenu>
                         <p:outputLabel value="#{bundle.EditTproformaLabel_tsucursal}" for="tsucursal" />
                         <p:selectOneMenu id="tsucursal" value="#{tproformaController.selected.tsucursal}" required="true" requiredMessage="#{bundle.EditTproformaRequiredMessage_tsucursal}">
                             <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>

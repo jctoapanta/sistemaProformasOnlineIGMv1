@@ -100,7 +100,7 @@ public class Ttipodireccion implements Serializable {
 
     @Override
     public String toString() {
-        return "gob.igm.ec.Ttipodireccion[ idTipoDireccion=" + idTipoDireccion + " ]";
+        return this.descTipoDireccion;
     }
     
 }

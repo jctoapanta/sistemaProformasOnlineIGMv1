@@ -146,7 +146,7 @@ public class Tcanton implements Serializable {
 
     @Override
     public String toString() {
-        return "gob.igm.ec.Tcanton[ tcantonPK=" + tcantonPK + " ]";
+        return canton;
     }
     
 }
