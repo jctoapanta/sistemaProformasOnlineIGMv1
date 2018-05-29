@@ -61,6 +61,7 @@ public class TdireccionesusrController extends FacesUtil implements Serializable
     private gob.igm.ec.servicios.TdireccionesusrFacade ejbFacade;
     private List<Tdireccionesusr> items = null;
     private List<Tdireccionesusr> direccionesXCiu = null;
+    private Long siguienteIdDireccion;
     private Tdireccionesusr selected;
     private TdireccionesusrFacade direccionServicio;
     @EJB
@@ -80,6 +81,7 @@ public class TdireccionesusrController extends FacesUtil implements Serializable
     private static org.apache.log4j.Logger logger;
 
     public TdireccionesusrController() {
+        this.siguienteIdDireccion = null;
         ciuH=new HtmlInputHidden();
     }
 
@@ -110,6 +112,11 @@ public class TdireccionesusrController extends FacesUtil implements Serializable
     public void create() {
         Tentidad ciu=new Tentidad();
         ciu.setCiu(ciuH.getValue().toString());
+        siguienteIdDireccion=this.ejbFacade.obtenerSiguienteValor();
+        if (siguienteIdDireccion == null){
+            siguienteIdDireccion=Long.decode("1");
+        }
+        this.selected.setIdDireccion(siguienteIdDireccion);
         this.selected.setCiu(ciu);
         persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("TdireccionesusrCreated"));
         if (!JsfUtil.isValidationFailed()) {
