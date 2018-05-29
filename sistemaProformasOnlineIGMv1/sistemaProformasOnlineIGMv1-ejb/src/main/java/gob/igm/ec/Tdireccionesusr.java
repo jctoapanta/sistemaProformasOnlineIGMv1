@@ -7,7 +7,6 @@ package gob.igm.ec;
 
 import java.io.Serializable;
 import java.util.Collection;
-import java.util.Map;
 import javax.faces.context.FacesContext;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -34,7 +33,8 @@ import javax.xml.bind.annotation.XmlTransient;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Tdireccionesusr.findAll", query = "SELECT t FROM Tdireccionesusr t")
-    , @NamedQuery(name = "Tdireccionesusr.findByCiu", query = "SELECT t FROM Tdireccionesusr t WHERE t.ciu.ciu = :ciu")        
+    , @NamedQuery(name = "Tdireccionesusr.findByCiu", query = "SELECT t FROM Tdireccionesusr t WHERE t.ciu.ciu = :ciu")
+    , @NamedQuery(name = "Tdireccionesusr.findNextValue", query = "SELECT COALESCE(MAX(t.idDireccion)+1,1) FROM Tdireccionesusr t")
     , @NamedQuery(name = "Tdireccionesusr.findByIdDireccion", query = "SELECT t FROM Tdireccionesusr t WHERE t.idDireccion = :idDireccion")
     , @NamedQuery(name = "Tdireccionesusr.findByCallePrincipalDireccion", query = "SELECT t FROM Tdireccionesusr t WHERE t.callePrincipalDireccion = :callePrincipalDireccion")
     , @NamedQuery(name = "Tdireccionesusr.findByNumeroDireccion", query = "SELECT t FROM Tdireccionesusr t WHERE t.numeroDireccion = :numeroDireccion")

@@ -11,6 +11,7 @@ import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import org.apache.log4j.Logger;
 
@@ -23,6 +24,7 @@ public class TdireccionesusrFacade extends AbstractFacade<Tdireccionesusr> {
     
     /** La variable logger. */
     private static Logger localLogger;
+    
     @PersistenceContext(unitName = "gob.igm.ec_sistemaProformasOnlineIGMv1-ejb_ejb_1.0-SNAPSHOTPU")
     private EntityManager em;
 
@@ -53,4 +55,12 @@ public class TdireccionesusrFacade extends AbstractFacade<Tdireccionesusr> {
         }
         return direccion;
     }    
+    public Long obtenerSiguienteValor(){
+        Long siguienteValor=0L;
+        List<Tdireccionesusr> id_dir;
+        Query query= em.createQuery("SELECT MAX(t.idDireccion)+1 FROM Tdireccionesusr t");
+        siguienteValor=(Long) query.getSingleResult();
+        
+        return siguienteValor;
+    }
 }
