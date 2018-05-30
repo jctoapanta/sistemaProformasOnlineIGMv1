@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.ListTcontrolIvaTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:form styleClass="jsfcrud_list_form">
+                <h:panelGroup id="messagePanel" layout="block">
+                    <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+                </h:panelGroup>
+                <h:outputText escape="false" value="#{bundle.ListTcontrolIvaEmpty}" rendered="#{tcontrolIvaController.items.rowCount == 0}"/>
+                <h:panelGroup rendered="#{tcontrolIvaController.items.rowCount > 0}">
+                    <h:outputText value="#{tcontrolIvaController.pagination.pageFirstItem + 1}..#{tcontrolIvaController.pagination.pageLastItem + 1}/#{tcontrolIvaController.pagination.itemsCount}"/>&nbsp;
+                    <h:commandLink action="#{tcontrolIvaController.previous}" value="#{bundle.Previous} #{tcontrolIvaController.pagination.pageSize}" rendered="#{tcontrolIvaController.pagination.hasPreviousPage}"/>&nbsp;
+                    <h:commandLink action="#{tcontrolIvaController.next}" value="#{bundle.Next} #{tcontrolIvaController.pagination.pageSize}" rendered="#{tcontrolIvaController.pagination.hasNextPage}"/>&nbsp;
+                    <h:dataTable value="#{tcontrolIvaController.items}" var="item" border="0" cellpadding="2" cellspacing="0" rowClasses="jsfcrud_odd_row,jsfcrud_even_row" rules="all" style="border:solid 1px">
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListTcontrolIvaTitle_idIva}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.idIva}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListTcontrolIvaTitle_ctaCtble}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.ctaCtble}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListTcontrolIvaTitle_control}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.control}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListTcontrolIvaTitle_valor}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.valor}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="&nbsp;"/>
+                            </f:facet>
+                            <h:commandLink action="#{tcontrolIvaController.prepareView}" value="#{bundle.ListTcontrolIvaViewLink}"/>
+                            <h:outputText value=" "/>
+                            <h:commandLink action="#{tcontrolIvaController.prepareEdit}" value="#{bundle.ListTcontrolIvaEditLink}"/>
+                            <h:outputText value=" "/>
+                            <h:commandLink action="#{tcontrolIvaController.destroy}" value="#{bundle.ListTcontrolIvaDestroyLink}"/>
+                        </h:column>
+                    </h:dataTable>
+                </h:panelGroup>
+                <br />
+                <h:commandLink action="#{tcontrolIvaController.prepareCreate}" value="#{bundle.ListTcontrolIvaCreateLink}"/>
+                <br />
+                <br />
+                <h:link outcome="/index" value="#{bundle.ListTcontrolIvaIndexLink}"/>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

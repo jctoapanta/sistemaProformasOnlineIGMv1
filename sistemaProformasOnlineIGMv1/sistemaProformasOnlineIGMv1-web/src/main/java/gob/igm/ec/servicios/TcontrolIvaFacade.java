@@ -5,7 +5,7 @@
  */
 package gob.igm.ec.servicios;
 
-import gob.igm.ec.Tiva;
+import gob.igm.ec.TcontrolIva;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -15,7 +15,8 @@ import javax.persistence.PersistenceContext;
  * @author TOAPANTA_JUAN
  */
 @Stateless
-public class TivaFacade extends AbstractFacade<Tiva> {
+public class TcontrolIvaFacade extends AbstractFacade<TcontrolIva> {
+
     @PersistenceContext(unitName = "gob.igm.ec_sistemaProformasOnlineIGMv1-ejb_ejb_1.0-SNAPSHOTPU")
     private EntityManager em;
 
@@ -24,8 +25,8 @@ public class TivaFacade extends AbstractFacade<Tiva> {
         return em;
     }
 
-    public TivaFacade() {
-        super(Tiva.class);
+    public TcontrolIvaFacade() {
+        super(TcontrolIva.class);
     }
     
 }

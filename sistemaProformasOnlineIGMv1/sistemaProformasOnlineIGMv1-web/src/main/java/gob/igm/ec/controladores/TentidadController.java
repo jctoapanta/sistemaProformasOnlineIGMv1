@@ -81,7 +81,7 @@ public class TentidadController implements Serializable {
     }
 
     public String booking() {
-        String regla = "/tdireccionesusr/registro";
+        String regla = "/registro";
         try {
             List<Object> usuario=null;
             ValidarIdentificacion validaID=new ValidarIdentificacion();
@@ -94,7 +94,7 @@ public class TentidadController implements Serializable {
                         this.encriptUtil=new EncriptUtil();
                         encriptado = this.encriptUtil.encrypt3DES(selected.getClave());
                         selected.setClave(encriptado);
-                        regla = "/tdireccionesusr/List";
+                        regla = "/index";
                     } catch (NoSuchAlgorithmException | InvalidKeyException | NoSuchPaddingException | IOException | IllegalStateException | IllegalBlockSizeException | BadPaddingException ex) {
                         Logger.getLogger(TentidadController.class.getName()).log(Level.SEVERE, null, ex);
                     }
