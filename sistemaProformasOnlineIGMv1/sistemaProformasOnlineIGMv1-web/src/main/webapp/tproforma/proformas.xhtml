@@ -16,6 +16,7 @@
                      <h:panelGrid columns="2" cellspacing="5" >
                     <p:outputLabel value="Ciu:" for="ciu"/>
                     <p:outputLabel id="ciu" value="#{login.cliente.ciu}" />
+                    <h:inputHidden id="ciuHidden" value="#{login.cliente.ciu}" binding="#{order.ciuH}"/>
                     <p:outputLabel value="Nombres:" for="nombres" />
                     <p:outputLabel id="nombres" value="#{login.cliente.nombres}"/>
                     <p:outputLabel value="Direccion:" for="direccion" />
@@ -105,8 +106,8 @@
                             
                             </td>
                         <td style="left:inherit">
-                            <p:commandButton value="Generar Proforma" style=" position: absolute;
-                          bottom: 75%; right: 50%" />
+                            <p:commandButton value="Generar Proforma" style=" position: absolute; 
+                                             bottom: 75%; right: 50%" actionListener="#{order.addProforma}" ajax="false" />
                             </td>
                          </table>
                     <h:panelGrid columns="2" cellpadding="5">
