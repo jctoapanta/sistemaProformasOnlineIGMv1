@@ -31,10 +31,38 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.component.html.HtmlInputHidden;
 import javax.faces.model.SelectItem;
- 
-@ManagedBean(name="order")
+
+@ManagedBean(name = "order")
 @SessionScoped
-public class OrderBean implements Serializable{
+public class OrderBean implements Serializable {
+    @EJB
+    private gob.igm.ec.servicios.TproformaFacade ejbFacade;
+    private Tproforma selected = new Tproforma();
+    private TproformaPK proformapk = new TproformaPK();
+    private TdetproformaPK detproformapk = new TdetproformaPK();
+    private List<Tdetproforma> detalleProformas = new ArrayList();
+    private Tdetproforma detalleproforma = new Tdetproforma();
+    private Collection<Tdetproforma> tdetproformaCollection = new ArrayList<>();
+    private HtmlInputHidden ciuH = new HtmlInputHidden();
+    private static final long serialVersionUID = 1L;
+    private List<Titem> listaitems;
+    @EJB
+    private TitemServicio titemServicio;
+    private Titem item = new Titem();
+    String descripcion;
+    //String productName;
+    BigDecimal cantidad;
+    BigDecimal total;
+    BigInteger iva;
+    private BigDecimal piva;
+    private int seleccionadoItem;
+    private Tentidad entidad = new Tentidad();
+    private BigDecimal totalp = BigDecimal.ZERO;
+    private BigDecimal mostrariva;
+
+    public OrderBean() {
+        this.listaitems = new ArrayList<>();
+    }
 
     /**
      * @return the mostrariva
@@ -49,16 +77,7 @@ public class OrderBean implements Serializable{
     public void setMostrariva(BigDecimal mostrariva) {
         this.mostrariva = mostrariva;
     }
-    @EJB
-    private gob.igm.ec.servicios.TproformaFacade ejbFacade;
-    private Tproforma selected=new Tproforma();
-    private TproformaPK proformapk=new TproformaPK();
-    private TdetproformaPK detproformapk=new TdetproformaPK(); 
-    private List<Tdetproforma> detalleProformas=new ArrayList();
-    private Tdetproforma detalleproforma=new Tdetproforma();
-    private Collection<Tdetproforma> tdetproformaCollection=new ArrayList<Tdetproforma>();
-    private HtmlInputHidden ciuH=new HtmlInputHidden();;
-    private BigDecimal mostrariva;
+
     /**
      * @return the piva
      */
@@ -87,23 +106,6 @@ public class OrderBean implements Serializable{
         this.totalp = totalp;
     }
 
-	private static final long serialVersionUID = 1L;
-        private List<Titem> listaitems=new ArrayList<Titem>();
-        @EJB
-        private TitemServicio titemServicio;
-        private Titem item=new Titem();
-	String descripcion;
-		//String productName;
-		BigDecimal cantidad;
-                BigDecimal total;
-                BigInteger iva;
-                private BigDecimal piva;
-                private int seleccionadoItem;
-                private Tentidad entidad=new Tentidad();
-                private BigDecimal totalp=BigDecimal.ZERO;
-           
-               
-               
 
     public String getDescripcion() {
         return descripcion;
@@ -114,7 +116,7 @@ public class OrderBean implements Serializable{
     }
 
     public BigDecimal getCantidad() {
-        this.cantidad=BigDecimal.ONE;
+        //this.cantidad = BigDecimal.ONE;
         return cantidad;
     }
 
@@ -137,90 +139,87 @@ public class OrderBean implements Serializable{
     public void setIva(BigInteger iva) {
         this.iva = iva;
     }
-              
-	private static final ArrayList<Order> orderList = new ArrayList<Order>();
 
-	 
-	public ArrayList<Order> getOrderList() {
- 
-		return orderList;
- 
-	}
-        
-  
-	public String addAction() {
-            try{
-	        item=titemServicio.getDatos(this.getSeleccionadoItem());
-               
-		Order order = new Order(item.getDescItem(), this.cantidad,item.getPvp(),this.piva);
-		orderList.add(order);
-              //  this.piva = ((this.cantidad.multiply(item.getPvp())).multiply(BigDecimal.valueOf(0.12)));
-                //this.totalp = ((this.cantidad.multiply(item.getPvp())).add(this.totalp)).add(BigDecimal.valueOf(0.12));
-		
-		
-            }catch( Exception e ){System.out.print(e.getMessage());}
-               return null;     
-	}
- 
-	public String deleteAction(Order order) {
-	    
-		orderList.remove(order);
-                 this.totalp = ((this.totalp).subtract( (this.cantidad.multiply(item.getPvp())))).subtract(BigDecimal.valueOf(0.12));
-		;
-                         return null;
-	}
-        
-        public String addProforma(){
-            try{
-                Date fechaActual = new Date();
-                Short vIdPeriodo;
-                Short vOnline=1;
-               
-                vIdPeriodo = Short.parseShort(new SimpleDateFormat("yy").format(fechaActual));
-                this.proformapk.setIdPeriodo(vIdPeriodo);
-                this.proformapk.setIdSucursal(1L);
-                this.proformapk.setIdProforma(this.ejbFacade.maxId()+1L);
-	        this.selected.setTproformaPK(this.proformapk);
-                entidad.setCiu(this.getCiuH().getValue().toString());
-                this.selected.setCiu(entidad);
-                this.selected.setEstado("P");
-                this.selected.setTipoProforma("OP");
-                this.selected.setFechaCreacion(fechaActual);
-                this.selected.setLVentaOnline(vOnline);
-                this.detalleProformas=new ArrayList();
-                for(Order order :orderList){
-                    short reg=0;
-                    reg++;
-                    
-                    detalleproforma.setCantidad(order.getCantidad());
-                    detalleproforma.setDetalleItem(order.getDescripcion());
-                    detalleproforma.setIdItem(item);
-                    detalleproforma.setIvaPorcentaje(BigDecimal.valueOf(0.12));
-                    detalleproforma.setPvpTotal(this.getTotalp());
-                    this.detproformapk.setIdPeriodo(vIdPeriodo);
-                    this.detproformapk.setIdProforma(this.proformapk.getIdProforma());
-                    this.detproformapk.setIdSucursal(1L);
-                    this.detproformapk.setNoReg(reg);
-                    detalleproforma.setTdetproformaPK(detproformapk);
-                    this.detalleProformas.add(detalleproforma);
-                    
-                }
-                
-                this.selected.setTdetproformaCollection(this.detalleProformas);
-                this.ejbFacade.create(selected);
-                
-            }catch( Exception e ){}
-               return null;
+    private static final ArrayList<Order> ORDERLIST = new ArrayList<Order>();
+
+    public ArrayList<Order> getOrderList() {
+
+        return ORDERLIST;
+
+    }
+
+    public String addAction() {
+        try {
+            item = titemServicio.getDatos(this.getSeleccionadoItem());
+            this.piva=BigDecimal.valueOf(0.12);
+            Order order = new Order(item.getDescItem(), this.cantidad, item.getCosto(), this.piva);
+            ORDERLIST.add(order);
+            this.totalp = (((this.cantidad.multiply(item.getCosto())).multiply(this.piva.add(BigDecimal.valueOf(1)))).add(this.totalp)).setScale(2, BigDecimal.ROUND_UP);
+
+        } catch (Exception e) {
+            System.out.print(e.getMessage());
         }
+        return null;
+    }
+
+    public String deleteAction(Order order) {
+        ORDERLIST.remove(order);
+        this.totalp = this.totalp.subtract((order.cantidad.multiply(order.total)).multiply(order.piva.add(BigDecimal.valueOf(1))));
+        return null;
+    }
+
+    public String addProforma() {
+        try {
+            Date fechaActual = new Date();
+            Short vIdPeriodo;
+            Short vOnline = 1;
+
+            vIdPeriodo = Short.parseShort(new SimpleDateFormat("yy").format(fechaActual));
+            this.proformapk.setIdPeriodo(vIdPeriodo);
+            this.proformapk.setIdSucursal(1L);
+            this.proformapk.setIdProforma(this.ejbFacade.maxId() + 1L);
+            this.selected.setTproformaPK(this.proformapk);
+            entidad.setCiu(this.getCiuH().getValue().toString());
+            this.selected.setCiu(entidad);
+            this.selected.setEstado("P");
+            this.selected.setTipoProforma("OP");
+            this.selected.setFechaCreacion(fechaActual);
+            this.selected.setLVentaOnline(vOnline);
+            this.detalleProformas = new ArrayList();
+            for (Order order : ORDERLIST) {
+                short reg = 0;
+                reg++;
+
+                detalleproforma.setCantidad(order.getCantidad());
+                detalleproforma.setDetalleItem(order.getDescripcion());
+                detalleproforma.setIdItem(item);
+                detalleproforma.setIvaPorcentaje(BigDecimal.valueOf(0.12));
+                detalleproforma.setPvpTotal(this.getTotalp());
+                this.detproformapk.setIdPeriodo(vIdPeriodo);
+                this.detproformapk.setIdProforma(this.proformapk.getIdProforma());
+                this.detproformapk.setIdSucursal(1L);
+                this.detproformapk.setNoReg(reg);
+                detalleproforma.setTdetproformaPK(detproformapk);
+                this.detalleProformas.add(detalleproforma);
+
+            }
+
+            this.selected.setTdetproformaCollection(this.detalleProformas);
+            this.ejbFacade.create(selected);
+
+        } catch (Exception e) {
+        }
+        return null;
+    }
 
     /**
      * @return the listaitems
      */
     public List<SelectItem> getItems() {
-        listaitems=titemServicio.findAll();
+        listaitems = titemServicio.findAll();
         List<SelectItem> principales = new ArrayList<SelectItem>();
-        for(Titem itemp:listaitems){
-            SelectItem selectItem=new SelectItem(itemp.getIdItem(),itemp.getDescItem()); 
+        for (Titem itemp : listaitems) {
+            SelectItem selectItem = new SelectItem(itemp.getIdItem(), itemp.getDescItem());
             principales.add(selectItem);
         }
         return principales;
@@ -253,7 +252,6 @@ public class OrderBean implements Serializable{
      */
     public Tentidad getEntidad() {
 
-         
         return entidad;
     }
 
@@ -292,9 +290,15 @@ public class OrderBean implements Serializable{
         this.ciuH = ciuH;
     }
 
-    
-
-	public static class Order{
+    public static class Order {
+        String descripcion;
+        BigDecimal cantidad;
+        BigDecimal total;
+        BigInteger iva;
+        BigDecimal bigdec;
+        private BigDecimal mostrariva;
+        private Tentidad entidad = new Tentidad();
+        private BigDecimal piva;
 
         /**
          * @return the mostrariva
@@ -309,7 +313,7 @@ public class OrderBean implements Serializable{
         public void setMostrariva(BigDecimal mostrariva) {
             this.mostrariva = mostrariva;
         }
-private HtmlInputHidden ciuH;
+
         /**
          * @return the piva
          */
@@ -323,32 +327,19 @@ private HtmlInputHidden ciuH;
         public void setPiva(BigDecimal piva) {
             this.piva = piva;
         }
-		
-		String descripcion;
-                BigDecimal cantidad;
-                BigDecimal total;
-                BigInteger iva;
-                BigDecimal bigdec;
-                private BigDecimal mostrariva;
-                private Tentidad entidad=new Tentidad();
-                private BigDecimal piva;
-                
-                public Order(){
-                    ciuH=new HtmlInputHidden();
-                    /* entidad.setCiu("1716542913");
-                     entidad.setNombres("Diego Oswaldo Pule López");
-                     entidad.setDireccion("Quito");*/
-                     
-                }
-                
-                
-                public Order(String descripcion, BigDecimal cantidad, BigDecimal total, BigDecimal piva) {
-			this.descripcion = descripcion;
-			this.cantidad = cantidad;
-			this.total = total;
-			//this.iva = iva;
-                        this.piva=piva;
-		}
+
+
+        public Order() {
+            ciuH = new HtmlInputHidden();
+        }
+
+        public Order(String descripcion, BigDecimal cantidad, BigDecimal total, BigDecimal piva) {
+            this.descripcion = descripcion;
+            this.cantidad = cantidad;
+            this.total = total;
+            //this.iva = iva;
+            this.piva = piva;
+        }
 
         public String getDescripcion() {
             return descripcion;
@@ -383,17 +374,17 @@ private HtmlInputHidden ciuH;
         public void setIva(BigInteger iva) {
             this.iva = iva;
         }
-		//String productName;
-
+        //String productName;
 
         public Tentidad getEntidad() {
             return entidad;
         }
 
-    
         public void setEntidad(Tentidad entidad) {
             this.entidad = entidad;
         }
+
+        private HtmlInputHidden ciuH;
 
         /**
          * @return the ciuH
@@ -408,10 +399,5 @@ private HtmlInputHidden ciuH;
         public void setCiuH(HtmlInputHidden ciuH) {
             this.ciuH = ciuH;
         }
-		
-
-		
-		
-		
-	}
+    }
 }
