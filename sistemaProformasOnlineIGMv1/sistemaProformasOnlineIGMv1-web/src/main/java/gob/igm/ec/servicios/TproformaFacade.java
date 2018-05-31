@@ -27,6 +27,7 @@ import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
@@ -134,5 +135,17 @@ public class TproformaFacade extends AbstractFacade<Tproforma> {
             localLogger.error(e);
         }
         return proforma;
+    }
+    
+    public Long maxId(){
+         try {
+            Query query = em.createQuery("select max(o.tproformaPK.idProforma) "
+                    + "from Tproforma as o "
+);
+            return (Long) query.getSingleResult();
+        } catch (Exception e) {
+            localLogger.error(e.getMessage(), e);
+            return 0L;
+        }
     }
 }
