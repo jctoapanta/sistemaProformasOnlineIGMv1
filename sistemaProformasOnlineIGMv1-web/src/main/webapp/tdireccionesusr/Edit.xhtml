@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="TdireccionesusrEditDlg" widgetVar="TdireccionesusrEditDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.EditTdireccionesusrTitle}">
+            <h:form id="TdireccionesusrEditForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{tdireccionesusrController.selected != null}">
+                        <p:outputLabel value="#{bundle.EditTdireccionesusrLabel_idDireccion}" for="idDireccion" />
+                        <p:inputText id="idDireccion" value="#{tdireccionesusrController.selected.idDireccion}" title="#{bundle.EditTdireccionesusrTitle_idDireccion}" required="true" requiredMessage="#{bundle.EditTdireccionesusrRequiredMessage_idDireccion}"/>
+                        <p:outputLabel value="#{bundle.EditTdireccionesusrLabel_callePrincipalDireccion}" for="callePrincipalDireccion" />
+                        <p:inputText id="callePrincipalDireccion" value="#{tdireccionesusrController.selected.callePrincipalDireccion}" title="#{bundle.EditTdireccionesusrTitle_callePrincipalDireccion}" required="true" requiredMessage="#{bundle.EditTdireccionesusrRequiredMessage_callePrincipalDireccion}"/>
+                        <p:outputLabel value="#{bundle.EditTdireccionesusrLabel_numeroDireccion}" for="numeroDireccion" />
+                        <p:inputText id="numeroDireccion" value="#{tdireccionesusrController.selected.numeroDireccion}" title="#{bundle.EditTdireccionesusrTitle_numeroDireccion}" required="true" requiredMessage="#{bundle.EditTdireccionesusrRequiredMessage_numeroDireccion}"/>
+                        <p:outputLabel value="#{bundle.EditTdireccionesusrLabel_calleSecundariaDireccion}" for="calleSecundariaDireccion" />
+                        <p:inputText id="calleSecundariaDireccion" value="#{tdireccionesusrController.selected.calleSecundariaDireccion}" title="#{bundle.EditTdireccionesusrTitle_calleSecundariaDireccion}" />
+                        <p:outputLabel value="#{bundle.EditTdireccionesusrLabel_referenciaDireccion}" for="referenciaDireccion" />
+                        <p:inputText id="referenciaDireccion" value="#{tdireccionesusrController.selected.referenciaDireccion}" title="#{bundle.EditTdireccionesusrTitle_referenciaDireccion}" />
+                        <p:outputLabel value="#{bundle.EditTdireccionesusrLabel_ciu}" for="ciu" />
+                        <p:selectOneMenu id="ciu" value="#{tdireccionesusrController.selected.ciu}" required="true" requiredMessage="#{bundle.EditTdireccionesusrRequiredMessage_ciu}">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{tentidadController.itemsAvailableSelectOne}"
+                                           var="ciuItem"
+                                           itemValue="#{ciuItem}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{bundle.EditTdireccionesusrLabel_tparroquia}" for="tparroquia" />
+                        <p:selectOneMenu id="tparroquia" value="#{tdireccionesusrController.selected.tparroquia}" required="true" requiredMessage="#{bundle.EditTdireccionesusrRequiredMessage_tparroquia}">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{tparroquiaController.itemsAvailableSelectOne}"
+                                           var="tparroquiaItem"
+                                           itemValue="#{tparroquiaItem}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{bundle.EditTdireccionesusrLabel_idTipoDireccion}" for="idTipoDireccion" />
+                        <p:selectOneMenu id="idTipoDireccion" value="#{tdireccionesusrController.selected.idTipoDireccion}" required="true" requiredMessage="#{bundle.EditTdireccionesusrRequiredMessage_idTipoDireccion}">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{ttipodireccionController.itemsAvailableSelectOne}"
+                                           var="idTipoDireccionItem"
+                                           itemValue="#{idTipoDireccionItem}"/>
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{tdireccionesusrController.update}" value="#{bundle.Save}" update="display,:TdireccionesusrListForm:datalist,:growl" oncomplete="handleSubmit(args, 'TdireccionesusrEditDialog');"/>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="TdireccionesusrEditDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

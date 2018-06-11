@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="TtipodireccionEditDlg" widgetVar="TtipodireccionEditDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.EditTtipodireccionTitle}">
+            <h:form id="TtipodireccionEditForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{ttipodireccionController.selected != null}">
+                        <p:outputLabel value="#{bundle.EditTtipodireccionLabel_idTipoDireccion}" for="idTipoDireccion" />
+                        <p:inputText id="idTipoDireccion" value="#{ttipodireccionController.selected.idTipoDireccion}" title="#{bundle.EditTtipodireccionTitle_idTipoDireccion}" required="true" requiredMessage="#{bundle.EditTtipodireccionRequiredMessage_idTipoDireccion}"/>
+                        <p:outputLabel value="#{bundle.EditTtipodireccionLabel_descTipoDireccion}" for="descTipoDireccion" />
+                        <p:inputText id="descTipoDireccion" value="#{ttipodireccionController.selected.descTipoDireccion}" title="#{bundle.EditTtipodireccionTitle_descTipoDireccion}" />
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{ttipodireccionController.update}" value="#{bundle.Save}" update="display,:TtipodireccionListForm:datalist,:growl" oncomplete="handleSubmit(args, 'TtipodireccionEditDialog');"/>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="TtipodireccionEditDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

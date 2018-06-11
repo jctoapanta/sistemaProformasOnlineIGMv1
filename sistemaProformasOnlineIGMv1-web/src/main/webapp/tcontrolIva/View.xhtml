@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.ViewTcontrolIvaTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:form>
+                <h:panelGrid columns="2">
+                    <h:outputText value="#{bundle.ViewTcontrolIvaLabel_idIva}"/>
+                    <h:outputText value="#{tcontrolIvaController.selected.idIva}" title="#{bundle.ViewTcontrolIvaTitle_idIva}"/>
+                    <h:outputText value="#{bundle.ViewTcontrolIvaLabel_ctaCtble}"/>
+                    <h:outputText value="#{tcontrolIvaController.selected.ctaCtble}" title="#{bundle.ViewTcontrolIvaTitle_ctaCtble}"/>
+                    <h:outputText value="#{bundle.ViewTcontrolIvaLabel_control}"/>
+                    <h:outputText value="#{tcontrolIvaController.selected.control}" title="#{bundle.ViewTcontrolIvaTitle_control}"/>
+                    <h:outputText value="#{bundle.ViewTcontrolIvaLabel_valor}"/>
+                    <h:outputText value="#{tcontrolIvaController.selected.valor}" title="#{bundle.ViewTcontrolIvaTitle_valor}"/>
+                </h:panelGrid>
+                <br />
+                <h:commandLink action="#{tcontrolIvaController.destroyAndView}" value="#{bundle.ViewTcontrolIvaDestroyLink}"/>
+                <br />
+                <br />
+                <h:link outcome="Edit" value="#{bundle.ViewTcontrolIvaEditLink}"/>
+                <br />
+                <h:commandLink action="#{tcontrolIvaController.prepareCreate}" value="#{bundle.ViewTcontrolIvaCreateLink}" />
+                <br />
+                <h:commandLink action="#{tcontrolIvaController.prepareList}" value="#{bundle.ViewTcontrolIvaShowAllLink}"/>
+                <br />
+                <br />
+                <h:link outcome="/index" value="#{bundle.ViewTcontrolIvaIndexLink}"/>
+
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="TunidadmedidaViewDlg" widgetVar="TunidadmedidaViewDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.ViewTunidadmedidaTitle}">
+            <h:form id="TunidadmedidaViewForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{tunidadmedidaController.selected != null}">
+                        <h:outputText value="#{bundle.ViewTunidadmedidaLabel_idUnidad}"/>
+                        <h:outputText value="#{tunidadmedidaController.selected.idUnidad}" title="#{bundle.ViewTunidadmedidaTitle_idUnidad}"/>
+                        <h:outputText value="#{bundle.ViewTunidadmedidaLabel_descUnidad}"/>
+                        <h:outputText value="#{tunidadmedidaController.selected.descUnidad}" title="#{bundle.ViewTunidadmedidaTitle_descUnidad}"/>
+                        <h:outputText value="#{bundle.ViewTunidadmedidaLabel_obsUnidad}"/>
+                        <h:outputText value="#{tunidadmedidaController.selected.obsUnidad}" title="#{bundle.ViewTunidadmedidaTitle_obsUnidad}"/>
+                        <h:outputText value="#{bundle.ViewTunidadmedidaLabel_idResponsable}"/>
+                        <h:outputText value="#{tunidadmedidaController.selected.idResponsable}" title="#{bundle.ViewTunidadmedidaTitle_idResponsable}"/>
+                        <h:outputText value="#{bundle.ViewTunidadmedidaLabel_idModificador}"/>
+                        <h:outputText value="#{tunidadmedidaController.selected.idModificador}" title="#{bundle.ViewTunidadmedidaTitle_idModificador}"/>
+                        <h:outputText value="#{bundle.ViewTunidadmedidaLabel_fechaCreacion}"/>
+                        <h:outputText value="#{tunidadmedidaController.selected.fechaCreacion}" title="#{bundle.ViewTunidadmedidaTitle_fechaCreacion}">
+                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                        </h:outputText>
+                        <h:outputText value="#{bundle.ViewTunidadmedidaLabel_fechaModificacion}"/>
+                        <h:outputText value="#{tunidadmedidaController.selected.fechaModificacion}" title="#{bundle.ViewTunidadmedidaTitle_fechaModificacion}">
+                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                        </h:outputText>
+                        <h:outputText value="#{bundle.ViewTunidadmedidaLabel_version}"/>
+                        <h:outputText value="#{tunidadmedidaController.selected.version}" title="#{bundle.ViewTunidadmedidaTitle_version}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="TunidadmedidaViewDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

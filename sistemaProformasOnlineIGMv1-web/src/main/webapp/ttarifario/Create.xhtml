@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="TtarifarioCreateDlg" widgetVar="TtarifarioCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateTtarifarioTitle}">
+            <h:form id="TtarifarioCreateForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{ttarifarioController.selected != null}">
+                        <p:outputLabel value="#{bundle.CreateTtarifarioLabel_valor}" for="valor" />
+                        <p:inputText id="valor" value="#{ttarifarioController.selected.valor}" title="#{bundle.CreateTtarifarioTitle_valor}" />
+                        <p:outputLabel value="#{bundle.CreateTtarifarioLabel_pesoMin}" for="pesoMin" />
+                        <p:inputText id="pesoMin" value="#{ttarifarioController.selected.pesoMin}" title="#{bundle.CreateTtarifarioTitle_pesoMin}" />
+                        <p:outputLabel value="#{bundle.CreateTtarifarioLabel_pesoMax}" for="pesoMax" />
+                        <p:inputText id="pesoMax" value="#{ttarifarioController.selected.pesoMax}" title="#{bundle.CreateTtarifarioTitle_pesoMax}" />
+                        <p:outputLabel value="#{bundle.CreateTtarifarioLabel_idZona}" for="idZona" />
+                        <p:inputText id="idZona" value="#{ttarifarioController.selected.idZona}" title="#{bundle.CreateTtarifarioTitle_idZona}" />
+                        <p:outputLabel value="#{bundle.CreateTtarifarioLabel_idTarifa}" for="idTarifa" />
+                        <p:inputText id="idTarifa" value="#{ttarifarioController.selected.idTarifa}" title="#{bundle.CreateTtarifarioTitle_idTarifa}" required="true" requiredMessage="#{bundle.CreateTtarifarioRequiredMessage_idTarifa}"/>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{ttarifarioController.create}" value="#{bundle.Save}" update="display,:TtarifarioListForm:datalist,:growl" oncomplete="handleSubmit(args,'TtarifarioCreateDialog');"/>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="TtarifarioCreateDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

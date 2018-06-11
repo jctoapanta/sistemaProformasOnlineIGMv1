@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="TsucursalCreateDlg" widgetVar="TsucursalCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateTsucursalTitle}">
+            <h:form id="TsucursalCreateForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{tsucursalController.selected != null}">
+                        <p:outputLabel value="#{bundle.CreateTsucursalLabel_idSucursal}" for="idSucursal" />
+                        <p:inputText id="idSucursal" value="#{tsucursalController.selected.idSucursal}" title="#{bundle.CreateTsucursalTitle_idSucursal}" required="true" requiredMessage="#{bundle.CreateTsucursalRequiredMessage_idSucursal}"/>
+                        <p:outputLabel value="#{bundle.CreateTsucursalLabel_descSucursal}" for="descSucursal" />
+                        <p:inputText id="descSucursal" value="#{tsucursalController.selected.descSucursal}" title="#{bundle.CreateTsucursalTitle_descSucursal}" />
+                        <p:outputLabel value="#{bundle.CreateTsucursalLabel_direccion}" for="direccion" />
+                        <p:inputText id="direccion" value="#{tsucursalController.selected.direccion}" title="#{bundle.CreateTsucursalTitle_direccion}" />
+                        <p:outputLabel value="#{bundle.CreateTsucursalLabel_telefono}" for="telefono" />
+                        <p:inputText id="telefono" value="#{tsucursalController.selected.telefono}" title="#{bundle.CreateTsucursalTitle_telefono}" />
+                        <p:outputLabel value="#{bundle.CreateTsucursalLabel_fax}" for="fax" />
+                        <p:inputText id="fax" value="#{tsucursalController.selected.fax}" title="#{bundle.CreateTsucursalTitle_fax}" />
+                        <p:outputLabel value="#{bundle.CreateTsucursalLabel_email}" for="email" />
+                        <p:inputText id="email" value="#{tsucursalController.selected.email}" title="#{bundle.CreateTsucursalTitle_email}" />
+                        <p:outputLabel value="#{bundle.CreateTsucursalLabel_ruc}" for="ruc" />
+                        <p:inputText id="ruc" value="#{tsucursalController.selected.ruc}" title="#{bundle.CreateTsucursalTitle_ruc}" />
+                        <p:outputLabel value="#{bundle.CreateTsucursalLabel_idResponsable}" for="idResponsable" />
+                        <p:inputText id="idResponsable" value="#{tsucursalController.selected.idResponsable}" title="#{bundle.CreateTsucursalTitle_idResponsable}" />
+                        <p:outputLabel value="#{bundle.CreateTsucursalLabel_CCtble}" for="CCtble" />
+                        <p:inputText id="CCtble" value="#{tsucursalController.selected.CCtble}" title="#{bundle.CreateTsucursalTitle_CCtble}" />
+                        <p:outputLabel value="#{bundle.CreateTsucursalLabel_idModificador}" for="idModificador" />
+                        <p:inputText id="idModificador" value="#{tsucursalController.selected.idModificador}" title="#{bundle.CreateTsucursalTitle_idModificador}" />
+                        <p:outputLabel value="#{bundle.CreateTsucursalLabel_fechaCreacion}" for="fechaCreacion" />
+                        <p:calendar id="fechaCreacion" pattern="MM/dd/yyyy HH:mm:ss" value="#{tsucursalController.selected.fechaCreacion}" title="#{bundle.EditTsucursalTitle_fechaCreacion}"  showOn="button"/>
+                        <p:outputLabel value="#{bundle.CreateTsucursalLabel_fechaModificacion}" for="fechaModificacion" />
+                        <p:calendar id="fechaModificacion" pattern="MM/dd/yyyy HH:mm:ss" value="#{tsucursalController.selected.fechaModificacion}" title="#{bundle.EditTsucursalTitle_fechaModificacion}"  showOn="button"/>
+                        <p:outputLabel value="#{bundle.CreateTsucursalLabel_version}" for="version" />
+                        <p:inputText id="version" value="#{tsucursalController.selected.version}" title="#{bundle.CreateTsucursalTitle_version}" />
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{tsucursalController.create}" value="#{bundle.Save}" update="display,:TsucursalListForm:datalist,:growl" oncomplete="handleSubmit(args,'TsucursalCreateDialog');"/>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="TsucursalCreateDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>
