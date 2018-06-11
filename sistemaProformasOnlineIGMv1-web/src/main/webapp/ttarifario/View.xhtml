@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="TtarifarioViewDlg" widgetVar="TtarifarioViewDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.ViewTtarifarioTitle}">
+            <h:form id="TtarifarioViewForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{ttarifarioController.selected != null}">
+                        <h:outputText value="#{bundle.ViewTtarifarioLabel_valor}"/>
+                        <h:outputText value="#{ttarifarioController.selected.valor}" title="#{bundle.ViewTtarifarioTitle_valor}"/>
+                        <h:outputText value="#{bundle.ViewTtarifarioLabel_pesoMin}"/>
+                        <h:outputText value="#{ttarifarioController.selected.pesoMin}" title="#{bundle.ViewTtarifarioTitle_pesoMin}"/>
+                        <h:outputText value="#{bundle.ViewTtarifarioLabel_pesoMax}"/>
+                        <h:outputText value="#{ttarifarioController.selected.pesoMax}" title="#{bundle.ViewTtarifarioTitle_pesoMax}"/>
+                        <h:outputText value="#{bundle.ViewTtarifarioLabel_idZona}"/>
+                        <h:outputText value="#{ttarifarioController.selected.idZona}" title="#{bundle.ViewTtarifarioTitle_idZona}"/>
+                        <h:outputText value="#{bundle.ViewTtarifarioLabel_idTarifa}"/>
+                        <h:outputText value="#{ttarifarioController.selected.idTarifa}" title="#{bundle.ViewTtarifarioTitle_idTarifa}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="TtarifarioViewDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

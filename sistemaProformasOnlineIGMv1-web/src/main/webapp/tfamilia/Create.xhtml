@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="TfamiliaCreateDlg" widgetVar="TfamiliaCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateTfamiliaTitle}">
+            <h:form id="TfamiliaCreateForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{tfamiliaController.selected != null}">
+                        <p:outputLabel value="#{bundle.CreateTfamiliaLabel_idFamilia}" for="idFamilia" />
+                        <p:inputText id="idFamilia" value="#{tfamiliaController.selected.idFamilia}" title="#{bundle.CreateTfamiliaTitle_idFamilia}" required="true" requiredMessage="#{bundle.CreateTfamiliaRequiredMessage_idFamilia}"/>
+                        <p:outputLabel value="#{bundle.CreateTfamiliaLabel_descFamilia}" for="descFamilia" />
+                        <p:inputText id="descFamilia" value="#{tfamiliaController.selected.descFamilia}" title="#{bundle.CreateTfamiliaTitle_descFamilia}" />
+                        <p:outputLabel value="#{bundle.CreateTfamiliaLabel_idCentroGestion}" for="idCentroGestion" />
+                        <p:inputText id="idCentroGestion" value="#{tfamiliaController.selected.idCentroGestion}" title="#{bundle.CreateTfamiliaTitle_idCentroGestion}" />
+                        <p:outputLabel value="#{bundle.CreateTfamiliaLabel_idCentroEjecucion}" for="idCentroEjecucion" />
+                        <p:inputText id="idCentroEjecucion" value="#{tfamiliaController.selected.idCentroEjecucion}" title="#{bundle.CreateTfamiliaTitle_idCentroEjecucion}" />
+                        <p:outputLabel value="#{bundle.CreateTfamiliaLabel_tipoFamilia}" for="tipoFamilia" />
+                        <p:inputText id="tipoFamilia" value="#{tfamiliaController.selected.tipoFamilia}" title="#{bundle.CreateTfamiliaTitle_tipoFamilia}" />
+                        <p:outputLabel value="#{bundle.CreateTfamiliaLabel_LEspecial}" for="LEspecial" />
+                        <p:inputText id="LEspecial" value="#{tfamiliaController.selected.LEspecial}" title="#{bundle.CreateTfamiliaTitle_LEspecial}" />
+                        <p:outputLabel value="#{bundle.CreateTfamiliaLabel_idSubfamilia}" for="idSubfamilia" />
+                        <p:inputText id="idSubfamilia" value="#{tfamiliaController.selected.idSubfamilia}" title="#{bundle.CreateTfamiliaTitle_idSubfamilia}" />
+                        <p:outputLabel value="#{bundle.CreateTfamiliaLabel_LServiciosinop}" for="LServiciosinop" />
+                        <p:inputText id="LServiciosinop" value="#{tfamiliaController.selected.LServiciosinop}" title="#{bundle.CreateTfamiliaTitle_LServiciosinop}" />
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{tfamiliaController.create}" value="#{bundle.Save}" update="display,:TfamiliaListForm:datalist,:growl" oncomplete="handleSubmit(args,'TfamiliaCreateDialog');"/>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="TfamiliaCreateDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

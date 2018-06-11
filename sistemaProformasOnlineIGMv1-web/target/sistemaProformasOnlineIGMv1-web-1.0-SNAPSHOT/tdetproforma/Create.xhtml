@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="TdetproformaCreateDlg" widgetVar="TdetproformaCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateTdetproformaTitle}">
+            <h:form id="TdetproformaCreateForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{tdetproformaController.selected != null}">
+                        <p:outputLabel value="#{bundle.CreateTdetproformaLabel_tdetproformaPK_noReg}" for="tdetproformaPK_noReg" />
+                        <p:inputText id="tdetproformaPK_noReg" value="#{tdetproformaController.selected.tdetproformaPK.noReg}" title="#{bundle.CreateTdetproformaTitle_tdetproformaPK_noReg}" required="true" requiredMessage="#{bundle.CreateTdetproformaRequiredMessage_tdetproformaPK_noReg}"/>
+                        <p:outputLabel value="#{bundle.CreateTdetproformaLabel_detalleItem}" for="detalleItem" />
+                        <p:inputText id="detalleItem" value="#{tdetproformaController.selected.detalleItem}" title="#{bundle.CreateTdetproformaTitle_detalleItem}" />
+                        <p:outputLabel value="#{bundle.CreateTdetproformaLabel_cantidad}" for="cantidad" />
+                        <p:inputText id="cantidad" value="#{tdetproformaController.selected.cantidad}" title="#{bundle.CreateTdetproformaTitle_cantidad}" />
+                        <p:outputLabel value="#{bundle.CreateTdetproformaLabel_pvpTotal}" for="pvpTotal" />
+                        <p:inputText id="pvpTotal" value="#{tdetproformaController.selected.pvpTotal}" title="#{bundle.CreateTdetproformaTitle_pvpTotal}" />
+                        <p:outputLabel value="#{bundle.CreateTdetproformaLabel_formato}" for="formato" />
+                        <p:inputText id="formato" value="#{tdetproformaController.selected.formato}" title="#{bundle.CreateTdetproformaTitle_formato}" />
+                        <p:outputLabel value="#{bundle.CreateTdetproformaLabel_tipoItem}" for="tipoItem" />
+                        <p:inputText id="tipoItem" value="#{tdetproformaController.selected.tipoItem}" title="#{bundle.CreateTdetproformaTitle_tipoItem}" />
+                        <p:outputLabel value="#{bundle.CreateTdetproformaLabel_ivaPorcentaje}" for="ivaPorcentaje" />
+                        <p:inputText id="ivaPorcentaje" value="#{tdetproformaController.selected.ivaPorcentaje}" title="#{bundle.CreateTdetproformaTitle_ivaPorcentaje}" />
+                        <p:outputLabel value="#{bundle.CreateTdetproformaLabel_descuento}" for="descuento" />
+                        <p:inputText id="descuento" value="#{tdetproformaController.selected.descuento}" title="#{bundle.CreateTdetproformaTitle_descuento}" />
+                        <p:outputLabel value="#{bundle.CreateTdetproformaLabel_LAcepta}" for="LAcepta" />
+                        <p:inputText id="LAcepta" value="#{tdetproformaController.selected.LAcepta}" title="#{bundle.CreateTdetproformaTitle_LAcepta}" />
+                        <p:outputLabel value="#{bundle.CreateTdetproformaLabel_idFactura}" for="idFactura" />
+                        <p:inputText id="idFactura" value="#{tdetproformaController.selected.idFactura}" title="#{bundle.CreateTdetproformaTitle_idFactura}" />
+                        <p:outputLabel value="#{bundle.CreateTdetproformaLabel_periodoFactura}" for="periodoFactura" />
+                        <p:inputText id="periodoFactura" value="#{tdetproformaController.selected.periodoFactura}" title="#{bundle.CreateTdetproformaTitle_periodoFactura}" />
+                        <p:outputLabel value="#{bundle.CreateTdetproformaLabel_periodocodigo}" for="periodocodigo" />
+                        <p:inputText id="periodocodigo" value="#{tdetproformaController.selected.periodocodigo}" title="#{bundle.CreateTdetproformaTitle_periodocodigo}" />
+                        <p:outputLabel value="#{bundle.CreateTdetproformaLabel_codsec}" for="codsec" />
+                        <p:inputText id="codsec" value="#{tdetproformaController.selected.codsec}" title="#{bundle.CreateTdetproformaTitle_codsec}" />
+                        <p:outputLabel value="#{bundle.CreateTdetproformaLabel_idCentroGestion}" for="idCentroGestion" />
+                        <p:inputText id="idCentroGestion" value="#{tdetproformaController.selected.idCentroGestion}" title="#{bundle.CreateTdetproformaTitle_idCentroGestion}" />
+                        <p:outputLabel value="#{bundle.CreateTdetproformaLabel_idProyecto}" for="idProyecto" />
+                        <p:inputText id="idProyecto" value="#{tdetproformaController.selected.idProyecto}" title="#{bundle.CreateTdetproformaTitle_idProyecto}" />
+                        <p:outputLabel value="#{bundle.CreateTdetproformaLabel_idFacturaAnterior}" for="idFacturaAnterior" />
+                        <p:inputText id="idFacturaAnterior" value="#{tdetproformaController.selected.idFacturaAnterior}" title="#{bundle.CreateTdetproformaTitle_idFacturaAnterior}" />
+                        <p:outputLabel value="#{bundle.CreateTdetproformaLabel_periodoFacturaAnterior}" for="periodoFacturaAnterior" />
+                        <p:inputText id="periodoFacturaAnterior" value="#{tdetproformaController.selected.periodoFacturaAnterior}" title="#{bundle.CreateTdetproformaTitle_periodoFacturaAnterior}" />
+                        <p:outputLabel value="#{bundle.CreateTdetproformaLabel_numDesde}" for="numDesde" />
+                        <p:inputText id="numDesde" value="#{tdetproformaController.selected.numDesde}" title="#{bundle.CreateTdetproformaTitle_numDesde}" />
+                        <p:outputLabel value="#{bundle.CreateTdetproformaLabel_numHasta}" for="numHasta" />
+                        <p:inputText id="numHasta" value="#{tdetproformaController.selected.numHasta}" title="#{bundle.CreateTdetproformaTitle_numHasta}" />
+                        <p:outputLabel value="#{bundle.CreateTdetproformaLabel_numActual}" for="numActual" />
+                        <p:inputText id="numActual" value="#{tdetproformaController.selected.numActual}" title="#{bundle.CreateTdetproformaTitle_numActual}" />
+                        <p:outputLabel value="#{bundle.CreateTdetproformaLabel_obsLiberaProf}" for="obsLiberaProf" />
+                        <p:inputText id="obsLiberaProf" value="#{tdetproformaController.selected.obsLiberaProf}" title="#{bundle.CreateTdetproformaTitle_obsLiberaProf}" />
+                        <p:outputLabel value="#{bundle.CreateTdetproformaLabel_impreso}" for="impreso" />
+                        <p:inputText id="impreso" value="#{tdetproformaController.selected.impreso}" title="#{bundle.CreateTdetproformaTitle_impreso}" />
+                        <p:outputLabel value="#{bundle.CreateTdetproformaLabel_dimension}" for="dimension" />
+                        <p:inputText id="dimension" value="#{tdetproformaController.selected.dimension}" title="#{bundle.CreateTdetproformaTitle_dimension}" />
+                        <p:outputLabel value="#{bundle.CreateTdetproformaLabel_fecimp}" for="fecimp" />
+                        <p:calendar id="fecimp" pattern="MM/dd/yyyy HH:mm:ss" value="#{tdetproformaController.selected.fecimp}" title="#{bundle.EditTdetproformaTitle_fecimp}"  showOn="button"/>
+                        <p:outputLabel value="#{bundle.CreateTdetproformaLabel_idItem}" for="idItem" />
+                        <p:selectOneMenu id="idItem" value="#{tdetproformaController.selected.idItem}" >
+                            <f:selectItems value="#{titemController.itemsAvailableSelectOne}"
+                                           var="idItemItem"
+                                           itemValue="#{idItemItem}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{bundle.CreateTdetproformaLabel_idIva}" for="idIva" />
+                        <p:selectOneMenu id="idIva" value="#{tdetproformaController.selected.idIva}" >
+                            <f:selectItems value="#{tivaController.itemsAvailableSelectOne}"
+                                           var="idIvaItem"
+                                           itemValue="#{idIvaItem}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{bundle.CreateTdetproformaLabel_idPloter}" for="idPloter" />
+                        <p:selectOneMenu id="idPloter" value="#{tdetproformaController.selected.idPloter}" >
+                            <f:selectItems value="#{tplotersController.itemsAvailableSelectOne}"
+                                           var="idPloterItem"
+                                           itemValue="#{idPloterItem}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{bundle.CreateTdetproformaLabel_tproforma}" for="tproforma" />
+                        <p:selectOneMenu id="tproforma" value="#{tdetproformaController.selected.tproforma}" required="true" requiredMessage="#{bundle.EditTdetproformaRequiredMessage_tproforma}">
+                            <f:selectItems value="#{tproformaController.itemsAvailableSelectOne}"
+                                           var="tproformaItem"
+                                           itemValue="#{tproformaItem}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{bundle.CreateTdetproformaLabel_idTipoCarta}" for="idTipoCarta" />
+                        <p:selectOneMenu id="idTipoCarta" value="#{tdetproformaController.selected.idTipoCarta}" >
+                            <f:selectItems value="#{ttipocartaController.itemsAvailableSelectOne}"
+                                           var="idTipoCartaItem"
+                                           itemValue="#{idTipoCartaItem}"/>
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{tdetproformaController.create}" value="#{bundle.Save}" update="display,:TdetproformaListForm:datalist,:growl" oncomplete="handleSubmit(args,'TdetproformaCreateDialog');"/>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="TdetproformaCreateDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="TentidadEditDlg" widgetVar="TentidadEditDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.EditTentidadTitle}">
+            <h:form id="TentidadEditForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{tentidadController.selected != null}">
+                        <p:outputLabel value="#{bundle.EditTentidadLabel_ciu}" for="ciu" />
+                        <p:inputText id="ciu" value="#{tentidadController.selected.ciu}" title="#{bundle.EditTentidadTitle_ciu}" required="true" requiredMessage="#{bundle.EditTentidadRequiredMessage_ciu}"/>
+                        <p:outputLabel value="#{bundle.EditTentidadLabel_nombres}" for="nombres" />
+                        <p:inputText id="nombres" value="#{tentidadController.selected.nombres}" title="#{bundle.EditTentidadTitle_nombres}" />
+                        <p:outputLabel value="#{bundle.EditTentidadLabel_apellidos}" for="apellidos" />
+                        <p:inputText id="apellidos" value="#{tentidadController.selected.apellidos}" title="#{bundle.EditTentidadTitle_apellidos}" />
+                        <p:outputLabel value="#{bundle.EditTentidadLabel_direccion}" for="direccion" />
+                        <p:inputText id="direccion" value="#{tentidadController.selected.direccion}" title="#{bundle.EditTentidadTitle_direccion}" />
+                        <p:outputLabel value="#{bundle.EditTentidadLabel_telefonoConvencional}" for="telefonoConvencional" />
+                        <p:inputText id="telefonoConvencional" value="#{tentidadController.selected.telefonoConvencional}" title="#{bundle.EditTentidadTitle_telefonoConvencional}" />
+                        <p:outputLabel value="#{bundle.EditTentidadLabel_telefonoCelular}" for="telefonoCelular" />
+                        <p:inputText id="telefonoCelular" value="#{tentidadController.selected.telefonoCelular}" title="#{bundle.EditTentidadTitle_telefonoCelular}" />
+                        <p:outputLabel value="#{bundle.EditTentidadLabel_fax}" for="fax" />
+                        <p:inputText id="fax" value="#{tentidadController.selected.fax}" title="#{bundle.EditTentidadTitle_fax}" />
+                        <p:outputLabel value="#{bundle.EditTentidadLabel_email}" for="email" />
+                        <p:inputText id="email" value="#{tentidadController.selected.email}" title="#{bundle.EditTentidadTitle_email}" />
+                        <p:outputLabel value="#{bundle.EditTentidadLabel_CCtble}" for="CCtble" />
+                        <p:inputText id="CCtble" value="#{tentidadController.selected.CCtble}" title="#{bundle.EditTentidadTitle_CCtble}" />
+                        <p:outputLabel value="#{bundle.EditTentidadLabel_idCreador}" for="idCreador" />
+                        <p:inputText id="idCreador" value="#{tentidadController.selected.idCreador}" title="#{bundle.EditTentidadTitle_idCreador}" />
+                        <p:outputLabel value="#{bundle.EditTentidadLabel_idModificador}" for="idModificador" />
+                        <p:inputText id="idModificador" value="#{tentidadController.selected.idModificador}" title="#{bundle.EditTentidadTitle_idModificador}" />
+                        <p:outputLabel value="#{bundle.EditTentidadLabel_clave}" for="clave" />
+                        <p:inputText id="clave" value="#{tentidadController.selected.clave}" title="#{bundle.EditTentidadTitle_clave}" />
+                        <p:outputLabel value="#{bundle.EditTentidadLabel_LNatural}" for="LNatural" />
+                        <p:inputText id="LNatural" value="#{tentidadController.selected.LNatural}" title="#{bundle.EditTentidadTitle_LNatural}" />
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{tentidadController.update}" value="#{bundle.Save}" update="display,:TentidadListForm:datalist,:growl" oncomplete="handleSubmit(args, 'TentidadEditDialog');"/>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="TentidadEditDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

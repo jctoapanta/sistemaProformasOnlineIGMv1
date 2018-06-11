@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="TproformaViewDlg" widgetVar="TproformaViewDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.ViewTproformaTitle}">
+            <h:form id="TproformaViewForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{tproformaController.selected != null}">
+                        <h:outputText value="#{bundle.ViewTproformaLabel_tproformaPK_idPeriodo}"/>
+                        <h:outputText value="#{tproformaController.selected.tproformaPK.idPeriodo}" title="#{bundle.ViewTproformaTitle_tproformaPK_idPeriodo}"/>
+                        <h:outputText value="#{bundle.ViewTproformaLabel_tproformaPK_idProforma}"/>
+                        <h:outputText value="#{tproformaController.selected.tproformaPK.idProforma}" title="#{bundle.ViewTproformaTitle_tproformaPK_idProforma}"/>
+                        <h:outputText value="#{bundle.ViewTproformaLabel_estado}"/>
+                        <h:outputText value="#{tproformaController.selected.estado}" title="#{bundle.ViewTproformaTitle_estado}"/>
+                        <h:outputText value="#{bundle.ViewTproformaLabel_tipoProforma}"/>
+                        <h:outputText value="#{tproformaController.selected.tipoProforma}" title="#{bundle.ViewTproformaTitle_tipoProforma}"/>
+                        <h:outputText value="#{bundle.ViewTproformaLabel_numPedido}"/>
+                        <h:outputText value="#{tproformaController.selected.numPedido}" title="#{bundle.ViewTproformaTitle_numPedido}"/>
+                        <h:outputText value="#{bundle.ViewTproformaLabel_obsProforma}"/>
+                        <h:outputText value="#{tproformaController.selected.obsProforma}" title="#{bundle.ViewTproformaTitle_obsProforma}"/>
+                        <h:outputText value="#{bundle.ViewTproformaLabel_especTecnica}"/>
+                        <h:outputText value="#{tproformaController.selected.especTecnica}" title="#{bundle.ViewTproformaTitle_especTecnica}"/>
+                        <h:outputText value="#{bundle.ViewTproformaLabel_validezDias}"/>
+                        <h:outputText value="#{tproformaController.selected.validezDias}" title="#{bundle.ViewTproformaTitle_validezDias}"/>
+                        <h:outputText value="#{bundle.ViewTproformaLabel_tiempoEntrega}"/>
+                        <h:outputText value="#{tproformaController.selected.tiempoEntrega}" title="#{bundle.ViewTproformaTitle_tiempoEntrega}"/>
+                        <h:outputText value="#{bundle.ViewTproformaLabel_contacto}"/>
+                        <h:outputText value="#{tproformaController.selected.contacto}" title="#{bundle.ViewTproformaTitle_contacto}"/>
+                        <h:outputText value="#{bundle.ViewTproformaLabel_fechaRecepcion}"/>
+                        <h:outputText value="#{tproformaController.selected.fechaRecepcion}" title="#{bundle.ViewTproformaTitle_fechaRecepcion}">
+                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                        </h:outputText>
+                        <h:outputText value="#{bundle.ViewTproformaLabel_LAutoriza}"/>
+                        <h:outputText value="#{tproformaController.selected.LAutoriza}" title="#{bundle.ViewTproformaTitle_LAutoriza}"/>
+                        <h:outputText value="#{bundle.ViewTproformaLabel_obsAutoriza}"/>
+                        <h:outputText value="#{tproformaController.selected.obsAutoriza}" title="#{bundle.ViewTproformaTitle_obsAutoriza}"/>
+                        <h:outputText value="#{bundle.ViewTproformaLabel_fechaCreacion}"/>
+                        <h:outputText value="#{tproformaController.selected.fechaCreacion}" title="#{bundle.ViewTproformaTitle_fechaCreacion}">
+                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                        </h:outputText>
+                        <h:outputText value="#{bundle.ViewTproformaLabel_fechaModificacion}"/>
+                        <h:outputText value="#{tproformaController.selected.fechaModificacion}" title="#{bundle.ViewTproformaTitle_fechaModificacion}">
+                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                        </h:outputText>
+                        <h:outputText value="#{bundle.ViewTproformaLabel_obsModificacion}"/>
+                        <h:outputText value="#{tproformaController.selected.obsModificacion}" title="#{bundle.ViewTproformaTitle_obsModificacion}"/>
+                        <h:outputText value="#{bundle.ViewTproformaLabel_idCreador}"/>
+                        <h:outputText value="#{tproformaController.selected.idCreador}" title="#{bundle.ViewTproformaTitle_idCreador}"/>
+                        <h:outputText value="#{bundle.ViewTproformaLabel_idModificador}"/>
+                        <h:outputText value="#{tproformaController.selected.idModificador}" title="#{bundle.ViewTproformaTitle_idModificador}"/>
+                        <h:outputText value="#{bundle.ViewTproformaLabel_idPeriodoFac}"/>
+                        <h:outputText value="#{tproformaController.selected.idPeriodoFac}" title="#{bundle.ViewTproformaTitle_idPeriodoFac}"/>
+                        <h:outputText value="#{bundle.ViewTproformaLabel_idSucursalFac}"/>
+                        <h:outputText value="#{tproformaController.selected.idSucursalFac}" title="#{bundle.ViewTproformaTitle_idSucursalFac}"/>
+                        <h:outputText value="#{bundle.ViewTproformaLabel_idFactura}"/>
+                        <h:outputText value="#{tproformaController.selected.idFactura}" title="#{bundle.ViewTproformaTitle_idFactura}"/>
+                        <h:outputText value="#{bundle.ViewTproformaLabel_idAutorizador}"/>
+                        <h:outputText value="#{tproformaController.selected.idAutorizador}" title="#{bundle.ViewTproformaTitle_idAutorizador}"/>
+                        <h:outputText value="#{bundle.ViewTproformaLabel_fechaConfirmacion}"/>
+                        <h:outputText value="#{tproformaController.selected.fechaConfirmacion}" title="#{bundle.ViewTproformaTitle_fechaConfirmacion}">
+                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                        </h:outputText>
+                        <h:outputText value="#{bundle.ViewTproformaLabel_fechaValidez}"/>
+                        <h:outputText value="#{tproformaController.selected.fechaValidez}" title="#{bundle.ViewTproformaTitle_fechaValidez}">
+                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                        </h:outputText>
+                        <h:outputText value="#{bundle.ViewTproformaLabel_formaEntrega}"/>
+                        <h:outputText value="#{tproformaController.selected.formaEntrega}" title="#{bundle.ViewTproformaTitle_formaEntrega}"/>
+                        <h:outputText value="#{bundle.ViewTproformaLabel_formaPago}"/>
+                        <h:outputText value="#{tproformaController.selected.formaPago}" title="#{bundle.ViewTproformaTitle_formaPago}"/>
+                        <h:outputText value="#{bundle.ViewTproformaLabel_comprobantePago}"/>
+                        <h:outputText value="#{tproformaController.selected.comprobantePago}" title="#{bundle.ViewTproformaTitle_comprobantePago}"/>
+                        <h:outputText value="#{bundle.ViewTproformaLabel_LVentaOnline}"/>
+                        <h:outputText value="#{tproformaController.selected.LVentaOnline}" title="#{bundle.ViewTproformaTitle_LVentaOnline}"/>
+                        <h:outputText value="#{bundle.ViewTproformaLabel_ciu}"/>
+                        <h:outputText value="#{tproformaController.selected.ciu}" title="#{bundle.ViewTproformaTitle_ciu}"/>
+                        <h:outputText value="#{bundle.ViewTproformaLabel_tsucursal}"/>
+                        <h:outputText value="#{tproformaController.selected.tsucursal}" title="#{bundle.ViewTproformaTitle_tsucursal}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="TproformaViewDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

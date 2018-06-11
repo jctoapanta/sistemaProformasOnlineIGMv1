@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="TdireccionesusrViewDlg" widgetVar="TdireccionesusrViewDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.ViewTdireccionesusrTitle}">
+            <h:form id="TdireccionesusrViewForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{tdireccionesusrController.selected != null}">
+                        <h:outputText value="#{bundle.ViewTdireccionesusrLabel_idDireccion}"/>
+                        <h:outputText value="#{tdireccionesusrController.selected.idDireccion}" title="#{bundle.ViewTdireccionesusrTitle_idDireccion}"/>
+                        <h:outputText value="#{bundle.ViewTdireccionesusrLabel_callePrincipalDireccion}"/>
+                        <h:outputText value="#{tdireccionesusrController.selected.callePrincipalDireccion}" title="#{bundle.ViewTdireccionesusrTitle_callePrincipalDireccion}"/>
+                        <h:outputText value="#{bundle.ViewTdireccionesusrLabel_numeroDireccion}"/>
+                        <h:outputText value="#{tdireccionesusrController.selected.numeroDireccion}" title="#{bundle.ViewTdireccionesusrTitle_numeroDireccion}"/>
+                        <h:outputText value="#{bundle.ViewTdireccionesusrLabel_calleSecundariaDireccion}"/>
+                        <h:outputText value="#{tdireccionesusrController.selected.calleSecundariaDireccion}" title="#{bundle.ViewTdireccionesusrTitle_calleSecundariaDireccion}"/>
+                        <h:outputText value="#{bundle.ViewTdireccionesusrLabel_referenciaDireccion}"/>
+                        <h:outputText value="#{tdireccionesusrController.selected.referenciaDireccion}" title="#{bundle.ViewTdireccionesusrTitle_referenciaDireccion}"/>
+                        <h:outputText value="#{bundle.ViewTdireccionesusrLabel_ciu}"/>
+                        <h:outputText value="#{tdireccionesusrController.selected.ciu}" title="#{bundle.ViewTdireccionesusrTitle_ciu}"/>
+                        <h:outputText value="#{bundle.ViewTdireccionesusrLabel_tparroquia}"/>
+                        <h:outputText value="#{tdireccionesusrController.selected.tparroquia}" title="#{bundle.ViewTdireccionesusrTitle_tparroquia}"/>
+                        <h:outputText value="#{bundle.ViewTdireccionesusrLabel_idTipoDireccion}"/>
+                        <h:outputText value="#{tdireccionesusrController.selected.idTipoDireccion}" title="#{bundle.ViewTdireccionesusrTitle_idTipoDireccion}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="TdireccionesusrViewDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

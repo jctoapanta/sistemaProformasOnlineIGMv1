@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition template="/template.xhtml">
+
+
+        <ui:define name="title">
+            <h:outputText value="#{bundle.ListTfamiliaTitle}"></h:outputText>
+        </ui:define>
+
+        <ui:define name="body">
+            <h:form id="TfamiliaListForm">
+                <p:panel header="#{bundle.ListTfamiliaTitle}">
+                    <p:dataTable id="datalist" value="#{tfamiliaController.items}" var="item"
+                                 selectionMode="single" selection="#{tfamiliaController.selected}"
+                                 paginator="true"
+                                 rowKey="#{item.idFamilia}"
+                                 rows="10"
+                                 rowsPerPageTemplate="10,20,30,40,50"
+                                 >
+
+                        <p:ajax event="rowSelect"   update="createButton viewButton editButton deleteButton"/>
+                        <p:ajax event="rowUnselect" update="createButton viewButton editButton deleteButton"/>
+
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListTfamiliaTitle_idFamilia}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.idFamilia}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListTfamiliaTitle_descFamilia}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.descFamilia}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListTfamiliaTitle_idCentroGestion}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.idCentroGestion}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListTfamiliaTitle_idCentroEjecucion}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.idCentroEjecucion}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListTfamiliaTitle_tipoFamilia}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.tipoFamilia}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListTfamiliaTitle_LEspecial}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.LEspecial}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListTfamiliaTitle_idSubfamilia}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.idSubfamilia}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListTfamiliaTitle_LServiciosinop}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.LServiciosinop}"/>
+                        </p:column>
+                        <f:facet name="footer">
+                            <p:commandButton id="createButton" icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{tfamiliaController.prepareCreate}" update=":TfamiliaCreateForm" oncomplete="PF('TfamiliaCreateDialog').show()"/>
+                            <p:commandButton id="viewButton"   icon="ui-icon-search" value="#{bundle.View}" update=":TfamiliaViewForm" oncomplete="PF('TfamiliaViewDialog').show()" disabled="#{empty tfamiliaController.selected}"/>
+                            <p:commandButton id="editButton"   icon="ui-icon-pencil" value="#{bundle.Edit}" update=":TfamiliaEditForm" oncomplete="PF('TfamiliaEditDialog').show()" disabled="#{empty tfamiliaController.selected}"/>
+                            <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{tfamiliaController.destroy}" update=":growl,datalist" disabled="#{empty tfamiliaController.selected}"/>
+                        </f:facet>
+                    </p:dataTable>
+                </p:panel>
+            </h:form>
+
+            <ui:include src="Create.xhtml"/>
+            <ui:include src="Edit.xhtml"/>
+            <ui:include src="View.xhtml"/>
+        </ui:define>
+    </ui:composition>
+
+</html>

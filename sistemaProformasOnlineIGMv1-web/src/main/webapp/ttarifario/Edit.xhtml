@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="TtarifarioEditDlg" widgetVar="TtarifarioEditDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.EditTtarifarioTitle}">
+            <h:form id="TtarifarioEditForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{ttarifarioController.selected != null}">
+                        <p:outputLabel value="#{bundle.EditTtarifarioLabel_valor}" for="valor" />
+                        <p:inputText id="valor" value="#{ttarifarioController.selected.valor}" title="#{bundle.EditTtarifarioTitle_valor}" />
+                        <p:outputLabel value="#{bundle.EditTtarifarioLabel_pesoMin}" for="pesoMin" />
+                        <p:inputText id="pesoMin" value="#{ttarifarioController.selected.pesoMin}" title="#{bundle.EditTtarifarioTitle_pesoMin}" />
+                        <p:outputLabel value="#{bundle.EditTtarifarioLabel_pesoMax}" for="pesoMax" />
+                        <p:inputText id="pesoMax" value="#{ttarifarioController.selected.pesoMax}" title="#{bundle.EditTtarifarioTitle_pesoMax}" />
+                        <p:outputLabel value="#{bundle.EditTtarifarioLabel_idZona}" for="idZona" />
+                        <p:inputText id="idZona" value="#{ttarifarioController.selected.idZona}" title="#{bundle.EditTtarifarioTitle_idZona}" />
+                        <p:outputLabel value="#{bundle.EditTtarifarioLabel_idTarifa}" for="idTarifa" />
+                        <p:inputText id="idTarifa" value="#{ttarifarioController.selected.idTarifa}" title="#{bundle.EditTtarifarioTitle_idTarifa}" required="true" requiredMessage="#{bundle.EditTtarifarioRequiredMessage_idTarifa}"/>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{ttarifarioController.update}" value="#{bundle.Save}" update="display,:TtarifarioListForm:datalist,:growl" oncomplete="handleSubmit(args, 'TtarifarioEditDialog');"/>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="TtarifarioEditDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

@@ -1,0 +1,173 @@
+<?xml version='1.0' encoding='UTF-8' ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+    
+
+
+    <h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+        <script src="#{facesContext.externalContext.context.contextPath}/js/png_support.js"></script>
+        <script type='text/javascript' src='/produccionIGM-1.0/dwr/interface/ScriptName.js'></script>  
+        <script src="Scripts/jspdf/jspdf.plugin.png_support.js"></script>
+        <script type='text/javascript' 
+                src='/proformasOnlineIGM-1.0/dwr/engine.js'>
+        </script>
+        <script type='text/javascript' 
+        src='/proformasOnlineIGM-1.0/dwr/util.js'></script>
+
+        <title>
+            <ui:insert name="title">
+                Proformas Online IGM
+            </ui:insert>
+        </title>
+    </h:head>
+    <h:body onunload="dlg4.hide();">
+        <table cellspacing="10px">
+            <tr>
+                <td id="top">
+                    <ui:insert name="session">
+
+                        <p:idleMonitor onactive="sessionTimeOutDialog.show();" timeout="#{session.maxInactiveInterval * 1000}" />
+                        <p:dialog header="#{bundle.sesionCaducada}" widgetVar="sessionTimeOutDialog"
+                                  modal="true" closable="false" width="400" visible="false">
+                            <h:outputText value="#{bundle.msgSesionCaducada}" />
+                            <input id="confirmBackToLogin" type="button" value="#{bundle.Aceptar}"
+                                   onclick="window.location='#{facesContext.externalContext.requestContextPath}/faces/index.xhtml';" />
+                        </p:dialog>
+
+                    </ui:insert>
+                    <ui:insert name="top">
+
+                    </ui:insert>
+                </td>
+            </tr>
+            <tr align="center">
+                <td id="content">
+                    <ui:insert name="content"></ui:insert>
+                    <p:panel id="pnlPrincipal" header="Proformas" style="width: 720px">
+                        <h:panelGrid id="pngPrincipal" columns="2">                            
+                            <h:outputText id="outNoCedula" value="#{bundle.CreateTentidadLabel_ciu}" styleClass="texto_negrita_derecha"/>
+                            <h:inputText id="intNoCedula"  maxlength="50" value="#{login.aliasBase}" readonly="true"/>
+                            <h:outputText id="outNombre" value="#{bundle.CreateTentidadLabel_nombres}" styleClass="texto_negrita_derecha"/>
+                            <h:inputText id="intNombre"  maxlength="50" value="#{login.cliente.nombres}" readonly="TRUE"/>
+                            <h:outputText id="outApellido" value="#{bundle.CreateTentidadLabel_apellidos}" styleClass="texto_negrita_derecha"/>
+                            <h:inputText id="intApellido"  maxlength="50" value="#{login.cliente.apellidos}" readonly="TRUE"/>
+                            <p></p>
+                            <h:form id="TproformaListForm">
+                                <p:panel header="#{bundle.ListTproformaTitle}">
+                                    <p:dataTable id="datalist" value="#{tproformaController.items}" var="item"
+                                                 selectionMode="single" selection="#{tproformaController.selected}"
+                                                 paginator="true"
+                                                 rowKey="#{item.tproformaPK}"
+                                                 rows="10"
+                                                 rowsPerPageTemplate="10,20,30,40,50"
+                                                 >
+
+                                        <p:ajax event="rowSelect"   update="createButton viewButton editButton deleteButton"/>
+                                        <p:ajax event="rowUnselect" update="createButton viewButton editButton deleteButton"/>
+
+                                        <p:column>
+                                            <f:facet name="header">
+                                                <h:outputText value="#{bundle.ListTproformaTitle_tproformaPK_idPeriodo}"/>
+                                            </f:facet>
+                                            <h:outputText value="#{item.tproformaPK.idPeriodo}"/>
+                                        </p:column>
+                                        <p:column>
+                                            <f:facet name="header">
+                                                <h:outputText value="#{bundle.ListTproformaTitle_tproformaPK_idProforma}"/>
+                                            </f:facet>
+                                            <h:outputText value="#{item.tproformaPK.idProforma}"/>
+                                        </p:column>
+                                        <p:column>
+                                            <f:facet name="header">
+                                                <h:outputText value="#{bundle.ListTproformaTitle_estado}"/>
+                                            </f:facet>
+                                            <h:outputText value="#{item.estado}"/>
+                                        </p:column>
+                                        <p:column>
+                                            <f:facet name="header">
+                                                <h:outputText value="#{bundle.ListTproformaTitle_tipoProforma}"/>
+                                            </f:facet>
+                                            <h:outputText value="#{item.tipoProforma}"/>
+                                        </p:column>
+
+                                        <p:column>
+                                            <f:facet name="header">
+                                                <h:outputText value="#{bundle.ListTproformaTitle_validezDias}"/>
+                                            </f:facet>
+                                            <h:outputText value="#{item.validezDias}"/>
+                                        </p:column>
+                                        <p:column>
+                                            <f:facet name="header">
+                                                <h:outputText value="#{bundle.ListTproformaTitle_tiempoEntrega}"/>
+                                            </f:facet>
+                                            <h:outputText value="#{item.tiempoEntrega}"/>
+                                        </p:column>
+                                        <p:column>
+                                            <f:facet name="header">
+                                                <h:outputText value="#{bundle.ListTproformaTitle_contacto}"/>
+                                            </f:facet>
+                                            <h:outputText value="#{item.contacto}"/>
+                                        </p:column>
+                                        <p:column>
+                                            <f:facet name="header">
+                                                <h:outputText value="#{bundle.ListTproformaTitle_fechaRecepcion}"/>
+                                            </f:facet>
+                                            <h:outputText value="#{item.fechaRecepcion}">
+                                                <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                                            </h:outputText>
+                                        </p:column>
+
+                                        <p:column>
+                                            <f:facet name="header">
+                                                <h:outputText value="#{bundle.ListTproformaTitle_fechaCreacion}"/>
+                                            </f:facet>
+                                            <h:outputText value="#{item.fechaCreacion}">
+                                                <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                                            </h:outputText>
+                                        </p:column>
+
+                                        <p:column>
+                                            <f:facet name="header">
+                                                <h:outputText value="#{bundle.ListTproformaTitle_idSucursalFac}"/>
+                                            </f:facet>
+                                            <h:outputText value="#{item.idSucursalFac}"/>
+                                        </p:column>
+
+                                        <f:facet name="footer">
+                                            <p:commandButton id="createButton" icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{tproformaController.prepareCreate}" update=":TproformaCreateForm" oncomplete="PF('TproformaCreateDialog').show()"/>
+                                            <p:commandButton id="viewButton"   icon="ui-icon-search" value="#{bundle.View}" update=":TproformaViewForm" oncomplete="PF('TproformaViewDialog').show()" disabled="#{empty tproformaController.selected}"/>
+                                            <p:commandButton id="editButton"   icon="ui-icon-pencil" value="#{bundle.Edit}" update=":TproformaEditForm" oncomplete="PF('TproformaEditDialog').show()" disabled="#{empty tproformaController.selected}"/>
+                                            <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{tproformaController.destroy}" update=":growl,datalist" disabled="#{empty tproformaController.selected}"/>
+                                        </f:facet>
+                                    </p:dataTable>
+                                </p:panel>
+                            </h:form>
+                            <p></p>
+                            <h:commandButton id="btnRegGuardar" value="#{bundle.CreateTentidadSaveLink}"
+                                             styleClass="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only"/>
+                        </h:panelGrid>
+                    </p:panel>
+                </td>
+                
+            </tr>
+            <tr>
+                <td id="bottom">
+                    <ui:insert name="bottom">
+                        <h:form id="frmPie">
+                            <div align="center">
+                                <h:outputText id="outContenido" value="#{bundle.Derechos_Copia}" styleClass="texto_pie"/>
+                            </div>
+                        </h:form>
+                    </ui:insert>
+                </td>
+            </tr>
+        </table>
+    </h:body>
+
+</html>

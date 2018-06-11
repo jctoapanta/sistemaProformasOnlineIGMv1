@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="TsucursalViewDlg" widgetVar="TsucursalViewDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.ViewTsucursalTitle}">
+            <h:form id="TsucursalViewForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{tsucursalController.selected != null}">
+                        <h:outputText value="#{bundle.ViewTsucursalLabel_idSucursal}"/>
+                        <h:outputText value="#{tsucursalController.selected.idSucursal}" title="#{bundle.ViewTsucursalTitle_idSucursal}"/>
+                        <h:outputText value="#{bundle.ViewTsucursalLabel_descSucursal}"/>
+                        <h:outputText value="#{tsucursalController.selected.descSucursal}" title="#{bundle.ViewTsucursalTitle_descSucursal}"/>
+                        <h:outputText value="#{bundle.ViewTsucursalLabel_direccion}"/>
+                        <h:outputText value="#{tsucursalController.selected.direccion}" title="#{bundle.ViewTsucursalTitle_direccion}"/>
+                        <h:outputText value="#{bundle.ViewTsucursalLabel_telefono}"/>
+                        <h:outputText value="#{tsucursalController.selected.telefono}" title="#{bundle.ViewTsucursalTitle_telefono}"/>
+                        <h:outputText value="#{bundle.ViewTsucursalLabel_fax}"/>
+                        <h:outputText value="#{tsucursalController.selected.fax}" title="#{bundle.ViewTsucursalTitle_fax}"/>
+                        <h:outputText value="#{bundle.ViewTsucursalLabel_email}"/>
+                        <h:outputText value="#{tsucursalController.selected.email}" title="#{bundle.ViewTsucursalTitle_email}"/>
+                        <h:outputText value="#{bundle.ViewTsucursalLabel_ruc}"/>
+                        <h:outputText value="#{tsucursalController.selected.ruc}" title="#{bundle.ViewTsucursalTitle_ruc}"/>
+                        <h:outputText value="#{bundle.ViewTsucursalLabel_idResponsable}"/>
+                        <h:outputText value="#{tsucursalController.selected.idResponsable}" title="#{bundle.ViewTsucursalTitle_idResponsable}"/>
+                        <h:outputText value="#{bundle.ViewTsucursalLabel_CCtble}"/>
+                        <h:outputText value="#{tsucursalController.selected.CCtble}" title="#{bundle.ViewTsucursalTitle_CCtble}"/>
+                        <h:outputText value="#{bundle.ViewTsucursalLabel_idModificador}"/>
+                        <h:outputText value="#{tsucursalController.selected.idModificador}" title="#{bundle.ViewTsucursalTitle_idModificador}"/>
+                        <h:outputText value="#{bundle.ViewTsucursalLabel_fechaCreacion}"/>
+                        <h:outputText value="#{tsucursalController.selected.fechaCreacion}" title="#{bundle.ViewTsucursalTitle_fechaCreacion}">
+                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                        </h:outputText>
+                        <h:outputText value="#{bundle.ViewTsucursalLabel_fechaModificacion}"/>
+                        <h:outputText value="#{tsucursalController.selected.fechaModificacion}" title="#{bundle.ViewTsucursalTitle_fechaModificacion}">
+                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                        </h:outputText>
+                        <h:outputText value="#{bundle.ViewTsucursalLabel_version}"/>
+                        <h:outputText value="#{tsucursalController.selected.version}" title="#{bundle.ViewTsucursalTitle_version}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="TsucursalViewDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>
