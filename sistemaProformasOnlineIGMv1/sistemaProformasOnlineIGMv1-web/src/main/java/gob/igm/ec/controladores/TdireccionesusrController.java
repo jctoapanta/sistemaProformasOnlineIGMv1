@@ -37,19 +37,20 @@ import javax.inject.Inject;
 public class TdireccionesusrController extends FacesUtil implements Serializable {
 
     /**
-     * @return the ciuH
+     * @return the ciur
      */
-    public HtmlInputHidden getCiuH() {
-        return ciuH;
+    public HtmlInputHidden getCiur() {
+        return ciur;
     }
 
     /**
-     * @param ciuH the ciuH to set
+     * @param ciur the ciur to set
      */
-    public void setCiuH(HtmlInputHidden ciuH) {
-        this.ciuH = ciuH;
+    public void setCiur(HtmlInputHidden ciur) {
+        this.ciur = ciur;
     }
 
+    
 
     @Inject
     private Login login;
@@ -76,7 +77,23 @@ public class TdireccionesusrController extends FacesUtil implements Serializable
     private HtmlSelectOneMenu cantonMenu;
     private HtmlSelectOneMenu parroquiaMenu;
     private HtmlInputHidden ciuH;
+     private HtmlInputHidden ciur;
     
+    
+    /**
+     * @return the ciuH
+     */
+    public HtmlInputHidden getCiuH() {
+        return ciuH;
+    }
+
+    /**
+     * @param ciuH the ciuH to set
+     */
+    public void setCiuH(HtmlInputHidden ciuH) {
+        this.ciuH = ciuH;
+    }
+
     /** La variable logger. */
     private static org.apache.log4j.Logger logger;
 
@@ -236,7 +253,7 @@ public class TdireccionesusrController extends FacesUtil implements Serializable
      * @return the direccionesXCiu
      */
     public List<Tdireccionesusr> getDireccionesXCiu() {
-        direccionesXCiu = this.ejbFacade.buscarDireccionesXCliente(tentidadController.getSelected().getCiu());
+        direccionesXCiu = this.ejbFacade.buscarDireccionesXCliente(this.ciur.getValue().toString());
         if (direccionesXCiu.isEmpty()) {
             JsfUtil.addErrorMessage("Usted aun no dispone de Direcciones registradas");
         }

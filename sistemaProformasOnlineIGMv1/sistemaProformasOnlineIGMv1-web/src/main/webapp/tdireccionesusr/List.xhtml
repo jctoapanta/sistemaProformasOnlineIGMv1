@@ -14,20 +14,36 @@
         </ui:define>
 
         <ui:define name="body">
+                <p:panel>
+                    <h:panelGrid columns="2" cellspacing="5" >
+                        <p:outputLabel value="Ciu:" for="ciu"/>
+                        <p:outputLabel id="ciu" value="#{login.cliente.ciu}" />
+                        <h:inputHidden id="ciuHidden" value="#{login.cliente.ciu}" binding="#{order.ciuH}"/>
+                        <p:outputLabel value="Nombres:" for="nombres" />
+                        <p:outputLabel id="nombres" value="#{login.cliente.nombres}"/>
+                        <p:outputLabel value="Apellidos:" for="apellidos" />
+                        <p:outputLabel id="apellidos" value="#{login.cliente.apellidos}"/>
+                        <p:outputLabel value="Total sin recargos de envio:" for="Total" />
+                        <h:outputText id = "Total" value="#{order.totalp}"/>                                                
+                    </h:panelGrid>
+                </p:panel>
+    
             <h:form id="TdireccionesusrListForm">
                 <p:panel header="#{bundle.ListTdireccionesusrTitle}">
+                    <h:inputHidden id="ciuHidden" value="#{login.cliente.ciu}" binding="#{tdireccionesusrController.ciur}"/>
                     <p:dataTable id="datalist" value="#{tdireccionesusrController.direccionesXCiu}" var="item"
                                  selectionMode="single" selection="#{tdireccionesusrController.selected}"
                                  paginator="true"
                                  rowKey="#{item.idDireccion}"
                                  rows="10"
                                  rowsPerPageTemplate="10,20,30,40,50"
-                                 >
+                    >
 
                         <p:ajax event="rowSelect"   update="createButton viewButton editButton deleteButton"/>
                         <p:ajax event="rowUnselect" update="createButton viewButton editButton deleteButton"/>
 
-                        <h:outputText value="#{tentidadController.selected.ciu}"/>
+                        <h:outputText value="#{login.cliente.ciu}" binding="#{order.ciuH}"/>
+                        
                         <p:column>
                             <f:facet name="header">
                                 <h:outputText value="#{bundle.ListTdireccionesusrTitle_idDireccion}"/>

@@ -18,10 +18,10 @@
                         <h:inputHidden id="ciuHidden" value="#{login.cliente.ciu}" binding="#{order.ciuH}"/>
                         <p:outputLabel value="Nombres:" for="nombres" />
                         <p:outputLabel id="nombres" value="#{login.cliente.nombres}"/>
-                        <p:outputLabel value="Direccion:" for="direccion" />
-                        <p:outputLabel id="direccion" value="#{login.cliente.direccion}" />
+                        <p:outputLabel value="Apellidos:" for="apellidos" />
+                        <p:outputLabel id="apellidos" value="#{login.cliente.apellidos}"/>                                              
                     </h:panelGrid>
-                </p:panel>
+                </p:panel>                   
                 <p:fieldset style="margin-bottom:12px;">
                     <table>
                         <td>
@@ -30,10 +30,20 @@
                                 <p:selectOneMenu id="IdItem" value="#{order.seleccionadoItem}" style="width:290px" panelStyle="width:180px" filter="true">
                                     <f:selectItem itemLabel="Seleccionar item"/>
                                     <f:selectItems value="#{order.items}"/>
-                                </p:selectOneMenu>
+                                </p:selectOneMenu>                                                                                          
                                 <p:outputLabel value="Cantidad:"/>
                                 <p:spinner value="#{order.cantidad}" min="1" max="100" size="3"/>
                                 <p:commandButton id="btnIngresar" icon="ui-icon-cart" actionListener="#{order.addAction}" ajax="false"/> 
+                                <td style="left:inherit">
+                                   
+                                  <h:form> 
+                                  <p:growl id="growl" showDetail="true" sticky="true" />                              
+                                  <p:commandButton value="Generar Proforma" style=" position: absolute; 
+                                                   bottom: 75%; left: 50%" actionListener="#{order.addProforma()}" action = "/tdireccionesusr/List.xhtml" ajax="false" update="growl"  />                                                  
+                                  </h:form>                     
+                                   
+                                   
+                                 </td>                                               
                             </h:panelGrid>
                             <p:dataTable id="listadetalles" value="#{order.orderList}" var="o" style="margin-bottom:40%;width:60%" >
                                 <p:column sortBy="#{o.descripcion}">
@@ -67,16 +77,9 @@
                                 <f:facet name="footer">
                                     El valor total de la proforma es: #{order.totalp}
                                 </f:facet>
-                            </p:dataTable>  
-                        </td>
-                        <td style="left:inherit">
-                            <p:commandButton value="Generar Proforma" style=" position: absolute; 
-                                             bottom: 75%; right: 50%" actionListener="#{order.addProforma}" ajax="false" />
+                            </p:dataTable>                                                                                      
                         </td>
                     </table>
-                    <h:panelGrid columns="2" cellpadding="5">
-
-                    </h:panelGrid>
                 </p:fieldset> 
             </h:form>
         </ui:define>

@@ -62,7 +62,7 @@
                         <p:inputText id="referenciaDireccion" value="#{tdireccionesusrController.selected.referenciaDireccion}" title="#{bundle.CreateTdireccionesusrTitle_referenciaDireccion}" />
                         <p:outputLabel value="#{bundle.CreateTdireccionesusrLabel_ciu}" for="ciu" />
                         <p:inputText id="ciu" value="#{tentidadController.selected.ciu}" readonly="true"/>
-                        <h:inputHidden id="ciuHidden" value="#{tentidadController.selected.ciu}" binding="#{tdireccionesusrController.ciuH}"/>
+                        <h:inputHidden id="ciuHidden" value="#{login.cliente.ciu}" binding="#{tdireccionesusrController.ciuH}"/>
                     </p:panelGrid>
                     <p:commandButton actionListener="#{tdireccionesusrController.create}" value="#{bundle.Save}" update="display,:TdireccionesusrListForm:datalist,:growl" oncomplete="handleSubmit(args,'TdireccionesusrCreateDialog');"/>
                     <p:commandButton value="#{bundle.Cancel}" onclick="TdireccionesusrCreateDialog.hide()"/>

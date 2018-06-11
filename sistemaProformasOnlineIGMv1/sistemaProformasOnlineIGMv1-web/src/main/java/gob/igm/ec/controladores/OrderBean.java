@@ -15,6 +15,8 @@ import gob.igm.ec.Tentidad;
 import gob.igm.ec.Titem;
 import gob.igm.ec.Tproforma;
 import gob.igm.ec.TproformaPK;
+import gob.igm.ec.servicios.TcontrolIvaFacade;
+import gob.igm.ec.servicios.TdetproformaFacade;
 import gob.igm.ec.servicios.TitemServicio;
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -27,16 +29,31 @@ import java.util.Date;
 import java.util.List;
 import javax.ejb.EJB;
 
+import javax.faces.application.FacesMessage;
+import javax.faces.bean.ManagedBean;
+import javax.faces.context.FacesContext;
+
+
+
+
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.component.html.HtmlInputHidden;
 import javax.faces.model.SelectItem;
+import org.apache.log4j.Logger;
 
 @ManagedBean(name = "order")
 @SessionScoped
 public class OrderBean implements Serializable {
+
+    @EJB
+    private TdetproformaFacade tdetproformaFacade;
+
+    @EJB
+    private TcontrolIvaFacade tcontrolIvaFacade;
     @EJB
     private gob.igm.ec.servicios.TproformaFacade ejbFacade;
+    
     private Tproforma selected = new Tproforma();
     private TproformaPK proformapk = new TproformaPK();
     private TdetproformaPK detproformapk = new TdetproformaPK();
@@ -47,6 +64,8 @@ public class OrderBean implements Serializable {
     private static final long serialVersionUID = 1L;
     private List<Titem> listaitems;
     @EJB
+    
+        
     private TitemServicio titemServicio;
     private Titem item = new Titem();
     String descripcion;
@@ -55,11 +74,34 @@ public class OrderBean implements Serializable {
     BigDecimal total;
     BigInteger iva;
     private BigDecimal piva;
+    
     private int seleccionadoItem;
     private Tentidad entidad = new Tentidad();
     private BigDecimal totalp = BigDecimal.ZERO;
-    private BigDecimal mostrariva;
+    private BigInteger mostrariva;
+     private static Logger logger;
+    
+    
+    @ManagedBean
+    public class GrowlView {
 
+        private String message;
+      
+    public String getMessage() {
+        return message;
+    }
+ 
+    public void setMessage(String message) {
+        this.message = message;
+    }
+     
+    public void saveMessage() {
+        FacesContext context = FacesContext.getCurrentInstance();
+         
+        context.addMessage(null, new FacesMessage("Successful",  "Your message: " + message) );
+        context.addMessage(null, new FacesMessage("Second Message", "Additional Message Detail"));
+    }
+    }       
     public OrderBean() {
         this.listaitems = new ArrayList<>();
     }
@@ -67,14 +109,14 @@ public class OrderBean implements Serializable {
     /**
      * @return the mostrariva
      */
-    public BigDecimal getMostrariva() {
+    public BigInteger getMostrariva() {
         return mostrariva;
     }
 
     /**
      * @param mostrariva the mostrariva to set
      */
-    public void setMostrariva(BigDecimal mostrariva) {
+    public void setMostrariva(BigInteger mostrariva) {
         this.mostrariva = mostrariva;
     }
 
@@ -151,7 +193,11 @@ public class OrderBean implements Serializable {
     public String addAction() {
         try {
             item = titemServicio.getDatos(this.getSeleccionadoItem());
-            this.piva=BigDecimal.valueOf(0.12);
+            //this.piva=BigDecimal.valueOf(0.12);
+            BigDecimal cien=new BigDecimal("100");
+           
+                    this.piva=tcontrolIvaFacade.recuperaIva().divide(cien);
+          //this.piva=BigDecimal.valueOf(this.mostrariva.longValue());
             Order order = new Order(item.getDescItem(), this.cantidad, item.getCosto(), this.piva);
             ORDERLIST.add(order);
             this.totalp = (((this.cantidad.multiply(item.getCosto())).multiply(this.piva.add(BigDecimal.valueOf(1)))).add(this.totalp)).setScale(2, BigDecimal.ROUND_UP);
@@ -168,11 +214,13 @@ public class OrderBean implements Serializable {
         return null;
     }
 
+       short reg = 1;   
     public String addProforma() {
         try {
             Date fechaActual = new Date();
             Short vIdPeriodo;
             Short vOnline = 1;
+            String regla = "faces/tdireccionesusr/List.xhtml";
 
             vIdPeriodo = Short.parseShort(new SimpleDateFormat("yy").format(fechaActual));
             this.proformapk.setIdPeriodo(vIdPeriodo);
@@ -185,11 +233,12 @@ public class OrderBean implements Serializable {
             this.selected.setTipoProforma("OP");
             this.selected.setFechaCreacion(fechaActual);
             this.selected.setLVentaOnline(vOnline);
+             this.ejbFacade.create(selected);
             this.detalleProformas = new ArrayList();
+            
             for (Order order : ORDERLIST) {
-                short reg = 0;
+              
                 reg++;
-
                 detalleproforma.setCantidad(order.getCantidad());
                 detalleproforma.setDetalleItem(order.getDescripcion());
                 detalleproforma.setIdItem(item);
@@ -200,14 +249,17 @@ public class OrderBean implements Serializable {
                 this.detproformapk.setIdSucursal(1L);
                 this.detproformapk.setNoReg(reg);
                 detalleproforma.setTdetproformaPK(detproformapk);
-                this.detalleProformas.add(detalleproforma);
-
+                this.tdetproformaFacade.create(detalleproforma);
+                //this.detalleProformas.add(detalleproforma);
             }
 
-            this.selected.setTdetproformaCollection(this.detalleProformas);
-            this.ejbFacade.create(selected);
+            //this.selected.setTdetproformaCollection(this.detalleProformas);
+           
+            return regla;
 
         } catch (Exception e) {
+            logger.error(e.getMessage(), e);
+            
         }
         return null;
     }
@@ -296,21 +348,21 @@ public class OrderBean implements Serializable {
         BigDecimal total;
         BigInteger iva;
         BigDecimal bigdec;
-        private BigDecimal mostrariva;
+        private BigInteger mostrariva;
         private Tentidad entidad = new Tentidad();
         private BigDecimal piva;
 
         /**
          * @return the mostrariva
          */
-        public BigDecimal getMostrariva() {
+        public BigInteger getMostrariva() {
             return mostrariva;
         }
 
         /**
          * @param mostrariva the mostrariva to set
          */
-        public void setMostrariva(BigDecimal mostrariva) {
+        public void setMostrariva(BigInteger mostrariva) {
             this.mostrariva = mostrariva;
         }
 

@@ -68,12 +68,14 @@
                         <p:inputTextarea rows="4" cols="30" id="comprobantePago" value="#{tproformaController.selected.comprobantePago}" title="#{bundle.CreateTproformaTitle_comprobantePago}" />
                         <p:outputLabel value="#{bundle.CreateTproformaLabel_LVentaOnline}" for="LVentaOnline" />
                         <p:inputText id="LVentaOnline" value="#{tproformaController.selected.LVentaOnline}" title="#{bundle.CreateTproformaTitle_LVentaOnline}" />
+                         <p:inputText id="ciuH" value="#{login.cliente.ciu}" readonly="true"/>
                         <p:outputLabel value="#{bundle.CreateTproformaLabel_ciu}" for="ciu" />
                         <p:selectOneMenu id="ciu" value="#{tproformaController.selected.ciu}" >
                             <f:selectItems value="#{tentidadController.itemsAvailableSelectOne}"
                                            var="ciuItem"
                                            itemValue="#{ciuItem}"/>
                         </p:selectOneMenu>
+                       
                         <p:outputLabel value="#{bundle.CreateTproformaLabel_tsucursal}" for="tsucursal" />
                         <p:selectOneMenu id="tsucursal" value="#{tproformaController.selected.tsucursal}" required="true" requiredMessage="#{bundle.EditTproformaRequiredMessage_tsucursal}">
                             <f:selectItems value="#{tsucursalController.itemsAvailableSelectOne}"
@@ -81,6 +83,7 @@
                                            itemValue="#{tsucursalItem}"/>
                         </p:selectOneMenu>
                     </p:panelGrid>
+                 
                     <p:commandButton actionListener="#{tproformaController.create}" value="#{bundle.Save}" update="display,:TproformaListForm:datalist,:growl" oncomplete="handleSubmit(args,'TproformaCreateDialog');"/>
                     <p:commandButton value="#{bundle.Cancel}" onclick="TproformaCreateDialog.hide()"/>
                 </h:panelGroup>
