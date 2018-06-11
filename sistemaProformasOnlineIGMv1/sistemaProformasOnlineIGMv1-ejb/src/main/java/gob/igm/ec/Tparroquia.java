@@ -6,8 +6,6 @@
 package gob.igm.ec;
 
 import java.io.Serializable;
-import java.util.Collection;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
@@ -16,11 +14,9 @@ import javax.persistence.JoinColumns;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -30,7 +26,7 @@ import javax.xml.bind.annotation.XmlTransient;
 @Table(name = "TPARROQUIA")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Tparroquia.findAll", query = "SELECT t.parroquia FROM Tparroquia t")
+    @NamedQuery(name = "Tparroquia.findAll", query = "SELECT t FROM Tparroquia t")
     , @NamedQuery(name = "Tparroquia.findByIdProvincia", query = "SELECT t FROM Tparroquia t WHERE t.tparroquiaPK.idProvincia = :idProvincia")
     , @NamedQuery(name = "Tparroquia.findByIdCanton", query = "SELECT t FROM Tparroquia t WHERE t.tparroquiaPK.idCanton = :idCanton")
     , @NamedQuery(name = "Tparroquia.findByIdParroquia", query = "SELECT t FROM Tparroquia t WHERE t.tparroquiaPK.idParroquia = :idParroquia")
@@ -43,8 +39,6 @@ public class Tparroquia implements Serializable {
     @Size(max = 50)
     @Column(name = "PARROQUIA")
     private String parroquia;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "tparroquia")
-    private Collection<Tdireccionesusr> tdireccionesusrCollection;
     @JoinColumns({
         @JoinColumn(name = "ID_PROVINCIA", referencedColumnName = "ID_PROVINCIA", insertable = false, updatable = false)
         , @JoinColumn(name = "ID_CANTON", referencedColumnName = "ID_CANTON", insertable = false, updatable = false)})
@@ -78,15 +72,6 @@ public class Tparroquia implements Serializable {
         this.parroquia = parroquia;
     }
 
-    @XmlTransient
-    public Collection<Tdireccionesusr> getTdireccionesusrCollection() {
-        return tdireccionesusrCollection;
-    }
-
-    public void setTdireccionesusrCollection(Collection<Tdireccionesusr> tdireccionesusrCollection) {
-        this.tdireccionesusrCollection = tdireccionesusrCollection;
-    }
-
     public Tcanton getTcanton() {
         return tcanton;
     }
@@ -117,7 +102,7 @@ public class Tparroquia implements Serializable {
 
     @Override
     public String toString() {
-        return this.parroquia + this.tcanton;
+        return parroquia;
     }
     
 }

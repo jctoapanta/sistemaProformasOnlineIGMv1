@@ -16,7 +16,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -48,13 +47,11 @@ public class Tcanton implements Serializable {
     private Short lPrincipal;
     @Column(name = "ID_ZONA")
     private Short idZona;
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "tcanton")
-    private Ttarifario ttarifario;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "tcanton")
+    private Collection<Tparroquia> tparroquiaCollection;
     @JoinColumn(name = "ID_PROVINCIA", referencedColumnName = "ID_PROVINCIA", insertable = false, updatable = false)
     @ManyToOne(optional = false)
     private Tprovincia tprovincia;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "tcanton")
-    private Collection<Tparroquia> tparroquiaCollection;
 
     public Tcanton() {
     }
@@ -99,12 +96,13 @@ public class Tcanton implements Serializable {
         this.idZona = idZona;
     }
 
-    public Ttarifario getTtarifario() {
-        return ttarifario;
+    @XmlTransient
+    public Collection<Tparroquia> getTparroquiaCollection() {
+        return tparroquiaCollection;
     }
 
-    public void setTtarifario(Ttarifario ttarifario) {
-        this.ttarifario = ttarifario;
+    public void setTparroquiaCollection(Collection<Tparroquia> tparroquiaCollection) {
+        this.tparroquiaCollection = tparroquiaCollection;
     }
 
     public Tprovincia getTprovincia() {
@@ -113,15 +111,6 @@ public class Tcanton implements Serializable {
 
     public void setTprovincia(Tprovincia tprovincia) {
         this.tprovincia = tprovincia;
-    }
-
-    @XmlTransient
-    public Collection<Tparroquia> getTparroquiaCollection() {
-        return tparroquiaCollection;
-    }
-
-    public void setTparroquiaCollection(Collection<Tparroquia> tparroquiaCollection) {
-        this.tparroquiaCollection = tparroquiaCollection;
     }
 
     @Override
