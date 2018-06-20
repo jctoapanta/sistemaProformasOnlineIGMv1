@@ -8,9 +8,11 @@ package gob.igm.ec.controladores;
 /**
  *
  * @author PULE_DIEGO
+ * @modify JC_TOAPANTA
  */
 import gob.igm.ec.Tdetproforma;
 import gob.igm.ec.TdetproformaPK;
+import gob.igm.ec.Tdireccionesusr;
 import gob.igm.ec.Tentidad;
 import gob.igm.ec.Titem;
 import gob.igm.ec.Tproforma;
@@ -23,36 +25,62 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import javax.ejb.EJB;
-
-import javax.faces.application.FacesMessage;
-import javax.faces.bean.ManagedBean;
 import javax.faces.context.FacesContext;
-
-
-
-
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.component.html.HtmlInputHidden;
+import javax.faces.context.ExternalContext;
 import javax.faces.model.SelectItem;
+import javax.inject.Inject;
 import org.apache.log4j.Logger;
 
 @ManagedBean(name = "order")
 @SessionScoped
 public class OrderBean implements Serializable {
 
+    /**
+     * @return the tipoEntregaH
+     */
+    public HtmlInputHidden getTipoEntregaH() {
+        return tipoEntregaH;
+    }
+
+    /**
+     * @param tipoEntregaH the tipoEntregaH to set
+     */
+    public void setTipoEntregaH(HtmlInputHidden tipoEntregaH) {
+        this.tipoEntregaH = tipoEntregaH;
+    }
+
+    /**
+     * @return the direccionEnvio
+     */
+    public Tdireccionesusr getDireccionEnvio() {
+        return direccionEnvio;
+    }
+
+    /**
+     * @param direccionEnvio the direccionEnvio to set
+     */
+    public void setDireccionEnvio(Tdireccionesusr direccionEnvio) {
+        this.direccionEnvio = direccionEnvio;
+    }
+
     @EJB
     private TdetproformaFacade tdetproformaFacade;
 
     @EJB
     private TcontrolIvaFacade tcontrolIvaFacade;
+    
     @EJB
     private gob.igm.ec.servicios.TproformaFacade ejbFacade;
+    
+    @Inject
+    private TdireccionesusrController direccionesControlador;
     
     private Tproforma selected = new Tproforma();
     private TproformaPK proformapk = new TproformaPK();
@@ -61,6 +89,7 @@ public class OrderBean implements Serializable {
     private Tdetproforma detalleproforma = new Tdetproforma();
     private Collection<Tdetproforma> tdetproformaCollection = new ArrayList<>();
     private HtmlInputHidden ciuH = new HtmlInputHidden();
+    private HtmlInputHidden tipoEntregaH = new HtmlInputHidden();
     private static final long serialVersionUID = 1L;
     private List<Titem> listaitems;
     @EJB
@@ -77,32 +106,13 @@ public class OrderBean implements Serializable {
     
     private int seleccionadoItem;
     private Tentidad entidad = new Tentidad();
+    private Tdireccionesusr direccionEnvio=new Tdireccionesusr();
     private BigDecimal totalp = BigDecimal.ZERO;
     private BigInteger mostrariva;
-     private static Logger logger;
+    private static Logger logger;
     
-    
-    @ManagedBean
-    public class GrowlView {
-
-        private String message;
-      
-    public String getMessage() {
-        return message;
-    }
- 
-    public void setMessage(String message) {
-        this.message = message;
-    }
-     
-    public void saveMessage() {
-        FacesContext context = FacesContext.getCurrentInstance();
-         
-        context.addMessage(null, new FacesMessage("Successful",  "Your message: " + message) );
-        context.addMessage(null, new FacesMessage("Second Message", "Additional Message Detail"));
-    }
-    }       
     public OrderBean() {
+        this.direccionesControlador = new TdireccionesusrController();
         this.listaitems = new ArrayList<>();
     }
 
@@ -214,54 +224,53 @@ public class OrderBean implements Serializable {
         return null;
     }
 
-       short reg = 1;   
     public String addProforma() {
+        short reg = 1;
         try {
             Date fechaActual = new Date();
+            ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
+            String tEntrega = ec.getRequestParameterMap().get("principalForm:tipoEntregaHidden2");
             Short vIdPeriodo;
             Short vOnline = 1;
-            String regla = "/tdireccionesusr/List.xhtml";
-
-            vIdPeriodo = Short.parseShort(new SimpleDateFormat("yy").format(fechaActual));
-            this.proformapk.setIdPeriodo(vIdPeriodo);
-            this.proformapk.setIdSucursal(1L);
-            this.proformapk.setIdProforma(this.ejbFacade.maxId() + 1L);
-            this.selected.setTproformaPK(this.proformapk);
-            entidad.setCiu(this.getCiuH().getValue().toString());
-            this.selected.setCiu(entidad);
-            this.selected.setEstado("P");
-            this.selected.setTipoProforma("OP");
-            this.selected.setFechaCreacion(fechaActual);
-            this.selected.setLVentaOnline(vOnline);
-             this.ejbFacade.create(selected);
-            this.detalleProformas = new ArrayList();
-            
-            for (Order order : ORDERLIST) {
-              
-                reg++;
-                detalleproforma.setCantidad(order.getCantidad());
-                detalleproforma.setDetalleItem(order.getDescripcion());
-                detalleproforma.setIdItem(item);
-                detalleproforma.setIvaPorcentaje(BigDecimal.valueOf(0.12));
-                detalleproforma.setPvpTotal(this.getTotalp());
-                this.detproformapk.setIdPeriodo(vIdPeriodo);
-                this.detproformapk.setIdProforma(this.proformapk.getIdProforma());
-                this.detproformapk.setIdSucursal(1L);
-                this.detproformapk.setNoReg(reg);
-                detalleproforma.setTdetproformaPK(detproformapk);
-                this.tdetproformaFacade.create(detalleproforma);
-                //this.detalleProformas.add(detalleproforma);
+            Tdireccionesusr direccionEncontrada=this.direccionesControlador.buscaDomicilioCliente();
+            String regla = this.direccionesControlador.activaDirEnvio();
+            if (regla.equals("/tproforma/ListProXCli")){
+                vIdPeriodo = Short.parseShort(new SimpleDateFormat("yy").format(fechaActual));
+                this.proformapk.setIdPeriodo(vIdPeriodo);
+                this.proformapk.setIdSucursal(1L);
+                this.proformapk.setIdProforma(this.ejbFacade.maxId() + 1L);
+                this.selected.setTproformaPK(this.proformapk);
+                entidad.setCiu(this.getCiuH().getValue().toString());
+                this.selected.setCiu(entidad);
+                this.selected.setEstado("P");
+                this.selected.setTipoProforma("OP");
+                this.selected.setFechaCreacion(fechaActual);
+                this.selected.setIdDireccion(direccionEncontrada);
+                this.selected.setLVentaOnline(vOnline);
+                 this.ejbFacade.create(selected);
+                this.detalleProformas = new ArrayList();
+                for (Order order : ORDERLIST) {
+                    reg++;
+                    detalleproforma.setCantidad(order.getCantidad());
+                    detalleproforma.setDetalleItem(order.getDescripcion());
+                    detalleproforma.setIdItem(item);
+                    detalleproforma.setIvaPorcentaje(BigDecimal.valueOf(0.12));
+                    detalleproforma.setPvpTotal(this.getTotalp());
+                    this.detproformapk.setIdPeriodo(vIdPeriodo);
+                    this.detproformapk.setIdProforma(this.proformapk.getIdProforma());
+                    this.detproformapk.setIdSucursal(1L);
+                    this.detproformapk.setNoReg(reg);
+                    detalleproforma.setTdetproformaPK(detproformapk);
+                    this.tdetproformaFacade.create(detalleproforma);
+                }
+                return regla;
+            } else{
+                return regla;
             }
-
-            //this.selected.setTdetproformaCollection(this.detalleProformas);
-           
-            return regla;
-
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
-            
         }
-        return null;
+        return "#";
     }
 
     /**

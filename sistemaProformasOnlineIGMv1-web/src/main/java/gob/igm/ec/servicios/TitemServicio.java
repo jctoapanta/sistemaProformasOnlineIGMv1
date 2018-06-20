@@ -8,7 +8,6 @@ package gob.igm.ec.servicios;
 import gob.igm.ec.Titem;
 import java.util.ArrayList;
 import java.util.List;
-import javax.ejb.Local;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;

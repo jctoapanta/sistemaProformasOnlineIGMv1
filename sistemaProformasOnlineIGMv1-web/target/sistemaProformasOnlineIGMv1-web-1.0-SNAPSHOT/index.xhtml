@@ -30,7 +30,7 @@
                                          styleClass="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" update="pnlPrincipal growl"/>
                         <br />
                         <div>
-                            <h:commandLink id="lnkRegistro" value="#{bundle.Registro}-#{bundle.Usuario}" action="/registro" actionListener="#{tentidadController.prepareCreate}"/>
+                            <h:commandLink id="lnkRegistro" value="#{bundle.Registro}-#{bundle.Usuario}" action="/registro" actionListener="#{tentidadController.prepareCreate}" immediate="true"/>
                         </div>
                     </h:panelGrid>
                 </p:panel>
@@ -39,11 +39,11 @@
         <!--        <dir align="center">
             <br />
         <h:link outcome="/tcontrolIva/List" value="Show All TcontrolIva Items"/>
-    </dir>-->
         <br />
         <h:link outcome="/tcanton/List" value="Show All Tcanton Items"/>
         <br />
         <h:link outcome="/ttarifario/List" value="Show All Ttarifario Items"/>
+    </dir>-->
     </h:body>
 
 

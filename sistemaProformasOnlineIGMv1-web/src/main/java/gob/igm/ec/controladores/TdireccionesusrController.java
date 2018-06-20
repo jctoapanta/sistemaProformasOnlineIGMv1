@@ -1,16 +1,14 @@
 package gob.igm.ec.controladores;
 
-import gob.igm.ec.Tcanton;
 import gob.igm.ec.Tdireccionesusr;
 import gob.igm.ec.Tentidad;
-import gob.igm.ec.Tprovincia;
+import gob.igm.ec.Tproforma;
 import gob.igm.ec.controladores.util.FacesUtil;
 import gob.igm.ec.controladores.util.JsfUtil;
 import gob.igm.ec.controladores.util.JsfUtil.PersistAction;
 import gob.igm.ec.servicios.TcantonFacade;
 import gob.igm.ec.servicios.TdireccionesusrFacade;
 import gob.igm.ec.servicios.TparroquiaFacade;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,6 +23,7 @@ import javax.enterprise.context.SessionScoped;
 import javax.faces.component.UIComponent;
 import javax.faces.component.html.HtmlInputHidden;
 import javax.faces.component.html.HtmlSelectOneMenu;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
@@ -35,6 +34,74 @@ import javax.inject.Inject;
 @Named("tdireccionesusrController")
 @SessionScoped
 public class TdireccionesusrController extends FacesUtil implements Serializable {
+
+    @Inject
+    private Login login;
+    
+    @Inject
+    private TentidadController tentidadController;
+    
+    @EJB
+    private gob.igm.ec.servicios.TdireccionesusrFacade ejbFacade;
+    private List<Tdireccionesusr> items = null;
+    private List<Tdireccionesusr> direccionesXCiu = null;
+    private Long siguienteIdDireccion;
+    private Tdireccionesusr selected;
+
+    @EJB
+    private TcantonFacade cantonServicio;
+
+    @EJB
+    private TparroquiaFacade parroquiaServicio;
+    
+    private List<SelectItem> provinciaItems = new ArrayList<>();
+    private List<SelectItem> cantonItems = new ArrayList<>();
+    private List<SelectItem> parroquiaItems = new ArrayList<>();
+    private HtmlSelectOneMenu provinciaMenu;
+    private HtmlSelectOneMenu cantonMenu;
+    private HtmlSelectOneMenu parroquiaMenu;
+    private HtmlInputHidden ciuH;
+    private HtmlInputHidden tipoEntrega;
+    private HtmlInputHidden ciur;
+    private String selectedItem;
+    private List<SelectItem> selectedItems = new ArrayList<>();
+    private Long idDireccionC=new Long(0);
+
+    /**
+     * @return the selectedItems
+     */
+    public List<SelectItem> getSelectedItems() {
+        return selectedItems;
+    }
+
+    /**
+     * @return the selectedItem
+     */
+    public String getSelectedItem() {
+        return selectedItem;
+    }
+
+    /**
+     * @param selectedItem the selectedItem to set
+     */
+    public void setSelectedItem(String selectedItem) {
+        this.selectedItem = selectedItem;
+    }
+
+    /**
+     * @return the tipoEntrega
+     */
+    public HtmlInputHidden getTipoEntrega() {
+        return tipoEntrega;
+    }
+
+    /**
+     * @param tipoEntrega the tipoEntrega to set
+     */
+    public void setTipoEntrega(HtmlInputHidden tipoEntrega) {
+        this.tipoEntrega = tipoEntrega;
+    }
+
 
     /**
      * @return the ciur
@@ -49,36 +116,42 @@ public class TdireccionesusrController extends FacesUtil implements Serializable
     public void setCiur(HtmlInputHidden ciur) {
         this.ciur = ciur;
     }
-
     
-
-    @Inject
-    private Login login;
+    public Tdireccionesusr buscaDomicilioCliente(){
+        ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
+        String ciu = ec.getRequestParameterMap().get("principalForm:ciuHidden");
+        Tdireccionesusr idDir=new Tdireccionesusr();
+        idDir=this.ejbFacade.buscarDireccionDomicilioCliente(ciu);
+        return idDir;
+    }
     
-    @Inject
-    private TentidadController tentidadController;
-    
-    @EJB
-    private gob.igm.ec.servicios.TdireccionesusrFacade ejbFacade;
-    private List<Tdireccionesusr> items = null;
-    private List<Tdireccionesusr> direccionesXCiu = null;
-    private Long siguienteIdDireccion;
-    private Tdireccionesusr selected;
-    private TdireccionesusrFacade direccionServicio;
-    @EJB
-    private TcantonFacade cantonServicio;
-    @EJB
-    private TparroquiaFacade parroquiaServicio;
-    
-    private List<SelectItem> provinciaItems = new ArrayList<>();
-    private List<SelectItem> cantonItems = new ArrayList<>();
-    private List<SelectItem> parroquiaItems = new ArrayList<>();
-    private HtmlSelectOneMenu provinciaMenu;
-    private HtmlSelectOneMenu cantonMenu;
-    private HtmlSelectOneMenu parroquiaMenu;
-    private HtmlInputHidden ciuH;
-     private HtmlInputHidden ciur;
-    
+    public String activaDirEnvio() {
+        String regla = "/tproforma/ListProXCli";
+        ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
+        String tEntrega = ec.getRequestParameterMap().get("principalForm:tipoEntregaHidden2");
+        String ciu = ec.getRequestParameterMap().get("principalForm:ciuHidden");
+        Tproforma proforma=new Tproforma();
+        if (tEntrega.equals("1")){
+            //JsfUtil.addErrorMessage("Se ha guardado su proforma correctamente");
+            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("TproformaCreated"));
+            regla = "/tproforma/ListProXCli";
+        } else {
+            regla = "/tdireccionesusr/ListSelecDir";
+            try {
+                setDireccionesXCiu(this.ejbFacade.buscarDireccionesXCliente(login.getAliasBase()));
+                if (getDireccionesXCiu().isEmpty()){
+                    JsfUtil.addErrorMessage("Usted aún no ha registrado sus Direcciones");
+                    regla = "/tdireccionesusr/Create";
+                }
+            }
+            catch (Exception ex) {
+                regla = "/tproforma/ListProXCli";
+                logger.error(ex.getMessage(), ex);
+                super.addErrorMessage(super.getRecursoGeneral().getString("msgErrorLogin"));
+            }
+        }
+        return regla;
+    }
     
     /**
      * @return the ciuH
@@ -98,8 +171,12 @@ public class TdireccionesusrController extends FacesUtil implements Serializable
     private static org.apache.log4j.Logger logger;
 
     public TdireccionesusrController() {
+        
         this.siguienteIdDireccion = null;
         ciuH=new HtmlInputHidden();
+        tipoEntrega=new HtmlInputHidden();
+        selectedItems.add(new SelectItem("1", "Retiro en oficina IGM"));
+        selectedItems.add(new SelectItem("2", "Entrega a Domicilio"));
     }
 
     public Tdireccionesusr getSelected() {
@@ -272,16 +349,10 @@ public class TdireccionesusrController extends FacesUtil implements Serializable
      * @return Regla de navegaci�n
      */
     public String registrarDireccion() {
-        //List<Object> usuario;
         String regla = "/tdireccionesusr/List";
         try {
-            setDireccionesXCiu(this.direccionServicio.buscarDireccionesXCliente(login.getAliasBase()));
-//            for (Tdireccionesusr tdireccion : direccion) {
-//                direccion.setCiu(tdireccion.getCiu());
-//                direccion.setApellidos(tdireccion.getApellidos());
-//                direccion.setNombres(tdireccion.getNombres());
-//                direccion.setDireccion(tdireccion.getDireccion());
-//            }
+            setDireccionesXCiu(this.ejbFacade.buscarDireccionesXCliente(login.getAliasBase()));
+
             if (getDireccionesXCiu().isEmpty()){
                 JsfUtil.addErrorMessage("Usted aún no ha registrado su Direcciones");
                 regla = "faces/registro.xhtml";
@@ -312,9 +383,6 @@ public class TdireccionesusrController extends FacesUtil implements Serializable
                 Logger.getLogger(TdireccionesusrController.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-        
-        // Skip validation of non-immediate components and invocation of the submit() method.
-        //FacesContext.getCurrentInstance().renderResponse();
     }    
     
     /**
@@ -418,5 +486,19 @@ public class TdireccionesusrController extends FacesUtil implements Serializable
      */
     public void setParroquiaMenu(HtmlSelectOneMenu parroquiaMenu) {
         this.parroquiaMenu = parroquiaMenu;
+    }
+
+    /**
+     * @return the idDireccionC
+     */
+    public Long getIdDireccionC() {
+        return idDireccionC;
+    }
+
+    /**
+     * @param idDireccionC the idDireccionC to set
+     */
+    public void setIdDireccionC(Long idDireccionC) {
+        this.idDireccionC = idDireccionC;
     }
 }

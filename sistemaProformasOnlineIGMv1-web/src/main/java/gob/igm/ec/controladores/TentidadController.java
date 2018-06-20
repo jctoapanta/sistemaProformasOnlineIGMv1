@@ -6,7 +6,6 @@ import gob.igm.ec.controladores.util.JsfUtil;
 import gob.igm.ec.controladores.util.JsfUtil.PersistAction;
 import gob.igm.ec.servicios.TentidadFacade;
 import java.io.IOException;
-
 import java.io.Serializable;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
@@ -26,7 +25,6 @@ import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
 import javax.inject.Inject;
-import javax.persistence.EntityManager;
 import validar.*;
 
 @Named("tentidadController")

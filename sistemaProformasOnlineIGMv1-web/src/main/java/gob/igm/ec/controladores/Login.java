@@ -13,21 +13,21 @@
  */
 package gob.igm.ec.controladores;
 
+import gob.igm.ec.Tdireccionesusr;
 import gob.igm.ec.Tentidad;
 import gob.igm.ec.controladores.util.EncriptUtil;
 import gob.igm.ec.controladores.util.FacesUtil;
 import gob.igm.ec.controladores.util.JsfUtil;
+import gob.igm.ec.servicios.TdireccionesusrFacade;
 
 import gob.igm.ec.servicios.TentidadFacade;
 import java.io.Serializable;
 import java.util.List;
-import javax.enterprise.context.RequestScoped;
 import javax.faces.event.ActionEvent;
 import org.apache.log4j.Logger;
 
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
-import javax.faces.bean.ManagedBean;
 import javax.inject.Named;
 
 
@@ -58,6 +58,9 @@ public class Login extends FacesUtil implements Serializable {
     private static Logger logger;
     @EJB
     private TentidadFacade usuarioServicio;
+    @EJB
+    private TdireccionesusrFacade direccionesServicio;
+    
     private EncriptUtil encriptUtil;
     /** La variable aliasBase. */
     private String aliasBase;
@@ -83,8 +86,8 @@ public class Login extends FacesUtil implements Serializable {
      * @return Regla de navegaci�n
      */
     public String ingresar() {
-        //List<Object> usuario;
-        String regla = "faces/tproforma/ListProXCli.xhtml";
+        Long direccionDomicilioUsrExiste;
+        String regla = "/tproforma/ListProXCli.xhtml";
         try {
             String cifrado = this.encriptUtil.encrypt3DES(this.clave);
             setUsuario(this.usuarioServicio.buscarUsuarioClave(this.aliasBase, cifrado));
@@ -94,9 +97,17 @@ public class Login extends FacesUtil implements Serializable {
                 cliente.setNombres(tentidad.getNombres());
                 cliente.setDireccion(tentidad.getDireccion());
             }
+            direccionDomicilioUsrExiste=this.direccionesServicio.buscarExisteDireccionDomicilioCliente(this.aliasBase);
             if (getUsuario().isEmpty()){
                 JsfUtil.addErrorMessage("Usuario no existe o Clave incorrecta, favor verifique");
-                regla = "faces/index.xhtml";
+                regla = "/index.xhtml";
+            } else {
+                if (direccionDomicilioUsrExiste.equals(0L)) {
+                    JsfUtil.addErrorMessage("Usted aún no ha registrado una dirección, por favor agréguela.");
+                    regla = "/tdireccionesusr/List.xhtml";
+                } else {
+                    regla = "/tproforma/ListProXCli.xhtml";
+                }
             }
         }
         catch (Exception ex) {

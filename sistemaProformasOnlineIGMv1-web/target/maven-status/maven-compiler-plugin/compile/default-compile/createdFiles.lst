@@ -24,6 +24,7 @@ gob\igm\ec\controladores\TcantonController$TcantonControllerConverter.class
 gob\igm\ec\servicios\TdireccionesusrFacade.class
 gob\igm\ec\controladores\util\DatoAgenda.class
 gob\igm\ec\servicios\TproformaFacade.class
+gob\igm\ec\controladores\TtarifarioController.class
 gob\igm\ec\servicios\TfamiliaFacade.class
 gob\igm\ec\controladores\TcantonController.class
 gob\igm\ec\controladores\TsucursalController.class
@@ -39,6 +40,7 @@ gob\igm\ec\controladores\TitemController.class
 gob\igm\ec\servicios\TparroquiaFacade.class
 gob\igm\ec\controladores\Login.class
 gob\igm\ec\controladores\TdireccionesusrController$TdireccionesusrControllerConverter.class
+gob\igm\ec\servicios\TtarifarioFacade.class
 gob\igm\ec\controladores\OrderBean$Order.class
 gob\igm\ec\servicios\TsucursalFacade.class
 gob\igm\ec\servicios\AbstractFacade.class
@@ -46,6 +48,7 @@ gob\igm\ec\controladores\util\Paginador.class
 gob\igm\ec\controladores\util\JsfUtil$PersistAction.class
 gob\igm\ec\controladores\util\Formato.class
 gob\igm\ec\controladores\TcontrolIvaController.class
+gob\igm\ec\controladores\TtarifarioController$TtarifarioControllerConverter.class
 gob\igm\ec\controladores\TtipocartaController.class
 gob\igm\ec\controladores\util\FacesUtil.class
 gob\igm\ec\servicios\TitemFacade.class
