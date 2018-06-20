@@ -7,9 +7,7 @@ package gob.igm.ec.servicios;
 
 import gob.igm.ec.Tentidad;
 import java.util.List;
-import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import java.util.ArrayList;
 import javax.ejb.Stateless;
 import javax.persistence.NoResultException;
@@ -27,6 +25,7 @@ import org.apache.log4j.Logger;
 public class TentidadFacade extends AbstractFacade<Tentidad> {
     /** La variable logger. */
     private static Logger localLogger;
+    
     @PersistenceContext(unitName = "gob.igm.ec_sistemaProformasOnlineIGMv1-ejb_ejb_1.0-SNAPSHOTPU")
     private EntityManager em;
 

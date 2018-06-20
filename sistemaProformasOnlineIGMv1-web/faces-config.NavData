@@ -7,22 +7,22 @@
         <Node id="ttipodireccion/List.xhtml" x="1150" y="1050" zoom="true"/>
         <Node id="tdireccionesusr/Edit.xhtml" x="650" y="1350" zoom="true"/>
         <Node id="registro.xhtml" x="2150" y="150" zoom="true"/>
-        <Node id="ttipocarta/List.xhtml" x="150" y="300" zoom="true"/>
         <Node id="tprovincia/View.xhtml" x="900" y="750" zoom="true"/>
-        <Node id="titem/Create.xhtml" x="400" y="300" zoom="true"/>
+        <Node id="ttipocarta/List.xhtml" x="150" y="300" zoom="true"/>
         <Node id="tproforma/proformas.xhtml" x="400" y="900" zoom="true"/>
+        <Node id="titem/Create.xhtml" x="400" y="300" zoom="true"/>
         <Node id="tsucursal/Edit.xhtml" x="1400" y="900" zoom="true"/>
-        <Node id="tcanton/Edit.xhtml" x="1650" y="150" zoom="true"/>
         <Node id="tunidadmedida/Create.xhtml" x="1400" y="750" zoom="true"/>
-        <Node id="titem/View.xhtml" x="650" y="750" zoom="true"/>
+        <Node id="tcanton/Edit.xhtml" x="1650" y="150" zoom="true"/>
         <Node id="titem/Edit.xhtml" x="400" y="1350" zoom="true"/>
+        <Node id="titem/View.xhtml" x="650" y="750" zoom="true"/>
         <Node id="tcanton/View.xhtml" x="2400" y="450" zoom="true"/>
-        <Node id="ttipocarta/View.xhtml" x="1150" y="300" zoom="true"/>
         <Node id="tcanton/Create.xhtml" x="2400" y="150" zoom="true"/>
+        <Node id="ttipocarta/View.xhtml" x="1150" y="300" zoom="true"/>
         <Node id="tprovincia/List.xhtml" x="150" y="750" zoom="true"/>
         <Node id="tcanton/List.xhtml" x="650" y="150" zoom="true"/>
-        <Node id="tdetproforma/Edit.xhtml" x="150" y="150" zoom="true"/>
         <Node id="tdetproforma/View.xhtml" x="2150" y="300" zoom="true"/>
+        <Node id="tdetproforma/Edit.xhtml" x="150" y="150" zoom="true"/>
         <Node id="tparroquia/Create.xhtml" x="1150" y="900" zoom="true"/>
         <Node id="tsucursal/List.xhtml" x="1150" y="600" zoom="true"/>
         <Node id="tdetproforma/Create.xhtml" x="400" y="450" zoom="true"/>
@@ -31,43 +31,39 @@
         <Node id="tploters/Create.xhtml" x="650" y="300" zoom="true"/>
         <Node id="index.xhtml" x="1400" y="150" zoom="true"/>
         <Node id="tfamilia/List.xhtml" x="1900" y="450" zoom="true"/>
-        <Node id="tproforma/subeArchivo.xhtml" x="1650" y="300" zoom="true"/>
         <Node id="ttipocarta/Create.xhtml" x="1400" y="450" zoom="true"/>
+        <Node id="tproforma/subeArchivo.xhtml" x="1650" y="300" zoom="true"/>
         <Node id="tunidadmedida/View.xhtml" x="1150" y="150" zoom="true"/>
         <Node id="tsucursal/Create.xhtml" x="1650" y="450" zoom="true"/>
-        <Node id="tfamilia/Create.xhtml" x="1400" y="600" zoom="true"/>
         <Node id="plantillaRegistro.xhtml" x="1150" y="750" zoom="true"/>
+        <Node id="tfamilia/Create.xhtml" x="1400" y="600" zoom="true"/>
         <Node id="tparroquia/View.xhtml" x="900" y="300" zoom="true"/>
         <Node id="tdireccionesusr/Create.xhtml" x="1400" y="300" zoom="true"/>
-        <Node id="tiva/View.xhtml" x="900" y="450" zoom="true"/>
         <Node id="ttipodireccion/Create.xhtml" x="2400" y="300" zoom="true"/>
-        <Node id="ttipodireccion/View.xhtml" x="150" y="600" zoom="true"/>
         <Node id="templateBooking.xhtml" x="900" y="1050" zoom="true"/>
+        <Node id="ttipodireccion/View.xhtml" x="150" y="600" zoom="true"/>
         <Node id="tentidad/Edit.xhtml" x="2900" y="150" zoom="true"/>
         <Node id="tfamilia/View.xhtml" x="150" y="450" zoom="true"/>
-        <Node id="tiva/List.xhtml" x="2650" y="150" zoom="true"/>
         <Node id="tploters/Edit.xhtml" x="900" y="600" zoom="true"/>
-        <Node id="tiva/Create.xhtml" x="150" y="900" zoom="true"/>
         <Node id="tparroquia/List.xhtml" x="1900" y="600" zoom="true"/>
         <Node id="tproforma/Edit.xhtml" x="900" y="1200" zoom="true"/>
         <Node id="tunidadmedida/Edit.xhtml" x="900" y="150" zoom="true"/>
         <Node id="template.xhtml" x="900" y="900" zoom="true"/>
         <Node id="tproforma/View.xhtml" x="650" y="1200" zoom="true"/>
-        <Node id="tproforma/Create.xhtml" x="1150" y="450" zoom="true"/>
         <Node id="tparroquia/Edit.xhtml" x="150" y="1200" zoom="true"/>
+        <Node id="tproforma/Create.xhtml" x="1150" y="450" zoom="true"/>
         <Node id="tprovincia/Create.xhtml" x="150" y="1500" zoom="true"/>
         <Node id="tproforma/List.xhtml" x="2150" y="450" zoom="true"/>
         <Node id="tproforma/ListProXCli.xhtml" x="400" y="750" zoom="true"/>
         <Node id="tentidad/List.xhtml" x="150" y="1050" zoom="true"/>
         <Node id="ttipocarta/Edit.xhtml" x="150" y="1650" zoom="true"/>
-        <Node id="tentidad/View.xhtml" x="1650" y="600" zoom="true"/>
         <Node id="tentidad/Create.xhtml" x="2650" y="300" zoom="true"/>
+        <Node id="tentidad/View.xhtml" x="1650" y="600" zoom="true"/>
         <Node id="tploters/List.xhtml" x="400" y="1200" zoom="true"/>
-        <Node id="ttipodireccion/Edit.xhtml" x="650" y="600" zoom="true"/>
         <Node id="tfamilia/Edit.xhtml" x="650" y="1050" zoom="true"/>
+        <Node id="ttipodireccion/Edit.xhtml" x="650" y="600" zoom="true"/>
         <Node id="titem/List.xhtml" x="1650" y="750" zoom="true"/>
         <Node id="tdireccionesusr/View.xhtml" x="1900" y="300" zoom="true"/>
-        <Node id="tiva/Edit.xhtml" x="1900" y="150" zoom="true"/>
         <Node id="tploters/View.xhtml" x="400" y="150" zoom="true"/>
         <Node id="tdireccionesusr/List.xhtml" x="650" y="450" zoom="true"/>
         <Node id="inicial.xhtml" x="400" y="1050" zoom="true"/>

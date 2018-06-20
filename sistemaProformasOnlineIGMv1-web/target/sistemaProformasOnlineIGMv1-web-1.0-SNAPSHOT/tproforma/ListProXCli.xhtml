@@ -15,15 +15,18 @@
 
         <ui:define name="body">
             <h:form id="TproformaListForm">
-                <h:outputText id="outNoCedula" value="#{bundle.CreateTentidadLabel_ciu}" styleClass="texto_negrita_derecha"/>
-                <h:outputText id="intNoCedula" value="#{login.aliasBase}"/>
-                <br />
-                <h:outputText id="outNombre" value="#{bundle.CreateTentidadLabel_nombres}" styleClass="texto_negrita_derecha"/>
-                <h:outputText id="intNombre" value="#{login.cliente.nombres}"/>
-                <br />
-                <h:outputText id="outApellido" value="#{bundle.CreateTentidadLabel_apellidos}" styleClass="texto_negrita_derecha"/>
-                <h:outputText id="intApellido" value="#{login.cliente.apellidos}"/>
-                <p></p>
+                <p:panel>
+                    <h:panelGrid columns="2" cellspacing="10" >
+                        <p:outputLabel value="Ciu:" for="ciu"/>
+                        <p:outputLabel id="ciu" value="#{login.cliente.ciu}" />
+                        <p:outputLabel value="Nombres:" for="nombres" />
+                        <p:outputLabel id="nombres" value="#{login.cliente.nombres}"/>
+                        <p:outputLabel value="Apellidos:" for="apellidos" />
+                        <p:outputLabel id="apellidos" value="#{login.cliente.apellidos}"/>                                              
+                        <h:inputHidden id="ciuHidden" value="#{login.cliente.ciu}" binding="#{order.ciuH}"/>
+                    </h:panelGrid>
+                </p:panel>   
+
                 <p:panel header="#{bundle.ListTproformaTitle}">
                     <p:dataTable id="datalist" value="#{tproformaController.itemsXCiu}" var="item"
                                  selectionMode="single"
@@ -76,7 +79,7 @@
                             </h:outputText>
                         </p:column>
                         <f:facet name="footer">
-                            <p:commandButton id="createButton" icon="ui-icon-plus"   value="#{bundle.Create}" action="/tproforma/proformas"/>
+                            <p:commandButton id="createButton" icon="ui-icon-plus"   value="#{bundle.Create}" action="/tproforma/proformas" immediate="true"/>
                             <p:commandButton id="viewButton"   icon="ui-icon-search" value="#{bundle.View}" update=":TproformaViewForm" oncomplete="PF('TproformaViewDialog').show()" disabled="#{empty tproformaController.selected}"/>
                             <p:commandButton id="sendButton"   icon="ui-icon-pencil" value="#{bundle.Send}" update=":TproformaSendForm" oncomplete="PF('TproformaSendDialog').show()" disabled="#{empty tproformaController.selected}"/>
                         </f:facet>

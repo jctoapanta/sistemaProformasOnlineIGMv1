@@ -10,16 +10,16 @@
 
     <ui:composition template="/template.xhtml">
         <ui:define name="body">
-            <h:form>
+            <h:form id="principalForm">
                 <p:panel>
-                    <h:panelGrid columns="2" cellspacing="5" >
+                    <h:panelGrid columns="2" cellspacing="10" >
                         <p:outputLabel value="Ciu:" for="ciu"/>
                         <p:outputLabel id="ciu" value="#{login.cliente.ciu}" />
-                        <h:inputHidden id="ciuHidden" value="#{login.cliente.ciu}" binding="#{order.ciuH}"/>
                         <p:outputLabel value="Nombres:" for="nombres" />
                         <p:outputLabel id="nombres" value="#{login.cliente.nombres}"/>
                         <p:outputLabel value="Apellidos:" for="apellidos" />
                         <p:outputLabel id="apellidos" value="#{login.cliente.apellidos}"/>                                              
+                        <h:inputHidden id="ciuHidden" value="#{login.cliente.ciu}" binding="#{order.ciuH}"/>
                     </h:panelGrid>
                 </p:panel>                   
                 <p:fieldset style="margin-bottom:12px;">
@@ -30,17 +30,12 @@
                                 <p:selectOneMenu id="IdItem" value="#{order.seleccionadoItem}" style="width:290px" panelStyle="width:180px" filter="true">
                                     <f:selectItem itemLabel="Seleccionar item"/>
                                     <f:selectItems value="#{order.items}"/>
-                                </p:selectOneMenu>                                                                                          
+                                </p:selectOneMenu>
                                 <p:outputLabel value="Cantidad:"/>
                                 <p:spinner value="#{order.cantidad}" min="1" max="100" size="3"/>
-                                <h:panelGroup>
-                                    <p:commandButton id="btnIngresar" icon="ui-icon-cart" actionListener="#{order.addAction}" ajax="false"/> 
-                                    <p:commandButton value="Generar Proforma" style=" position: relative; 
-                                                     bottom: 75%; left: 50%" action="#{order.addProforma}" ajax="false" update="growl"  />
-                                </h:panelGroup>
-                                              
+                                <p:commandButton id="btnIngresar" icon="ui-icon-cart" actionListener="#{order.addAction}" ajax="false"/> 
                             </h:panelGrid>
-                            <p:dataTable id="listadetalles" value="#{order.orderList}" var="o" style="margin-bottom:40%;width:60%" >
+                            <p:dataTable id="listadetalles" value="#{order.orderList}" var="o" style="margin-bottom:10%;width:60%" >
                                 <p:column sortBy="#{o.descripcion}">
                                     <f:facet name="header">
                                         <h:outputText value="Descripción" />
@@ -72,7 +67,24 @@
                                 <f:facet name="footer">
                                     El valor total de la proforma es: #{order.totalp}
                                 </f:facet>
-                            </p:dataTable>                                                                                      
+                            </p:dataTable>
+                            <div>
+                                <h:panelGrid columns="2" cellpadding="4">
+                                    <p:outputLabel value="Forma de entrega:" for="IdFormaPago"/>
+                                    <p:selectOneMenu id="IdFormaPago" style="width:290px" panelStyle="width:180px" value="#{tdireccionesusrController.selectedItem}" immediate="true">
+                                        <f:selectItem itemLabel="Seleccionar forma de entrega" itemValue="#{null}" noSelectionOption="true"/>
+                                        <f:selectItems value="#{tdireccionesusrController.selectedItems}"/>
+                                        <p:ajax process="@this" partialSubmit="true" update="tipoEntregaHidden2, ciuHidden"/>
+                                    </p:selectOneMenu>
+                                </h:panelGrid>
+                                <h:inputHidden id="tipoEntregaHidden2" value="#{tdireccionesusrController.selectedItem}" binding="#{order.tipoEntregaH}"/>
+                                <h:panelGrid>
+                                    <h:panelGroup>
+                                        <p:commandButton value="Generar Proforma" style=" position: relative; 
+                                                         bottom: 75%; left: 50%" ajax="false" update="growl"  action="#{order.addProforma}"/>
+                                    </h:panelGroup>
+                                </h:panelGrid>
+                            </div>
                         </td>
                     </table>
                 </p:fieldset> 

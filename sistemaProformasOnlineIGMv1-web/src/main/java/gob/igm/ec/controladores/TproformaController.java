@@ -1,14 +1,10 @@
 package gob.igm.ec.controladores;
 
-import gob.igm.ec.Tentidad;
 import gob.igm.ec.Tproforma;
-import gob.igm.ec.TproformaPK;
 import gob.igm.ec.controladores.util.EncriptUtil;
 import gob.igm.ec.controladores.util.JsfUtil;
 import gob.igm.ec.controladores.util.JsfUtil.PersistAction;
 import gob.igm.ec.servicios.TproformaFacade;
-import gob.igm.ec.controladores.util.FacesUtil;
-
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -20,7 +16,6 @@ import javax.ejb.EJB;
 import javax.ejb.EJBException;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
-import javax.faces.bean.ManagedProperty;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
@@ -173,6 +168,7 @@ public class TproformaController implements Serializable {
 
         gob.igm.ec.TproformaPK getKey(String value) {
             gob.igm.ec.TproformaPK key;
+            Tproforma item=new Tproforma();
             String values[] = value.split(SEPARATOR_ESCAPED);
             key = new gob.igm.ec.TproformaPK();
             key.setIdPeriodo(Short.parseShort(values[0]));

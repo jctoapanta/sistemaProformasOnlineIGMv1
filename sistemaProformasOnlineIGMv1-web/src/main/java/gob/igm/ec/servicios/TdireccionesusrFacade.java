@@ -6,6 +6,7 @@
 package gob.igm.ec.servicios;
 
 import gob.igm.ec.Tdireccionesusr;
+import gob.igm.ec.controladores.util.JsfUtil;
 import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.Stateless;
@@ -37,7 +38,7 @@ public class TdireccionesusrFacade extends AbstractFacade<Tdireccionesusr> {
         super(Tdireccionesusr.class);
     }
     
-        /**
+    /**
      * Realiza la b?squeda de direcciones por usuario. Si recibe % como par?metro
      * realiza una b?squeda con like.
      * @param pCiu identificación del cliente
@@ -54,10 +55,53 @@ public class TdireccionesusrFacade extends AbstractFacade<Tdireccionesusr> {
             localLogger.error(e);
         }
         return direccion;
+    }
+    
+    /**
+     * Realiza la b?squeda de ID de la direccion domiciliaria del usuario actual.
+     * @param pCiu identificación del cliente
+     * @return Id de Direccion
+     */
+    public Long buscarExisteDireccionDomicilioCliente(final String pCiu) {
+        Long direccionExiste = 0L;
+        Integer pIdTipoDir=1;
+        Query query = null;
+        try {
+            query = em.createQuery("SELECT COUNT(o) FROM Tdireccionesusr o WHERE o.ciu.ciu = ?1 AND o.idTipoDireccion.idTipoDireccion = ?2");
+            query.setParameter(1, pCiu);
+            query.setParameter(2, pIdTipoDir);
+            direccionExiste=(Long) query.getSingleResult();
+        } catch (Exception e) {
+            localLogger.error(e);
+        }
+        return direccionExiste;
     }    
+    
+    /**
+     * Realiza la b?squeda de ID de la direccion domiciliaria del usuario actual.
+     * @param pCiu identificación del cliente
+     * @return Id de Direccion
+     */
+    public Tdireccionesusr buscarDireccionDomicilioCliente(final String pCiu) {
+        Tdireccionesusr idDireccionC = new Tdireccionesusr();
+        Integer pIdTipoDir=1;
+        Query query = null;
+        try {
+            query = em.createQuery("SELECT o FROM Tdireccionesusr o WHERE o.ciu.ciu = ?1 AND o.idTipoDireccion.idTipoDireccion = ?2");
+            query.setParameter(1, pCiu);
+            query.setParameter(2, pIdTipoDir);
+            idDireccionC=(Tdireccionesusr) query.getSingleResult();
+            if (idDireccionC.equals(null)) {
+                JsfUtil.addErrorMessage("Usted aún no ha registrado una dirección domiciliaria, por favor agréguela.");
+            }
+        } catch (Exception e) {
+            localLogger.error(e);
+        }
+        return idDireccionC;
+    }
+    
     public Long obtenerSiguienteValor(){
         Long siguienteValor=0L;
-        List<Tdireccionesusr> id_dir;
         Query query= em.createQuery("SELECT MAX(t.idDireccion)+1 FROM Tdireccionesusr t");
         siguienteValor=(Long) query.getSingleResult();
         
