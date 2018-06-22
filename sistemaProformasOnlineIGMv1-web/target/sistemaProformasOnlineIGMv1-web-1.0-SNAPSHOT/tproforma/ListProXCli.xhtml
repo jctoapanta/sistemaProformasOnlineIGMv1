@@ -80,7 +80,7 @@
                         </p:column>
                         <f:facet name="footer">
                             <p:commandButton id="createButton" icon="ui-icon-plus"   value="#{bundle.Create}" action="/tproforma/proformas" immediate="true"/>
-                            <p:commandButton id="viewButton"   icon="ui-icon-search" value="#{bundle.View}" update=":TproformaViewForm" oncomplete="PF('TproformaViewDialog').show()" disabled="#{empty tproformaController.selected}"/>
+                             <p:commandButton id="viewButton"   icon="ui-icon-search" value="#{bundle.View}" actionListener ="#{tproformaController.generarPDFp}" disabled="#{empty tproformaController.selected}" ajax="False" />
                             <p:commandButton id="sendButton"   icon="ui-icon-pencil" value="#{bundle.Send} Comprobante de Pago" update=":TproformaSendForm" oncomplete="PF('TproformaSendDialog').show()" disabled="#{empty tproformaController.selected}"/>
                         </f:facet>
                     </p:dataTable>

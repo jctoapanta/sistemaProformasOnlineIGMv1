@@ -52,6 +52,7 @@ gob\igm\ec\controladores\TtarifarioController$TtarifarioControllerConverter.clas
 gob\igm\ec\controladores\TtipocartaController.class
 gob\igm\ec\controladores\util\FacesUtil.class
 gob\igm\ec\servicios\TitemFacade.class
+gob\igm\ec\controladores\util\JasperReportUtil.class
 gob\igm\ec\servicios\TunidadmedidaFacade.class
 gob\igm\ec\controladores\TplotersController.class
 gob\igm\ec\controladores\util\TestBean.class

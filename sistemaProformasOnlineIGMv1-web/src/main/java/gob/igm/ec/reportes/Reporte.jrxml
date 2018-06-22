@@ -1,0 +1,324 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="595" pageHeight="420" orientation="Landscape" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="21"/>
+	<parameter name="ID_PROFORMA" class="java.lang.Long">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT   TENTIDAD.CIU,
+         TENTIDAD.NOMBRES,
+         TENTIDAD.APELLIDOS,
+         TDETPROFORMA.ID_PROFORMA,
+         TENTIDAD.DIRECCION,
+         TENTIDAD.TELEFONO_CONVENCIONAL,
+         TENTIDAD.TELEFONO_CELULAR,
+         TENTIDAD.EMAIL,
+         TDETPROFORMA.ID_IVA,
+         TDETPROFORMA.ID_ITEM,
+         TDETPROFORMA.CANTIDAD,
+         TDETPROFORMA.PVP_TOTAL,
+         TDETPROFORMA.DETALLE_ITEM,
+         TDETPROFORMA.IVA_PORCENTAJE,
+         TDETPROFORMA.DESCUENTO,
+         TDETPROFORMA.ID_FACTURA,
+         TDETPROFORMA.TIPO_ITEM
+  FROM   TDETPROFORMA, TENTIDAD, TPROFORMA
+ WHERE       (TENTIDAD.CIU = TPROFORMA.CIU)
+         AND (TPROFORMA.ID_SUCURSAL = TDETPROFORMA.ID_SUCURSAL)
+         AND (TPROFORMA.ID_PERIODO = TDETPROFORMA.ID_PERIODO)
+         AND (TPROFORMA.ID_PROFORMA = TDETPROFORMA.ID_PROFORMA)
+AND TDETPROFORMA.ID_PROFORMA=$P{ID_PROFORMA}]]>
+	</queryString>
+	<field name="CIU" class="java.lang.String"/>
+	<field name="NOMBRES" class="java.lang.String"/>
+	<field name="APELLIDOS" class="java.lang.String"/>
+	<field name="ID_PROFORMA" class="java.math.BigDecimal"/>
+	<field name="DIRECCION" class="java.lang.String"/>
+	<field name="TELEFONO_CONVENCIONAL" class="java.lang.String"/>
+	<field name="TELEFONO_CELULAR" class="java.lang.String"/>
+	<field name="EMAIL" class="java.lang.String"/>
+	<field name="ID_IVA" class="java.math.BigDecimal"/>
+	<field name="ID_ITEM" class="java.math.BigDecimal"/>
+	<field name="CANTIDAD" class="java.math.BigDecimal"/>
+	<field name="PVP_TOTAL" class="java.math.BigDecimal"/>
+	<field name="DETALLE_ITEM" class="java.lang.String"/>
+	<field name="IVA_PORCENTAJE" class="java.math.BigDecimal"/>
+	<field name="DESCUENTO" class="java.math.BigDecimal"/>
+	<field name="ID_FACTURA" class="java.math.BigDecimal"/>
+	<field name="TIPO_ITEM" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="143" splitType="Stretch">
+			<image>
+				<reportElement x="9" y="0" width="167" height="60" forecolor="#993300" backcolor="#003333"/>
+				<imageExpression class="java.lang.String"><![CDATA["C:\\Users\\PULE_DIEGO\\Documents\\NetBeansProjects\\sistemaProformasOnlineIGMv1\\sistemaProformasOnlineIGMv1\\sistemaProformasOnlineIGMv1-web\\src\\main\\webapp\\resources\\images\\igm.png"]]></imageExpression>
+			</image>
+			<textField>
+				<reportElement x="76" y="60" width="100" height="18"/>
+				<textElement/>
+				<textFieldExpression class="java.math.BigDecimal"><![CDATA[$F{ID_PROFORMA}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="60" width="76" height="20"/>
+				<textElement>
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nº Proforma:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="78" width="47" height="16"/>
+				<textElement>
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Cliente:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="94" width="36" height="16"/>
+				<textElement>
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[RUC:]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="0" y="-10" width="555" height="10" forecolor="#CCE7BA" backcolor="#CCE7BA"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="-1" y="110" width="52" height="16"/>
+				<textElement>
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Direcciòn:]]></text>
+			</staticText>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="406" y="0" width="54" height="20"/>
+				<textElement/>
+				<textFieldExpression class="java.util.Date"><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="460" y="0" width="25" height="20"/>
+				<textElement/>
+				<text><![CDATA[a las:]]></text>
+			</staticText>
+			<textField pattern="h.mm.ss a">
+				<reportElement x="485" y="0" width="96" height="20"/>
+				<textElement/>
+				<textFieldExpression class="java.util.Date"><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="127" width="52" height="16"/>
+				<textElement>
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Contacto:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="408" y="78" width="58" height="16"/>
+				<textElement>
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Creado por:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="370" y="94" width="101" height="16"/>
+				<textElement>
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Fecha de recepcion:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="370" y="110" width="101" height="16"/>
+				<textElement>
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Tiempo de entrega:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="356" y="126" width="115" height="16"/>
+				<textElement>
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Validez de la proforma:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="475" y="126" width="32" height="16"/>
+				<textElement>
+					<font size="10" isBold="false"/>
+				</textElement>
+				<text><![CDATA[8 Dìas]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="189" y="0" width="216" height="18"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[INSTITUTO GEOGRÀFICO MILITAR]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="192" y="20" width="199" height="60"/>
+				<textElement textAlignment="Center">
+					<font size="8" isBold="false"/>
+				</textElement>
+				<text><![CDATA[
+Seniergues E4-676 y Gral. Telmo Paz y Miño.
+Sector El Dorado Quito Pichincha Postal           Telèfonos: 593 2 397 5100 al 130.
+ RUC: 1768007200001]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="52" y="78" width="100" height="14"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{NOMBRES}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="124" y="78" width="100" height="14"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{APELLIDOS}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="36" y="94" width="100" height="20"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{CIU}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="52" y="110" width="100" height="13"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{DIRECCION}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="52" y="123" width="100" height="19"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{TELEFONO_CONVENCIONAL}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="7" splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="25" splitType="Stretch">
+			<frame>
+				<reportElement mode="Opaque" x="0" y="2" width="540" height="20" forecolor="#CCE7BA" backcolor="#CCE7BA"/>
+			</frame>
+			<staticText>
+				<reportElement x="434" y="5" width="46" height="20"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[IVA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="480" y="5" width="60" height="20"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[TOTAL]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="224" y="3" width="100" height="20"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[CANTIDAD]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="105" y="3" width="100" height="19"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[DESCRIPCION]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="5" y="3" width="17" height="22"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nº]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<textField>
+				<reportElement x="51" y="0" width="201" height="20"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{DETALLE_ITEM}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="434" y="0" width="37" height="20"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.math.BigDecimal"><![CDATA[$F{IVA_PORCENTAJE}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="501" y="0" width="80" height="20"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.math.BigDecimal"><![CDATA[$F{PVP_TOTAL}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="252" y="0" width="72" height="20"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.math.BigDecimal"><![CDATA[$F{CANTIDAD}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="9" y="0" width="42" height="20"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.math.BigDecimal"><![CDATA[$F{ID_ITEM}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch">
+			<staticText>
+				<reportElement x="439" y="0" width="67" height="13"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[SUBTOTAL:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="475" y="13" width="26" height="13"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[IVA:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="460" y="26" width="41" height="13"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[TOTAL:]]></text>
+			</staticText>
+		</band>
+	</columnFooter>
+	<pageFooter>
+		<band height="52" splitType="Stretch">
+			<rectangle>
+				<reportElement x="-1" y="-2" width="555" height="54"/>
+				<graphicElement>
+					<pen lineWidth="6.0" lineColor="#B3DF87"/>
+				</graphicElement>
+			</rectangle>
+			<staticText>
+				<reportElement x="5" y="0" width="535" height="39"/>
+				<textElement/>
+				<text><![CDATA[NOTA: Cta. Corriente No 1120764 Banco Central del Ecuador, el tiempo de validèz de esta proforma es de 8 dias.]]></text>
+			</staticText>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>
