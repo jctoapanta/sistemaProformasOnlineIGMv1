@@ -17,8 +17,10 @@ import gob.igm.ec.Tentidad;
 import gob.igm.ec.Titem;
 import gob.igm.ec.Tproforma;
 import gob.igm.ec.TproformaPK;
+import gob.igm.ec.controladores.util.JsfUtil;
 import gob.igm.ec.servicios.TcontrolIvaFacade;
 import gob.igm.ec.servicios.TdetproformaFacade;
+import gob.igm.ec.servicios.TdireccionesusrFacade;
 import gob.igm.ec.servicios.TitemServicio;
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -75,13 +77,16 @@ public class OrderBean implements Serializable {
 
     @EJB
     private TcontrolIvaFacade tcontrolIvaFacade;
-    
+
     @EJB
     private gob.igm.ec.servicios.TproformaFacade ejbFacade;
-    
+
     @Inject
     private TdireccionesusrController direccionesControlador;
-    
+
+    @EJB
+    private TdireccionesusrFacade direccionesServicio;
+
     private Tproforma selected = new Tproforma();
     private TproformaPK proformapk = new TproformaPK();
     private TdetproformaPK detproformapk = new TdetproformaPK();
@@ -93,8 +98,7 @@ public class OrderBean implements Serializable {
     private static final long serialVersionUID = 1L;
     private List<Titem> listaitems;
     @EJB
-    
-        
+
     private TitemServicio titemServicio;
     private Titem item = new Titem();
     String descripcion;
@@ -103,14 +107,14 @@ public class OrderBean implements Serializable {
     BigDecimal total;
     BigInteger iva;
     private BigDecimal piva;
-    
+
     private int seleccionadoItem;
     private Tentidad entidad = new Tentidad();
-    private Tdireccionesusr direccionEnvio=new Tdireccionesusr();
+    private Tdireccionesusr direccionEnvio = new Tdireccionesusr();
     private BigDecimal totalp = BigDecimal.ZERO;
     private BigInteger mostrariva;
     private static Logger logger;
-    
+
     public OrderBean() {
         this.direccionesControlador = new TdireccionesusrController();
         this.listaitems = new ArrayList<>();
@@ -158,7 +162,6 @@ public class OrderBean implements Serializable {
         this.totalp = totalp;
     }
 
-
     public String getDescripcion() {
         return descripcion;
     }
@@ -204,9 +207,9 @@ public class OrderBean implements Serializable {
         try {
             item = titemServicio.getDatos(this.getSeleccionadoItem());
             //this.piva=BigDecimal.valueOf(0.12);
-            BigDecimal cien=new BigDecimal("100");
-           
-            this.piva=tcontrolIvaFacade.recuperaIva().divide(cien);
+            BigDecimal cien = new BigDecimal("100");
+
+            this.piva = tcontrolIvaFacade.recuperaIva().divide(cien);
             //this.piva=BigDecimal.valueOf(this.mostrariva.longValue());
             Order order = new Order(item.getDescItem(), this.cantidad, item.getCosto(), this.piva);
             ORDERLIST.add(order);
@@ -226,47 +229,57 @@ public class OrderBean implements Serializable {
 
     public String addProforma() {
         short reg = 1;
+        Long direccionDomicilioUsrExiste;
+        Tdireccionesusr direccionEncontrada = new Tdireccionesusr();
+        String regla = "/tproforma/ListProXCli.xhtml";
         try {
             Date fechaActual = new Date();
             ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
             String tEntrega = ec.getRequestParameterMap().get("principalForm:tipoEntregaHidden2");
             Short vIdPeriodo;
             Short vOnline = 1;
-            Tdireccionesusr direccionEncontrada=this.direccionesControlador.buscaDomicilioCliente();
-            String regla = this.direccionesControlador.activaDirEnvio();
-            if (regla.equals("/tproforma/ListProXCli")){
-                vIdPeriodo = Short.parseShort(new SimpleDateFormat("yy").format(fechaActual));
-                this.proformapk.setIdPeriodo(vIdPeriodo);
-                this.proformapk.setIdSucursal(1L);
-                this.proformapk.setIdProforma(this.ejbFacade.maxId() + 1L);
-                this.selected.setTproformaPK(this.proformapk);
-                entidad.setCiu(this.getCiuH().getValue().toString());
-                this.selected.setCiu(entidad);
-                this.selected.setEstado("P");
-                this.selected.setTipoProforma("OP");
-                this.selected.setFechaCreacion(fechaActual);
-                this.selected.setIdDireccion(direccionEncontrada);
-                this.selected.setLVentaOnline(vOnline);
-                 this.ejbFacade.create(selected);
-                this.detalleProformas = new ArrayList();
-                for (Order order : ORDERLIST) {
-                    reg++;
-                    detalleproforma.setCantidad(order.getCantidad());
-                    detalleproforma.setDetalleItem(order.getDescripcion());
-                    detalleproforma.setIdItem(item);
-                    detalleproforma.setIvaPorcentaje(BigDecimal.valueOf(0.12));
-                    detalleproforma.setPvpTotal(this.getTotalp());
-                    this.detproformapk.setIdPeriodo(vIdPeriodo);
-                    this.detproformapk.setIdProforma(this.proformapk.getIdProforma());
-                    this.detproformapk.setIdSucursal(1L);
-                    this.detproformapk.setNoReg(reg);
-                    detalleproforma.setTdetproformaPK(detproformapk);
-                    this.tdetproformaFacade.create(detalleproforma);
+            direccionDomicilioUsrExiste = this.direccionesServicio.buscarExisteDireccionDomicilioCliente(this.getCiuH().getValue().toString());
+            if (direccionDomicilioUsrExiste.equals(0L)) {
+                JsfUtil.addErrorMessage("Usted aún no ha registrado una dirección, por favor agréguela.");
+                regla = "/tdireccionesusr/List.xhtml";
+            } else {
+                direccionEncontrada = this.direccionesControlador.buscaDomicilioCliente();
+                regla = this.direccionesControlador.activaDirEnvio();
+                if (regla.equals("/tproforma/ListProXCli")) {
+                    vIdPeriodo = Short.parseShort(new SimpleDateFormat("yy").format(fechaActual));
+                    this.proformapk.setIdPeriodo(vIdPeriodo);
+                    this.proformapk.setIdSucursal(1L);
+                    this.proformapk.setIdProforma(this.ejbFacade.maxId() + 1L);
+                    this.selected.setTproformaPK(this.proformapk);
+                    entidad.setCiu(this.getCiuH().getValue().toString());
+                    this.selected.setCiu(entidad);
+                    this.selected.setEstado("P");
+                    this.selected.setTipoProforma("OP");
+                    this.selected.setFechaCreacion(fechaActual);
+                    this.selected.setIdDireccion(direccionEncontrada);
+                    this.selected.setLVentaOnline(vOnline);
+                    this.ejbFacade.create(selected);
+                    this.detalleProformas = new ArrayList();
+                    for (Order order : ORDERLIST) {
+                        reg++;
+                        detalleproforma.setCantidad(order.getCantidad());
+                        detalleproforma.setDetalleItem(order.getDescripcion());
+                        detalleproforma.setIdItem(item);
+                        detalleproforma.setIvaPorcentaje(BigDecimal.valueOf(0.12));
+                        detalleproforma.setPvpTotal(this.getTotalp());
+                        this.detproformapk.setIdPeriodo(vIdPeriodo);
+                        this.detproformapk.setIdProforma(this.proformapk.getIdProforma());
+                        this.detproformapk.setIdSucursal(1L);
+                        this.detproformapk.setNoReg(reg);
+                        detalleproforma.setTdetproformaPK(detproformapk);
+                        this.tdetproformaFacade.create(detalleproforma);
+                    }
+                    return regla;
+                } else {
+                    return regla;
                 }
-                return regla;
-            } else{
-                return regla;
             }
+            return regla;
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
         }
@@ -352,6 +365,7 @@ public class OrderBean implements Serializable {
     }
 
     public static class Order {
+
         String descripcion;
         BigDecimal cantidad;
         BigDecimal total;
@@ -388,7 +402,6 @@ public class OrderBean implements Serializable {
         public void setPiva(BigDecimal piva) {
             this.piva = piva;
         }
-
 
         public Order() {
             ciuH = new HtmlInputHidden();

@@ -64,7 +64,7 @@
                         <p:inputText id="ciu" value="#{login.cliente.ciu}" readonly="true"/>
                         <h:inputHidden id="ciuHidden" value="#{login.cliente.ciu}" binding="#{tdireccionesusrController.ciuH}"/>
                     </p:panelGrid>
-                    <p:commandButton actionListener="#{tdireccionesusrController.create}" value="#{bundle.Save}" action="/tproforma/ListProXCli.xhtml" update="display,:TdireccionesusrListForm:datalist,:growl" oncomplete="handleSubmit(args,'TdireccionesusrCreateDialog');"/>
+                    <p:commandButton actionListener="#{tdireccionesusrController.create}" value="#{bundle.Save}" action="/tproforma/ListProXCli.xhtml" update="display,:TdireccionesusrListForm:datalist,:growl" oncomplete="handleSubmit(args,'TdireccionesusrCreateDialog'); dispose();"/>
                     <p:commandButton value="#{bundle.Cancel}" onclick="TdireccionesusrCreateDialog.hide()"/>
                     
                 </h:panelGroup>

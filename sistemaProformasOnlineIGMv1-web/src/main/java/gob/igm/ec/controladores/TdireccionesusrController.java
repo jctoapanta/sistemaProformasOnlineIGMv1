@@ -142,6 +142,8 @@ public class TdireccionesusrController extends FacesUtil implements Serializable
                 if (getDireccionesXCiu().isEmpty()){
                     JsfUtil.addErrorMessage("Usted aún no ha registrado sus Direcciones");
                     regla = "/tdireccionesusr/Create";
+                } else{
+                    JsfUtil.addErrorMessage("Usted puede definir su Dirección de Envío");
                 }
             }
             catch (Exception ex) {

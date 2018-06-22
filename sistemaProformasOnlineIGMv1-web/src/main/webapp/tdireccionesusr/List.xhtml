@@ -8,7 +8,6 @@
 
     <ui:composition template="/template.xhtml">
 
-
         <ui:define name="title">
             <h:outputText value="#{bundle.ListTdireccionesusrTitle}"></h:outputText>
         </ui:define>
@@ -92,6 +91,10 @@
                             </f:facet>
                             <h:outputText value="#{item.idTipoDireccion}"/>
                         </p:column>
+                        <p:column style="width:32px;text-align: center">
+                            <f:facet name="header">Action</f:facet>
+                            <p:commandButton icon="ui-icon-transferthick-e-w" action="#{tdireccionesusrController.activaDirEnvio()}" ajax="false"/>   				
+                        </p:column>                        
                         <f:facet name="footer">
                             <p:commandButton id="createButton" icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{tdireccionesusrController.prepareCreate}" update=":TdireccionesusrCreateForm" oncomplete="PF('TdireccionesusrCreateDialog').show()"/>
                             <p:commandButton id="viewButton"   icon="ui-icon-search" value="#{bundle.View}" update=":TdireccionesusrViewForm" oncomplete="PF('TdireccionesusrViewDialog').show()" disabled="#{empty tdireccionesusrController.selected}"/>

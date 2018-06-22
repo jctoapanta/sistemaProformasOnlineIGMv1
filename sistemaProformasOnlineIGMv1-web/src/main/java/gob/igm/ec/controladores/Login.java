@@ -13,7 +13,6 @@
  */
 package gob.igm.ec.controladores;
 
-import gob.igm.ec.Tdireccionesusr;
 import gob.igm.ec.Tentidad;
 import gob.igm.ec.controladores.util.EncriptUtil;
 import gob.igm.ec.controladores.util.FacesUtil;
@@ -87,6 +86,7 @@ public class Login extends FacesUtil implements Serializable {
      */
     public String ingresar() {
         Long direccionDomicilioUsrExiste;
+        Long direccionEnvioUsrExiste;
         String regla = "/tproforma/ListProXCli.xhtml";
         try {
             String cifrado = this.encriptUtil.encrypt3DES(this.clave);
@@ -98,15 +98,26 @@ public class Login extends FacesUtil implements Serializable {
                 cliente.setDireccion(tentidad.getDireccion());
             }
             direccionDomicilioUsrExiste=this.direccionesServicio.buscarExisteDireccionDomicilioCliente(this.aliasBase);
+            direccionEnvioUsrExiste=this.direccionesServicio.buscarExisteDireccionEnvioCliente(this.aliasBase);
             if (getUsuario().isEmpty()){
                 JsfUtil.addErrorMessage("Usuario no existe o Clave incorrecta, favor verifique");
                 regla = "/index.xhtml";
             } else {
                 if (direccionDomicilioUsrExiste.equals(0L)) {
-                    JsfUtil.addErrorMessage("Usted aún no ha registrado una dirección, por favor agréguela.");
-                    regla = "/tdireccionesusr/List.xhtml";
+                    if (direccionEnvioUsrExiste.equals(0L)) {
+                        JsfUtil.addErrorMessage("Usted debe registrar una dirección domiciliaria y al menos una dirección de envío, por favor agréguelas.");
+                        regla = "/tdireccionesusr/List.xhtml";
+                    } else {
+                        JsfUtil.addErrorMessage("Usted debe registrar una dirección domiciliaria, por favor agréguela.");
+                        regla = "/tdireccionesusr/List.xhtml";
+                    }
                 } else {
-                    regla = "/tproforma/ListProXCli.xhtml";
+                    if (direccionEnvioUsrExiste.equals(0L)) {
+                        JsfUtil.addErrorMessage("Usted debe registrar al menos una dirección de envío, por favor agréguela.");
+                        regla = "/tdireccionesusr/List.xhtml";
+                    } else {
+                        regla = "/tproforma/ListProXCli.xhtml";
+                    }
                 }
             }
         }

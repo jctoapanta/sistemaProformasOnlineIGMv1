@@ -75,6 +75,10 @@
                             </f:facet>
                             <h:outputText value="#{item.idTipoDireccion}"/>
                         </p:column>
+                        <p:column style="width:32px;text-align: center">
+                            <f:facet name="header">Action</f:facet>
+                            <p:commandButton icon="ui-icon-contact" action="#{order.deleteAction(o)}" ajax="false"/>   				
+                        </p:column>
                         <f:facet name="footer">
                             <p:commandButton id="createButton" icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{tdireccionesusrController.prepareCreate}" update=":TdireccionesusrCreateForm" oncomplete="PF('TdireccionesusrCreateDialog').show()"/>
                             <p:commandButton id="selectButton"   icon="ui-icon-circle-arrow-e" value="#{bundle.View}" update=":TdireccionesusrViewForm" oncomplete="PF('TdireccionesusrViewDialog').show()" disabled="#{empty tdireccionesusrController.selected}"/>
