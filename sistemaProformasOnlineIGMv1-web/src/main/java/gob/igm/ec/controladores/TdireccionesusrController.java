@@ -136,7 +136,7 @@ public class TdireccionesusrController extends FacesUtil implements Serializable
             JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("TproformaCreated"));
             regla = "/tproforma/ListProXCli";
         } else {
-            regla = "/tdireccionesusr/ListSelecDir";
+            //regla = "/tdireccionesusr/ListSelecDir";
             try {
                 setDireccionesXCiu(this.ejbFacade.buscarDireccionesXCliente(login.getAliasBase()));
                 if (getDireccionesXCiu().isEmpty()){
