@@ -9,7 +9,7 @@ import javax.persistence.metamodel.CollectionAttribute;
 import javax.persistence.metamodel.SingularAttribute;
 import javax.persistence.metamodel.StaticMetamodel;
 
-@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2018-06-20T09:21:46")
+@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2018-06-22T08:17:12")
 @StaticMetamodel(Tiva.class)
 public class Tiva_ { 
 

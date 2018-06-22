@@ -7,13 +7,16 @@
 
     <h:head>
         <title><ui:insert name="title">#{bundle.AppName}</ui:insert></title>
+<!--        <h:outputStylesheet library="css" name="jquery-ui.min.css"/>
+        <h:outputStylesheet library="css" name="jquery-ui.theme.min.css"/>-->
         <h:outputStylesheet library="css" name="jsfcrud.css"/>
+<!--        <h:outputScript library="js" name="jquery-ui.min.js"/>-->
         <h:outputScript library="js" name="jsfcrud.js"/>
     </h:head>
 
     <h:body>
 
-        <p:growl id="growl" life="3000" />
+        <p:growl id="growl" life="4500" />
 
         <p:layout fullPage="true">
             <p:layoutUnit position="north" size="65" header="#{bundle.AppName}">

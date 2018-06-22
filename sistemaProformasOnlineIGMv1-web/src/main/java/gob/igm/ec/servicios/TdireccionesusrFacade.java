@@ -58,9 +58,9 @@ public class TdireccionesusrFacade extends AbstractFacade<Tdireccionesusr> {
     }
     
     /**
-     * Realiza la b?squeda de ID de la direccion domiciliaria del usuario actual.
+     * Realiza conteo de direccion domiciliaria del usuario actual, para ver si existe.
      * @param pCiu identificación del cliente
-     * @return Id de Direccion
+     * @return direccionExiste
      */
     public Long buscarExisteDireccionDomicilioCliente(final String pCiu) {
         Long direccionExiste = 0L;
@@ -70,6 +70,26 @@ public class TdireccionesusrFacade extends AbstractFacade<Tdireccionesusr> {
             query = em.createQuery("SELECT COUNT(o) FROM Tdireccionesusr o WHERE o.ciu.ciu = ?1 AND o.idTipoDireccion.idTipoDireccion = ?2");
             query.setParameter(1, pCiu);
             query.setParameter(2, pIdTipoDir);
+            direccionExiste=(Long) query.getSingleResult();
+        } catch (Exception e) {
+            localLogger.error(e);
+        }
+        return direccionExiste;
+    }    
+    
+    /**
+     * Realiza conteo de direccion domiciliaria del usuario actual, para ver si existe.
+     * @param pCiu identificación del cliente
+     * @return direccionExiste
+     */
+    public Long buscarExisteDireccionEnvioCliente(final String pCiu) {
+        Long direccionExiste = 0L;
+        Integer pIdTipoDir=1;
+        Query query = null;
+        try {
+            query = em.createQuery("SELECT COUNT(o) FROM Tdireccionesusr o WHERE o.ciu.ciu = ?1 AND o.idTipoDireccion.idTipoDireccion IN (2,3)");
+            query.setParameter(1, pCiu);
+            //query.setParameter(2, pIdTipoDir);
             direccionExiste=(Long) query.getSingleResult();
         } catch (Exception e) {
             localLogger.error(e);
