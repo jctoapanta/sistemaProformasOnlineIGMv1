@@ -1,26 +1,63 @@
 package gob.igm.ec.controladores;
 
+import gob.igm.ec.Tentidad;
 import gob.igm.ec.Tproforma;
+import gob.igm.ec.TproformaPK;
 import gob.igm.ec.controladores.util.EncriptUtil;
 import gob.igm.ec.controladores.util.JsfUtil;
 import gob.igm.ec.controladores.util.JsfUtil.PersistAction;
 import gob.igm.ec.servicios.TproformaFacade;
+import gob.igm.ec.controladores.util.FacesUtil;
+import gob.igm.ec.controladores.util.JasperReportUtil;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
+
+
+
 import java.io.Serializable;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import javax.sql.DataSource;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import javax.annotation.Resource;
 import javax.ejb.EJB;
 import javax.ejb.EJBException;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
 import javax.inject.Inject;
+import javax.servlet.ServletContext;
+import net.sf.jasperreports.engine.JREmptyDataSource;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRExporter;
+import net.sf.jasperreports.engine.JRExporterParameter;
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperExportManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.design.JasperDesign;
+import net.sf.jasperreports.engine.export.JRPdfExporter;
+import net.sf.jasperreports.engine.export.JRPdfExporterParameter;
+import static net.sf.jasperreports.engine.json.parser.JsonQueryParserTokenTypes.PATH;
+import net.sf.jasperreports.engine.util.JRLoader;
+import net.sf.jasperreports.engine.xml.JRXmlLoader;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.UploadedFile;
 
@@ -37,7 +74,11 @@ public class TproformaController implements Serializable {
     private List<Tproforma> itemsXCiu = null;
     private Tproforma selected;
     private EncriptUtil encriptUtil;
-
+     @Resource (name="ptvDS")
+    private DataSource PTV;
+    
+    
+    
     public TproformaController() {
     }
 
@@ -168,7 +209,6 @@ public class TproformaController implements Serializable {
 
         gob.igm.ec.TproformaPK getKey(String value) {
             gob.igm.ec.TproformaPK key;
-            Tproforma item=new Tproforma();
             String values[] = value.split(SEPARATOR_ESCAPED);
             key = new gob.igm.ec.TproformaPK();
             key.setIdPeriodo(Short.parseShort(values[0]));
@@ -242,4 +282,93 @@ public class TproformaController implements Serializable {
             Logger.getLogger(TproformaController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    
+    
+    public void generarPDFp() throws JRException, ClassNotFoundException, SQLException, FileNotFoundException {
+        {
+
+  
+            JasperReportUtil jasper=new JasperReportUtil();
+            JRExporter exporter = null;
+            //Connection conn = PTV.getConnection();
+            Class.forName("oracle.jdbc.driver.OracleDriver");
+        //Connection connection = DriverManager.getConnection(
+                //"jdbc:oracle:thin:@192.168.1.80:1521:igm1", "papeletas", "papeletas");
+       /* Connection connection = DriverManager.getConnection(
+                "jdbc:oracle:thin:@192.168.35.88:1521:geo", "PAPELETAS", "2016PAPELETASIGM");*/
+        Connection conn = DriverManager.getConnection(
+                "jdbc:oracle:thin:@192.168.35.88:1521:GEO", "PTV", "PPTVIGM2009");
+            Long id_proforma = selected.getTproformaPK().getIdProforma();
+            Map<String,Object> parameters = new HashMap<String,Object>();
+            parameters.put("ID_PROFORMA", id_proforma);
+            jasper.jasperReport(conn,JasperReportUtil.PATH_REPORTE_PROFORMA, JasperReportUtil.TIPO_PDF, parameters);
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+    }
+
+
+}
+    
+    
+    
+    
+    
+    public void generarPDF() throws JRException, ClassNotFoundException, SQLException, FileNotFoundException {
+        {
+            JRExporter exporter = null;
+            Connection conn = PTV.getConnection();
+            
+            Long id_proforma = selected.getTproformaPK().getIdProforma();
+            Map<String,Object> parameters = new HashMap<String,Object>();
+            parameters.put("ID_PROFORMA", id_proforma);
+           
+            InputStream reportStream = new FileInputStream(JasperReportUtil.PATH_REPORTE_PROFORMA_r);
+          if (reportStream == null) {
+                throw new ClassNotFoundException("Archivo " + " no se encontrÛ");
+            } 
+          
+          
+          
+          
+          
+          
+          
+          
+ 
+//Iniciar reporte
+ 
+//Llenar el reporte donde se carga la variable de los reportes
+
+
+ 
+//Generar PDF
+ JasperDesign jd = JRXmlLoader.load(reportStream);
+        JasperReport report = JasperCompileManager.compileReport(jd);
+        // Rellenamos el informe con la conexion creada y sus parametros establecidos
+        JasperPrint print = JasperFillManager.fillReport(report, parameters, conn);
+//        JasperPrint print = JasperFillManager.fillReport("D:\\reporteIreport\\LORE\\listadoMateriales.jasper", map, con);
+
+        // Exportamos el informe a formato PDF
+        JasperExportManager.exportReportToPdfFile(print, "C:\\Users\\PULE_DIEGO\\Downloads" );
+    }
+
+
+}
 }
