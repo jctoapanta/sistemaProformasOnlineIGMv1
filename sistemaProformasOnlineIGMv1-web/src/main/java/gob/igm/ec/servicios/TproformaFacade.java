@@ -6,13 +6,17 @@
 package gob.igm.ec.servicios;
 
 import gob.igm.ec.Tproforma;
+import gob.igm.ec.controladores.util.JasperReportUtil;
+import gob.igm.ec.controladores.util.JsfUtil;
 import java.io.File;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
+import java.util.logging.Level;
 import javax.activation.DataHandler;
 import javax.activation.FileDataSource;
 import javax.ejb.Stateless;
@@ -39,7 +43,10 @@ import org.primefaces.model.UploadedFile;
  */
 @Stateless
 public class TproformaFacade extends AbstractFacade<Tproforma> {
-    /** La variable logger. */
+
+    /**
+     * La variable logger.
+     */
     private static Logger localLogger;
     @PersistenceContext(unitName = "gob.igm.ec_sistemaProformasOnlineIGMv1-ejb_ejb_1.0-SNAPSHOTPU")
     private EntityManager em;
@@ -52,22 +59,37 @@ public class TproformaFacade extends AbstractFacade<Tproforma> {
     public TproformaFacade() {
         super(Tproforma.class);
     }
-    
+
     FacesMessage mensaje = new FacesMessage();
 
+    /**
+     * Función para generar PDF de la Proforma
+     *
+     * @param parameters
+     */
+    public void generaPDF(Map<String, Object> parameters) {
+        try {
+            Connection cn = em.unwrap(Connection.class);
+            JasperReportUtil jasper = new JasperReportUtil();
+            jasper.jasperReport(cn, JasperReportUtil.PATH_REPORTE_PROFORMA, JasperReportUtil.TIPO_PDF, parameters);
+        } catch (ClassNotFoundException ex) {
+            JsfUtil.addErrorMessage("Archivo no se generó correctamente.");
+        }
+    }
+
     public void upload(UploadedFile e, Long id_proforma) throws Exception {
-        
+
         if (e != null) {
             //ENVIO MAIL-carga
-            File destFile = new File(e.getFileName()); 
+            File destFile = new File(e.getFileName());
             FileUtils.copyInputStreamToFile(e.getInputstream(), destFile);
-            
+
             Properties props = new Properties();
             props.put("mail.smtp.host", "mail.igm.gob.ec");
             props.setProperty("mail.smtp.port", "25");
 
             Session session = Session.getDefaultInstance(props, null);
-            
+
             //CARGA  de archivo en Base de Datos
             try (Connection cn = em.unwrap(Connection.class)) {
                 PreparedStatement st = cn.prepareStatement("UPDATE TPROFORMA SET COMPROBANTE_PAGO=? WHERE ID_PROFORMA=?");
@@ -75,9 +97,8 @@ public class TproformaFacade extends AbstractFacade<Tproforma> {
                 st.setLong(2, id_proforma);
                 st.executeUpdate();
             }
-            mensaje.setSeverity(FacesMessage.SEVERITY_ERROR);
-            mensaje.setSummary("Archivo subido con éxito");
-            
+            JsfUtil.addSuccessMessage("Archivo subido con éxito");
+
             //ENVIO de correo con adjunto
             // Se compone la parte del texto
             BodyPart texto = new MimeBodyPart();
@@ -85,9 +106,9 @@ public class TproformaFacade extends AbstractFacade<Tproforma> {
 
             // Se compone el adjunto con la imagen
             BodyPart adjunto = new MimeBodyPart();
-            FileDataSource ds=new FileDataSource(e.getFileName());
+            FileDataSource ds = new FileDataSource(e.getFileName());
             adjunto.setDataHandler(
-                new DataHandler(ds));    
+                    new DataHandler(ds));
             adjunto.setFileName(destFile.toString());
 
             // Una MultiParte para agrupar texto e imagen.
@@ -100,8 +121,8 @@ public class TproformaFacade extends AbstractFacade<Tproforma> {
             MimeMessage message = new MimeMessage(session);
             message.setFrom(new InternetAddress("igm@mail.igm.gob.ec"));
             message.addRecipient(
-                Message.RecipientType.TO,
-                new InternetAddress("juancarlos.toapanta@mail.igm.gob.ec"));
+                    Message.RecipientType.TO,
+                    new InternetAddress("juancarlos.toapanta@mail.igm.gob.ec"));
             message.setSubject("Validar Comprobante de pago");
             message.setContent(multiParte);
 
@@ -109,16 +130,16 @@ public class TproformaFacade extends AbstractFacade<Tproforma> {
             Transport t = session.getTransport("smtp");
             t.connect();
             t.sendMessage(message, message.getAllRecipients());
-            t.close();            
+            t.close();
         } else {
-            mensaje.setSeverity(FacesMessage.SEVERITY_ERROR);
-            mensaje.setSummary("No se encuentra el archivo");
+            JsfUtil.addErrorMessage("No se encuentra el archivo");
         }
-    }    
-    
-        /**
+    }
+
+    /**
      * Realiza la b?squeda de usuarios por su nombre. Si recibe % como par?metro
      * realiza una b?squeda con like.
+     *
      * @param pCiu identificación del cliente
      * @param pIdPeriodo identificación del periodo
      * @return Lista de proformas
@@ -126,26 +147,27 @@ public class TproformaFacade extends AbstractFacade<Tproforma> {
     public List<Tproforma> buscarProformsXCliente(final String pCiu, final Short pIdPeriodo) {
         List<Tproforma> proforma = new ArrayList<>();
         try {
-            TypedQuery<Tproforma> query= em.createNamedQuery("Tproforma.findByIdPeriodoAndCiu",Tproforma.class);
-                    query.setParameter("idPeriodo",  pIdPeriodo);
-                    query.setParameter("ciu", pCiu);
-                    
-            proforma=query.getResultList();
+            TypedQuery<Tproforma> query = em.createNamedQuery("Tproforma.findByIdPeriodoAndCiu", Tproforma.class);
+            query.setParameter("idPeriodo", pIdPeriodo);
+            query.setParameter("ciu", pCiu);
+
+            proforma = query.getResultList();
         } catch (Exception e) {
             localLogger.error(e);
         }
         return proforma;
     }
-    
-    public Long maxId(){
-         try {
+
+    public Long maxId() {
+        try {
             Query query = em.createQuery("select max(o.tproformaPK.idProforma) "
                     + "from Tproforma as o "
-);
+            );
             return (Long) query.getSingleResult();
         } catch (Exception e) {
             localLogger.error(e.getMessage(), e);
             return 0L;
         }
     }
+
 }
