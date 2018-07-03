@@ -86,7 +86,7 @@ public class OrderBean implements Serializable {
 
     @EJB
     private TdireccionesusrFacade direccionesServicio;
-
+    private Titem detalleItems=new Titem();
     private Tproforma selected = new Tproforma();
     private TproformaPK proformapk = new TproformaPK();
     private TdetproformaPK detproformapk = new TdetproformaPK();
@@ -205,16 +205,24 @@ public class OrderBean implements Serializable {
 
     public String addAction() {
         try {
-            item = titemServicio.getDatos(this.getSeleccionadoItem());
+  
+                        item = titemServicio.getDatos(this.getSeleccionadoItem());
             //this.piva=BigDecimal.valueOf(0.12);
             BigDecimal cien = new BigDecimal("100");
 
             this.piva = tcontrolIvaFacade.recuperaIva().divide(cien);
             //this.piva=BigDecimal.valueOf(this.mostrariva.longValue());
-            Order order = new Order(item.getDescItem(), this.cantidad, item.getCosto(), this.piva);
+            
+              this.totalp = (((this.cantidad.multiply(item.getCosto())).multiply(this.piva))).setScale(2, BigDecimal.ROUND_UP).add(this.cantidad.multiply(item.getCosto()));
+            //this.totalp = (((this.cantidad.multiply(item.getCosto())).multiply(this.piva))).setScale(2, BigDecimal.ROUND_UP);
+            //Order order = new Order(item.getIdItem(), item.getDescItem(), this.cantidad, item.getCosto(), this.piva, this.totalp);
+            Order order=new Order(item.getIdItem(), item.getDescItem(), this.cantidad, item.getCosto(), this.piva, this.totalp);
             ORDERLIST.add(order);
-            this.totalp = (((this.cantidad.multiply(item.getCosto())).multiply(this.piva.add(BigDecimal.valueOf(1)))).add(this.totalp)).setScale(2, BigDecimal.ROUND_UP);
-
+            // Suma total de la proforma
+         //   this.totalProforma = (((this.cantidad.multiply(item.getCosto())).multiply(this.piva.add(BigDecimal.valueOf(1)))).add(this.totalProforma)).setScale(2, BigDecimal.ROUND_UP);
+            
+      
+            
         } catch (Exception e) {
             System.out.print(e.getMessage());
         }
@@ -263,17 +271,20 @@ public class OrderBean implements Serializable {
                     this.detalleProformas = new ArrayList();
                     for (Order order : ORDERLIST) {
                         reg++;
-                        detalleproforma.setCantidad(order.getCantidad());
+                         detalleproforma.setCantidad(order.getCantidad());
                         detalleproforma.setDetalleItem(order.getDescripcion());
-                        detalleproforma.setIdItem(item);
+                        this.detalleItems.setIdItem(order.getIdItem());
+                        detalleproforma.setIdItem(detalleItems);
                         detalleproforma.setIvaPorcentaje(BigDecimal.valueOf(0.12));
-                        detalleproforma.setPvpTotal(this.getTotalp());
+                        detalleproforma.setPvpTotal(order.totalp);
                         this.detproformapk.setIdPeriodo(vIdPeriodo);
                         this.detproformapk.setIdProforma(this.proformapk.getIdProforma());
                         this.detproformapk.setIdSucursal(1L);
                         this.detproformapk.setNoReg(reg);
                         detalleproforma.setTdetproformaPK(detproformapk);
                         this.tdetproformaFacade.create(detalleproforma);
+                        
+                        
                     }
                     return regla;
                 } else {
@@ -375,6 +386,33 @@ public class OrderBean implements Serializable {
         private BigInteger mostrariva;
         private Tentidad entidad = new Tentidad();
         private BigDecimal piva;
+         private int idItem;
+
+        public int getIdItem() {
+            return idItem;
+        }
+
+        public void setIdItem(int idItem) {
+            this.idItem = idItem;
+        }
+
+        public BigDecimal getTotalp() {
+            return totalp;
+        }
+
+        public void setTotalp(BigDecimal totalp) {
+            this.totalp = totalp;
+        }
+
+        public BigDecimal getTotalProforma() {
+            return totalProforma;
+        }
+
+        public void setTotalProforma(BigDecimal totalProforma) {
+            this.totalProforma = totalProforma;
+        }
+        private BigDecimal totalp;
+        private BigDecimal totalProforma;
 
         /**
          * @return the mostrariva
@@ -416,6 +454,28 @@ public class OrderBean implements Serializable {
             this.piva = piva;
         }
 
+        /* public Order(Integer idItem, String descripcion, BigDecimal cantidad, BigDecimal total, BigDecimal piva,BigDecimal totalp, BigDecimal totalProforma) {
+            this.descripcion = descripcion;
+            this.cantidad = cantidad;
+            this.total = total;
+            //this.iva = iva;
+            this.piva = piva;
+            this.idItem=idItem;
+            this.totalp=totalp;
+            this.totalProforma=totalProforma;
+        }*/
+        
+        public Order(Integer idItem, String descripcion, BigDecimal cantidad, BigDecimal total, BigDecimal piva,BigDecimal totalp) {
+            this.descripcion = descripcion;
+            this.cantidad = cantidad;
+            this.total = total;
+            //this.iva = iva;
+            this.piva = piva;
+            this.idItem=idItem;
+            this.totalp=totalp;
+        }
+        
+        
         public String getDescripcion() {
             return descripcion;
         }
