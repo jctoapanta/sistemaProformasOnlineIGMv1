@@ -22,8 +22,9 @@
             <p:layoutUnit position="north" size="65" header="#{bundle.AppName}">
                 <h:form id="menuForm">
                     <p:menubar>
-                        <p:menuitem value="#{bundle.AddressManage}" outcome="/index" icon="ui-icon-wrench"/>
-                        <p:menuitem value="#{bundle.ChangePassword}" outcome="/index" icon="ui-icon-key" style="margin-right: 89.6%"/>
+                        <p:menuitem value="#{bundle.AddressManage}" outcome="/tdireccionesusr/List" icon="ui-icon-wrench" oncomplete="handleSubmit(args,'TdireccionesusrCreateDialog'); templateController.refresh();" style="margin-right: 20.6%"/>
+                        <p:menuitem value="#{bundle.ChangePassword}" outcome="/enConstruccion" icon="ui-icon-key" style="margin-right: 20.6%"/>
+                        <p:menuitem value="#{bundle.Back} Listado Proformas" outcome="/tproforma/ListProXCli" icon=" ui-icon-arrowreturnthick-1-s" style="margin-right: 83.6%"/>
                         <p:menuitem value="#{bundle.Exit}" outcome="/index" icon="ui-icon-home" style="float:right;"/>
                     </p:menubar>
                 </h:form>

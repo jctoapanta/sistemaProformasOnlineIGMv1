@@ -76,7 +76,25 @@ public class TdireccionesusrFacade extends AbstractFacade<Tdireccionesusr> {
         }
         return direccionExiste;
     }    
-    
+
+    /**
+     * Realiza conteo de direccion domiciliaria del usuario actual, para ver si existe.
+     * @param pCiu identificación del cliente
+     * @return direccionExiste
+     */
+    public Long cuentaDireccionesCliente(final String pCiu) {
+        Long direccionExiste = 0L;
+        Query query = null;
+        try {
+            query = em.createQuery("SELECT COUNT(o) FROM Tdireccionesusr o WHERE o.ciu.ciu = ?1");
+            query.setParameter(1, pCiu);
+            direccionExiste=(Long) query.getSingleResult();
+        } catch (Exception e) {
+            localLogger.error(e);
+        }
+        return direccionExiste;
+    }
+   
     /**
      * Realiza conteo de direccion domiciliaria del usuario actual, para ver si existe.
      * @param pCiu identificación del cliente
@@ -126,5 +144,10 @@ public class TdireccionesusrFacade extends AbstractFacade<Tdireccionesusr> {
         siguienteValor=(Long) query.getSingleResult();
         
         return siguienteValor;
+    }
+    
+    public Tdireccionesusr actualizaDirecciones (Tdireccionesusr direcciones){
+        Tdireccionesusr resultadoActualiza=em.merge(direcciones);
+        return resultadoActualiza;        
     }
 }

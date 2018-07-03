@@ -21,6 +21,7 @@ import javax.ejb.EJBException;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.component.UIComponent;
+import javax.faces.component.html.HtmlDataTable;
 import javax.faces.component.html.HtmlInputHidden;
 import javax.faces.component.html.HtmlSelectOneMenu;
 import javax.faces.context.ExternalContext;
@@ -41,6 +42,9 @@ public class TdireccionesusrController extends FacesUtil implements Serializable
     @Inject
     private TentidadController tentidadController;
     
+    @Inject
+    private TemplateController templateControl;
+    
     @EJB
     private gob.igm.ec.servicios.TdireccionesusrFacade ejbFacade;
     private List<Tdireccionesusr> items = null;
@@ -54,6 +58,7 @@ public class TdireccionesusrController extends FacesUtil implements Serializable
     @EJB
     private TparroquiaFacade parroquiaServicio;
     
+    private TdireccionesusrController direccionesControl;
     private List<SelectItem> provinciaItems = new ArrayList<>();
     private List<SelectItem> cantonItems = new ArrayList<>();
     private List<SelectItem> parroquiaItems = new ArrayList<>();
@@ -66,6 +71,7 @@ public class TdireccionesusrController extends FacesUtil implements Serializable
     private String selectedItem;
     private List<SelectItem> selectedItems = new ArrayList<>();
     private Long idDireccionC=new Long(0);
+    private HtmlDataTable SomeDataTable;
 
     /**
      * @return the selectedItems
@@ -124,13 +130,29 @@ public class TdireccionesusrController extends FacesUtil implements Serializable
         idDir=this.ejbFacade.buscarDireccionDomicilioCliente(ciu);
         return idDir;
     }
+
+    public void seleccionaDirEnvio(Tdireccionesusr direccionSelec){
+        //List<Tdireccionesusr> direccionesActualizar=new ArrayList<>();
+        
+        //direccionesActualizar=this.getDireccionesXCiu();
+        //Actualiza el valor de lenvio a null de todos los registros del usuario
+        for (Tdireccionesusr tdireccionesusr : this.direccionesXCiu) {
+            tdireccionesusr.setLEnvio((short) 0);
+            ejbFacade.actualizaDirecciones(tdireccionesusr);
+        }
+        //Actualiza el valor de lenvio a 1 de la direccion seleccionada
+        this.selected.setLEnvio((short)1);
+        JsfUtil.addSuccessMessage("Usted ha seleccionado esta dirección para recibir su pedido.");
+        this.update();
+    }
     
+
     public String activaDirEnvio() {
         String regla = "/tproforma/ListProXCli";
         ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
         String tEntrega = ec.getRequestParameterMap().get("principalForm:tipoEntregaHidden2");
         String ciu = ec.getRequestParameterMap().get("principalForm:ciuHidden");
-        Tproforma proforma=new Tproforma();
+        
         if (tEntrega.equals("1")){
             //JsfUtil.addErrorMessage("Se ha guardado su proforma correctamente");
             JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("TproformaCreated"));
@@ -138,7 +160,7 @@ public class TdireccionesusrController extends FacesUtil implements Serializable
         } else {
             //regla = "/tdireccionesusr/ListSelecDir";
             try {
-                setDireccionesXCiu(this.ejbFacade.buscarDireccionesXCliente(login.getAliasBase()));
+                setDireccionesXCiu(this.ejbFacade.buscarDireccionesXCliente(ciu));
                 if (getDireccionesXCiu().isEmpty()){
                     JsfUtil.addErrorMessage("Usted aún no ha registrado sus Direcciones");
                     regla = "/tdireccionesusr/Create";
@@ -205,8 +227,10 @@ public class TdireccionesusrController extends FacesUtil implements Serializable
         return selected;
     }
 
-    public void create() {
+    public String create() {
         Tentidad ciu=new Tentidad();
+        Long cuentaDireccionesUsr;
+        String regla=new String();
         ciu.setCiu(ciuH.getValue().toString());
         siguienteIdDireccion=this.ejbFacade.obtenerSiguienteValor();
         if (siguienteIdDireccion == null){
@@ -218,6 +242,16 @@ public class TdireccionesusrController extends FacesUtil implements Serializable
         if (!JsfUtil.isValidationFailed()) {
             items = null;    // Invalidate list of items to trigger re-query.
         }
+        cuentaDireccionesUsr = this.ejbFacade.cuentaDireccionesCliente(this.getCiuH().getValue().toString());
+        if (cuentaDireccionesUsr>=2L) {
+            JsfUtil.addSuccessMessage("Puede crear Proformas a partir de este momento...Gracias por registrar sus datos.");
+            //regla = "/tdireccionesusr/List.xhtml";
+            regla = "/tproforma/ListProXCli.xhtml";
+            templateControl.refresh();
+        } else {
+            JsfUtil.addErrorMessage("Por favor verifique que haya registrado una Dirección para Facturación y al menos una Dirección para Envío.");
+        }
+        return regla;
     }
 
     public void update() {
@@ -332,7 +366,7 @@ public class TdireccionesusrController extends FacesUtil implements Serializable
      * @return the direccionesXCiu
      */
     public List<Tdireccionesusr> getDireccionesXCiu() {
-        direccionesXCiu = this.ejbFacade.buscarDireccionesXCliente(this.ciur.getValue().toString());
+        direccionesXCiu = this.ejbFacade.buscarDireccionesXCliente(this.ciuH.getValue().toString());
         if (direccionesXCiu.isEmpty()) {
             JsfUtil.addErrorMessage("Usted aun no dispone de Direcciones registradas");
         }
@@ -345,6 +379,8 @@ public class TdireccionesusrController extends FacesUtil implements Serializable
     public void setDireccionesXCiu(List<Tdireccionesusr> direccionesXCiu) {
         this.direccionesXCiu = direccionesXCiu;
     }
+    
+
     
     /**
      * Permite ingresar los datos del usuarios a sesi�n.

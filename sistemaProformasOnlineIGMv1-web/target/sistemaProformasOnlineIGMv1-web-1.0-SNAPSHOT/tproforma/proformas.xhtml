@@ -80,8 +80,8 @@
                                 <h:inputHidden id="tipoEntregaHidden2" value="#{tdireccionesusrController.selectedItem}" binding="#{order.tipoEntregaH}"/>
                                 <h:panelGrid>
                                     <h:panelGroup>
-                                        <p:commandButton value="Generar Proforma" style=" position: relative; 
-                                                         bottom: 75%; left: 50%" ajax="false" update="growl"  action="#{order.addProforma}"/>
+                                        <p:commandButton value="Generar Proforma" style=" position: relative;
+                                                         bottom: 75%; left: 50%" ajax="false" update=":growl"  actionListener="#{order.addProforma}"/>
                                     </h:panelGroup>
                                 </h:panelGrid>
                             </div>

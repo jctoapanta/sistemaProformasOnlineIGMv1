@@ -6,12 +6,8 @@ import gob.igm.ec.controladores.util.JsfUtil;
 import gob.igm.ec.controladores.util.JsfUtil.PersistAction;
 import gob.igm.ec.servicios.TproformaFacade;
 import gob.igm.ec.controladores.util.JasperReportUtil;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.InputStream;
 import java.io.Serializable;
-import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.SQLException;
 import javax.sql.DataSource;
 import java.text.SimpleDateFormat;
@@ -34,13 +30,6 @@ import javax.faces.convert.FacesConverter;
 import javax.inject.Inject;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExporter;
-import net.sf.jasperreports.engine.JasperCompileManager;
-import net.sf.jasperreports.engine.JasperExportManager;
-import net.sf.jasperreports.engine.JasperFillManager;
-import net.sf.jasperreports.engine.JasperPrint;
-import net.sf.jasperreports.engine.JasperReport;
-import net.sf.jasperreports.engine.design.JasperDesign;
-import net.sf.jasperreports.engine.xml.JRXmlLoader;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.UploadedFile;
 
@@ -268,51 +257,11 @@ public class TproformaController implements Serializable {
         {
             JasperReportUtil jasper = new JasperReportUtil();
             JRExporter exporter = null;
-            //Connection conn = PTV.getConnection();
-            //Class.forName("oracle.jdbc.driver.OracleDriver");
-            //Connection connection = DriverManager.getConnection(
-            //"jdbc:oracle:thin:@192.168.1.80:1521:igm1", "papeletas", "papeletas");
-            /* Connection connection = DriverManager.getConnection(
-                "jdbc:oracle:thin:@192.168.35.88:1521:geo", "PAPELETAS", "2016PAPELETASIGM");*/
-            //Connection conn = DriverManager.getConnection(
-            //        "jdbc:oracle:thin:@192.168.35.88:1521:GEO", "PTV", "PPTVIGM2009");
             Long id_proforma = selected.getTproformaPK().getIdProforma();
-            Map<String, Object> parameters = new HashMap<String, Object>();
+            Map<String, Object> parameters = new HashMap<>();
             parameters.put("ID_PROFORMA", id_proforma);
             parameters.put("PATH_IMAGES", jasper.PATH_IMAGES);
             this.ejbFacade.generaPDF(parameters);
-            
-            
-
-        }
-
-    }
-
-    public void generarPDF() throws JRException, ClassNotFoundException, SQLException, FileNotFoundException {
-        {
-            JRExporter exporter = null;
-            Connection conn = PTV.getConnection();
-
-            Long id_proforma = selected.getTproformaPK().getIdProforma();
-            Map<String, Object> parameters = new HashMap<String, Object>();
-            parameters.put("ID_PROFORMA", id_proforma);
-
-            InputStream reportStream = new FileInputStream(JasperReportUtil.PATH_REPORTE_PROFORMA_R);
-            if (reportStream == null) {
-                throw new ClassNotFoundException("Archivo " + " no se encontrÛ");
-            }
-
-//Iniciar reporte
-//Llenar el reporte donde se carga la variable de los reportes
-//Generar PDF
-            JasperDesign jd = JRXmlLoader.load(reportStream);
-            JasperReport report = JasperCompileManager.compileReport(jd);
-            // Rellenamos el informe con la conexion creada y sus parametros establecidos
-            JasperPrint print = JasperFillManager.fillReport(report, parameters, conn);
-//        JasperPrint print = JasperFillManager.fillReport("D:\\reporteIreport\\LORE\\listadoMateriales.jasper", map, con);
-
-            // Exportamos el informe a formato PDF
-            JasperExportManager.exportReportToPdfFile(print, "C:\\Users\\PULE_DIEGO\\Downloads");
         }
 
     }

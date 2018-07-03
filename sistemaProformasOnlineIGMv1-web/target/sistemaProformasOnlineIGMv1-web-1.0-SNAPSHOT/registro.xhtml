@@ -12,8 +12,8 @@
             </ui:define>
 
             <ui:define name="body">              
-                <h:form id="TentidadBookingForm" onsubmit="setTimeout('growl', 3000)">
-                    <p:growl id="growl" showDetail="true" life="3000" />
+                <h:form id="TentidadBookingForm" onsubmit="setTimeout('growl', 4500)">
+                    <p:growl id="growl" showDetail="true" life="4500" />
                     <h:panelGroup id="display">
                         <p:panelGrid columns="2">
                             <p:panelGrid columns="2" style="margin-bottom:10px">
@@ -32,9 +32,17 @@
                                 <p:outputLabel value="#{bundle.CreateTentidadLabel_apellidos}" for="apellidos" />
                                 <p:inputText id="apellidos" value="#{tentidadController.selected.apellidos}" title="#{bundle.CreateTentidadTitle_apellidos}" required="true" requiredMessage="#{bundle.CreateTentidadRequiredMessage_apellidos}"/>
                                 <p:outputLabel value="#{bundle.CreateTentidadLabel_telefonoConvencional}" for="telefonoConvencional" />
-                                <p:inputText id="telefonoConvencional" value="#{tentidadController.selected.telefonoConvencional}" title="#{bundle.CreateTentidadTitle_telefonoConvencional}" required="true" requiredMessage="#{bundle.CreateTentidadRequiredMessage_telefonoConvencional}"/>
+                                <p:inputText id="telefonoConvencional" maxlength="9" value="#{tentidadController.selected.telefonoConvencional}" title="#{bundle.CreateTentidadTitle_telefonoConvencional}" 
+                                             required="true" requiredMessage="#{bundle.CreateTentidadRequiredMessage_telefonoConvencional}"
+                                             validatorMessage="Su número telefónico convencional debe iniciar con el código de la provincia Ej.: Pichincha>> 021234567 / Guayas: 041234567">
+                                    <f:validateRegex pattern="^(0)\d{8}" />
+                                </p:inputText>
                                 <p:outputLabel value="#{bundle.CreateTentidadLabel_telefonoCelular}" for="telefonoCelular" />
-                                <p:inputText id="telefonoCelular" value="#{tentidadController.selected.telefonoCelular}" title="#{bundle.CreateTentidadTitle_telefonoCelular}" required="true" requiredMessage="#{bundle.CreateTentidadRequiredMessage_telefonoCelular}"/>
+                                <p:inputText id="telefonoCelular" maxlength="10" value="#{tentidadController.selected.telefonoCelular}" title="#{bundle.CreateTentidadTitle_telefonoCelular}" 
+                                             required="true" requiredMessage="#{bundle.CreateTentidadRequiredMessage_telefonoCelular}"
+                                             validatorMessage="Su número telefónico móvil debe estar en el formato: 0912345678">
+                                    <f:validateRegex pattern="^(09)\d{8}" />
+                                </p:inputText>
                                 <p:outputLabel value="#{bundle.CreateTentidadLabel_fax}" for="fax" />
                                 <p:inputText id="fax" value="#{tentidadController.selected.fax}" title="#{bundle.CreateTentidadTitle_fax}" />
                                 <p:outputLabel value="#{bundle.CreateTentidadLabel_email}" for="email" />
