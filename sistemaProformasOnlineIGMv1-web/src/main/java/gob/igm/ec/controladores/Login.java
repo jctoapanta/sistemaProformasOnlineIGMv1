@@ -105,10 +105,10 @@ public class Login extends FacesUtil implements Serializable {
             } else {
                 if (direccionDomicilioUsrExiste.equals(0L)) {
                     if (direccionEnvioUsrExiste.equals(0L)) {
-                        JsfUtil.addErrorMessage("Usted debe registrar una dirección domiciliaria y al menos una dirección de envío, por favor agréguelas.");
+                        JsfUtil.addErrorMessage("Usted debe registrar una Dirección para Facturación y al menos una Dirección para Envío, por favor agréguelas.");
                         regla = "/tdireccionesusr/List.xhtml";
                     } else {
-                        JsfUtil.addErrorMessage("Usted debe registrar una dirección domiciliaria, por favor agréguela.");
+                        JsfUtil.addErrorMessage("Usted debe registrar una Dirección para Facturación, por favor agréguela.");
                         regla = "/tdireccionesusr/List.xhtml";
                     }
                 } else {

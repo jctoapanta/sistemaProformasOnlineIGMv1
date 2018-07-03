@@ -52,7 +52,7 @@
                             <h:outputText value="#{item.tprovincia}"/>
                         </p:column>
                         <f:facet name="footer">
-                            <p:commandButton id="createButton" icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{tcantonController.prepareCreate}" update=":TcantonCreateForm" oncomplete="PF('TcantonCreateDialog').show()"/>
+                            <p:commandButton id="createButton" icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{tcantonController.prepareCreate}" update=":TcantonCreateForm" oncomplete="PF('TcantonCreateDialog').show(); location.reload(false);"/>
                             <p:commandButton id="viewButton"   icon="ui-icon-search" value="#{bundle.View}" update=":TcantonViewForm" oncomplete="PF('TcantonViewDialog').show()" disabled="#{empty tcantonController.selected}"/>
                             <p:commandButton id="editButton"   icon="ui-icon-pencil" value="#{bundle.Edit}" update=":TcantonEditForm" oncomplete="PF('TcantonEditDialog').show()" disabled="#{empty tcantonController.selected}"/>
                             <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{tcantonController.destroy}" update=":growl,datalist" disabled="#{empty tcantonController.selected}"/>

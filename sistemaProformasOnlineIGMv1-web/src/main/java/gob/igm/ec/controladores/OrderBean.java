@@ -258,6 +258,7 @@ public class OrderBean implements Serializable {
                     this.selected.setFechaCreacion(fechaActual);
                     this.selected.setIdDireccion(direccionEncontrada);
                     this.selected.setLVentaOnline(vOnline);
+                    this.selected.setFormaEntrega(Short.parseShort(this.getTipoEntregaH().getValue().toString()));
                     this.ejbFacade.create(selected);
                     this.detalleProformas = new ArrayList();
                     for (Order order : ORDERLIST) {

@@ -14,17 +14,17 @@
                 <h:panelGroup id="display">
                     <p:panelGrid columns="2" rendered="#{tdireccionesusrController.selected != null}">
                         <p:outputLabel value="#{bundle.CreateTcantonLabel_tprovincia}" for="tprovincia" />
-                        <p:selectOneMenu id="tprovincia" required="true" binding="#{tdireccionesusrController.provinciaMenu}" requiredMessage="#{bundle.EditTcantonRequiredMessage_tprovincia}"
+                        <p:selectOneMenu id="tprovincia" required="true"  onchange="#{tdireccionesusrController.provinciaMenu}" requiredMessage="#{bundle.EditTcantonRequiredMessage_tprovincia}"
                                           valueChangeListener="#{tdireccionesusrController.changeProvinciaMenu}" immediate="true">
-                            <f:selectItem itemLabel="Seleccione la Provincia"/>
-                            <f:selectItems value="#{tprovinciaController.itemsAvailableSelectOne}"
+                            <f:selectItem id="noSelect" itemLabel="Seleccione la Provincia"/>
+                            <f:selectItems id="selecciones" value="#{tprovinciaController.itemsAvailableSelectOne}"
                                            var="tprovinciaItem"
                                            itemValue="#{tprovinciaItem}" />
                             <p:ajax update="tcanton" process="@form" />
                         </p:selectOneMenu>
                         
                         <p:outputLabel value="#{bundle.CreateTcantonLabel_canton}" for="tcanton" />
-                        <p:selectOneMenu id="tcanton" required="true" binding="#{tdireccionesusrController.cantonMenu}" 
+                        <p:selectOneMenu id="tcanton" required="true" onchange="#{tdireccionesusrController.cantonMenu}" 
                                          requiredMessage="#{bundle.EditTcantonRequiredMessage_tcanton}"
                                           valueChangeListener="#{tdireccionesusrController.changeCantonMenu}"
                                          immediate="true" >
@@ -36,7 +36,7 @@
                         </p:selectOneMenu>
                         
                         <p:outputLabel value="#{bundle.CreateTdireccionesusrLabel_tparroquia}" for="tparroquia" />
-                        <p:selectOneMenu id="tparroquia" binding="#{tdireccionesusrController.parroquiaMenu}" required="true"
+                        <p:selectOneMenu id="tparroquia" onchange="#{tdireccionesusrController.parroquiaMenu}" required="true"
                                          value="#{tdireccionesusrController.selected.tparroquia}"
                                          requiredMessage="#{bundle.EditTdireccionesusrRequiredMessage_tparroquia}">
                             <f:selectItem itemLabel="Seleccione la Parroquia"/>
@@ -64,12 +64,11 @@
                         <p:inputText id="ciu" value="#{login.cliente.ciu}" readonly="true"/>
                         <h:inputHidden id="ciuHidden" value="#{login.cliente.ciu}" binding="#{tdireccionesusrController.ciuH}"/>
                     </p:panelGrid>
-                    <p:commandButton actionListener="#{tdireccionesusrController.create}" value="#{bundle.Save}" action="/tproforma/ListProXCli.xhtml" update="display,:TdireccionesusrListForm:datalist,:growl" oncomplete="handleSubmit(args,'TdireccionesusrCreateDialog'); dispose();"/>
+                    <p:commandButton action="#{tdireccionesusrController.create}" value="#{bundle.Save}" update="display,:TdireccionesusrListForm:datalist,:growl" oncomplete="handleSubmit(args,'TdireccionesusrCreateDialog');"/>
                     <p:commandButton value="#{bundle.Cancel}" onclick="TdireccionesusrCreateDialog.hide()"/>
                     
                 </h:panelGroup>
             </h:form>
-            <p:ajax process="@this"></p:ajax>
         </p:dialog>
 
     </ui:composition>
