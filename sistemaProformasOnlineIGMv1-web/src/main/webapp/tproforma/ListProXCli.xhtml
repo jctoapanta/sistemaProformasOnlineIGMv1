@@ -62,7 +62,7 @@
                             <f:facet name="header">
                                 <h:outputText value="Total Proforma"/>
                             </f:facet>
-                            <h:outputText value="#{order.totalp}"/>
+                            <h:outputText value="#{tdetproformaController.valorTotalProforma(item.tproformaPK.idProforma, item.tproformaPK.idPeriodo)}"/>
                         </p:column>
                         <p:column width="5%">
                             <f:facet name="header">

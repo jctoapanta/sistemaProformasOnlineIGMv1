@@ -2,7 +2,6 @@ package gob.igm.ec.controladores;
 
 import gob.igm.ec.Tdireccionesusr;
 import gob.igm.ec.Tentidad;
-import gob.igm.ec.Tproforma;
 import gob.igm.ec.controladores.util.FacesUtil;
 import gob.igm.ec.controladores.util.JsfUtil;
 import gob.igm.ec.controladores.util.JsfUtil.PersistAction;
@@ -44,6 +43,9 @@ public class TdireccionesusrController extends FacesUtil implements Serializable
     
     @Inject
     private TemplateController templateControl;
+    
+    @Inject
+    private OrderBean order;
     
     @EJB
     private gob.igm.ec.servicios.TdireccionesusrFacade ejbFacade;
@@ -131,6 +133,14 @@ public class TdireccionesusrController extends FacesUtil implements Serializable
         return idDir;
     }
 
+    public String buscaDirEnvioCliente(){
+        //ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
+        String ciu = order.getCiuH().getValue().toString();// ec.getRequestParameterMap().get("principalForm:ciuHidden");
+        List<Tdireccionesusr> Dir=new ArrayList<>();
+        Dir=this.ejbFacade.buscarDireccionEnvioCliente(ciu);
+        return Dir.toString();
+    }    
+    
     public void seleccionaDirEnvio(Tdireccionesusr direccionSelec){
         //List<Tdireccionesusr> direccionesActualizar=new ArrayList<>();
         
@@ -153,27 +163,12 @@ public class TdireccionesusrController extends FacesUtil implements Serializable
         String tEntrega = ec.getRequestParameterMap().get("principalForm:tipoEntregaHidden2");
         String ciu = ec.getRequestParameterMap().get("principalForm:ciuHidden");
         
-        if (tEntrega.equals("1")){
+        if (tEntrega.equals("1") || tEntrega.equals("2")){
             //JsfUtil.addErrorMessage("Se ha guardado su proforma correctamente");
             JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("TproformaCreated"));
             regla = "/tproforma/ListProXCli";
-        } else {
-            //regla = "/tdireccionesusr/ListSelecDir";
-            try {
-                setDireccionesXCiu(this.ejbFacade.buscarDireccionesXCliente(ciu));
-                if (getDireccionesXCiu().isEmpty()){
-                    JsfUtil.addErrorMessage("Usted aún no ha registrado sus Direcciones");
-                    regla = "/tdireccionesusr/Create";
-                } else{
-                    JsfUtil.addErrorMessage("Usted puede definir su Dirección de Envío");
-                }
-            }
-            catch (Exception ex) {
-                regla = "/tproforma/ListProXCli";
-                logger.error(ex.getMessage(), ex);
-                super.addErrorMessage(super.getRecursoGeneral().getString("msgErrorLogin"));
-            }
         }
+        
         return regla;
     }
     
@@ -199,8 +194,9 @@ public class TdireccionesusrController extends FacesUtil implements Serializable
         this.siguienteIdDireccion = null;
         ciuH=new HtmlInputHidden();
         tipoEntrega=new HtmlInputHidden();
-        selectedItems.add(new SelectItem("1", "Retiro en oficina IGM"));
-        selectedItems.add(new SelectItem("2", "Entrega a Domicilio"));
+        selectedItems.add(new SelectItem("1", "Retiro en oficina IGM Quito"));
+        selectedItems.add(new SelectItem("2", "Retiro en oficina IGM Guayaquil"));
+        selectedItems.add(new SelectItem("3", "Entrega a Domicilio"));
     }
 
     public Tdireccionesusr getSelected() {

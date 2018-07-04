@@ -70,12 +70,14 @@
                             </p:dataTable>
                             <div>
                                 <h:panelGrid columns="2" cellpadding="4">
-                                    <p:outputLabel value="Forma de entrega:" for="IdFormaPago"/>
-                                    <p:selectOneMenu id="IdFormaPago" style="width:290px" panelStyle="width:180px" value="#{tdireccionesusrController.selectedItem}" immediate="true">
+                                    <p:outputLabel value="Forma de entrega:" for="IdFormaEntrega"/>
+                                    <p:selectOneMenu id="IdFormaEntrega" style="width:290px" panelStyle="width:180px" value="#{tdireccionesusrController.selectedItem}" immediate="true">
                                         <f:selectItem itemLabel="Seleccionar forma de entrega" itemValue="#{null}" noSelectionOption="true"/>
                                         <f:selectItems value="#{tdireccionesusrController.selectedItems}"/>
-                                        <p:ajax process="@this" partialSubmit="true" update="tipoEntregaHidden2, ciuHidden"/>
+                                        <p:ajax process="@this" partialSubmit="true" update="tipoEntregaHidden2, ciuHidden, dirEntrega"/>
                                     </p:selectOneMenu>
+                                    <p:outputLabel value="Dirección de entrega:" for="dirEntrega"/>
+                                    <h:outputText id="dirEntrega" value="#{tdireccionesusrController.buscaDirEnvioCliente()}"/>
                                 </h:panelGrid>
                                 <h:inputHidden id="tipoEntregaHidden2" value="#{tdireccionesusrController.selectedItem}" binding="#{order.tipoEntregaH}"/>
                                 <h:panelGrid>

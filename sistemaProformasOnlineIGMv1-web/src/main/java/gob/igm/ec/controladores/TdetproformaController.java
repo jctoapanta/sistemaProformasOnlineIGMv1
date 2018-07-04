@@ -6,6 +6,7 @@ import gob.igm.ec.controladores.util.JsfUtil.PersistAction;
 import gob.igm.ec.servicios.TdetproformaFacade;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -180,4 +181,9 @@ public class TdetproformaController implements Serializable {
 
     }
 
+    public BigDecimal valorTotalProforma (Long noProforma, Short periodo){
+        BigDecimal total=BigDecimal.ZERO;
+        total=ejbFacade.totalProforma(noProforma, periodo);
+        return total;
+    }
 }

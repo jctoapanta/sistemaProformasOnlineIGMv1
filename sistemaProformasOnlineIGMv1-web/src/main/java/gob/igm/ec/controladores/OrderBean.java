@@ -17,6 +17,7 @@ import gob.igm.ec.Tentidad;
 import gob.igm.ec.Titem;
 import gob.igm.ec.Tproforma;
 import gob.igm.ec.TproformaPK;
+import gob.igm.ec.controladores.util.FacesUtil;
 import gob.igm.ec.controladores.util.JsfUtil;
 import gob.igm.ec.servicios.TcontrolIvaFacade;
 import gob.igm.ec.servicios.TdetproformaFacade;
@@ -32,17 +33,17 @@ import java.util.Date;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.faces.context.FacesContext;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
+import javax.enterprise.context.SessionScoped;
 import javax.faces.component.html.HtmlInputHidden;
 import javax.faces.context.ExternalContext;
 import javax.faces.model.SelectItem;
 import javax.inject.Inject;
+import javax.inject.Named;
 import org.apache.log4j.Logger;
 
-@ManagedBean(name = "order")
+@Named("order")
 @SessionScoped
-public class OrderBean implements Serializable {
+public class OrderBean extends FacesUtil implements Serializable {
 
     /**
      * @return the tipoEntregaH
