@@ -6,6 +6,7 @@ gob\igm\ec\controladores\TparroquiaController.class
 gob\igm\ec\controladores\TentidadController.class
 gob\igm\ec\controladores\util\JsfUtil.class
 gob\igm\ec\controladores\TunidadmedidaController$TunidadmedidaControllerConverter.class
+gob\igm\ec\controladores\TemplateController.class
 gob\igm\ec\controladores\TsucursalController$TsucursalControllerConverter.class
 gob\igm\ec\controladores\TproformaController.class
 gob\igm\ec\servicios\TplotersFacade.class

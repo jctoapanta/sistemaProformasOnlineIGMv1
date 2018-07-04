@@ -169,5 +169,4 @@ public class TproformaFacade extends AbstractFacade<Tproforma> {
             return 0L;
         }
     }
-
 }
