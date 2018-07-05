@@ -22,8 +22,6 @@
                         <p:outputLabel id="nombres" value="#{login.cliente.nombres}"/>
                         <p:outputLabel value="Apellidos:" for="apellidos" />
                         <p:outputLabel id="apellidos" value="#{login.cliente.apellidos}"/>
-                        <p:outputLabel value="Total sin recargos de envio:" for="Total" />
-                        <h:outputText id = "Total" value="#{order.totalp}"/>                                                
                     </h:panelGrid>
                 </p:panel>
     
@@ -84,7 +82,7 @@
                             </f:facet>
                             <h:outputText value="#{item.idTipoDireccion}"/>
                         </p:column>
-                        <p:column style="width:32px;text-align: center">
+                        <p:column style=" text-align: center">
                             <f:facet name="header">Enviar a:</f:facet>
                             <p:commandButton id="updateButton" icon="ui-icon-arrowthickstop-1-s" action="#{tdireccionesusrController.seleccionaDirEnvio(tdireccionesusrController.selected)}" update=":growl">
                                 <f:setPropertyActionListener value="#{item}" target="#{tdireccionesusrController.selected}" />
