@@ -284,8 +284,7 @@ public class OrderBean extends FacesUtil implements Serializable {
                         this.detproformapk.setNoReg(reg);
                         detalleproforma.setTdetproformaPK(detproformapk);
                         this.tdetproformaFacade.create(detalleproforma);
-                        
-                        
+                        JsfUtil.addSuccessMessage("Su proforma ha sido guardada correctamente.");
                     }
                     return regla;
                 } else {
