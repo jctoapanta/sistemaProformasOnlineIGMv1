@@ -60,8 +60,7 @@
                         <p:inputText id="calleSecundariaDireccion" value="#{tdireccionesusrController.selected.calleSecundariaDireccion}" title="#{bundle.CreateTdireccionesusrTitle_calleSecundariaDireccion}" />
                         <p:outputLabel value="#{bundle.CreateTdireccionesusrLabel_referenciaDireccion}" for="referenciaDireccion" />
                         <p:inputText id="referenciaDireccion" value="#{tdireccionesusrController.selected.referenciaDireccion}" title="#{bundle.CreateTdireccionesusrTitle_referenciaDireccion}" />
-                        <p:outputLabel value="#{bundle.CreateTdireccionesusrLabel_ciu}" for="ciu" />
-                        <p:inputText id="ciu" value="#{login.cliente.ciu}" readonly="true"/>
+                        
                         <h:inputHidden id="ciuHidden" value="#{login.cliente.ciu}" binding="#{tdireccionesusrController.ciuH}"/>
                     </p:panelGrid>
                     <p:commandButton action="#{tdireccionesusrController.create}" value="#{bundle.Save}" update="display,:TdireccionesusrListForm:datalist,:growl" oncomplete="handleSubmit(args,'TdireccionesusrCreateDialog');"/>
