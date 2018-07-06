@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='UTF-8' ?>
+<?xml version='1.0' encoding='UTF-8' ?> 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
@@ -6,37 +6,55 @@
       xmlns:p="http://primefaces.org/ui">
 
     <h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <h:outputStylesheet library="css" name="bootstrap.min.css" />
+        <h:outputScript library="js" name="bootstrap.min.js" />
         <title><ui:insert name="title">#{bundle.AppName}</ui:insert></title>
-        <h:outputStylesheet library="css" name="jsfcrud.css"/>
-        <h:outputScript library="js" name="jsfcrud.js"/>
+        <style type="text/css">
+            .col-xs-updated {       
+                width: 92% !important;
+            }
+        </style>
     </h:head>
 
-    <h:body>
+    <h:body  style="position: static; min-height: 100%">
+        <p:growl id="growl" life="4500" />
+        <div id="top">
+            <div id="header" align="center">
+                <h:outputLabel value="#{bundle.AppName}"></h:outputLabel>
+            </div>
+            <nav class="navbar navbar-inverse">
+                <div class="container-fluid">
+                    <!--                                 Brand and toggle get grouped for better mobile display -->
+                    <div class="navbar-header" >
+                        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                        <a class="navbar-brand" href="#">
+                            <img alt="I.G.M." src="/sistemaProformasOnlineIGMv1-web/faces/resources/images/igmLogo.png"/>
+                        </a>
+                    </div>
 
-        <p:growl id="growl" life="3000" />
+                    <!--                                 Collect the nav links, forms, and other content for toggling -->
+                    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                        <ul class="nav navbar-nav navbar-right">
+                            <li><a href="/sistemaProformasOnlineIGMv1-web/faces/index.xhtml" aria-haspopup="true" aria-expanded="false">#{bundle.Exit}</a></li>
+                        </ul>
+                    </div> <!--/.navbar-collapse -->
+                </div> <!--/.container-fluid -->
+            </nav>
+        </div>
 
-        <p:layout fullPage="true">
-            <p:layoutUnit position="north" size="65" header="#{bundle.AppName}">
-                <h:form id="menuForm">
-                    <p:menubar>
-                        <p:menuitem value="#{bundle.Home}" outcome="/index" icon="ui-icon-home"/>
-                    </p:menubar>
-                </h:form>
-            </p:layoutUnit>
+        <div id="content" class="panel-body" style="margin: 0 auto 40px;">
+            <ui:insert name="body">Content</ui:insert>
+        </div>
 
-            <p:layoutUnit position="south" size="60">
-                <ui:insert name="footer"/>
-                <div align="center">
-                    <h:outputLabel value="#{bundle.Derechos_Copia}"></h:outputLabel>
-                </div>
-            </p:layoutUnit>
-
-            <p:layoutUnit position="center">
-                <ui:insert name="body"/>
-            </p:layoutUnit>
-
-        </p:layout>
-
+        <div id="bottom" align="center" class="panel-footer" style="height: 40px; position: absolute; left: 0; bottom: 0; width: 100%;">
+            <ui:insert name="footer"><h:outputLabel value="#{bundle.Derechos_Copia}"></h:outputLabel></ui:insert>
+        </div>
     </h:body>
 
 </html>

@@ -37,8 +37,8 @@
                                  rowsPerPageTemplate="10,20,30,40,50"
                                  >
 
-                        <p:ajax event="rowSelect"   update="createButton viewButton sendButton"/>
-                        <p:ajax event="rowUnselect" update="createButton viewButton sendButton"/>
+                        <p:ajax event="rowSelect"   update="viewButton sendButton"/>
+                        <p:ajax event="rowUnselect" update="viewButton sendButton"/>
 
                         <p:column width="6%">
                             <f:facet name="header">
@@ -87,7 +87,6 @@
                 </p:panel>
             </h:form>
 
-            <ui:include src="Create.xhtml"/>
             <ui:include src="subeArchivo.xhtml"/>
             <ui:include src="View.xhtml"/>
         </ui:define>
