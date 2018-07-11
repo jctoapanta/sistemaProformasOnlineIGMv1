@@ -42,8 +42,15 @@
                     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                         <ul class="nav navbar-nav">
                             <li class="active"><a href="/sistemaProformasOnlineIGMv1-web/faces/tdireccionesusr/List.xhtml#">#{bundle.AddressManage} <span class="sr-only">(current)</span></a></li>
-                            <li><a href="/sistemaProformasOnlineIGMv1-web/faces/enConstruccion.xhtml#">#{bundle.ChangePassword} </a></li>
                             <li><a href="/sistemaProformasOnlineIGMv1-web/faces/tproforma/ListProXCli.xhtml#">#{bundle.Back} Listado Pedidos </a></li>
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Sus Actividades <span class="caret"></span></a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="/sistemaProformasOnlineIGMv1-web/faces/enConstruccion.xhtml#">Estado de Pedidos</a></li>
+                                    <li role="separator" class="divider"></li>
+                                    <li><a href="/sistemaProformasOnlineIGMv1-web/faces/enConstruccion.xhtml#">#{bundle.ChangePassword} </a></li>
+                                </ul>
+                            </li>
                         </ul>
                         <ul class="nav navbar-nav navbar-right">
                             <li><a href="/sistemaProformasOnlineIGMv1-web/faces/index.xhtml" aria-haspopup="true" aria-expanded="false">#{bundle.Exit}</a></li>

@@ -72,7 +72,7 @@
                                                          ajax="true"/>   				
                                     </p:column>
                                     <f:facet name="footer">
-                                        El valor total de la proforma, sin recargos, es: #{order.totalp}
+                                        El valor total de la proforma es: #{order.totalp}
                                     </f:facet>
                                 </p:dataTable>
                                 <div>
@@ -83,8 +83,8 @@
                                             <f:selectItems value="#{tdireccionesusrController.selectedItems}"/>
                                             <p:ajax process="@this" partialSubmit="true" update="tipoEntregaHidden2, ciuHidden, dirEntrega"/>
                                         </p:selectOneMenu>
-                                        <p:outputLabel value="Dirección de entrega: " for="dirEntrega"/>
-                                        <h:outputText id="dirEntrega" value="#{tdireccionesusrController.buscaDirEnvioCliente().toString()}"/>
+                                        <p:outputLabel value="Dirección de entrega:" for="dirEntrega"/>
+                                        <h:outputText id="dirEntrega" value="#{tdireccionesusrController.buscaDirEnvioCliente()}"/>
                                     </h:panelGrid>
                                     <h:inputHidden id="tipoEntregaHidden2" value="#{tdireccionesusrController.selectedItem}" binding="#{order.tipoEntregaH}"/>
                                 </div>

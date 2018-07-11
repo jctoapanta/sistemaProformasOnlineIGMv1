@@ -1,18 +1,16 @@
 package gob.igm.ec;
 
-import gob.igm.ec.Tdetproforma;
-import gob.igm.ec.Tdireccionesusr;
 import gob.igm.ec.Tentidad;
 import gob.igm.ec.TproformaPK;
 import gob.igm.ec.Tsucursal;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 import javax.annotation.Generated;
-import javax.persistence.metamodel.CollectionAttribute;
 import javax.persistence.metamodel.SingularAttribute;
 import javax.persistence.metamodel.StaticMetamodel;
 
-@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2018-07-09T11:04:37")
+@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2018-07-11T15:44:45")
 @StaticMetamodel(Tproforma.class)
 public class Tproforma_ { 
 
@@ -22,22 +20,22 @@ public class Tproforma_ {
     public static volatile SingularAttribute<Tproforma, String> estado;
     public static volatile SingularAttribute<Tproforma, Short> lVentaOnline;
     public static volatile SingularAttribute<Tproforma, Short> idSucursalFac;
+    public static volatile SingularAttribute<Tproforma, BigDecimal> valorEnvio;
     public static volatile SingularAttribute<Tproforma, Integer> idCreador;
     public static volatile SingularAttribute<Tproforma, Tsucursal> tsucursal;
     public static volatile SingularAttribute<Tproforma, Tentidad> ciu;
     public static volatile SingularAttribute<Tproforma, Short> validezDias;
     public static volatile SingularAttribute<Tproforma, Short> lAutoriza;
-    public static volatile SingularAttribute<Tproforma, Tdireccionesusr> idDireccion;
     public static volatile SingularAttribute<Tproforma, String> obsProforma;
     public static volatile SingularAttribute<Tproforma, String> tiempoEntrega;
     public static volatile SingularAttribute<Tproforma, String> tipoProforma;
     public static volatile SingularAttribute<Tproforma, String> contacto;
     public static volatile SingularAttribute<Tproforma, Serializable> comprobantePago;
     public static volatile SingularAttribute<Tproforma, Date> fechaModificacion;
+    public static volatile SingularAttribute<Tproforma, String> dirCabeceraEf;
     public static volatile SingularAttribute<Tproforma, Short> idPeriodoFac;
     public static volatile SingularAttribute<Tproforma, Short> formaEntrega;
     public static volatile SingularAttribute<Tproforma, String> numPedido;
-    public static volatile CollectionAttribute<Tproforma, Tdetproforma> tdetproformaCollection;
     public static volatile SingularAttribute<Tproforma, Date> fechaConfirmacion;
     public static volatile SingularAttribute<Tproforma, String> obsModificacion;
     public static volatile SingularAttribute<Tproforma, Long> idFactura;
@@ -45,6 +43,7 @@ public class Tproforma_ {
     public static volatile SingularAttribute<Tproforma, Date> fechaCreacion;
     public static volatile SingularAttribute<Tproforma, Short> formaPago;
     public static volatile SingularAttribute<Tproforma, Date> fechaValidez;
+    public static volatile SingularAttribute<Tproforma, String> dirEnvioEf;
     public static volatile SingularAttribute<Tproforma, Integer> idAutorizador;
     public static volatile SingularAttribute<Tproforma, Date> fechaRecepcion;
 

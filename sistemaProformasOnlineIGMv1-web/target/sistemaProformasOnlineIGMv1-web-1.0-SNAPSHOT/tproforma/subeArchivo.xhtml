@@ -27,11 +27,14 @@
                         <p:outputLabel value="Adjuntar archivo: "  
                                         style="font-weight: bold"/>
                         <p:fileUpload value="#{tproformaController.file}"
-                                  mode="advanced" 
+                                  mode="advanced"
+                                  allowTypes="/(\.|\/)(pdf|PDF)$/"
                                   dragDropSupport="false"
                                   fileUploadListener="#{tproformaController.upload}"
                                   uploadLabel="Subir imágen" 
-                                  sizeLimit="51200" 
+                                  sizeLimit="460800" 
+                                  fileLimit="1"
+                                  fileLimitMessage="Sólo puede seleccionar y enviar un archivo"
                                   cancelLabel="Cancelar" 
                                   label="Elegir"
                                   update="messages"/>
@@ -40,7 +43,7 @@
                         <p:outputLabel value="#{TproformaController.p.tiempoEntrega}"/>
                         <br />
                         <br />
-                        <p:outputLabel value="El formato del archivo de envío debe ser en formato PDF de un máximo de 50 KB"  />                        
+                        <p:outputLabel style="font-size: large; font-style: italic; font-stretch: semi-condensed; font-family: serif;" value="El archivo a envíar debe estar en formato PDF, de un máximo de 450 KB"  />                        
                     </p:panelGrid>
                     <p:commandButton value="#{bundle.Close}" onclick="TproformaSendDialog.hide()"/>
                 </h:panelGroup>

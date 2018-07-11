@@ -6,10 +6,9 @@
 package gob.igm.ec;
 
 import java.io.Serializable;
-import java.util.Collection;
+import java.math.BigDecimal;
 import java.util.Date;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
@@ -18,14 +17,12 @@ import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -36,8 +33,8 @@ import javax.xml.bind.annotation.XmlTransient;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Tproforma.findAll", query = "SELECT t FROM Tproforma t")
-    , @NamedQuery(name = "Tproforma.findByIdPeriodoAndCiu", query = "SELECT t FROM Tproforma t WHERE t.tproformaPK.idPeriodo = :idPeriodo and t.ciu.ciu = :ciu and t.comprobantePago is null")        
     , @NamedQuery(name = "Tproforma.findByIdSucursal", query = "SELECT t FROM Tproforma t WHERE t.tproformaPK.idSucursal = :idSucursal")
+    , @NamedQuery(name = "Tproforma.findByIdPeriodoAndCiu", query = "SELECT t FROM Tproforma t WHERE t.tproformaPK.idPeriodo = :idPeriodo and t.ciu.ciu = :ciu and t.comprobantePago is null")
     , @NamedQuery(name = "Tproforma.findByIdPeriodo", query = "SELECT t FROM Tproforma t WHERE t.tproformaPK.idPeriodo = :idPeriodo")
     , @NamedQuery(name = "Tproforma.findByIdProforma", query = "SELECT t FROM Tproforma t WHERE t.tproformaPK.idProforma = :idProforma")
     , @NamedQuery(name = "Tproforma.findByEstado", query = "SELECT t FROM Tproforma t WHERE t.estado = :estado")
@@ -64,8 +61,14 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Tproforma.findByFechaValidez", query = "SELECT t FROM Tproforma t WHERE t.fechaValidez = :fechaValidez")
     , @NamedQuery(name = "Tproforma.findByFormaEntrega", query = "SELECT t FROM Tproforma t WHERE t.formaEntrega = :formaEntrega")
     , @NamedQuery(name = "Tproforma.findByFormaPago", query = "SELECT t FROM Tproforma t WHERE t.formaPago = :formaPago")
-    , @NamedQuery(name = "Tproforma.findByLVentaOnline", query = "SELECT t FROM Tproforma t WHERE t.lVentaOnline = :lVentaOnline")})
+    , @NamedQuery(name = "Tproforma.findByLVentaOnline", query = "SELECT t FROM Tproforma t WHERE t.lVentaOnline = :lVentaOnline")
+    , @NamedQuery(name = "Tproforma.findByDirCabeceraEf", query = "SELECT t FROM Tproforma t WHERE t.dirCabeceraEf = :dirCabeceraEf")
+    , @NamedQuery(name = "Tproforma.findByDirEnvioEf", query = "SELECT t FROM Tproforma t WHERE t.dirEnvioEf = :dirEnvioEf")})
 public class Tproforma implements Serializable {
+
+    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
+    @Column(name = "VALOR_ENVIO")
+    private BigDecimal valorEnvio;
 
     private static final long serialVersionUID = 1L;
     @EmbeddedId
@@ -139,11 +142,12 @@ public class Tproforma implements Serializable {
     private Serializable comprobantePago;
     @Column(name = "L_VENTA_ONLINE")
     private Short lVentaOnline;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "tproforma")
-    private Collection<Tdetproforma> tdetproformaCollection;
-    @JoinColumn(name = "ID_DIRECCION", referencedColumnName = "ID_DIRECCION")
-    @ManyToOne
-    private Tdireccionesusr idDireccion;
+    @Size(max = 300)
+    @Column(name = "DIR_CABECERA_EF")
+    private String dirCabeceraEf;
+    @Size(max = 300)
+    @Column(name = "DIR_ENVIO_EF")
+    private String dirEnvioEf;
     @JoinColumn(name = "CIU", referencedColumnName = "CIU")
     @ManyToOne(optional = false)
     private Tentidad ciu;
@@ -383,21 +387,20 @@ public class Tproforma implements Serializable {
         this.lVentaOnline = lVentaOnline;
     }
 
-    @XmlTransient
-    public Collection<Tdetproforma> getTdetproformaCollection() {
-        return tdetproformaCollection;
+    public String getDirCabeceraEf() {
+        return dirCabeceraEf;
     }
 
-    public void setTdetproformaCollection(Collection<Tdetproforma> tdetproformaCollection) {
-        this.tdetproformaCollection = tdetproformaCollection;
+    public void setDirCabeceraEf(String dirCabeceraEf) {
+        this.dirCabeceraEf = dirCabeceraEf;
     }
 
-    public Tdireccionesusr getIdDireccion() {
-        return idDireccion;
+    public String getDirEnvioEf() {
+        return dirEnvioEf;
     }
 
-    public void setIdDireccion(Tdireccionesusr idDireccion) {
-        this.idDireccion = idDireccion;
+    public void setDirEnvioEf(String dirEnvioEf) {
+        this.dirEnvioEf = dirEnvioEf;
     }
 
     public Tentidad getCiu() {
@@ -439,6 +442,14 @@ public class Tproforma implements Serializable {
     @Override
     public String toString() {
         return "gob.igm.ec.Tproforma[ tproformaPK=" + tproformaPK + " ]";
+    }
+
+    public BigDecimal getValorEnvio() {
+        return valorEnvio;
+    }
+
+    public void setValorEnvio(BigDecimal valorEnvio) {
+        this.valorEnvio = valorEnvio;
     }
     
 }
