@@ -96,6 +96,7 @@ public class OrderBean extends FacesUtil implements Serializable {
     private Collection<Tdetproforma> tdetproformaCollection = new ArrayList<>();
     private HtmlInputHidden ciuH = new HtmlInputHidden();
     private HtmlInputHidden tipoEntregaH = new HtmlInputHidden();
+    private HtmlInputHidden dirEntregaH = new HtmlInputHidden();
     private static final long serialVersionUID = 1L;
     private List<Titem> listaitems;
     @EJB
@@ -234,6 +235,7 @@ public class OrderBean extends FacesUtil implements Serializable {
         short reg = 1;
         Long direccionDomicilioUsrExiste;
         Tdireccionesusr direccionEncontrada = new Tdireccionesusr();
+        Tdireccionesusr direccionEnvioEncontrada = new Tdireccionesusr();;
         String regla = "/tproforma/ListProXCli.xhtml";
         try {
             Date fechaActual = new Date();
@@ -247,6 +249,7 @@ public class OrderBean extends FacesUtil implements Serializable {
                 regla = "/tdireccionesusr/List.xhtml";
             } else {
                 direccionEncontrada = this.direccionesControlador.buscaDomicilioCliente();
+                direccionEnvioEncontrada = this.direccionesControlador.buscaDirEnvioCliente();
                 regla = this.direccionesControlador.activaDirEnvio();
                 if (regla.equals("/tproforma/ListProXCli")) {
                     vIdPeriodo = Short.parseShort(new SimpleDateFormat("yy").format(fechaActual));
@@ -259,7 +262,8 @@ public class OrderBean extends FacesUtil implements Serializable {
                     this.selected.setEstado("P");
                     this.selected.setTipoProforma("OP");
                     this.selected.setFechaCreacion(fechaActual);
-                    this.selected.setIdDireccion(direccionEncontrada);
+                    this.selected.setDirCabeceraEf(direccionEncontrada.getTparroquia().getTcanton().getTprovincia().getProvincia() + "/" + direccionEncontrada.getTparroquia().getTcanton().getCanton() + "/" + direccionEncontrada.getTparroquia().getParroquia() + "/" + direccionEncontrada.toString());
+                    this.selected.setDirEnvioEf(direccionEnvioEncontrada.getTparroquia().getTcanton().getTprovincia().getProvincia() + "/" + direccionEnvioEncontrada.getTparroquia().getTcanton().getCanton() + "/" + direccionEnvioEncontrada.getTparroquia().getParroquia() + "/" + direccionEnvioEncontrada);
                     this.selected.setLVentaOnline(vOnline);
                     this.selected.setFormaEntrega(Short.parseShort(this.getTipoEntregaH().getValue().toString()));
                     this.ejbFacade.create(selected);
@@ -448,16 +452,6 @@ public class OrderBean extends FacesUtil implements Serializable {
             this.piva = piva;
         }
 
-        /* public Order(Integer idItem, String descripcion, BigDecimal cantidad, BigDecimal total, BigDecimal piva,BigDecimal totalp, BigDecimal totalProforma) {
-            this.descripcion = descripcion;
-            this.cantidad = cantidad;
-            this.total = total;
-            //this.iva = iva;
-            this.piva = piva;
-            this.idItem=idItem;
-            this.totalp=totalp;
-            this.totalProforma=totalProforma;
-        }*/
         public Order(Integer idItem, String descripcion, BigDecimal cantidad, BigDecimal total, BigDecimal piva, BigDecimal totalp) {
             this.descripcion = descripcion;
             this.cantidad = cantidad;
@@ -526,5 +520,19 @@ public class OrderBean extends FacesUtil implements Serializable {
         public void setCiuH(HtmlInputHidden ciuH) {
             this.ciuH = ciuH;
         }
+    }
+
+    /**
+     * @return the dirEntregaH
+     */
+    public HtmlInputHidden getDirEntregaH() {
+        return dirEntregaH;
+    }
+
+    /**
+     * @param dirEntregaH the dirEntregaH to set
+     */
+    public void setDirEntregaH(HtmlInputHidden dirEntregaH) {
+        this.dirEntregaH = dirEntregaH;
     }
 }

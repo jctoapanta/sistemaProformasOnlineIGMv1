@@ -63,7 +63,7 @@
                         
                         <h:inputHidden id="ciuHidden" value="#{login.cliente.ciu}" binding="#{tdireccionesusrController.ciuH}"/>
                     </p:panelGrid>
-                    <p:commandButton action="#{tdireccionesusrController.create}" value="#{bundle.Save}" update="display,:TdireccionesusrListForm:datalist,:growl" oncomplete="handleSubmit(args,'TdireccionesusrCreateDialog');"/>
+                    <p:commandButton action="#{tdireccionesusrController.create}" value="#{bundle.Save}" update="display,:TdireccionesusrListForm:datalist,:growl" oncomplete="handleSubmit(args,'TdireccionesusrCreateDialog');" ajax="false"/>
                     <p:commandButton value="#{bundle.Cancel}" onclick="TdireccionesusrCreateDialog.hide()"/>
                     
                 </h:panelGroup>

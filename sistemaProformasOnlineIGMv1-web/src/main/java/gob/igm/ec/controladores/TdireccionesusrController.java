@@ -133,12 +133,12 @@ public class TdireccionesusrController extends FacesUtil implements Serializable
         return idDir;
     }
 
-    public String buscaDirEnvioCliente(){
+    public Tdireccionesusr buscaDirEnvioCliente(){
         //ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
         String ciu = order.getCiuH().getValue().toString();// ec.getRequestParameterMap().get("principalForm:ciuHidden");
-        List<Tdireccionesusr> Dir=new ArrayList<>();
+        Tdireccionesusr Dir=new Tdireccionesusr();
         Dir=this.ejbFacade.buscarDireccionEnvioCliente(ciu);
-        return Dir.toString();
+        return Dir;
     }    
     
     public void seleccionaDirEnvio(Tdireccionesusr direccionSelec){
@@ -245,6 +245,8 @@ public class TdireccionesusrController extends FacesUtil implements Serializable
             regla = "/tproforma/ListProXCli.xhtml";
             templateControl.refresh();
         } else {
+            regla = "/tdireccionesusr/List.xhtml";
+            templateControl.refresh();
             JsfUtil.addErrorMessage("Por favor verifique que haya registrado una Dirección para Facturación y al menos una Dirección para Envío.");
         }
         return regla;

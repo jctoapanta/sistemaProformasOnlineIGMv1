@@ -7,7 +7,6 @@ package gob.igm.ec;
 
 import java.io.Serializable;
 import java.util.Collection;
-import javax.faces.context.FacesContext;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -79,8 +78,6 @@ public class Tdireccionesusr implements Serializable {
     @JoinColumn(name = "ID_TIPO_DIRECCION", referencedColumnName = "ID_TIPO_DIRECCION")
     @ManyToOne(optional = false)
     private Ttipodireccion idTipoDireccion;
-    @OneToMany(mappedBy = "idDireccion")
-    private Collection<Tproforma> tproformaCollection;
 
     public Tdireccionesusr() {
     }
@@ -165,15 +162,6 @@ public class Tdireccionesusr implements Serializable {
 
     public void setIdTipoDireccion(Ttipodireccion idTipoDireccion) {
         this.idTipoDireccion = idTipoDireccion;
-    }
-
-    @XmlTransient
-    public Collection<Tproforma> getTproformaCollection() {
-        return tproformaCollection;
-    }
-
-    public void setTproformaCollection(Collection<Tproforma> tproformaCollection) {
-        this.tproformaCollection = tproformaCollection;
     }
 
     @Override

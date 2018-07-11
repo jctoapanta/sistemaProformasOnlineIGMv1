@@ -143,17 +143,17 @@ public class TdireccionesusrFacade extends AbstractFacade<Tdireccionesusr> {
      * @param pCiu identificación del cliente
      * @return Id de Direccion
      */
-    public List<Tdireccionesusr> buscarDireccionEnvioCliente(final String pCiu) {
-        List<Tdireccionesusr> direccionC=new ArrayList<>();
+    public Tdireccionesusr buscarDireccionEnvioCliente(final String pCiu) {
+        Tdireccionesusr direccionC=new Tdireccionesusr();
         Integer pLEnvio=1;
         Query query = null;
         try {
             query = em.createQuery("SELECT o FROM Tdireccionesusr o WHERE o.ciu.ciu = ?1 AND o.lEnvio=?2");
             query.setParameter(1, pCiu);
             query.setParameter(2, pLEnvio);
-            direccionC=query.getResultList();
+            direccionC=(Tdireccionesusr) query.getSingleResult();
             if (direccionC == null) {
-                JsfUtil.addErrorMessage("Usted aún no ha registrado una dirección domiciliaria, por favor agréguela.");
+                JsfUtil.addErrorMessage("Usted aún no ha seleccionado una dirección para envío, por favor selecciónela.");
             }
         } catch (Exception e) {
             localLogger.error(e);

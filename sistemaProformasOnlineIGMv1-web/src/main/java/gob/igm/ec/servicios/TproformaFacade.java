@@ -102,7 +102,7 @@ public class TproformaFacade extends AbstractFacade<Tproforma> {
             //ENVIO de correo con adjunto
             // Se compone la parte del texto
             BodyPart texto = new MimeBodyPart();
-            texto.setText("VERIFIQUE COMPROBANTE DE PAGO");
+            texto.setText("VERIFIQUE COMPROBANTE DE PAGO DEL PEDIDO (PROFORMA) No. "+id_proforma);
 
             // Se compone el adjunto con la imagen
             BodyPart adjunto = new MimeBodyPart();
