@@ -45,9 +45,22 @@ public class TentidadController implements Serializable {
     private String encriptado;
     
     public TentidadController() {
+        this.selectedEventTypeId = 1;
+    }
+    
+// eventType
+    private Short selectedEventTypeId;
+    
+    public Short getSelectedEventTypeId() {
+        return selectedEventTypeId;
+    }
+
+    public void setSelectedEventTypeId(Short selectedEventTypeId) {
+        this.selectedEventTypeId = selectedEventTypeId;
     }
 
     public Tentidad getSelected() {
+        
         return selected;
     }
 
@@ -89,6 +102,7 @@ public class TentidadController implements Serializable {
                         || validaID.validarRucPersonaNatural(selected.getCiu()) 
                         || validaID.validarRucSociedadPrivada(selected.getCiu())){
                     try {
+                        selected.setLNatural(this.selectedEventTypeId);
                         this.encriptUtil=new EncriptUtil();
                         encriptado = this.encriptUtil.encrypt3DES(selected.getClave());
                         selected.setClave(encriptado);

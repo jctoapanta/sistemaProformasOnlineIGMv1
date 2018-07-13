@@ -120,18 +120,15 @@ public class TdireccionesusrFacade extends AbstractFacade<Tdireccionesusr> {
      * @param pCiu identificación del cliente
      * @return Id de Direccion
      */
-    public Tdireccionesusr buscarDireccionDomicilioCliente(final String pCiu) {
-        Tdireccionesusr idDireccionC = new Tdireccionesusr();
+    public List<Tdireccionesusr> buscarDireccionDomicilioCliente(final String pCiu) {
+        List<Tdireccionesusr> idDireccionC = new ArrayList<>();
         Integer pIdTipoDir=1;
         Query query = null;
         try {
             query = em.createQuery("SELECT o FROM Tdireccionesusr o WHERE o.ciu.ciu = ?1 AND o.idTipoDireccion.idTipoDireccion = ?2");
             query.setParameter(1, pCiu);
             query.setParameter(2, pIdTipoDir);
-            idDireccionC=(Tdireccionesusr) query.getSingleResult();
-            if (idDireccionC.equals(null)) {
-                JsfUtil.addErrorMessage("Usted aún no ha registrado una dirección domiciliaria, por favor agréguela.");
-            }
+            idDireccionC.addAll(query.getResultList());
         } catch (Exception e) {
             localLogger.error(e);
         }
@@ -143,18 +140,15 @@ public class TdireccionesusrFacade extends AbstractFacade<Tdireccionesusr> {
      * @param pCiu identificación del cliente
      * @return Id de Direccion
      */
-    public Tdireccionesusr buscarDireccionEnvioCliente(final String pCiu) {
-        Tdireccionesusr direccionC=new Tdireccionesusr();
+    public List<Tdireccionesusr> buscarDireccionEnvioCliente(final String pCiu) {
+        List<Tdireccionesusr> direccionC=new ArrayList<>();
         Integer pLEnvio=1;
         Query query = null;
         try {
             query = em.createQuery("SELECT o FROM Tdireccionesusr o WHERE o.ciu.ciu = ?1 AND o.lEnvio=?2");
             query.setParameter(1, pCiu);
             query.setParameter(2, pLEnvio);
-            direccionC=(Tdireccionesusr) query.getSingleResult();
-            if (direccionC == null) {
-                JsfUtil.addErrorMessage("Usted aún no ha seleccionado una dirección para envío, por favor selecciónela.");
-            }
+            direccionC.addAll(query.getResultList());
         } catch (Exception e) {
             localLogger.error(e);
         }
