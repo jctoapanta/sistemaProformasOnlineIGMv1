@@ -222,7 +222,7 @@ public class TproformaController implements Serializable {
         vIdPeriodo = Short.parseShort(new SimpleDateFormat("yy").format(fechaActual));
         itemsXCiu = this.ejbFacade.buscarProformsXCliente(login.getAliasBase(), vIdPeriodo);
         if (itemsXCiu.isEmpty()) {
-            JsfUtil.addErrorMessage("Usted no dispone de Proformas");
+            JsfUtil.addErrorMessage("Usted aún no ha creado Pedidos");
         }
         return itemsXCiu;
     }

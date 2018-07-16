@@ -1,0 +1,44 @@
+.col-xs-updated {       
+    width: 92% !important;
+}
+
+#h_bodyid{
+    background-color: #00796B;
+    position: static; 
+    min-height: 100%
+}
+
+#content{
+    margin: 0 auto 40px;
+}
+
+#divBooking{
+    width: 720px; 
+    background-color: #B2DFDB;
+}
+
+#titulo{
+    margin:5px; 
+    border: #000;
+}
+
+#tipoPersonas{
+    margin-bottom:10px;
+}
+
+#otrosDatosPersonas{
+    margin-bottom:10px;
+}
+
+#panelPr{
+    text-align: center;
+    background-color: #B2DFDB;
+}
+
+#bottom{
+    height: 40px; 
+    position: absolute; 
+    left: 0; 
+    bottom: 0; 
+    width: 100%;
+}

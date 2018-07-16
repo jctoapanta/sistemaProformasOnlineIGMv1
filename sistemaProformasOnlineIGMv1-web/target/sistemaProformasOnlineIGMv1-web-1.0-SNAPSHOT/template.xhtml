@@ -7,20 +7,16 @@
 
     <h:head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <h:outputStylesheet library="css" name="jsfcrud.css"/>
         <h:outputStylesheet library="css" name="bootstrap.min.css" />
+        <h:outputStylesheet library="css" name="templates.css" />
         <h:outputScript library="js" name="bootstrap.min.js" />
         <title><ui:insert name="title">#{bundle.AppName}</ui:insert></title>
-        <style type="text/css">
-            .col-xs-updated {       
-                width: 92% !important;
-            }
-        </style>
     </h:head>
 
-    <h:body  style="position: relative; min-height: 100%">
-        <p:growl id="growl" life="4500" />
+    <h:body id="h_bodyid">
         <div id="top">
-            <div id="header" align="center">
+            <div id="header" align="center" class="navbar-default">
                 <h:outputLabel value="#{bundle.AppName}"></h:outputLabel>
             </div>
             <nav class="navbar navbar-inverse">
@@ -41,8 +37,8 @@
                     <!--                                 Collect the nav links, forms, and other content for toggling -->
                     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                         <ul class="nav navbar-nav">
-                            <li class="active"><a href="/sistemaProformasOnlineIGMv1-web/faces/tdireccionesusr/List.xhtml#">#{bundle.AddressManage} <span class="sr-only">(current)</span></a></li>
-                            <li><a href="/sistemaProformasOnlineIGMv1-web/faces/tproforma/ListProXCli.xhtml#">#{bundle.Back} Listado Pedidos </a></li>
+                            <li class="active"><a href="/sistemaProformasOnlineIGMv1-web/faces/tproforma/ListProXCli.xhtml#">Ir al Listado Pedidos <span class="sr-only">(current)</span></a></li>
+                            <li><a href="/sistemaProformasOnlineIGMv1-web/faces/tdireccionesusr/List.xhtml#">#{bundle.AddressManage} </a></li>
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Sus Actividades <span class="caret"></span></a>
                                 <ul class="dropdown-menu">
@@ -60,11 +56,15 @@
             </nav>
         </div>
 
-        <div id="content" class="panel-body" style="margin: 0 auto 15px;">
+        <div id="content" class="panel-body">
+            <div>
+                <p:messages id="growl" showDetail="false" closable="true" for="messages" autoUpdate="true">
+                </p:messages>
+            </div>        
             <ui:insert name="body">Content</ui:insert>
         </div>
 
-        <div id="bottom" align="center" class="panel-footer center_content" style="height: 15px; position: absolute; left: 0; bottom: 0; width: 100%;">
+        <div id="bottom" align="center" class="navbar-default">
             <ui:insert name="footer"><h:outputLabel value="#{bundle.Derechos_Copia}"></h:outputLabel></ui:insert>
         </div>
     </h:body>

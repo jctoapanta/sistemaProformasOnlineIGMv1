@@ -37,16 +37,16 @@ public class TdireccionesusrController extends FacesUtil implements Serializable
 
     @Inject
     private Login login;
-    
+
     @Inject
     private TentidadController tentidadController;
-    
+
     @Inject
     private TemplateController templateControl;
-    
+
     @Inject
     private OrderBean order;
-    
+
     @EJB
     private gob.igm.ec.servicios.TdireccionesusrFacade ejbFacade;
     private List<Tdireccionesusr> items = null;
@@ -59,7 +59,7 @@ public class TdireccionesusrController extends FacesUtil implements Serializable
 
     @EJB
     private TparroquiaFacade parroquiaServicio;
-    
+
     private TdireccionesusrController direccionesControl;
     private List<SelectItem> provinciaItems = new ArrayList<>();
     private List<SelectItem> cantonItems = new ArrayList<>();
@@ -72,7 +72,7 @@ public class TdireccionesusrController extends FacesUtil implements Serializable
     private HtmlInputHidden ciur;
     private String selectedItem;
     private List<SelectItem> selectedItems = new ArrayList<>();
-    private Long idDireccionC=new Long(0);
+    private Long idDireccionC = new Long(0);
     private HtmlDataTable SomeDataTable;
 
     /**
@@ -110,7 +110,6 @@ public class TdireccionesusrController extends FacesUtil implements Serializable
         this.tipoEntrega = tipoEntrega;
     }
 
-
     /**
      * @return the ciur
      */
@@ -124,54 +123,51 @@ public class TdireccionesusrController extends FacesUtil implements Serializable
     public void setCiur(HtmlInputHidden ciur) {
         this.ciur = ciur;
     }
-    
-    public Tdireccionesusr buscaDomicilioCliente(){
-        ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
-        String ciu = ec.getRequestParameterMap().get("principalForm:ciuHidden");
-        Tdireccionesusr idDir=new Tdireccionesusr();
-        idDir=this.ejbFacade.buscarDireccionDomicilioCliente(ciu);
-        return idDir;
+
+    public List<Tdireccionesusr> buscaDomicilioCliente() {
+        String ciu = order.getCiuH().getValue().toString();
+        List<Tdireccionesusr> Dir = new ArrayList<>();
+        Dir = this.ejbFacade.buscarDireccionDomicilioCliente(ciu);
+        return Dir;
     }
 
-    public Tdireccionesusr buscaDirEnvioCliente(){
+    public List<Tdireccionesusr> buscaDirEnvioCliente() {
         //ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
         String ciu = order.getCiuH().getValue().toString();// ec.getRequestParameterMap().get("principalForm:ciuHidden");
-        Tdireccionesusr Dir=new Tdireccionesusr();
-        Dir=this.ejbFacade.buscarDireccionEnvioCliente(ciu);
+        List<Tdireccionesusr> Dir = new ArrayList<>();
+        Dir = this.ejbFacade.buscarDireccionEnvioCliente(ciu);
         return Dir;
-    }    
-    
-    public void seleccionaDirEnvio(Tdireccionesusr direccionSelec){
-        //List<Tdireccionesusr> direccionesActualizar=new ArrayList<>();
-        
-        //direccionesActualizar=this.getDireccionesXCiu();
+    }
+
+    public void seleccionaDirEnvio(Tdireccionesusr direccionSelec) {
         //Actualiza el valor de lenvio a null de todos los registros del usuario
         for (Tdireccionesusr tdireccionesusr : this.direccionesXCiu) {
             tdireccionesusr.setLEnvio((short) 0);
             ejbFacade.actualizaDirecciones(tdireccionesusr);
         }
         //Actualiza el valor de lenvio a 1 de la direccion seleccionada
-        this.selected.setLEnvio((short)1);
+        this.selected.setLEnvio((short) 1);
         JsfUtil.addSuccessMessage("Usted ha seleccionado esta dirección para recibir su pedido.");
+        JsfUtil.addSuccessMessage("Seleccione en el Menu, la opción <Ir al Listado de Pedidos> para que pueda generar su pedido...");
+        JsfUtil.addSuccessMessage("Gracias por su tiempo y completar el registro de sus Direcciones");
         this.update();
     }
-    
 
     public String activaDirEnvio() {
         String regla = "/tproforma/ListProXCli";
         ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
         String tEntrega = ec.getRequestParameterMap().get("principalForm:tipoEntregaHidden2");
         String ciu = ec.getRequestParameterMap().get("principalForm:ciuHidden");
-        
-        if (tEntrega.equals("1") || tEntrega.equals("2")){
+
+        if (tEntrega.equals("1") || tEntrega.equals("2")) {
             //JsfUtil.addErrorMessage("Se ha guardado su proforma correctamente");
             JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("TproformaCreated"));
             regla = "/tproforma/ListProXCli";
         }
-        
+
         return regla;
     }
-    
+
     /**
      * @return the ciuH
      */
@@ -186,14 +182,16 @@ public class TdireccionesusrController extends FacesUtil implements Serializable
         this.ciuH = ciuH;
     }
 
-    /** La variable logger. */
+    /**
+     * La variable logger.
+     */
     private static org.apache.log4j.Logger logger;
 
     public TdireccionesusrController() {
-        
+
         this.siguienteIdDireccion = null;
-        ciuH=new HtmlInputHidden();
-        tipoEntrega=new HtmlInputHidden();
+        ciuH = new HtmlInputHidden();
+        tipoEntrega = new HtmlInputHidden();
         selectedItems.add(new SelectItem("1", "Retiro en oficina IGM Quito"));
         selectedItems.add(new SelectItem("2", "Retiro en oficina IGM Guayaquil"));
         selectedItems.add(new SelectItem("3", "Entrega a Domicilio"));
@@ -224,13 +222,14 @@ public class TdireccionesusrController extends FacesUtil implements Serializable
     }
 
     public String create() {
-        Tentidad ciu=new Tentidad();
+        Tentidad ciu = new Tentidad();
         Long cuentaDireccionesUsr;
-        String regla=new String();
+        List<Tdireccionesusr> direccionEnvioSeleccionada = new ArrayList<>();
+        String regla = new String();
         ciu.setCiu(ciuH.getValue().toString());
-        siguienteIdDireccion=this.ejbFacade.obtenerSiguienteValor();
-        if (siguienteIdDireccion == null){
-            siguienteIdDireccion=Long.decode("1");
+        siguienteIdDireccion = this.ejbFacade.obtenerSiguienteValor();
+        if (siguienteIdDireccion == null) {
+            siguienteIdDireccion = Long.decode("1");
         }
         this.selected.setIdDireccion(siguienteIdDireccion);
         this.selected.setCiu(ciu);
@@ -239,15 +238,22 @@ public class TdireccionesusrController extends FacesUtil implements Serializable
             items = null;    // Invalidate list of items to trigger re-query.
         }
         cuentaDireccionesUsr = this.ejbFacade.cuentaDireccionesCliente(this.getCiuH().getValue().toString());
-        if (cuentaDireccionesUsr>=2L) {
-            JsfUtil.addSuccessMessage("Puede crear Proformas a partir de este momento...Gracias por registrar sus datos.");
-            //regla = "/tdireccionesusr/List.xhtml";
-            regla = "/tproforma/ListProXCli.xhtml";
-            templateControl.refresh();
+        if (cuentaDireccionesUsr >= 2L) {
+            direccionEnvioSeleccionada = this.buscaDirEnvioCliente();
+            if (direccionEnvioSeleccionada.size()==0) {
+                regla = "/tdireccionesusr/List.xhtml";
+                templateControl.refresh();
+                JsfUtil.addErrorMessage("Por favor seleccione la Dirección en DÓNDE desea recibir su pedido!!! Pulse el botón <Enviar a:> en su listado de Direcciones");
+
+            } else {
+                JsfUtil.addSuccessMessage("En este momento ya se encuentra en la Pantalla de Pedidos, puede generar su requerimiento...Gracias por registrar sus datos.");
+                regla = "/tproforma/ListProXCli.xhtml";
+                templateControl.refresh();
+            }
         } else {
             regla = "/tdireccionesusr/List.xhtml";
             templateControl.refresh();
-            JsfUtil.addErrorMessage("Por favor verifique que haya registrado una Dirección para Facturación y al menos una Dirección para Envío.");
+            JsfUtil.addErrorMessage("Por favor agregue al menos una Dirección adicional!!!");
         }
         return regla;
     }
@@ -265,13 +271,13 @@ public class TdireccionesusrController extends FacesUtil implements Serializable
     }
 
     public String showResult() {
-      FacesContext fc = FacesContext.getCurrentInstance();
-      Map<String,String> params = 
-         fc.getExternalContext().getRequestParameterMap();
-        String data = params.get("ciuParam"); 
-      return data;
-   } 
-    
+        FacesContext fc = FacesContext.getCurrentInstance();
+        Map<String, String> params
+                = fc.getExternalContext().getRequestParameterMap();
+        String data = params.get("ciuParam");
+        return data;
+    }
+
     public List<Tdireccionesusr> getItems() {
         if (items == null) {
             items = getFacade().findAll();
@@ -377,11 +383,10 @@ public class TdireccionesusrController extends FacesUtil implements Serializable
     public void setDireccionesXCiu(List<Tdireccionesusr> direccionesXCiu) {
         this.direccionesXCiu = direccionesXCiu;
     }
-    
 
-    
     /**
      * Permite ingresar los datos del usuarios a sesi�n.
+     *
      * @return Regla de navegaci�n
      */
     public String registrarDireccion() {
@@ -389,57 +394,58 @@ public class TdireccionesusrController extends FacesUtil implements Serializable
         try {
             setDireccionesXCiu(this.ejbFacade.buscarDireccionesXCliente(login.getAliasBase()));
 
-            if (getDireccionesXCiu().isEmpty()){
+            if (getDireccionesXCiu().isEmpty()) {
                 JsfUtil.addErrorMessage("Usted aún no ha registrado su Direcciones");
                 regla = "faces/registro.xhtml";
             }
-        }
-        catch (Exception ex) {
+        } catch (Exception ex) {
             regla = "#";
             logger.error(ex.getMessage(), ex);
             super.addErrorMessage(super.getRecursoGeneral().getString("msgErrorLogin"));
         }
         return regla;
-    }    
+    }
 
     /**
      * Funcion para cargar los cantones de acuerdo a las provincias
-     * @param event 
+     *
+     * @param event
      */
     public void changeProvinciaMenu(ValueChangeEvent event) {
         // Obtiene la provincia seleccionada.
         String provincia = (String) event.getNewValue();
 
         if (provincia != null) {
-            
-                // Obtiene los cantones por provincia
+
+            // Obtiene los cantones por provincia
             try {
-                cantonItems=cantonServicio.buscarCantonesXProvincia(provincia);
+                cantonItems = cantonServicio.buscarCantonesXProvincia(provincia);
             } catch (Exception ex) {
                 Logger.getLogger(TdireccionesusrController.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-    }    
-    
+    }
+
     /**
      * Funcion para cargar las parroquias de acuerdo a los cantones
-     * @param event 
+     *
+     * @param event
      */
     public void changeCantonMenu(ValueChangeEvent event) {
         // Obtiene el canton seleccionada.
         String canton = (String) event.getNewValue();
 
         if (canton != null) {
-            
-                // Obtiene los cantones por provincia
+
+            // Obtiene los cantones por provincia
             try {
-                parroquiaItems=parroquiaServicio.buscarParroquiasXCantones(canton);
+                parroquiaItems = parroquiaServicio.buscarParroquiasXCantones(canton);
             } catch (Exception ex) {
                 Logger.getLogger(TdireccionesusrController.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
     }
-    
+
     /**
      * @return the provinciaItems
      */

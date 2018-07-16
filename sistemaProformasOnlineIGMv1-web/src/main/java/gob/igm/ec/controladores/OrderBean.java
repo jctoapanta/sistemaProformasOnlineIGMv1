@@ -234,8 +234,10 @@ public class OrderBean extends FacesUtil implements Serializable {
     public String addProforma() {
         short reg = 1;
         Long direccionDomicilioUsrExiste;
-        Tdireccionesusr direccionEncontrada = new Tdireccionesusr();
-        Tdireccionesusr direccionEnvioEncontrada = new Tdireccionesusr();;
+        List<Tdireccionesusr> direccionEncontrada = new ArrayList<>();
+        Tdireccionesusr dirFacturacion=new Tdireccionesusr();
+        List<Tdireccionesusr> direccionEnvioEncontrada = new ArrayList<>();
+        Tdireccionesusr dirEnvio=new Tdireccionesusr();
         String regla = "/tproforma/ListProXCli.xhtml";
         try {
             Date fechaActual = new Date();
@@ -249,7 +251,13 @@ public class OrderBean extends FacesUtil implements Serializable {
                 regla = "/tdireccionesusr/List.xhtml";
             } else {
                 direccionEncontrada = this.direccionesControlador.buscaDomicilioCliente();
+                for (Tdireccionesusr tdireccionesusr : direccionEncontrada) {
+                    dirFacturacion=tdireccionesusr;
+                }
                 direccionEnvioEncontrada = this.direccionesControlador.buscaDirEnvioCliente();
+                for (Tdireccionesusr tdireccionesusr : direccionEnvioEncontrada) {
+                    dirEnvio=tdireccionesusr;
+                }
                 regla = this.direccionesControlador.activaDirEnvio();
                 if (regla.equals("/tproforma/ListProXCli")) {
                     vIdPeriodo = Short.parseShort(new SimpleDateFormat("yy").format(fechaActual));
@@ -262,8 +270,8 @@ public class OrderBean extends FacesUtil implements Serializable {
                     this.selected.setEstado("P");
                     this.selected.setTipoProforma("OP");
                     this.selected.setFechaCreacion(fechaActual);
-                    this.selected.setDirCabeceraEf(direccionEncontrada.getTparroquia().getTcanton().getTprovincia().getProvincia() + "/" + direccionEncontrada.getTparroquia().getTcanton().getCanton() + "/" + direccionEncontrada.getTparroquia().getParroquia() + "/" + direccionEncontrada.toString());
-                    this.selected.setDirEnvioEf(direccionEnvioEncontrada.getTparroquia().getTcanton().getTprovincia().getProvincia() + "/" + direccionEnvioEncontrada.getTparroquia().getTcanton().getCanton() + "/" + direccionEnvioEncontrada.getTparroquia().getParroquia() + "/" + direccionEnvioEncontrada);
+                    this.selected.setDirCabeceraEf(dirFacturacion.getTparroquia().getTcanton().getTprovincia().getProvincia() + "/" + dirFacturacion.getTparroquia().getTcanton().getCanton() + "/" + dirFacturacion.getTparroquia().getParroquia() + "/" + dirFacturacion.toString());
+                    this.selected.setDirEnvioEf(dirEnvio.getTparroquia().getTcanton().getTprovincia().getProvincia() + "/" + dirEnvio.getTparroquia().getTcanton().getCanton() + "/" + dirEnvio.getTparroquia().getParroquia() + "/" + dirEnvio.toString());
                     this.selected.setLVentaOnline(vOnline);
                     this.selected.setFormaEntrega(Short.parseShort(this.getTipoEntregaH().getValue().toString()));
                     this.ejbFacade.create(selected);

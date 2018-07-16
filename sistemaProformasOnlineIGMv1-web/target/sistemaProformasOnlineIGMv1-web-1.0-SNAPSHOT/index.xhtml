@@ -7,28 +7,35 @@
     <style type="text/css">
 
         #h_bodyid{
-            background-color: lightslategrey;
+            background-color: #00796B;
         }
 
     </style>
     <h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <h:outputStylesheet library="css" name="bootstrap.min.css" />
+        <h:outputStylesheet library="css" name="templates.css" />
+        <h:outputStylesheet library="css" name="jsfcrud.css"/>
+        <h:outputScript library="js" name="bootstrap.min.js" />
         <title><ui:insert name="title">#{bundle.AppName}</ui:insert></title>
-        <h:outputStylesheet name="css/jsfcrud.css"/>
     </h:head>
     <h:body id="h_bodyid">
-        <p:growl id="growl" life="4500" />
+        <div>
+            <p:messages id="growl" showDetail="false" closable="true">
+            </p:messages>
+        </div>
         <div align="center">
             <h:form >
                 <div align="center"><img src="resources/images/igm.png"></img></div>  
-                    <p:panel id="pnlPrincipal" header="Login" style="background-color: lightsteelblue; width: 350px">
-                        <h:panelGrid id="pngPrincipal" columns="2">
-                            <h:outputText id="outUsuario" value="#{bundle.Usuario}: " styleClass="texto_negrita_derecha"/>
-                            <h:inputText id="intUsuario" value="#{login.aliasBase}" maxlength="13"/>
-                            <h:outputText id="outClave" value="#{bundle.ListTentidadTitle_clave}:" styleClass="texto_negrita_derecha"/>
-                            <h:inputSecret id="intClave" value="#{login.clave}" maxlength="50"/>
+                <p:panel id="pnlPrincipal" header="Login" style="background-color: #B2DFDB; width: 350px">
+                    <h:panelGrid id="pngPrincipal" columns="2">
+                        <h:outputText id="outUsuario" value="#{bundle.Usuario}: " styleClass="texto_negrita_derecha"/>
+                        <h:inputText id="intUsuario" value="#{login.aliasBase}" maxlength="13"/>
+                        <h:outputText id="outClave" value="#{bundle.ListTentidadTitle_clave}:" styleClass="texto_negrita_derecha"/>
+                        <h:inputSecret id="intClave" value="#{login.clave}" maxlength="50"/>
                         <br />
                         <p:commandButton id="btnLoginInicial" value="#{bundle.Ingresar}" action="#{login.ingresar}" ajax="false"
-                                         styleClass="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" update="pnlPrincipal growl"/>
+                                         styleClass="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" update="pnlPrincipal, :TproformaListForm"/>
                         <br />
                         <div>
                             <h:commandLink id="lnkRegistro" value="#{bundle.Registro}-#{bundle.Usuario}" action="/registro" actionListener="#{tentidadController.prepareCreate}" immediate="true"/>
@@ -37,14 +44,6 @@
                 </p:panel>
             </h:form>
         </div>
-<!--    <dir align="center">
-            <br />
-        <h:link outcome="/tcontrolIva/List" value="Show All TcontrolIva Items"/>
-        <br />
-        <h:link outcome="/tcanton/List" value="Show All Tcanton Items"/>
-        <br />
-        <h:link outcome="/tdireccionesusr/List" value="Show All Ttarifario Items"/>
-    </dir>-->
     </h:body>
 
 
