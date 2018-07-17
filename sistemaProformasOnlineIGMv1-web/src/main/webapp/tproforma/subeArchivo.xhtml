@@ -10,10 +10,10 @@
         <p:dialog id="TproformaSendDlg" widgetVar="TproformaSendDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.ViewTproformaTitle}">
             <h:form id="TproformaSendForm" enctype="multipart/form-data">
                 <div>
-                    <p:growl id="messages" showDetail="false" life="7500">
-                    </p:growl>
-<!--                    <p:messages id="messages" showDetail="false" closable="true" for="messages">
-                    </p:messages>-->
+<!--                    <p:growl id="messages" showDetail="false" life="7500">
+                    </p:growl>-->
+                    <p:messages id="mensaje" showDetail="false" closable="true">
+                    </p:messages>
                 </div>
                 <h:panelGroup id="display">
                     <p:panelGrid columns="2" rendered="#{tproformaController.selected != null}">
@@ -34,21 +34,23 @@
                         <p:fileUpload value="#{tproformaController.file}"
                                       mode="advanced"
                                       allowTypes="/(\.|\/)(pdf|PDF)$/"
+                                      invalidFileMessage="Sólo puede subir archivos de tipo PDF"
                                       dragDropSupport="false"
                                       fileUploadListener="#{tproformaController.upload}"
                                       uploadLabel="Subir imágen" 
-                                      sizeLimit="460800" 
+                                      sizeLimit="460800"
+                                      invalidSizeMessage="Sólo puede subir archivos de hasta 450KB"
                                       fileLimit="1"
                                       fileLimitMessage="Sólo puede seleccionar y enviar un archivo"
                                       cancelLabel="Cancelar" 
                                       label="Elegir"
-                                      update="messages"/>
+                                      update="mensaje"/>
                         <br />
                         <br />
                         <p:outputLabel value="#{TproformaController.p.tiempoEntrega}"/>
                         <br />
                         <br />
-                        <p:outputLabel style="font-size: large; font-style: italic; font-stretch: semi-condensed; font-family: serif;" value="El archivo a envíar debe estar en formato PDF, de un máximo de 450 KB"  />                        
+                        <p:outputLabel style="font-size: larger; font-style: italic; font-stretch: semi-condensed; font-family: serif;" value="El archivo a envíar debe estar en formato PDF, de un máximo de 450 KB"  />                        
                     </p:panelGrid>
                     <p:commandButton value="#{bundle.Close}" onclick="TproformaSendDialog.hide()"/>
                 </h:panelGroup>
