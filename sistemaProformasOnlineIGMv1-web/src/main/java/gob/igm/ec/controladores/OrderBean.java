@@ -267,7 +267,7 @@ public class OrderBean extends FacesUtil implements Serializable {
                     this.selected.setTproformaPK(this.proformapk);
                     entidad.setCiu(this.getCiuH().getValue().toString());
                     this.selected.setCiu(entidad);
-                    this.selected.setEstado("P");
+                    this.selected.setEstado("G");
                     this.selected.setTipoProforma("OP");
                     this.selected.setFechaCreacion(fechaActual);
                     this.selected.setDirCabeceraEf(dirFacturacion.getTparroquia().getTcanton().getTprovincia().getProvincia() + "/" + dirFacturacion.getTparroquia().getTcanton().getCanton() + "/" + dirFacturacion.getTparroquia().getParroquia() + "/" + dirFacturacion.toString());
@@ -290,7 +290,7 @@ public class OrderBean extends FacesUtil implements Serializable {
                         this.detproformapk.setNoReg(reg);
                         detalleproforma.setTdetproformaPK(detproformapk);
                         this.tdetproformaFacade.create(detalleproforma);
-                        JsfUtil.addSuccessMessage("Su proforma ha sido guardada correctamente.");
+                        JsfUtil.addSuccessMessage("Su pedido ha sido guardado correctamente.");
                     }
                     return regla;
                 } else {
