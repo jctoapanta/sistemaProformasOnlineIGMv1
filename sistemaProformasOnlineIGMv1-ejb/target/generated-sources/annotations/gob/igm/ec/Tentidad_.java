@@ -7,7 +7,7 @@ import javax.persistence.metamodel.CollectionAttribute;
 import javax.persistence.metamodel.SingularAttribute;
 import javax.persistence.metamodel.StaticMetamodel;
 
-@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2018-07-16T13:16:28")
+@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2018-07-18T13:36:58")
 @StaticMetamodel(Tentidad.class)
 public class Tentidad_ { 
 
