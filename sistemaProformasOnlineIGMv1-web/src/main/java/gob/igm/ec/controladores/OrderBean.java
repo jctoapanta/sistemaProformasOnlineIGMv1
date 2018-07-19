@@ -23,6 +23,7 @@ import gob.igm.ec.servicios.TcontrolIvaFacade;
 import gob.igm.ec.servicios.TdetproformaFacade;
 import gob.igm.ec.servicios.TdireccionesusrFacade;
 import gob.igm.ec.servicios.TitemServicio;
+import gob.igm.ec.servicios.TtarifarioFacade;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.BigInteger;
@@ -45,6 +46,10 @@ import org.apache.log4j.Logger;
 @SessionScoped
 public class OrderBean extends FacesUtil implements Serializable {
 
+     @EJB
+    private TtarifarioFacade ttarifarioFacade;
+    
+    
     /**
      * @return the tipoEntregaH
      */
@@ -232,13 +237,17 @@ public class OrderBean extends FacesUtil implements Serializable {
     }
 
     public String addProforma() {
-        short reg = 1;
+        short reg = 0;
+
         Long direccionDomicilioUsrExiste;
         List<Tdireccionesusr> direccionEncontrada = new ArrayList<>();
-        Tdireccionesusr dirFacturacion=new Tdireccionesusr();
+        Tdireccionesusr dirFacturacion = new Tdireccionesusr();
         List<Tdireccionesusr> direccionEnvioEncontrada = new ArrayList<>();
-        Tdireccionesusr dirEnvio=new Tdireccionesusr();
+        Tdireccionesusr dirEnvio = new Tdireccionesusr();
         String regla = "/tproforma/ListProXCli.xhtml";
+        BigDecimal cantidad;
+        BigDecimal valor=new BigDecimal("90");
+        BigDecimal tarifario;    
         try {
             Date fechaActual = new Date();
             ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
@@ -252,11 +261,11 @@ public class OrderBean extends FacesUtil implements Serializable {
             } else {
                 direccionEncontrada = this.direccionesControlador.buscaDomicilioCliente();
                 for (Tdireccionesusr tdireccionesusr : direccionEncontrada) {
-                    dirFacturacion=tdireccionesusr;
+                    dirFacturacion = tdireccionesusr;
                 }
                 direccionEnvioEncontrada = this.direccionesControlador.buscaDirEnvioCliente();
                 for (Tdireccionesusr tdireccionesusr : direccionEnvioEncontrada) {
-                    dirEnvio=tdireccionesusr;
+                    dirEnvio = tdireccionesusr;
                 }
                 regla = this.direccionesControlador.activaDirEnvio();
                 if (regla.equals("/tproforma/ListProXCli")) {
@@ -292,6 +301,9 @@ public class OrderBean extends FacesUtil implements Serializable {
                         this.tdetproformaFacade.create(detalleproforma);
                         JsfUtil.addSuccessMessage("Su pedido ha sido guardado correctamente.");
                     }
+                    cantidad = this.tdetproformaFacade.cantidad_peso(this.proformapk.getIdProforma()).multiply(valor);
+                    tarifario = this.ttarifarioFacade.valor_tarifario(cantidad);
+                    this.ejbFacade.grabarRecargo(tarifario, this.proformapk.getIdProforma());         
                     return regla;
                 } else {
                     return regla;

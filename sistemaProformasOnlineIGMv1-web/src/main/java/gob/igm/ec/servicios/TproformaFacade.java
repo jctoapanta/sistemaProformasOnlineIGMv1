@@ -9,6 +9,7 @@ import gob.igm.ec.Tproforma;
 import gob.igm.ec.controladores.util.JasperReportUtil;
 import gob.igm.ec.controladores.util.JsfUtil;
 import java.io.File;
+import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -77,6 +78,24 @@ public class TproformaFacade extends AbstractFacade<Tproforma> {
         }
     }
 
+     /**
+     * Para actualizar la consulta
+     * @param parameters
+     */
+     // 
+     public void grabarRecargo (BigDecimal valorenvio,Long idproforma){
+            try{
+            Query queryRecargo = em.createQuery("update Tproforma set valorEnvio=?1 where tproformaPK.idProforma=?2 ");
+            queryRecargo.setParameter(1, valorenvio);
+            queryRecargo.setParameter(2, idproforma);
+            queryRecargo.executeUpdate();
+                 
+           } catch (Exception e) {
+            localLogger.error(e);
+        }
+     }
+    
+    
     public void upload(UploadedFile e, Long id_proforma) throws Exception {
 
         if (e != null) {
