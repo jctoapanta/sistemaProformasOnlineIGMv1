@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition template="/templateBooking.xhtml"> 
+        <ui:define name="title">
+            <h:outputText value="#{bundle.ListTentidadTitle}"></h:outputText>
+        </ui:define>
+
+        <ui:define name="body">
+            <div columns="1" id="divBooking" class="container" align="center">
+                <h:form id="TentidadBookingForm">
+                    <h:panelGroup id="display">
+                        <p:panelGrid id="titulo" columns="1">
+                            <p:outputLabel value="Reestablecer clave" styleClass="texto_negrita_derecha" />
+                        </p:panelGrid>
+                        <p:panelGrid columns="1">
+                            <br />
+                            <p:panelGrid id="otrosDatosPersonas" columns="2">
+                                <p:outputLabel value="#{bundle.CreateTentidadLabel_ciu}" for="ciu" />
+                                <p:inputText id="ciu" value="#{tentidadController.selected.ciu}" title="#{bundle.CreateTentidadTitle_ciu}" required="true" requiredMessage="#{bundle.CreateTentidadRequiredMessage_ciu}"/>
+                                <p:outputLabel value="#{bundle.CreateTentidadLabel_email}" for="email" />
+                                <p:inputText id="email" value="#{tentidadController.selected.email} con el que registró su cuenta" title="#{bundle.CreateTentidadTitle_email}" required="true" 
+                                             requiredMessage="#{bundle.CreateTentidadRequiredMessage_email}"
+                                             validatorMessage="Email inválido.">
+                                    <f:validateRegex pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$"/>
+                                </p:inputText>
+                                <p:outputLabel value="#{bundle.CreateTentidadLabel_clave}" for="clave" />
+                                <p:password id="clave" value="#{tentidadController.selected.clave}" title="#{bundle.CreateTentidadTitle_clave}" required="true" match="claveConfirma" validatorMessage="#{bundle.msgError_claveConfirmacion}"/>
+                                <p:outputLabel value="#{bundle.CreateTentidadLabel_claveConfirmacion}" for="claveConfirma" />
+                                <p:password id="claveConfirma" value="#{tentidadController.claveConfirma}" title="#{bundle.CreateTentidadTitle_claveConfirmacion}"/>
+                            </p:panelGrid>
+                        </p:panelGrid>
+                        <p:commandButton action="#{tentidadController.booking}" oncomplete="location.reload(forceGet)" ajax="false" value="#{bundle.Save}" update="@(.ui-message) display :growl TentidadBookingForm">
+                            <f:param name="ciuParam" value="#{tentidadController.selected.ciu}"/>
+                        </p:commandButton>
+                        <p:commandButton value="#{bundle.Cancel}" immediate="true" actionListener="/index" oncomplete="location.reload()"/>
+                    </h:panelGroup>
+                </h:form>            
+            </div>
+        </ui:define>
+    </ui:composition>
+</html>
