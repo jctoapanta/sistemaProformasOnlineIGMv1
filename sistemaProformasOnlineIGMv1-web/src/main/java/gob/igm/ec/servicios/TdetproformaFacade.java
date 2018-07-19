@@ -42,4 +42,22 @@ public class TdetproformaFacade extends AbstractFacade<Tdetproforma> {
         }
     }
 
+    
+    public BigDecimal cantidad_peso(Long idProforma){
+        BigDecimal cantidad_p = null;
+        try {
+            Query query = em.createQuery("select sum(t.cantidad) "
+                    + "from Tdetproforma as t where t.tdetproformaPK.idProforma=?1"
+            );
+          
+            query.setParameter(1, idProforma);
+            cantidad_p= (BigDecimal) query.getSingleResult();
+        } catch (Exception e) {
+            localLogger.error(e.getMessage(), e);
+            //return 0;
+        }
+        return cantidad_p;
+    }
+    
+    
 }
