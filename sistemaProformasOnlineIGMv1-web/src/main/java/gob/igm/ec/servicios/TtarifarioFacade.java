@@ -31,24 +31,25 @@ public class TtarifarioFacade extends AbstractFacade<Ttarifario> {
     public TtarifarioFacade() {
         super(Ttarifario.class);
     }
-
-    public BigDecimal valor_tarifario(BigDecimal cantidad) {
+      public BigDecimal valor_tarifario(BigDecimal cantidad){
         BigDecimal valor_tarifa = null;
-        try {
+         try {
             Query query = em.createNativeQuery("SELECT  max(T.VALOR) "
-                    + "FROM TPROFORMA "
-                    + "INNER JOIN  TDIRECCIONESUSR DIR ON DIR.CIU = TPROFORMA.CIU "
-                    + "AND DIR.L_ENVIO = 1 "
-                    + "INNER JOIN TCANTON C1 ON C1.ID_CANTON=DIR.ID_CANTON "
-                    + "INNER JOIN TTARIFARIO T ON T.ID_ZONA=C1.ID_ZONA "
-                    + "where T.PESO_MIN<=?1 and T.PESO_MAX>=?1"
-            );
+ +"FROM TPROFORMA "
+ +"INNER JOIN  TDIRECCIONESUSR DIR ON DIR.CIU = TPROFORMA.CIU "
+ +"AND DIR.L_ENVIO = 1 "
+ +"INNER JOIN TCANTON C1 ON C1.ID_CANTON=DIR.ID_CANTON "
+ +"INNER JOIN TTARIFARIO T ON T.ID_ZONA=C1.ID_ZONA "
+ +"where T.PESO_MIN<=?1 and T.PESO_MAX>=?1"                    
+            );          
             query.setParameter(1, cantidad);
-            valor_tarifa = (BigDecimal) query.getSingleResult();
+            valor_tarifa= (BigDecimal) query.getSingleResult();
         } catch (Exception e) {
             localLogger.error(e.getMessage(), e);
         }
-        return valor_tarifa;
+         return valor_tarifa;
     }
-
+    
+    
+    
 }
