@@ -29,7 +29,7 @@
                 <div align="center"><img src="resources/images/igm.png"></img></div>  
                 <p:panel id="pnlPrincipal" header="Login" style="background-color: #B2DFDB; width: 350px">
                     <h:panelGrid id="pngPrincipal" columns="2">
-                        <h:outputText id="outUsuario" value="#{bundle.Usuario}: " styleClass="texto_negrita_derecha"/>
+                        <h:outputText id="outUsuario" value="#{bundle.CreateTentidadLabel_ciu}: " styleClass="texto_negrita_derecha"/>
                         <h:inputText id="intUsuario" value="#{login.aliasBase}" maxlength="13"/>
                         <h:outputText id="outClave" value="#{bundle.ListTentidadTitle_clave}:" styleClass="texto_negrita_derecha"/>
                         <h:inputSecret id="intClave" value="#{login.clave}" maxlength="50"/>
@@ -39,6 +39,9 @@
                         <br />
                         <div>
                             <h:commandLink id="lnkRegistro" value="#{bundle.Registro}-#{bundle.Usuario}" action="/registro" actionListener="#{tentidadController.prepareCreate}" immediate="true"/>
+                        </div>
+                        <div>
+                            <h:commandLink id="lnkReestableceClave" value="#{bundle.ResetPassword}-#{bundle.Usuario}" action="/reestablecerClave" actionListener="#{tentidadController.prepareCreate}" immediate="true"/>
                         </div>
                     </h:panelGrid>
                 </p:panel>

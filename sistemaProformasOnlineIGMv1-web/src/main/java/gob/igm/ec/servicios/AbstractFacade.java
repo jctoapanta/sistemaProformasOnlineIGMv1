@@ -5,7 +5,15 @@
  */
 package gob.igm.ec.servicios;
 
+import java.io.IOException;
 import java.util.List;
+import javax.mail.MessagingException;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.AddressException;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
+import javax.mail.internet.MimeMultipart;
 import javax.persistence.EntityManager;
 
 /**
@@ -13,6 +21,7 @@ import javax.persistence.EntityManager;
  * @author TOAPANTA_JUAN
  */
 public abstract class AbstractFacade<T> {
+
     private Class<T> entityClass;
 
     public AbstractFacade(Class<T> entityClass) {
@@ -59,5 +68,18 @@ public abstract class AbstractFacade<T> {
         javax.persistence.Query q = getEntityManager().createQuery(cq);
         return ((Long) q.getSingleResult()).intValue();
     }
-    
+
+    public void envioCorreo(MimeMultipart multiParte, MimeMessage message, Session session) throws AddressException, MessagingException, IOException {
+
+        message.setFrom(new InternetAddress("igm@igm.gob.ec"));
+        
+        message.setContent(multiParte);
+
+        // Se envia el correo.
+        Transport t = session.getTransport("smtp");
+        t.connect();
+        t.sendMessage(message, message.getAllRecipients());
+        t.close();
+    }
+
 }

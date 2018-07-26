@@ -3,14 +3,13 @@ package gob.igm.ec;
 import gob.igm.ec.Tentidad;
 import gob.igm.ec.TproformaPK;
 import gob.igm.ec.Tsucursal;
-import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 import javax.annotation.Generated;
 import javax.persistence.metamodel.SingularAttribute;
 import javax.persistence.metamodel.StaticMetamodel;
 
-@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2018-07-19T07:41:25")
+@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2018-07-26T16:14:57")
 @StaticMetamodel(Tproforma.class)
 public class Tproforma_ { 
 
@@ -30,7 +29,6 @@ public class Tproforma_ {
     public static volatile SingularAttribute<Tproforma, String> tiempoEntrega;
     public static volatile SingularAttribute<Tproforma, String> tipoProforma;
     public static volatile SingularAttribute<Tproforma, String> contacto;
-    public static volatile SingularAttribute<Tproforma, Serializable> comprobantePago;
     public static volatile SingularAttribute<Tproforma, Date> fechaModificacion;
     public static volatile SingularAttribute<Tproforma, String> dirCabeceraEf;
     public static volatile SingularAttribute<Tproforma, Short> idPeriodoFac;

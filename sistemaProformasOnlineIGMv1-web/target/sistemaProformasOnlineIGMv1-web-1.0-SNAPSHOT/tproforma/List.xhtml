@@ -8,106 +8,62 @@
 
     <ui:composition template="/template.xhtml">
 
-
         <ui:define name="title">
             <h:outputText value="#{bundle.ListTproformaTitle}"></h:outputText>
         </ui:define>
 
         <ui:define name="body">
-            <h:form id="TproformaListForm">
-                <p:panel header="#{bundle.ListTproformaTitle}">
-                    <p:dataTable id="datalist" value="#{tproformaController.items}" var="item"
-                                 selectionMode="single" selection="#{tproformaController.selected}"
+            <p:panel>
+                <h:panelGrid columns="2" cellspacing="5" >
+                    <p:outputLabel value="Ciu:" for="ciu"/>
+                    <p:outputLabel id="ciu" value="#{login.cliente.ciu}" />
+                    <p:outputLabel value="Nombres:" for="nombres" />
+                    <p:outputLabel id="nombres" value="#{login.cliente.nombres}"/>
+                    <p:outputLabel value="Apellidos:" for="apellidos" />
+                    <p:outputLabel id="apellidos" value="#{login.cliente.apellidos}"/>                                              
+                    <h:inputHidden id="ciuHidden" value="#{login.cliente.ciu}" binding="#{order.ciuH}"/>
+                </h:panelGrid>
+            </p:panel>   
+
+            <h:form id="TproformaListForm" rendered="true">
+                <p:panel id="panelPr" header="#{bundle.ListTproformaTitle} - SEGUIMIENTO DE ESTADOS">
+                    <p:dataTable id="datalist" value="#{tproformaController.itemsXCiuTotal}" var="item"
+                                 selectionMode="single"
+                                 selection="#{tproformaController.selected}"
                                  paginator="true"
                                  rowKey="#{item.tproformaPK}"
                                  rows="10"
                                  rowsPerPageTemplate="10,20,30,40,50"
                                  >
 
-                        <p:ajax event="rowSelect"   update="createButton viewButton editButton deleteButton"/>
-                        <p:ajax event="rowUnselect" update="createButton viewButton editButton deleteButton"/>
+                        <p:ajax event="rowSelect"   update="viewButton"/>
+                        <p:ajax event="rowUnselect" update="viewButton"/>
 
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{bundle.ListTproformaTitle_tproformaPK_idPeriodo}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.tproformaPK.idPeriodo}"/>
-                        </p:column>
-                        <p:column>
+                        <p:column width="6%">
                             <f:facet name="header">
                                 <h:outputText value="#{bundle.ListTproformaTitle_tproformaPK_idProforma}"/>
                             </f:facet>
                             <h:outputText value="#{item.tproformaPK.idProforma}"/>
                         </p:column>
-                        <p:column>
+                        <p:column width="10%">
                             <f:facet name="header">
                                 <h:outputText value="#{bundle.ListTproformaTitle_estado}"/>
                             </f:facet>
                             <h:outputText value="#{item.estado}"/>
                         </p:column>
-                        <p:column>
+                        <p:column width="5%">
                             <f:facet name="header">
-                                <h:outputText value="#{bundle.ListTproformaTitle_tipoProforma}"/>
+                                <h:outputText value="Total #{bundle.CreateTdetproformaTitle_tproforma}"/>
                             </f:facet>
-                            <h:outputText value="#{item.tipoProforma}"/>
+                            <h:outputText value="#{tdetproformaController.valorTotalProforma(item.tproformaPK.idProforma, item.tproformaPK.idPeriodo)}"/>
                         </p:column>
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{bundle.ListTproformaTitle_numPedido}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.numPedido}"/>
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{bundle.ListTproformaTitle_obsProforma}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.obsProforma}"/>
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{bundle.ListTproformaTitle_especTecnica}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.especTecnica}"/>
-                        </p:column>
-                        <p:column>
+                        <p:column width="5%">
                             <f:facet name="header">
                                 <h:outputText value="#{bundle.ListTproformaTitle_validezDias}"/>
                             </f:facet>
                             <h:outputText value="#{item.validezDias}"/>
                         </p:column>
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{bundle.ListTproformaTitle_tiempoEntrega}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.tiempoEntrega}"/>
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{bundle.ListTproformaTitle_contacto}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.contacto}"/>
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{bundle.ListTproformaTitle_fechaRecepcion}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.fechaRecepcion}">
-                                <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
-                            </h:outputText>
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{bundle.ListTproformaTitle_LAutoriza}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.LAutoriza}"/>
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{bundle.ListTproformaTitle_obsAutoriza}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.obsAutoriza}"/>
-                        </p:column>
-                        <p:column>
+                        <p:column width="7%">
                             <f:facet name="header">
                                 <h:outputText value="#{bundle.ListTproformaTitle_fechaCreacion}"/>
                             </f:facet>
@@ -115,122 +71,12 @@
                                 <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
                             </h:outputText>
                         </p:column>
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{bundle.ListTproformaTitle_fechaModificacion}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.fechaModificacion}">
-                                <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
-                            </h:outputText>
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{bundle.ListTproformaTitle_obsModificacion}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.obsModificacion}"/>
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{bundle.ListTproformaTitle_idCreador}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.idCreador}"/>
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{bundle.ListTproformaTitle_idModificador}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.idModificador}"/>
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{bundle.ListTproformaTitle_idPeriodoFac}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.idPeriodoFac}"/>
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{bundle.ListTproformaTitle_idSucursalFac}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.idSucursalFac}"/>
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{bundle.ListTproformaTitle_idFactura}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.idFactura}"/>
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{bundle.ListTproformaTitle_idAutorizador}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.idAutorizador}"/>
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{bundle.ListTproformaTitle_fechaConfirmacion}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.fechaConfirmacion}">
-                                <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
-                            </h:outputText>
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{bundle.ListTproformaTitle_fechaValidez}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.fechaValidez}">
-                                <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
-                            </h:outputText>
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{bundle.ListTproformaTitle_formaEntrega}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.formaEntrega}"/>
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{bundle.ListTproformaTitle_formaPago}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.formaPago}"/>
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{bundle.ListTproformaTitle_comprobantePago}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.comprobantePago}"/>
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{bundle.ListTproformaTitle_LVentaOnline}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.LVentaOnline}"/>
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{bundle.ListTproformaTitle_ciu}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.ciu}"/>
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{bundle.ListTproformaTitle_tsucursal}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.tsucursal}"/>
-                        </p:column>
-                        <h:outputText value="#{tproformaController.selected.tproformaPK.idProforma}"/>
                         <f:facet name="footer">
-                            <p:commandButton id="createButton" icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{tproformaController.prepareCreate}" update=":TproformaCreateForm" oncomplete="PF('TproformaCreateDialog').show()"/>
-                            <p:commandButton id="viewButton"   icon="ui-icon-search" value="#{bundle.View}" actionListener ="#{tproformaController.generarPDFp}" disabled="#{empty tproformaController.selected}" ajax="False" />
-                            <p:commandButton id="editButton"   icon="ui-icon-pencil" value="#{bundle.Edit}" update=":TproformaEditForm" oncomplete="PF('TproformaEditDialog').show()" disabled="#{empty tproformaController.selected}"/>
-                            <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{tproformaController.destroy}" update=":growl,datalist" disabled="#{empty tproformaController.selected}"/>
+                            <p:commandButton id="viewButton"   icon="ui-icon-search" value="#{bundle.View} PDF" actionListener ="#{tproformaController.generarPDFp}" disabled="#{empty tproformaController.selected}" ajax="false"/>
                         </f:facet>
                     </p:dataTable>
                 </p:panel>
             </h:form>
-
-            <ui:include src="Create.xhtml"/>
-            <ui:include src="Edit.xhtml"/>
-            <ui:include src="View.xhtml"/>
         </ui:define>
     </ui:composition>
 

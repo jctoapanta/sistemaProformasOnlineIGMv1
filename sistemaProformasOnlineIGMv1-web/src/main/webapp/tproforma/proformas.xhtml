@@ -9,8 +9,7 @@
     <ui:composition>
 
         <p:dialog id="TproformaCreateDlg" widgetVar="TproformaCreateDialog" modal="true" 
-                  resizable="false" appendTo="@(body)" 
-                  style="width:40%"
+                  resizable="false" appendTo="@(body)" width="820px"
                   header="#{bundle.CreateTproformaTitle}" >
             <h:form id="principalForm">
                 <h:panelGroup id="display">
@@ -29,52 +28,62 @@
                         <table>
                             <td>
                                 <h:panelGrid columns="2" cellpadding="4">
-                                    <p:outputLabel value="Item:"/>
-                                    <p:selectOneMenu id="IdItem" value="#{order.seleccionadoItem}" style="width:290px" panelStyle="width:180px" filter="true">
-                                        <f:selectItem itemLabel="Seleccionar item"/>
-                                        <f:selectItems value="#{order.items}"/>
-                                    </p:selectOneMenu>
-                                    <p:outputLabel value="Cantidad:"/>
-                                    <p:spinner value="#{order.cantidad}" min="1" max="100" size="3"/>
-                                    <p:commandButton id="btnIngresar" icon="ui-icon-cart" 
-                                                     actionListener="#{order.addAction}" ajax="true" 
-                                                     update=":principalForm" onclick="PF('TproformaCreateDialog').show()"/> 
+                                    <div class="form-group">
+                                        <label class="control-label col-md-4"><strong>Item: </strong><br /></label>
+                                        <p:selectOneMenu id="IdItem" value="#{order.seleccionadoItem}" filter="true">
+                                            <f:selectItem itemLabel="Seleccionar item"/>
+                                            <f:selectItems value="#{order.items}"/>
+                                        </p:selectOneMenu>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-md-5"><strong>Cantidad: </strong><br /></label>
+                                        <p:spinner  value="#{order.cantidad}" min="1" max="100" size="4"/>
+                                    </div>
+                                    <div class="form-group">
+                                        <br />
+                                        <p:commandButton id="btnIngresar" icon="ui-icon-cart" class="glyphicon glyphicon-plus"
+                                                         actionListener="#{order.addAction}" ajax="true" 
+                                                         update=":principalForm" onclick="PF('TproformaCreateDialog').show()"/>
+                                    </div>
                                 </h:panelGrid>
-                                <p:dataTable id="listadetalles" value="#{order.orderList}" var="o" style="margin-bottom:10%;width:60%" >
-                                    <p:column sortBy="#{o.descripcion}">
-                                        <f:facet name="header">
-                                            <h:outputText value="Descripción" />
-                                        </f:facet>
-                                        <h:outputText value="#{o.descripcion}"/>
-                                    </p:column>
-                                    <p:column sortBy="#{o.cantidad}">
-                                        <f:facet name="header">
-                                            <h:outputText value="Cantidad"/>
-                                        </f:facet>
-                                        <h:outputText value="#{o.cantidad}"/>
-                                    </p:column>
-                                    <p:column>
-                                        <f:facet name="header">
-                                            <h:outputText value="Precio Unitario"/>
-                                        </f:facet>
-                                        <h:outputText value="#{o.total}"/>
-                                    </p:column>
-                                    <p:column>
-                                        <f:facet name="header">
-                                            <h:outputText value="Iva %"/>
-                                        </f:facet>
-                                        <h:outputText value="#{o.piva}"/>
-                                    </p:column>
-                                    <p:column style="text-align: center">
-                                        <f:facet name="header">Borrar Item</f:facet>
-                                        <p:commandButton icon="ui-icon-trash" action="#{order.deleteAction(o)}" 
-                                                         update=":principalForm" onclick="PF('TproformaCreateDialog').show()" 
-                                                         ajax="true"/>   				
-                                    </p:column>
-                                    <f:facet name="footer">
-                                        El valor total de la proforma, sin recargos, es: #{order.totalp}
-                                    </f:facet>
-                                </p:dataTable>
+                                <h:panelGrid columns="2" cellpadding="10" style="margin-left: 83px; background-size: auto" width="720px">
+                                        <p:dataTable id="listadetalles" value="#{order.orderList}" var="o" style="margin-bottom:10%;width:95%" >
+                                            <p:column sortBy="#{o.descripcion}" width="60%">
+                                                <f:facet name="header">
+                                                    <h:outputText value="Descripción" />
+                                                </f:facet>
+                                                <h:outputText value="#{o.descripcion}"/>
+                                            </p:column>
+                                            <p:column sortBy="#{o.cantidad}">
+                                                <f:facet name="header">
+                                                    <h:outputText value="Cantidad"/>
+                                                </f:facet>
+                                                <h:outputText value="#{o.cantidad}"/>
+                                            </p:column>
+                                            <p:column>
+                                                <f:facet name="header">
+                                                    <h:outputText value="Precio Unitario"/>
+                                                </f:facet>
+                                                <h:outputText value="#{o.total}"/>
+                                            </p:column>
+                                            <p:column>
+                                                <f:facet name="header">
+                                                    <h:outputText value="Iva %"/>
+                                                </f:facet>
+                                                <h:outputText value="#{o.piva}"/>
+                                            </p:column>
+                                            <p:column style="text-align: center">
+                                                <f:facet name="header">Borrar Item</f:facet>
+                                                <p:commandButton icon="ui-icon-trash" action="#{order.deleteAction(o)}" 
+                                                                 update=":principalForm" onclick="PF('TproformaCreateDialog').show()" 
+                                                                 ajax="true"/>   				
+                                            </p:column>
+                                            <f:facet name="footer">
+                                                El valor total de la proforma, sin recargos, es: #{order.totalp}
+                                            </f:facet>
+                                        </p:dataTable>
+                                    
+                                </h:panelGrid>
                                 <div>
                                     <h:panelGrid columns="2" cellpadding="4">
                                         <p:outputLabel value="Forma de entrega:" for="IdFormaEntrega"/>

@@ -17,6 +17,7 @@ import gob.igm.ec.Tentidad;
 import gob.igm.ec.controladores.util.EncriptUtil;
 import gob.igm.ec.controladores.util.FacesUtil;
 import gob.igm.ec.controladores.util.JsfUtil;
+import gob.igm.ec.controladores.util.constantes;
 import gob.igm.ec.servicios.TdireccionesusrFacade;
 
 import gob.igm.ec.servicios.TentidadFacade;
@@ -29,13 +30,12 @@ import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
 
-
 /**
  * The Class Login.
  *
  * @author IGM
  */
-@Named ("login")
+@Named("login")
 @SessionScoped
 public class Login extends FacesUtil implements Serializable {
 
@@ -53,17 +53,23 @@ public class Login extends FacesUtil implements Serializable {
         this.cliente = cliente;
     }
 
-    /** La variable logger. */
+    /**
+     * La variable logger.
+     */
     private static Logger logger;
     @EJB
     private TentidadFacade usuarioServicio;
     @EJB
     private TdireccionesusrFacade direccionesServicio;
-    
+
     private EncriptUtil encriptUtil;
-    /** La variable aliasBase. */
+    /**
+     * La variable aliasBase.
+     */
     private String aliasBase;
-    /** La variable clave. */
+    /**
+     * La variable clave.
+     */
     private String clave;
     private List<Tentidad> usuario;
     private Tentidad cliente;
@@ -71,17 +77,17 @@ public class Login extends FacesUtil implements Serializable {
 //    static {
 //        logger = Logger.getLogger(Login.class);
 //    }
-
     /**
      * Creates a new instance of Login.
      */
     public Login() {
         this.encriptUtil = new EncriptUtil();
-        this.cliente=new Tentidad();
+        this.cliente = new Tentidad();
     }
 
     /**
      * Permite ingresar los datos del usuarios a sesi�n.
+     *
      * @return Regla de navegaci�n
      */
     public String ingresar() {
@@ -89,39 +95,49 @@ public class Login extends FacesUtil implements Serializable {
         Long direccionEnvioUsrExiste;
         String regla = "/tproforma/ListProXCli.xhtml";
         try {
-            String cifrado = this.encriptUtil.encrypt3DES(this.clave);
-            setUsuario(this.usuarioServicio.buscarUsuarioClave(this.aliasBase, cifrado));
-            for (Tentidad tentidad : usuario) {
-                cliente.setCiu(tentidad.getCiu());
-                cliente.setApellidos(tentidad.getApellidos());
-                cliente.setNombres(tentidad.getNombres());
-                cliente.setDireccion(tentidad.getDireccion());
-            }
-            direccionDomicilioUsrExiste=this.direccionesServicio.buscarExisteDireccionDomicilioCliente(this.aliasBase);
-            direccionEnvioUsrExiste=this.direccionesServicio.buscarExisteDireccionEnvioCliente(this.aliasBase);
-            if (getUsuario().isEmpty()){
-                JsfUtil.addErrorMessage("Usuario no existe o Clave incorrecta, favor verifique");
-                regla = "/index.xhtml";
+            setUsuario(this.usuarioServicio.buscarUsuarioClave(this.aliasBase, this.clave));
+
+            if (!usuario.isEmpty() && this.usuario.get(0).getClave().equals(this.clave)) {
+                String cifrado = this.clave;
+                setUsuario(this.usuarioServicio.buscarUsuarioClave(this.aliasBase, cifrado));
+                for (Tentidad tentidad : usuario) {
+                    cliente.setCiu(tentidad.getCiu());
+                }
+                regla = "/cambioClave.xhtml";
             } else {
-                if (direccionDomicilioUsrExiste.equals(0L)) {
-                    if (direccionEnvioUsrExiste.equals(0L)) {
-                        JsfUtil.addErrorMessage("Usted debe registrar una Dirección para Facturación y al menos una Dirección para Envío, por favor agréguelas.");
-                        regla = "/tdireccionesusr/List.xhtml";
-                    } else {
-                        JsfUtil.addErrorMessage("Usted debe registrar una Dirección para Facturación, por favor agréguela.");
-                        regla = "/tdireccionesusr/List.xhtml";
-                    }
+                String cifrado = this.encriptUtil.encrypt3DES(this.clave);
+                setUsuario(this.usuarioServicio.buscarUsuarioClave(this.aliasBase, cifrado));
+                for (Tentidad tentidad : usuario) {
+                    cliente.setCiu(tentidad.getCiu());
+                    cliente.setApellidos(tentidad.getApellidos());
+                    cliente.setNombres(tentidad.getNombres());
+                    cliente.setDireccion(tentidad.getDireccion());
+                }
+                direccionDomicilioUsrExiste = this.direccionesServicio.buscarExisteDireccionDomicilioCliente(this.aliasBase);
+                direccionEnvioUsrExiste = this.direccionesServicio.buscarExisteDireccionEnvioCliente(this.aliasBase);
+                if (getUsuario().isEmpty()) {
+                    JsfUtil.addErrorMessage("Usuario no existe o Clave incorrecta, favor verifique");
+                    regla = "/index.xhtml";
                 } else {
-                    if (direccionEnvioUsrExiste.equals(0L)) {
-                        JsfUtil.addErrorMessage("Usted debe registrar al menos una dirección de envío, por favor agréguela.");
-                        regla = "/tdireccionesusr/List.xhtml";
+                    if (direccionDomicilioUsrExiste.equals(0L)) {
+                        if (direccionEnvioUsrExiste.equals(0L)) {
+                            JsfUtil.addErrorMessage("Usted debe registrar una Dirección para Facturación y al menos una Dirección para Envío, por favor agréguelas.");
+                            regla = "/tdireccionesusr/List.xhtml";
+                        } else {
+                            JsfUtil.addErrorMessage("Usted debe registrar una Dirección para Facturación, por favor agréguela.");
+                            regla = "/tdireccionesusr/List.xhtml";
+                        }
                     } else {
-                        regla = "/tproforma/ListProXCli.xhtml";
+                        if (direccionEnvioUsrExiste.equals(0L)) {
+                            JsfUtil.addErrorMessage("Usted debe registrar al menos una dirección de envío, por favor agréguela.");
+                            regla = "/tdireccionesusr/List.xhtml";
+                        } else {
+                            regla = "/tproforma/ListProXCli.xhtml";
+                        }
                     }
                 }
             }
-        }
-        catch (Exception ex) {
+        } catch (Exception ex) {
             regla = "#";
             logger.error(ex.getMessage(), ex);
             super.addErrorMessage(super.getRecursoGeneral().getString("msgErrorLogin"));
@@ -131,6 +147,7 @@ public class Login extends FacesUtil implements Serializable {
 
     /**
      * Permite Registrar los datos del usuarios.
+     *
      * @return Regla de navegaci�n
      */
     public String registrar() {
@@ -139,21 +156,21 @@ public class Login extends FacesUtil implements Serializable {
         try {
             String cifrado = this.encriptUtil.encrypt3DES(this.clave);
             usuario = this.usuarioServicio.buscarExisteUsuario(this.aliasBase);
-            if (usuario.isEmpty()){
+            if (usuario.isEmpty()) {
                 JsfUtil.addErrorMessage("Usuario no existe o Clave incorrecta, favor verifique");
                 regla = "faces/index.xhtml";
             }
-        }
-        catch (Exception ex) {
+        } catch (Exception ex) {
             regla = "#";
             logger.error(ex.getMessage(), ex);
             super.addErrorMessage(super.getRecursoGeneral().getString("msgErrorBooking"));
         }
         return regla;
-    }    
-    
+    }
+
     /**
      * Cierra la sesi�n del usuario.
+     *
      * @param evento Evento generado por la p�gina
      */
     public void cerrarSession(ActionEvent evento) {
