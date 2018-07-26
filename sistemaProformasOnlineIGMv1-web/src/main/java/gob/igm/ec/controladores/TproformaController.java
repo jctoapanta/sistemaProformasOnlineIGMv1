@@ -42,8 +42,13 @@ public class TproformaController implements Serializable {
 
     @EJB
     private gob.igm.ec.servicios.TproformaFacade ejbFacade;
+
+    @EJB
+    private gob.igm.ec.servicios.TentidadFacade ejbFacadeEntidad;
+
     private List<Tproforma> items = null;
     private List<Tproforma> itemsXCiu = null;
+    private List<Tproforma> itemsXCiuTotal = null;
     private Tproforma selected;
     private EncriptUtil encriptUtil;
     @Resource(name = "ptvDS")
@@ -214,6 +219,27 @@ public class TproformaController implements Serializable {
     }
 
     /**
+     * @return the itemsXCiuTotal
+     */
+    public List<Tproforma> getItemsXCiuTotal() {
+        Date fechaActual = new Date();
+        Short vIdPeriodo;
+        vIdPeriodo = Short.parseShort(new SimpleDateFormat("yy").format(fechaActual));
+        itemsXCiuTotal = this.ejbFacade.buscarProformsXClienteTotal(login.getAliasBase(), vIdPeriodo);
+        if (itemsXCiuTotal.isEmpty()) {
+            JsfUtil.addErrorMessage("Usted aún no ha generado Pedidos");
+        }
+        return itemsXCiuTotal;
+    }
+
+    /**
+     * @param itemsXCiuTotal the itemsXCiuTotal to set
+     */
+    public void setItemsXCiuTotal(List<Tproforma> itemsXCiuTotal) {
+        this.itemsXCiuTotal = itemsXCiuTotal;
+    }
+
+    /**
      * @return the itemsXCiu
      */
     public List<Tproforma> getItemsXCiu() {
@@ -265,4 +291,5 @@ public class TproformaController implements Serializable {
         }
 
     }
+
 }

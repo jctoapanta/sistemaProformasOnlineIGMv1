@@ -24,8 +24,10 @@ import javax.ejb.Stateless;
 import javax.faces.application.FacesMessage;
 import javax.mail.BodyPart;
 import javax.mail.Message;
+import javax.mail.MessagingException;
 import javax.mail.Session;
 import javax.mail.Transport;
+import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
@@ -78,23 +80,24 @@ public class TproformaFacade extends AbstractFacade<Tproforma> {
         }
     }
 
-     /**
+    /**
      * Para actualizar la consulta
+     *
      * @param parameters
      */
-     // 
-     public void grabarRecargo (BigDecimal valorenvio,Long idproforma){
-            try{
+    // 
+    public void grabarRecargo(BigDecimal valorenvio, Long idproforma) {
+        try {
             Query queryRecargo = em.createQuery("update Tproforma set valorEnvio=?1 where tproformaPK.idProforma=?2 ");
             queryRecargo.setParameter(1, valorenvio);
             queryRecargo.setParameter(2, idproforma);
             queryRecargo.executeUpdate();
-                 
-           } catch (Exception e) {
+
+        } catch (Exception e) {
             localLogger.error(e);
         }
-     }
-    
+    }
+
     
     public void upload(UploadedFile e, Long id_proforma) throws Exception {
 
@@ -103,53 +106,43 @@ public class TproformaFacade extends AbstractFacade<Tproforma> {
             File destFile = new File(e.getFileName());
             FileUtils.copyInputStreamToFile(e.getInputstream(), destFile);
 
-            Properties props = new Properties();
-            props.put("mail.smtp.host", "mail.igm.gob.ec");
-            props.setProperty("mail.smtp.port", "25");
-
-            Session session = Session.getDefaultInstance(props, null);
-
             //CARGA  de archivo en Base de Datos
             try (Connection cn = em.unwrap(Connection.class)) {
-                PreparedStatement st = cn.prepareStatement("UPDATE TPROFORMA SET COMPROBANTE_PAGO=? WHERE ID_PROFORMA=?");
+                PreparedStatement st = cn.prepareStatement("UPDATE TPROFORMA SET COMPROBANTE_PAGO=?, ESTADO='V' WHERE ID_PROFORMA=?");
                 st.setBinaryStream(1, e.getInputstream());// file.getInputstream());
                 st.setLong(2, id_proforma);
                 st.executeUpdate();
             }
             JsfUtil.addSuccessMessage("Archivo subido con éxito");
-
+            
+            //ENVIO DE CORREO
+            Properties props = new Properties();
+            props.put("mail.smtp.host", "mail.igm.gob.ec");
+            props.setProperty("mail.smtp.port", "25");
             //ENVIO de correo con adjunto
-            // Se compone la parte del texto
             BodyPart texto = new MimeBodyPart();
-            texto.setText("VERIFIQUE COMPROBANTE DE PAGO DEL PEDIDO (PROFORMA) No. "+id_proforma);
-
+            texto.setText("VERIFIQUE COMPROBANTE DE PAGO DEL PEDIDO (PROFORMA) No. " + id_proforma);
             // Se compone el adjunto con la imagen
             BodyPart adjunto = new MimeBodyPart();
             FileDataSource ds = new FileDataSource(e.getFileName());
             adjunto.setDataHandler(
                     new DataHandler(ds));
             adjunto.setFileName(destFile.toString());
-
             // Una MultiParte para agrupar texto e imagen.
             MimeMultipart multiParte = new MimeMultipart();
             multiParte.addBodyPart(texto);
             multiParte.addBodyPart(adjunto);
 
-            // Se compone el correo, dando to, from, subject y el
-            // contenido.
+            Session session = Session.getDefaultInstance(props, null);
             MimeMessage message = new MimeMessage(session);
-            message.setFrom(new InternetAddress("igm@mail.igm.gob.ec"));
+            String dirEmailFinanciero="juancarlos.toapanta@mail.igm.gob.ec";
             message.addRecipient(
                     Message.RecipientType.TO,
-                    new InternetAddress("juancarlos.toapanta@mail.igm.gob.ec"));
+                    new InternetAddress(dirEmailFinanciero));
             message.setSubject("Validar Comprobante de pago");
-            message.setContent(multiParte);
+            //Se envía correo
+            envioCorreo(multiParte, message, session);
 
-            // Se envia el correo.
-            Transport t = session.getTransport("smtp");
-            t.connect();
-            t.sendMessage(message, message.getAllRecipients());
-            t.close();
         } else {
             JsfUtil.addErrorMessage("No se encuentra el archivo");
         }
@@ -177,6 +170,21 @@ public class TproformaFacade extends AbstractFacade<Tproforma> {
         return proforma;
     }
 
+    public List<Tproforma> buscarProformsXClienteTotal(final String pCiu, final Short pIdPeriodo) {
+        List<Tproforma> proforma = new ArrayList<>();
+        Query query;
+        try {
+            query = em.createQuery("SELECT t FROM Tproforma t WHERE t.tproformaPK.idPeriodo = :idPeriodo and t.ciu.ciu = :ciu");
+            query.setParameter("idPeriodo", pIdPeriodo);
+            query.setParameter("ciu", pCiu);
+
+            proforma = query.getResultList();
+        } catch (Exception e) {
+            localLogger.error(e);
+        }
+        return proforma;
+    }
+    
     public Long maxId() {
         try {
             Query query = em.createQuery("select max(o.tproformaPK.idProforma) "

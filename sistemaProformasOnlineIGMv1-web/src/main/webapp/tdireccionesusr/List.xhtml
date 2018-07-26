@@ -79,7 +79,7 @@
                         </p:column>
                         <p:column style=" text-align: center">
                             <f:facet name="header">Enviar a:</f:facet>
-                            <p:commandButton id="updateButton" icon="ui-icon-arrowthickstop-1-s" action="#{tdireccionesusrController.seleccionaDirEnvio(tdireccionesusrController.selected)}" update=":growl">
+                            <p:commandButton id="updateButton" icon="ui-icon-extlink" value="...esta direccion" action="#{tdireccionesusrController.seleccionaDirEnvio(tdireccionesusrController.selected)}" update=":growl">
                                 <f:setPropertyActionListener value="#{item}" target="#{tdireccionesusrController.selected}" />
                             </p:commandButton>
                         </p:column>

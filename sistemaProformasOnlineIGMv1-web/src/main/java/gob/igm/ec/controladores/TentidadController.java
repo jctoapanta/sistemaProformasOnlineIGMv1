@@ -2,13 +2,16 @@ package gob.igm.ec.controladores;
 
 import gob.igm.ec.Tentidad;
 import gob.igm.ec.controladores.util.EncriptUtil;
+import gob.igm.ec.controladores.util.FacesUtil;
 import gob.igm.ec.controladores.util.JsfUtil;
 import gob.igm.ec.controladores.util.JsfUtil.PersistAction;
+import gob.igm.ec.controladores.util.constantes;
 import gob.igm.ec.servicios.TentidadFacade;
 import java.io.IOException;
 import java.io.Serializable;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -21,36 +24,49 @@ import javax.ejb.EJBException;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.component.UIComponent;
+import javax.faces.component.html.HtmlInputHidden;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
 import javax.inject.Inject;
+import javax.mail.MessagingException;
 import validar.*;
 
 @Named("tentidadController")
 @SessionScoped
-public class TentidadController implements Serializable {
+public class TentidadController extends FacesUtil implements Serializable {
 
     @Inject
     private TdireccionesusrController tdireccion;
     
+    @Inject
+    private Login login;
+
     @EJB
     private gob.igm.ec.servicios.TentidadFacade ejbFacade;
-    
+
+    /**
+     * La variable logger.
+     */
+    private static org.apache.log4j.Logger logger;
     private List<Tentidad> items = null;
     private Tentidad selected;
+    private String claveActualiza;
     private String claveConfirma;
     private String mensaje;
     private EncriptUtil encriptUtil;
     private String encriptado;
-    
+    private HtmlInputHidden ciuH;
+
     public TentidadController() {
+        ciuH = new HtmlInputHidden();
         this.selectedEventTypeId = 1;
+        this.encriptUtil = new EncriptUtil();
     }
-    
+
 // eventType
     private Short selectedEventTypeId;
-    
+
     public Short getSelectedEventTypeId() {
         return selectedEventTypeId;
     }
@@ -60,7 +76,6 @@ public class TentidadController implements Serializable {
     }
 
     public Tentidad getSelected() {
-        
         return selected;
     }
 
@@ -94,16 +109,16 @@ public class TentidadController implements Serializable {
     public String booking() {
         String regla = "/registro";
         try {
-            List<Object> usuario=null;
-            ValidarIdentificacion validaID=new ValidarIdentificacion();
+            List<Object> usuario = null;
+            ValidarIdentificacion validaID = new ValidarIdentificacion();
             usuario = this.ejbFacade.buscarExisteUsuario(selected.getCiu());
-            if (usuario.isEmpty()){
-                if (validaID.validarCedula(selected.getCiu()) 
-                        || validaID.validarRucPersonaNatural(selected.getCiu()) 
-                        || validaID.validarRucSociedadPrivada(selected.getCiu())){
+            if (usuario.isEmpty()) {
+                if (validaID.validarCedula(selected.getCiu())
+                        || validaID.validarRucPersonaNatural(selected.getCiu())
+                        || validaID.validarRucSociedadPrivada(selected.getCiu())) {
                     try {
                         selected.setLNatural(this.selectedEventTypeId);
-                        this.encriptUtil=new EncriptUtil();
+                        this.encriptUtil = new EncriptUtil();
                         encriptado = this.encriptUtil.encrypt3DES(selected.getClave());
                         selected.setClave(encriptado);
                         regla = "/index";
@@ -114,24 +129,24 @@ public class TentidadController implements Serializable {
                     if (!JsfUtil.isValidationFailed()) {
                         items = null;    // Invalidate list of items to trigger re-query.
                     }
-                    
+
                 } else {
                     JsfUtil.addErrorMessage("Número de Identificación no válido, verifique su No. Cedula o RUC");
                 }
             } else {
-                JsfUtil.addErrorMessage("Cliente con Documento de Identificación "+selected.getCiu()+" ya existe.");
+                JsfUtil.addErrorMessage("Cliente con Documento de Identificación " + selected.getCiu() + " ya existe.");
             }
-         
+
             //prepareCreate();
-            items=null;
-            
+            items = null;
+
         } catch (Exception ex) {
             Logger.getLogger(TentidadController.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         return regla;
-    }    
-    
+    }
+
     public void update() {
         persist(PersistAction.UPDATE, ResourceBundle.getBundle("/Bundle").getString("TentidadUpdated"));
     }
@@ -204,8 +219,8 @@ public class TentidadController implements Serializable {
     public void setClaveConfirma(String claveConfirma) {
         this.claveConfirma = claveConfirma;
     }
-    
-/**
+
+    /**
      * @return the mensaje
      */
     public String getMensaje() {
@@ -217,7 +232,7 @@ public class TentidadController implements Serializable {
      */
     public void setMensaje(String mensaje) {
         this.mensaje = mensaje;
-    }    
+    }
 
     @FacesConverter(forClass = Tentidad.class)
     public static class TentidadControllerConverter implements Converter {
@@ -258,5 +273,80 @@ public class TentidadController implements Serializable {
             }
         }
     }
-    
+
+    public String reestablecerClave() throws MessagingException {
+        String regla = "/index";
+        List<Tentidad> clienteRegistrado = new ArrayList<>();
+
+        clienteRegistrado = this.ejbFacade.buscarPorCI(this.selected.getCiu());
+        if (clienteRegistrado.isEmpty()) {
+            JsfUtil.addErrorMessage("El número de Cédula o su eMail no corresponden a los registrados");
+        } else {
+            for (Tentidad tentidad : clienteRegistrado) {
+                if (tentidad.getEmail().equals(this.selected.getEmail())) {
+                    ejbFacade.enviarReseteoClave(this.selected.getEmail());
+                    JsfUtil.addSuccessMessage("Se ha enviado un correo al eMail registrado por usted.");
+                    tentidad.setClave(constantes.CLAVEXDEFECTO);
+                    ejbFacade.actualizaClave(tentidad);
+                } else {
+                    JsfUtil.addErrorMessage("eMail ingresado no corresponde al eMail Registrado");
+                    regla = "/reestablecerClave";
+                }
+            }
+        }
+
+        return regla;
+    }
+
+    public String cambiarClave() {
+        String regla = "/index";
+        List<Tentidad> clienteRegistrado = new ArrayList<>();
+        try {
+            String cifrado = this.encriptUtil.encrypt3DES(this.claveActualiza);
+            clienteRegistrado = this.ejbFacade.buscarPorCI(this.getCiuH().getValue().toString());
+            if (clienteRegistrado.isEmpty()) {
+                JsfUtil.addErrorMessage("El número de Cédula o su eMail no corresponden a los registrados");
+            } else {
+                for (Tentidad tentidad : clienteRegistrado) {
+                    tentidad.setClave(cifrado);
+                    ejbFacade.actualizaClave(tentidad);
+                    JsfUtil.addSuccessMessage("Su clave ha sido cambiada satisfactoriamente.");
+                }
+            }
+        } catch (Exception ex) {
+            regla = "#";
+            logger.error(ex.getMessage(), ex);
+            super.addErrorMessage(super.getRecursoGeneral().getString("msgErrorLogin"));
+        }
+        return regla;
+    }
+
+    /**
+     * @return the claveActualiza
+     */
+    public String getClaveActualiza() {
+        return claveActualiza;
+    }
+
+    /**
+     * @param claveActualiza the claveActualiza to set
+     */
+    public void setClaveActualiza(String claveActualiza) {
+        this.claveActualiza = claveActualiza;
+    }
+
+    /**
+     * @return the ciuH
+     */
+    public HtmlInputHidden getCiuH() {
+        return ciuH;
+    }
+
+    /**
+     * @param ciuH the ciuH to set
+     */
+    public void setCiuH(HtmlInputHidden ciuH) {
+        this.ciuH = ciuH;
+    }
+
 }

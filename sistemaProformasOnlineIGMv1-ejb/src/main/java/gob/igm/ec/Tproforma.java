@@ -34,7 +34,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "Tproforma.findAll", query = "SELECT t FROM Tproforma t")
     , @NamedQuery(name = "Tproforma.findByIdSucursal", query = "SELECT t FROM Tproforma t WHERE t.tproformaPK.idSucursal = :idSucursal")
-    , @NamedQuery(name = "Tproforma.findByIdPeriodoAndCiu", query = "SELECT t FROM Tproforma t WHERE t.tproformaPK.idPeriodo = :idPeriodo and t.ciu.ciu = :ciu and t.comprobantePago is null")
+    , @NamedQuery(name = "Tproforma.findByIdPeriodoAndCiu", query = "SELECT t FROM Tproforma t WHERE t.tproformaPK.idPeriodo = :idPeriodo and t.ciu.ciu = :ciu and t.estado = 'G'")
     , @NamedQuery(name = "Tproforma.findByIdPeriodo", query = "SELECT t FROM Tproforma t WHERE t.tproformaPK.idPeriodo = :idPeriodo")
     , @NamedQuery(name = "Tproforma.findByIdProforma", query = "SELECT t FROM Tproforma t WHERE t.tproformaPK.idProforma = :idProforma")
     , @NamedQuery(name = "Tproforma.findByEstado", query = "SELECT t FROM Tproforma t WHERE t.estado = :estado")
@@ -137,9 +137,9 @@ public class Tproforma implements Serializable {
     private Short formaEntrega;
     @Column(name = "FORMA_PAGO")
     private Short formaPago;
-    @Lob
-    @Column(name = "COMPROBANTE_PAGO")
-    private Serializable comprobantePago;
+//    @Lob
+//    @Column(name = "COMPROBANTE_PAGO")
+//    private Serializable comprobantePago;
     @Column(name = "L_VENTA_ONLINE")
     private Short lVentaOnline;
     @Size(max = 300)
@@ -369,14 +369,6 @@ public class Tproforma implements Serializable {
 
     public void setFormaPago(Short formaPago) {
         this.formaPago = formaPago;
-    }
-
-    public Serializable getComprobantePago() {
-        return comprobantePago;
-    }
-
-    public void setComprobantePago(Serializable comprobantePago) {
-        this.comprobantePago = comprobantePago;
     }
 
     public Short getLVentaOnline() {

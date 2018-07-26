@@ -24,6 +24,7 @@ gob\igm\ec\servicios\TcantonFacade.class
 gob\igm\ec\controladores\TcantonController$TcantonControllerConverter.class
 gob\igm\ec\servicios\TdireccionesusrFacade.class
 gob\igm\ec\controladores\util\DatoAgenda.class
+gob\igm\ec\controladores\util\constantes.class
 gob\igm\ec\servicios\TproformaFacade.class
 gob\igm\ec\controladores\TtarifarioController.class
 gob\igm\ec\servicios\TfamiliaFacade.class

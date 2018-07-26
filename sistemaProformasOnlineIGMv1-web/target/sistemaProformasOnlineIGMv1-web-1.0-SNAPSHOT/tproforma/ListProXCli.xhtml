@@ -26,7 +26,7 @@
             </p:panel>   
 
             <h:form id="TproformaListForm" rendered="true">
-                <p:panel id="panelPr" header="#{bundle.ListTproformaTitle}">
+                <p:panel id="panelPr" header="#{bundle.ListTproformaTitle} Generados">
                     <p:dataTable id="datalist" value="#{tproformaController.itemsXCiu}" var="item"
                                  selectionMode="single"
                                  selection="#{tproformaController.selected}"
@@ -74,7 +74,11 @@
                         <f:facet name="footer">
                             <p:commandButton id="createButton" icon="ui-icon-plus"   value="#{bundle.CreateTproformaTitle}" actionListener="#{tproformaController.prepareCreate}" update=":principalForm" oncomplete="PF('TproformaCreateDialog').show()"/>
                             <p:commandButton id="viewButton"   icon="ui-icon-search" value="#{bundle.View} PDF" actionListener ="#{tproformaController.generarPDFp}" disabled="#{empty tproformaController.selected}" ajax="false"/>
-                            <p:commandButton id="sendButton"   icon="ui-icon-pencil" value="#{bundle.Send} Comprobante de Pago" update=":TproformaSendForm" oncomplete="PF('TproformaSendDialog').show()" disabled="#{empty tproformaController.selected}"/>
+                            <p:commandButton id="sendButton"   icon="ui-icon-pencil" 
+                                             value="#{bundle.Send} Comprobante de Pago" 
+                                             update=":TproformaSendForm" 
+                                             oncomplete="PF('TproformaSendDialog').show()" 
+                                             disabled="#{empty tproformaController.selected or tproformaController.selected.estado ne 'G'}"/>
                         </f:facet>
                     </p:dataTable>
                 </p:panel>
