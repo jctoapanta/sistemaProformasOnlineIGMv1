@@ -236,7 +236,7 @@ public class OrderBean extends FacesUtil implements Serializable {
         return null;
     }
 
-    public String addProforma() {
+public String addProforma() {
         short reg = 0;
 
         Long direccionDomicilioUsrExiste;
@@ -246,8 +246,8 @@ public class OrderBean extends FacesUtil implements Serializable {
         Tdireccionesusr dirEnvio = new Tdireccionesusr();
         String regla = "/tproforma/ListProXCli.xhtml";
         BigDecimal cantidad;
-        BigDecimal valor=new BigDecimal("90");
-        BigDecimal tarifario;    
+        BigDecimal valor = new BigDecimal("90");
+        BigDecimal tarifario = null;
         try {
             Date fechaActual = new Date();
             ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
@@ -299,11 +299,28 @@ public class OrderBean extends FacesUtil implements Serializable {
                         this.detproformapk.setNoReg(reg);
                         detalleproforma.setTdetproformaPK(detproformapk);
                         this.tdetproformaFacade.create(detalleproforma);
+                        cantidad = this.tdetproformaFacade.cantidad_peso(this.proformapk.getIdProforma()).multiply(valor);
+
+                        switch (this.selected.getFormaEntrega()) {
+                            case 1:
+                                tarifario = new BigDecimal("0.0");
+                                this.selected.setDirEnvioEf("OFICINAS IGM QUITO, Av. Seniergues E4-676 y Gral., Telmo Paz y Miño");
+                                break;
+                            case 2:
+                                tarifario = new BigDecimal("0.0");
+                                this.selected.setDirEnvioEf("OFICINAS IGM GUAYAQUIL, Av G. Pareja Rolando Nº 402 (la Garzota)");
+                                break;
+                            case 3:
+                                tarifario = this.ttarifarioFacade.valor_tarifario(cantidad);
+                                this.selected.setDirEnvioEf(dirEnvio.getTparroquia().getTcanton().getTprovincia().getProvincia() + "/" + dirEnvio.getTparroquia().getTcanton().getCanton() + "/" + dirEnvio.getTparroquia().getParroquia() + "/" + dirEnvio.toString());
+                                break;
+                            default:
+                                break;
+                        }
                         JsfUtil.addSuccessMessage("Su pedido ha sido guardado correctamente.");
                     }
-                    cantidad = this.tdetproformaFacade.cantidad_peso(this.proformapk.getIdProforma()).multiply(valor);
-                    tarifario = this.ttarifarioFacade.valor_tarifario(cantidad);
-                    this.ejbFacade.grabarRecargo(tarifario, this.proformapk.getIdProforma());         
+
+                    this.ejbFacade.grabarRecargo(tarifario, this.proformapk.getIdProforma(), this.selected.getDirEnvioEf());
                     return regla;
                 } else {
                     return regla;
