@@ -85,12 +85,12 @@ public class TproformaFacade extends AbstractFacade<Tproforma> {
      *
      * @param parameters
      */
-    // 
-    public void grabarRecargo(BigDecimal valorenvio, Long idproforma) {
-        try {
-            Query queryRecargo = em.createQuery("update Tproforma set valorEnvio=?1 where tproformaPK.idProforma=?2 ");
+     public void grabarRecargo (BigDecimal valorenvio,Long idproforma, String direccion_local){
+            try{
+            Query queryRecargo = em.createQuery("update Tproforma set valorEnvio=?1, dirEnvioEf = ?2 where tproformaPK.idProforma=?3 ");
             queryRecargo.setParameter(1, valorenvio);
-            queryRecargo.setParameter(2, idproforma);
+            queryRecargo.setParameter(2, direccion_local);
+            queryRecargo.setParameter(3, idproforma);
             queryRecargo.executeUpdate();
 
         } catch (Exception e) {
