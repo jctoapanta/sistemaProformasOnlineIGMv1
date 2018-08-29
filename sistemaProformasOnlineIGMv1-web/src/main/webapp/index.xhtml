@@ -18,6 +18,7 @@
         <h:outputStylesheet library="css" name="jsfcrud.css"/>
         <h:outputScript library="js" name="bootstrap.min.js" />
         <title><ui:insert name="title">#{bundle.AppName}</ui:insert></title>
+            <link rel="stylesheet" type="text/css" href="/sistemaProformasOnlineIGMv1-web/faces/jsfcrud.css" />
     </h:head>
     <h:body id="h_bodyid">
         <div>
@@ -27,12 +28,12 @@
         <div align="center">
             <h:form >
                 <div align="center"><img src="resources/images/igm.png"></img></div>  
-                <p:panel id="pnlPrincipal" header="Login" style="background-color: #B2DFDB; width: 350px">
-                    <h:panelGrid id="pngPrincipal" columns="2">
-                        <h:outputText id="outUsuario" value="#{bundle.CreateTentidadLabel_ciu}: " styleClass="texto_negrita_derecha"/>
-                        <h:inputText id="intUsuario" value="#{login.aliasBase}" maxlength="13"/>
-                        <h:outputText id="outClave" value="#{bundle.ListTentidadTitle_clave}:" styleClass="texto_negrita_derecha"/>
-                        <h:inputSecret id="intClave" value="#{login.clave}" maxlength="50"/>
+                    <p:panel id="pnlPrincipal" header="Login" style="background-color: #B2DFDB; width: 350px">
+                        <h:panelGrid id="pngPrincipal" columns="2">
+                            <h:outputText id="outUsuario" value="#{bundle.CreateTentidadLabel_ciu}: " styleClass="texto_negrita_derecha"/>
+                            <h:inputText id="intUsuario" value="#{login.aliasBase}" maxlength="13"/>
+                            <h:outputText id="outClave" value="#{bundle.ListTentidadTitle_clave}:" styleClass="texto_negrita_derecha"/>
+                            <h:inputSecret id="intClave" value="#{login.clave}" maxlength="50"/>
                         <br />
                         <p:commandButton id="btnLoginInicial" value="#{bundle.Ingresar}" action="#{login.ingresar}" ajax="false"
                                          styleClass="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" update="pnlPrincipal, :TproformaListForm"/>
@@ -47,7 +48,87 @@
                 </p:panel>
             </h:form>
         </div>
+        <h:form>
+            <h:commandLink action="#{tAreas.listSetup}" value="Show All TAreas Items"/>
+        </h:form>
+        <h:form>
+            <h:commandLink action="#{tContrataciones.listSetup}" value="Show All TContrataciones Items"/>
+        </h:form>
+        <h:form>
+            <h:commandLink action="#{tDatEmpleado.listSetup}" value="Show All TDatEmpleado Items"/>
+        </h:form>
+        <h:form>
+            <h:commandLink action="#{tFuncion.listSetup}" value="Show All TFuncion Items"/>
+        </h:form>
+        <h:form>
+            <h:commandLink action="#{tLicencia.listSetup}" value="Show All TLicencia Items"/>
+        </h:form>
+        <h:form>
+            <h:commandLink action="#{tNacionalidad.listSetup}" value="Show All TNacionalidad Items"/>
+        </h:form>
+        <h:form>
+            <h:commandLink action="#{tProfesiones.listSetup}" value="Show All TProfesiones Items"/>
+        </h:form>
+        <h:form>
+            <h:commandLink action="#{tRhReligion.listSetup}" value="Show All TRhReligion Items"/>
+        </h:form>
+        <h:form>
+            <h:commandLink action="#{tRhTipoSegSocial.listSetup}" value="Show All TRhTipoSegSocial Items"/>
+        </h:form>
+        <h:form>
+            <h:commandLink action="#{tTiposContrato.listSetup}" value="Show All TTiposContrato Items"/>
+        </h:form>
+        <h:form>
+            <h:commandLink action="#{tAreas.listSetup}" value="Show All TAreas Items"/>
+        </h:form>
+        <h:form>
+            <h:commandLink action="#{tContrataciones.listSetup}" value="Show All TContrataciones Items"/>
+        </h:form>
+        <h:form>
+            <h:commandLink action="#{tDatEmpleado.listSetup}" value="Show All TDatEmpleado Items"/>
+        </h:form>
+        <h:form>
+            <h:commandLink action="#{tFuncion.listSetup}" value="Show All TFuncion Items"/>
+        </h:form>
+        <h:form>
+            <h:commandLink action="#{tLicencia.listSetup}" value="Show All TLicencia Items"/>
+        </h:form>
+        <h:form>
+            <h:commandLink action="#{tNacionalidad.listSetup}" value="Show All TNacionalidad Items"/>
+        </h:form>
+        <h:form>
+            <h:commandLink action="#{tProfesiones.listSetup}" value="Show All TProfesiones Items"/>
+        </h:form>
+        <h:form>
+            <h:commandLink action="#{tRhReligion.listSetup}" value="Show All TRhReligion Items"/>
+        </h:form>
+        <h:form>
+            <h:commandLink action="#{tRhTipoSegSocial.listSetup}" value="Show All TRhTipoSegSocial Items"/>
+        </h:form>
+        <h:form>
+            <h:commandLink action="#{tTiposContrato.listSetup}" value="Show All TTiposContrato Items"/>
+        </h:form>
     </h:body>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
