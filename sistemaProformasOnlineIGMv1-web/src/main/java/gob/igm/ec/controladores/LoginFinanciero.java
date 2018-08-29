@@ -15,17 +15,11 @@ package gob.igm.ec.controladores;
 import gob.igm.ec.Tentidad;
 import gob.igm.ec.controladores.util.EncriptUtil;
 import gob.igm.ec.controladores.util.FacesUtil;
-import gob.igm.ec.controladores.util.JsfUtil;
-import gob.igm.ec.controladores.util.constantes;
 import gob.igm.ec.servicios.TUsuarioSucursalFacade;
-import gob.igm.ec.servicios.TdireccionesusrFacade;
-
-import gob.igm.ec.servicios.TentidadFacade;
-import igm.gob.ec.servicios.TDatEmpleadoFacade;
+import rh.gob.igm.ec.servicios.TDatEmpleadoFacade;
 import java.io.Serializable;
 import java.util.List;
 import javax.faces.event.ActionEvent;
-import org.apache.log4j.Logger;
 
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;

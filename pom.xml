@@ -10,5 +10,6 @@
     <module>sistemaProformasOnlineIGMv1-ear</module>
     <module>sistemaProformasOnlineIGMv1-web</module>
     <module>sistemaProformasOnlineIGMv1-ejb</module>
+    <module>rh</module>
   </modules>
 </project>
