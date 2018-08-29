@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition template="/templateFinanciero.xhtml">
+
+            <ui:define name="body">
+
+                <p:panel>
+                    <h:panelGrid columns="2" cellspacing="10" >
+                        <p:outputLabel value="FUNCIONARIO:  " for="FUNCIONARIO"/>
+                        <p:outputLabel id="FUNCIONARIO" value="#{loginFinanciero.funcionario}" />
+                        <p:outputLabel value="Nombres:" for="Nombres" />
+                        <p:outputLabel id="Nombres" value="#{loginFinanciero.nombre}"/>
+                        <p:outputLabel value="Email IGM:  " for="email" />
+                        <p:outputLabel id="email" value="#{loginFinanciero.igmMail}"/>
+                    </h:panelGrid>
+                </p:panel> 
+
+             <h:form id="TproformaListFormF">
+                <p:panel id="panelPr" header="#{bundle.ListTproformaTitle} por verificar">
+                    <p:dataTable id="datalist" value="#{tproformaController.itemsXEstado}" var="verificar"
+                                 selection="#{tproformaController.itemsSeleccionados}"
+                                 paginator="true"
+                                 rowKey="#{verificar.tproformaPK.idProforma}"
+                                 rows="10"
+                                 rowsPerPageTemplate="10,20,30,40,50"
+                                 >      
+                       
+                        <!--<p:ajax event="rowSelect" update=":TproformaListFormF:botonAprobar"/>-->
+                       <!-- <p:ajax event="rowUnselect"/>
+                        <p:ajax event="rowSelectCheckbox" process="@this"/>-->
+
+                        <p:column width="6%">
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListTproformaTitle_tproformaPK_idProforma}"/>
+                            </f:facet>
+                            <h:outputText value="#{verificar.tproformaPK.idProforma}"/>
+                        </p:column>
+                        <p:column width="10%">
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListTproformaTitle_estado}"/>
+                            </f:facet>
+                            <h:outputText value="#{verificar.estado}"/>
+                        </p:column>
+                        <p:column width="5%">
+                            <f:facet name="header">
+                                <h:outputText value="Total #{bundle.CreateTdetproformaTitle_tproforma}"/>
+                            </f:facet>
+                            <h:outputText value="#{tdetproformaController.valorTotalProforma(verificar.tproformaPK.idProforma, verificar.tproformaPK.idPeriodo)}"/>
+                        </p:column>
+                        <p:column width="5%">
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListTproformaTitle_validezDias}"/>
+                            </f:facet>
+                            <h:outputText value="#{verificar.validezDias}"/>
+                        </p:column>
+                        <p:column width="7%">
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListTproformaTitle_fechaCreacion}"/>
+                            </f:facet>
+                            <h:outputText value="#{verificar.fechaCreacion}">
+                                <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                            </h:outputText>
+                        </p:column>
+                     
+                        <p:column selectionMode="multiple" headerText="seleccionar todo" width="2%" />
+                       
+                         <f:facet name="footer">
+                             <p:commandButton id="botonAprobar"   icon="ui-icon-pencil" value="#{bundle.aprobar}" actionListener ="#{tproformaController.aprobar}" update=":TproformaListFormF:datalist" disabled="false" ajax="true" />
+                        </f:facet>
+                    </p:dataTable>
+                </p:panel>  
+         </h:form>
+             </ui:define>
+
+    </ui:composition>
+
+</html>

@@ -18,20 +18,25 @@ import gob.igm.ec.Titem;
 import gob.igm.ec.Tproforma;
 import gob.igm.ec.TproformaPK;
 import gob.igm.ec.controladores.util.FacesUtil;
+import gob.igm.ec.controladores.util.JasperReportUtil;
 import gob.igm.ec.controladores.util.JsfUtil;
 import gob.igm.ec.servicios.TcontrolIvaFacade;
 import gob.igm.ec.servicios.TdetproformaFacade;
 import gob.igm.ec.servicios.TdireccionesusrFacade;
 import gob.igm.ec.servicios.TitemServicio;
 import gob.igm.ec.servicios.TtarifarioFacade;
+import java.io.FileNotFoundException;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import javax.ejb.EJB;
 import javax.faces.context.FacesContext;
 import javax.enterprise.context.SessionScoped;
@@ -40,11 +45,41 @@ import javax.faces.context.ExternalContext;
 import javax.faces.model.SelectItem;
 import javax.inject.Inject;
 import javax.inject.Named;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRExporter;
 import org.apache.log4j.Logger;
 
 @Named("order")
 @SessionScoped
 public class OrderBean extends FacesUtil implements Serializable {
+
+    /**
+     * @return the seleccionadoFormaEntrega
+     */
+    public String getSeleccionadoFormaEntrega() {
+        return seleccionadoFormaEntrega;
+    }
+
+    /**
+     * @param seleccionadoFormaEntrega the seleccionadoFormaEntrega to set
+     */
+    public void setSeleccionadoFormaEntrega(String seleccionadoFormaEntrega) {
+        this.seleccionadoFormaEntrega = seleccionadoFormaEntrega;
+    }
+
+    /**
+     * @return the detalleproforma
+     */
+    public Tdetproforma getDetalleproforma() {
+        return detalleproforma;
+    }
+
+    /**
+     * @param detalleproforma the detalleproforma to set
+     */
+    public void setDetalleproforma(Tdetproforma detalleproforma) {
+        this.detalleproforma = detalleproforma;
+    }
 
      @EJB
     private TtarifarioFacade ttarifarioFacade;
@@ -121,11 +156,14 @@ public class OrderBean extends FacesUtil implements Serializable {
     private BigDecimal totalp = BigDecimal.ZERO;
     private BigInteger mostrariva;
     private static Logger logger;
+    private String seleccionadoFormaEntrega;
 
     public OrderBean() {
         this.direccionesControlador = new TdireccionesusrController();
         this.listaitems = new ArrayList<>();
     }
+    
+    
 
     /**
      * @return the mostrariva
@@ -209,6 +247,18 @@ public class OrderBean extends FacesUtil implements Serializable {
         return ORDERLIST;
 
     }
+    
+    public void limpiar(){
+        //Limpia luego de generar una proforma
+        //se encuentra en cero para el siguiente pedido
+        this.setSeleccionadoItem(0);
+        this.setCantidad(BigDecimal.ZERO);
+        this.detalleproforma=new Tdetproforma();
+        this.detalleProformas=new ArrayList();
+       
+       
+        
+    }
 
     public String addAction() {
         try {
@@ -237,8 +287,9 @@ public class OrderBean extends FacesUtil implements Serializable {
     }
 
 public String addProforma() {
-        short reg = 0;
 
+    
+        short reg = 0;
         Long direccionDomicilioUsrExiste;
         List<Tdireccionesusr> direccionEncontrada = new ArrayList<>();
         Tdireccionesusr dirFacturacion = new Tdireccionesusr();
@@ -268,6 +319,14 @@ public String addProforma() {
                     dirEnvio = tdireccionesusr;
                 }
                 regla = this.direccionesControlador.activaDirEnvio();
+                
+                
+                if(tEntrega.isEmpty())
+                {
+                     JsfUtil.addErrorMessage("Por favor seleccione la forma de entrega"); 
+                }
+                else
+                {
                 if (regla.equals("/tproforma/ListProXCli")) {
                     vIdPeriodo = Short.parseShort(new SimpleDateFormat("yy").format(fechaActual));
                     this.proformapk.setIdPeriodo(vIdPeriodo);
@@ -287,18 +346,18 @@ public String addProforma() {
                     this.detalleProformas = new ArrayList();
                     for (Order order : ORDERLIST) {
                         reg++;
-                        detalleproforma.setCantidad(order.getCantidad());
-                        detalleproforma.setDetalleItem(order.getDescripcion());
+                        getDetalleproforma().setCantidad(order.getCantidad());
+                        getDetalleproforma().setDetalleItem(order.getDescripcion());
                         this.detalleItems.setIdItem(order.getIdItem());
-                        detalleproforma.setIdItem(detalleItems);
-                        detalleproforma.setIvaPorcentaje(BigDecimal.valueOf(0.12));
-                        detalleproforma.setPvpTotal(order.totalp);
+                        getDetalleproforma().setIdItem(detalleItems);
+                        getDetalleproforma().setIvaPorcentaje(BigDecimal.valueOf(0.12));
+                        getDetalleproforma().setPvpTotal(order.totalp);
                         this.detproformapk.setIdPeriodo(vIdPeriodo);
                         this.detproformapk.setIdProforma(this.proformapk.getIdProforma());
                         this.detproformapk.setIdSucursal(1L);
                         this.detproformapk.setNoReg(reg);
-                        detalleproforma.setTdetproformaPK(detproformapk);
-                        this.tdetproformaFacade.create(detalleproforma);
+                        getDetalleproforma().setTdetproformaPK(detproformapk);
+                        this.tdetproformaFacade.create(getDetalleproforma());
                         cantidad = this.tdetproformaFacade.cantidad_peso(this.proformapk.getIdProforma()).multiply(valor);
 
                         switch (this.selected.getFormaEntrega()) {
@@ -317,20 +376,39 @@ public String addProforma() {
                             default:
                                 break;
                         }
-                        JsfUtil.addSuccessMessage("Su pedido ha sido guardado correctamente.");
+                            JsfUtil.addSuccessMessage("Su pedido ha sido guardado correctamente.");
+                        }
+                        
+                        this.ejbFacade.grabarRecargo(tarifario, this.proformapk.getIdProforma(), this.selected.getDirEnvioEf());
+                        this.generarPDFp(selected);
+                        ORDERLIST.removeAll(ORDERLIST);
+                        this.limpiar();
+                        return regla;
+                    } else {
+                        return regla;
                     }
-
-                    this.ejbFacade.grabarRecargo(tarifario, this.proformapk.getIdProforma(), this.selected.getDirEnvioEf());
-                    return regla;
-                } else {
-                    return regla;
+                    
                 }
+       
             }
             return regla;
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
         }
         return "#";
+    }
+
+    public void generarPDFp(Tproforma selected) throws JRException, ClassNotFoundException, SQLException, FileNotFoundException {
+        {
+            JasperReportUtil jasper = new JasperReportUtil();
+            JRExporter exporter = null;
+            Long id_proforma = selected.getTproformaPK().getIdProforma();
+            Map<String, Object> parameters = new HashMap<>();
+            parameters.put("ID_PROFORMA", id_proforma);
+            parameters.put("PATH_IMAGES", jasper.PATH_IMAGES);
+            this.ejbFacade.generaPDF(parameters);
+        }
+
     }
 
     /**
