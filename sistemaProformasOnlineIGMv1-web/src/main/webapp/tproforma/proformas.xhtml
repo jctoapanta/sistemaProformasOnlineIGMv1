@@ -82,7 +82,10 @@
                                                 El valor total de la proforma, sin recargos, es: #{order.totalp}
                                             </f:facet>
                                         </p:dataTable>
-                                    
+                                    <br />
+                        <br />
+                        <p:outputLabel style="font-size: larger; font-style: italic; font-stretch: semi-condensed; font-family: serif; color: #ff3333" value="Por favor revise bien su pedido, ya que no se pueden anular facturas canceladas, el IGM no se hace responsable de un error cometido por el cliente"  />                        
+   
                                 </h:panelGrid>
                                 <div>
                                     <h:panelGrid columns="2" cellpadding="4">
@@ -102,8 +105,8 @@
                     </p:fieldset> 
                     <p:commandButton value="#{bundle.Save} #{bundle.CreateTdetproformaLabel_tproforma}" ajax="false" 
                                      update="display,:TproformaListForm:datalist,:growl"  class="btn btn-primary"
-                                     actionListener="#{order.addProforma}" oncomplete="handleSubmit(args,'TproformaCreateDialog');"/>
-                    <p:commandButton value="#{bundle.Cancel}" onclick="TproformaCreateDialog.hide()" class="btn btn-danger"/>
+                                     actionListener="#{order.addProforma}" onclick="TproformaCreateDialog.hide()"/>
+                    <p:commandButton value="#{bundle.Cancel}" action="#{order.limpiar}" onclick="TproformaCreateDialog.hide()" class="btn btn-danger"/>
                 </h:panelGroup>                    
             </h:form>
         </p:dialog>

@@ -11,6 +11,7 @@ import java.io.Serializable;
 import java.sql.SQLException;
 import javax.sql.DataSource;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -23,10 +24,12 @@ import javax.ejb.EJB;
 import javax.ejb.EJBException;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
+import javax.faces.event.ActionEvent;
 import javax.inject.Inject;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExporter;
@@ -36,6 +39,51 @@ import org.primefaces.model.UploadedFile;
 @Named("tproformaController")
 @SessionScoped
 public class TproformaController implements Serializable {
+
+    /**
+     * @return the proformasSelected
+     */
+    public Tproforma[] getProformasSelected() {
+        return proformasSelected;
+    }
+
+    /**
+     * @param proformasSelected the proformasSelected to set
+     */
+    public void setProformasSelected(Tproforma[] proformasSelected) {
+        this.proformasSelected = proformasSelected;
+    }
+
+    /**
+     * @return the itemsSeleccionados
+     */
+    public List<Tproforma> getItemsSeleccionados() {
+        return itemsSeleccionados;
+    }
+
+    /**
+     * @param itemsSeleccionados the itemsSeleccionados to set
+     */
+    public void setItemsSeleccionados(List<Tproforma> itemsSeleccionados) {
+        this.itemsSeleccionados = itemsSeleccionados;
+    }
+
+    /**
+     * @return the itemsXEstado
+     */
+    public List<Tproforma> getItemsXEstado() {
+        if (itemsXEstado == null) {
+            itemsXEstado = getFacade().buscarProformsXEstado("V");
+        }
+        return itemsXEstado;
+    }
+
+    /**
+     * @param itemsXEstado the itemsXEstado to set
+     */
+    public void setItemsXEstado(List<Tproforma> itemsXEstado) {
+        this.itemsXEstado = itemsXEstado;
+    }
 
     @Inject
     private Login login;
@@ -49,10 +97,13 @@ public class TproformaController implements Serializable {
     private List<Tproforma> items = null;
     private List<Tproforma> itemsXCiu = null;
     private List<Tproforma> itemsXCiuTotal = null;
+    private List<Tproforma> itemsXEstado = null;
+    private List<Tproforma> itemsSeleccionados =new ArrayList() ;
     private Tproforma selected;
     private EncriptUtil encriptUtil;
     @Resource(name = "ptvDS")
     private DataSource PTV;
+    private Tproforma[] proformasSelected; 
 
     public TproformaController() {
     }
@@ -238,7 +289,7 @@ public class TproformaController implements Serializable {
     public void setItemsXCiuTotal(List<Tproforma> itemsXCiuTotal) {
         this.itemsXCiuTotal = itemsXCiuTotal;
     }
-
+    
     /**
      * @return the itemsXCiu
      */
@@ -291,5 +342,26 @@ public class TproformaController implements Serializable {
         }
 
     }
+    
+    public void aprobar(ActionEvent evento){
+        
+         
+       if(this.itemsSeleccionados.isEmpty()){
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Por favor seleccione al menos una proforma", ""));
+       }
+       else{
+        for (Tproforma proforma:this.itemsSeleccionados) {
+            this.ejbFacade.aprobarFinanciero(proforma.getTproformaPK().getIdProforma(),"F");
+               
+        }
+         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Se ha aprobado con éxito", ""));
+         this.itemsSeleccionados.removeAll(this.itemsSeleccionados);
+         this.itemsXEstado=getFacade().buscarProformsXEstado("V");
+        }
+      
+    }
+             
+       
+    }
 
-}
+

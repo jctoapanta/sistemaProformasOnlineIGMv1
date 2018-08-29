@@ -85,12 +85,12 @@ public class TproformaFacade extends AbstractFacade<Tproforma> {
      *
      * @param parameters
      */
-    // 
-    public void grabarRecargo(BigDecimal valorenvio, Long idproforma) {
-        try {
-            Query queryRecargo = em.createQuery("update Tproforma set valorEnvio=?1 where tproformaPK.idProforma=?2 ");
+     public void grabarRecargo (BigDecimal valorenvio,Long idproforma, String direccion_local){
+            try{
+            Query queryRecargo = em.createQuery("update Tproforma set valorEnvio=?1, dirEnvioEf = ?2 where tproformaPK.idProforma=?3 ");
             queryRecargo.setParameter(1, valorenvio);
-            queryRecargo.setParameter(2, idproforma);
+            queryRecargo.setParameter(2, direccion_local);
+            queryRecargo.setParameter(3, idproforma);
             queryRecargo.executeUpdate();
 
         } catch (Exception e) {
@@ -116,6 +116,7 @@ public class TproformaFacade extends AbstractFacade<Tproforma> {
             JsfUtil.addSuccessMessage("Archivo subido con éxito");
             
             //ENVIO DE CORREO
+            
             Properties props = new Properties();
             props.put("mail.smtp.host", "mail.igm.gob.ec");
             props.setProperty("mail.smtp.port", "25");
@@ -159,6 +160,7 @@ public class TproformaFacade extends AbstractFacade<Tproforma> {
     public List<Tproforma> buscarProformsXCliente(final String pCiu, final Short pIdPeriodo) {
         List<Tproforma> proforma = new ArrayList<>();
         try {
+            em.getEntityManagerFactory().getCache().evictAll();
             TypedQuery<Tproforma> query = em.createNamedQuery("Tproforma.findByIdPeriodoAndCiu", Tproforma.class);
             query.setParameter("idPeriodo", pIdPeriodo);
             query.setParameter("ciu", pCiu);
@@ -169,7 +171,56 @@ public class TproformaFacade extends AbstractFacade<Tproforma> {
         }
         return proforma;
     }
+        
+        public List<Tproforma> buscarProformsXEstado(String estado) {
+        List<Tproforma> proforma = new ArrayList<>();
+        try {
+            em.getEntityManagerFactory().getCache().evictAll();
+            TypedQuery<Tproforma> query = em.createNamedQuery("Tproforma.findByEstado", Tproforma.class);
+            query.setParameter("estado", estado);
+            proforma = query.getResultList();
+          
+        } catch (Exception e) {
+            localLogger.error(e);
+        }
+        return proforma;
+    }
+        /**
+        * Cambia de estado a aprobado_facturacion
+        * @param proforma 
+        */
+        public void aprobarFinanciero(Long idProforma,String estado){
+            try{
+            Query queryAprobacion = em.createQuery("update Tproforma set estado=?1 where tproformaPK.idProforma=?2 ");
+            queryAprobacion.setParameter(1,estado );
+            queryAprobacion.setParameter(2,idProforma );
+            queryAprobacion.executeUpdate();
+            Properties props = new Properties();
+            props.put("mail.smtp.host", "mail.igm.gob.ec");
+            props.setProperty("mail.smtp.port", "25");
+            //ENVIO de correo con adjunto
+            BodyPart texto = new MimeBodyPart();
+            texto.setText("PAGO VERIFICADO POR FAVOR PROCEDA CON LA FACTURACION (PROFORMA) No."+idProforma);
+            MimeMultipart multiParte = new MimeMultipart();
+            multiParte.addBodyPart(texto);
+          
+            Session session = Session.getDefaultInstance(props, null);
+            MimeMessage message = new MimeMessage(session);
+            String dirEmailFinanciero="diego.pule@mail.igm.gob.ec";
+            message.addRecipient(
+                    Message.RecipientType.TO,
+                    new InternetAddress(dirEmailFinanciero));
+            message.setSubject("Validar Comprobante de pago");
+            //Se envía correo
+            envioCorreo(multiParte, message, session);
 
+
+        } catch (Exception e) {
+            localLogger.error(e);
+        }
+    }
+        
+        
     public List<Tproforma> buscarProformsXClienteTotal(final String pCiu, final Short pIdPeriodo) {
         List<Tproforma> proforma = new ArrayList<>();
         Query query;

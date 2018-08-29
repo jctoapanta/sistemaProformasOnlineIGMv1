@@ -2,6 +2,7 @@ gob\igm\ec\controladores\TfamiliaController.class
 gob\igm\ec\controladores\OrderBean.class
 gob\igm\ec\controladores\TdireccionesusrController.class
 gob\igm\ec\controladores\TparroquiaController$TparroquiaControllerConverter.class
+gob\igm\ec\controladores\LoginFinanciero.class
 gob\igm\ec\controladores\TparroquiaController.class
 gob\igm\ec\controladores\TentidadController.class
 gob\igm\ec\controladores\util\JsfUtil.class
@@ -35,6 +36,7 @@ gob\igm\ec\servicios\TtipocartaFacade.class
 gob\igm\ec\controladores\TcontrolIvaController$TcontrolIvaControllerConverter.class
 gob\igm\ec\servicios\TcontrolIvaFacade.class
 gob\igm\ec\controladores\TprovinciaController$TprovinciaControllerConverter.class
+gob\igm\ec\servicios\TUsuarioSucursalFacade.class
 gob\igm\ec\controladores\util\EncriptUtil.class
 gob\igm\ec\controladores\TplotersController$TplotersControllerConverter.class
 gob\igm\ec\controladores\TitemController$TitemControllerConverter.class
