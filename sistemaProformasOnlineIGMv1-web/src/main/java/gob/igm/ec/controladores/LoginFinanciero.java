@@ -17,6 +17,7 @@ import gob.igm.ec.controladores.util.EncriptUtil;
 import gob.igm.ec.controladores.util.FacesUtil;
 import gob.igm.ec.servicios.TUsuarioSucursalFacade;
 import rh.gob.igm.ec.servicios.TDatEmpleadoFacade;
+import rh.gob.igm.ec.servicios.TContratacionesFacade;
 import java.io.Serializable;
 import java.util.List;
 import javax.faces.event.ActionEvent;
@@ -40,6 +41,8 @@ public class LoginFinanciero extends FacesUtil implements Serializable {
 private TUsuarioSucursalFacade tUsuarioSucursalFacade;
 @EJB
 private TDatEmpleadoFacade tDatEmpleadoFacade;
+@EJB
+private TContratacionesFacade TContratacionesFacade;
 
 
 
@@ -94,7 +97,9 @@ private TDatEmpleadoFacade tDatEmpleadoFacade;
         String regla = "";
         int ci_financiero = this.tDatEmpleadoFacade.logFinanciero(funcionario);
         String pwd_fuuncionario = this.tUsuarioSucursalFacade.pwd(ci_financiero, clave);
-        if (pwd_fuuncionario == null) {
+        // para validar al financiero
+        String financiero = this.TContratacionesFacade.Estados(funcionario);
+        if (pwd_fuuncionario == null){
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "No puede ingresar clave no valida.", ""));
         } else {
             regla = "/tproforma/ListFinanciero.xhtml";
