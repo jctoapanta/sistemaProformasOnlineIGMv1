@@ -57,7 +57,7 @@ public class TDatEmpleadoFacade extends AbstractFacade<TDatEmpleado> {
     public int logFinanciero(final String cedula) {
         int retorno = 0;
         try {
-            Query query = em.createQuery("SELECT t.noPersona FROM TDatEmpleado t WHERE t.noCedula=?1");
+            Query query = em.createQuery("SELECT t.noPersona FROM TDatEmpleado t WHERE t.noCedula=?1");         
             query.setParameter(1, cedula);
             retorno = (int) query.getSingleResult();
         } catch (Exception e) {

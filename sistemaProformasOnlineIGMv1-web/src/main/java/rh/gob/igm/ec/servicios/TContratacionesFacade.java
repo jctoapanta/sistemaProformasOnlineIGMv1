@@ -8,6 +8,7 @@ package rh.gob.igm.ec.servicios;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import rh.gob.igm.ec.TContrataciones;
 
 /**
@@ -28,5 +29,19 @@ public class TContratacionesFacade extends AbstractFacade<TContrataciones> {
     public TContratacionesFacade() {
         super(TContrataciones.class);
     }
+        public String Estados(final String cedula) {
+        String retorno = "";
+        try {
+            Query query = em.createQuery("SELECT t.estado FROM TContrataciones t WHERE t.tDatEmpleado.noCedula=?1 and t.estado='V' and t.tAreas.tAreasPK.noCd=14 ");         
+            query.setParameter(1, cedula);
+            retorno = (String) query.getSingleResult();
+        } catch (Exception e) {
+            e.getMessage();
+            //return .ZERO;
+        }
+        return retorno;
+    }
+    
+    
     
 }

@@ -351,7 +351,7 @@ public class TproformaController implements Serializable {
        }
        else{
         for (Tproforma proforma:this.itemsSeleccionados) {
-            this.ejbFacade.aprobarFinanciero(proforma.getTproformaPK().getIdProforma(),"F");
+            this.ejbFacade.aprobarFinanciero(proforma.getTproformaPK().getIdProforma(),"P");
                
         }
          FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Se ha aprobado con éxito", ""));

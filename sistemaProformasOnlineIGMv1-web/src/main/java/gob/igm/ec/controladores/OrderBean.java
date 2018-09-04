@@ -379,8 +379,8 @@ public String addProforma() {
                             JsfUtil.addSuccessMessage("Su pedido ha sido guardado correctamente.");
                         }
                         
-                        this.ejbFacade.grabarRecargo(tarifario, this.proformapk.getIdProforma(), this.selected.getDirEnvioEf());
-                        this.generarPDFp(selected);
+                   //     this.ejbFacade.grabarRecargo(tarifario, this.proformapk.getIdProforma(), this.selected.getDirEnvioEf());
+                     //   this.generarPDFp(selected);
                         ORDERLIST.removeAll(ORDERLIST);
                         this.limpiar();
                         return regla;
