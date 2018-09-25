@@ -288,7 +288,9 @@ public class OrderBean extends FacesUtil implements Serializable {
 
 public String addProforma() {
 
-    
+    if(ORDERLIST.isEmpty())
+        JsfUtil.addErrorMessage("Usted no ha seleccionado ningun item por favor vuelva a CREAR NUEVO PEDIDO y seleccione al menos un item "); 
+    else{
         short reg = 0;
         Long direccionDomicilioUsrExiste;
         List<Tdireccionesusr> direccionEncontrada = new ArrayList<>();
@@ -379,7 +381,7 @@ public String addProforma() {
                             JsfUtil.addSuccessMessage("Su pedido ha sido guardado correctamente.");
                         }
                         
-                   //     this.ejbFacade.grabarRecargo(tarifario, this.proformapk.getIdProforma(), this.selected.getDirEnvioEf());
+                        this.ejbFacade.grabarRecargo(tarifario, this.proformapk.getIdProforma(), this.selected.getDirEnvioEf());
                      //   this.generarPDFp(selected);
                         ORDERLIST.removeAll(ORDERLIST);
                         this.limpiar();
@@ -394,7 +396,7 @@ public String addProforma() {
             return regla;
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
-        }
+        }}
         return "#";
     }
 

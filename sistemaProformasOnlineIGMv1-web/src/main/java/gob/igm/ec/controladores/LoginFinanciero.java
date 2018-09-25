@@ -94,13 +94,14 @@ private TContratacionesFacade TContratacionesFacade;
      * @return Regla de navegaci�n
      */
     public String ingresar() {
-        String regla = "";
+        String regla = "/LoginFinancieroE.xhtml";
         int ci_financiero = this.tDatEmpleadoFacade.logFinanciero(funcionario);
         String pwd_fuuncionario = this.tUsuarioSucursalFacade.pwd(ci_financiero, clave);
         // para validar al financiero
         String financiero = this.TContratacionesFacade.Estados(funcionario);
         if (pwd_fuuncionario == null){
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "No puede ingresar clave no valida.", ""));
+             //regla = "/indexFinanciero.xhtml";
         } else {
             regla = "/tproforma/ListFinanciero.xhtml";
         }
