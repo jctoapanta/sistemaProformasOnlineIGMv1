@@ -17,6 +17,9 @@
         <h:outputStylesheet library="css" name="templates.css" />
         <h:outputStylesheet library="css" name="jsfcrud.css"/>
         <h:outputScript library="js" name="bootstrap.min.js" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/> 
+        <link href="resources/cssBarra/cssBarra.css" rel="stylesheet" type="text/css"/>
+ 
         <title><ui:insert name="title">#{bundle.AppName}</ui:insert></title>
             <link rel="stylesheet" type="text/css" href="/sistemaProformasOnlineIGMv1-web/faces/jsfcrud.css" />
     </h:head>
@@ -49,6 +52,27 @@
             </h:form>
         </div>
        
+        <div class="container">
+            <input type="radio" class="radio" name="progress" value="five" id="five"></input>
+            <label for="five" class="label">Registro Login</label>
+
+            <input type="radio" class="radio" name="progress" value="twentyfive" id="twentyfive"></input>
+            <label for="twentyfive" class="label">Crear nuevo pedido</label>
+
+            <input type="radio" class="radio" name="progress" value="fifty" id="fifty"></input>
+            <label for="fifty" class="label">Direccion a enviar</label>
+
+            <input type="radio" class="radio" name="progress" value="seventyfive" id="seventyfive"></input>
+            <label for="seventyfive" class="label">Enviar comprobante de pago</label>
+
+            <input type="radio" class="radio" name="progress" value="onehundred" id="onehundred"></input>
+            <label for="onehundred" class="label">Confirmacion</label>
+
+            <div class="progress">
+                <div class="progress-bar"></div>
+            </div>
+        </div>
+
     </h:body>
 
 </html>

@@ -6,11 +6,16 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:p="http://primefaces.org/ui">
 
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/> 
+    <link href="resources/cssBarra/cssBarra.css" rel="stylesheet" type="text/css"/>
+    
     <ui:composition template="/template.xhtml">
 
+  
         <ui:define name="title">
             <h:outputText value="#{bundle.ListTproformaTitle}"></h:outputText>
         </ui:define>
+
 
         <ui:define name="body">
             <p:panel>
@@ -23,9 +28,39 @@
                     <p:outputLabel id="apellidos" value="#{login.cliente.apellidos}"/>                                              
                     <h:inputHidden id="ciuHidden" value="#{login.cliente.ciu}" binding="#{order.ciuH}"/>
                 </h:panelGrid>
-            </p:panel>   
+            </p:panel>  
+            
+            
+            
 
             <h:form id="TproformaListForm" rendered="true">
+           
+
+                
+                     
+<div class="container">
+ 
+  <p:outputLabel id="five"  />
+  <label for="five" class="label" value="five" id="five">Registro Login</label>
+
+  <input type="radio" class="radio" name="progress" value="twentyfive" id="twentyfive"></input>
+  <label for="twentyfive" class="label">Crear nuevo pedido</label>
+
+  <input type="radio" class="radio" name="progress" value="fifty" id="fifty"></input>
+  <label for="fifty" class="label">Direccion a enviar</label>
+
+  <input type="radio" class="radio" name="progress" value="seventyfive" id="seventyfive"></input>
+  <label for="seventyfive" class="label">Enviar comprobante de pago</label>
+
+  <input type="radio" class="radio" name="progress" value="onehundred" id="onehundred"></input>
+  <label for="onehundred" class="label">Confirmacion</label>
+
+  <div class="progress">
+    <div class="progress-bar"></div>
+  </div>
+</div>
+                
+        
                 <p:panel id="panelPr" header="#{bundle.ListTproformaTitle} Generados">
                     <p:dataTable id="datalist" value="#{tproformaController.itemsXCiu}" var="item"
                                  selectionMode="single"

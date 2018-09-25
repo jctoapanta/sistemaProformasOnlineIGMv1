@@ -112,6 +112,9 @@ public class TproformaFacade extends AbstractFacade<Tproforma> {
                 st.setBinaryStream(1, e.getInputstream());// file.getInputstream());
                 st.setLong(2, id_proforma);
                 st.executeUpdate();
+                st.close();
+                cn.commit();
+                 em.getEntityManagerFactory().getCache().evictAll();
             }
             JsfUtil.addSuccessMessage("Archivo subido con éxito");
             
