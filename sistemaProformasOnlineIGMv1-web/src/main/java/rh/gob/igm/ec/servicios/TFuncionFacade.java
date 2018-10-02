@@ -12,7 +12,7 @@ import rh.gob.igm.ec.TFuncion;
 
 /**
  *
- * @author TOAPANTA_JUAN
+ * @author PULE_DIEGO
  */
 @Stateless
 public class TFuncionFacade extends AbstractFacade<TFuncion> {

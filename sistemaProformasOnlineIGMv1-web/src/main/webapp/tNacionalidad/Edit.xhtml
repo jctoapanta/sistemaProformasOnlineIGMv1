@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="TNacionalidadEditDlg" widgetVar="TNacionalidadEditDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.EditTNacionalidadTitle}">
+            <h:form id="TNacionalidadEditForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{tNacionalidadController.selected != null}">
+                        <p:outputLabel value="#{bundle.EditTNacionalidadLabel_idNacionalidad}" for="idNacionalidad" />
+                        <p:inputText id="idNacionalidad" value="#{tNacionalidadController.selected.idNacionalidad}" title="#{bundle.EditTNacionalidadTitle_idNacionalidad}" required="true" requiredMessage="#{bundle.EditTNacionalidadRequiredMessage_idNacionalidad}"/>
+                        <p:outputLabel value="#{bundle.EditTNacionalidadLabel_nacionalidad}" for="nacionalidad" />
+                        <p:inputText id="nacionalidad" value="#{tNacionalidadController.selected.nacionalidad}" title="#{bundle.EditTNacionalidadTitle_nacionalidad}" />
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{tNacionalidadController.update}" value="#{bundle.Save}" update="display,:TNacionalidadListForm:datalist,:growl" oncomplete="handleSubmit(args, 'TNacionalidadEditDialog');"/>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="TNacionalidadEditDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

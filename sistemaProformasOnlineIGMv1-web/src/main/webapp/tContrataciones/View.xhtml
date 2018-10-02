@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="TContratacionesViewDlg" widgetVar="TContratacionesViewDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.ViewTContratacionesTitle}">
+            <h:form id="TContratacionesViewForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{tContratacionesController.selected != null}">
+                        <h:outputText value="#{bundle.ViewTContratacionesLabel_TContratacionesPK_noCont}"/>
+                        <h:outputText value="#{tContratacionesController.selected.TContratacionesPK.noCont}" title="#{bundle.ViewTContratacionesTitle_TContratacionesPK_noCont}"/>
+                        <h:outputText value="#{bundle.ViewTContratacionesLabel_noDoc}"/>
+                        <h:outputText value="#{tContratacionesController.selected.noDoc}" title="#{bundle.ViewTContratacionesTitle_noDoc}"/>
+                        <h:outputText value="#{bundle.ViewTContratacionesLabel_responsable}"/>
+                        <h:outputText value="#{tContratacionesController.selected.responsable}" title="#{bundle.ViewTContratacionesTitle_responsable}"/>
+                        <h:outputText value="#{bundle.ViewTContratacionesLabel_nivel}"/>
+                        <h:outputText value="#{tContratacionesController.selected.nivel}" title="#{bundle.ViewTContratacionesTitle_nivel}"/>
+                        <h:outputText value="#{bundle.ViewTContratacionesLabel_categoria}"/>
+                        <h:outputText value="#{tContratacionesController.selected.categoria}" title="#{bundle.ViewTContratacionesTitle_categoria}"/>
+                        <h:outputText value="#{bundle.ViewTContratacionesLabel_noEmp}"/>
+                        <h:outputText value="#{tContratacionesController.selected.noEmp}" title="#{bundle.ViewTContratacionesTitle_noEmp}"/>
+                        <h:outputText value="#{bundle.ViewTContratacionesLabel_FContrato}"/>
+                        <h:outputText value="#{tContratacionesController.selected.FContrato}" title="#{bundle.ViewTContratacionesTitle_FContrato}">
+                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                        </h:outputText>
+                        <h:outputText value="#{bundle.ViewTContratacionesLabel_FSalida}"/>
+                        <h:outputText value="#{tContratacionesController.selected.FSalida}" title="#{bundle.ViewTContratacionesTitle_FSalida}">
+                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                        </h:outputText>
+                        <h:outputText value="#{bundle.ViewTContratacionesLabel_TSalida}"/>
+                        <h:outputText value="#{tContratacionesController.selected.TSalida}" title="#{bundle.ViewTContratacionesTitle_TSalida}"/>
+                        <h:outputText value="#{bundle.ViewTContratacionesLabel_estado}"/>
+                        <h:outputText value="#{tContratacionesController.selected.estado}" title="#{bundle.ViewTContratacionesTitle_estado}"/>
+                        <h:outputText value="#{bundle.ViewTContratacionesLabel_CMoneda}"/>
+                        <h:outputText value="#{tContratacionesController.selected.CMoneda}" title="#{bundle.ViewTContratacionesTitle_CMoneda}"/>
+                        <h:outputText value="#{bundle.ViewTContratacionesLabel_VSueldoImponible}"/>
+                        <h:outputText value="#{tContratacionesController.selected.VSueldoImponible}" title="#{bundle.ViewTContratacionesTitle_VSueldoImponible}"/>
+                        <h:outputText value="#{bundle.ViewTContratacionesLabel_costoHora}"/>
+                        <h:outputText value="#{tContratacionesController.selected.costoHora}" title="#{bundle.ViewTContratacionesTitle_costoHora}"/>
+                        <h:outputText value="#{bundle.ViewTContratacionesLabel_costoHoraExtra}"/>
+                        <h:outputText value="#{tContratacionesController.selected.costoHoraExtra}" title="#{bundle.ViewTContratacionesTitle_costoHoraExtra}"/>
+                        <h:outputText value="#{bundle.ViewTContratacionesLabel_noBanco}"/>
+                        <h:outputText value="#{tContratacionesController.selected.noBanco}" title="#{bundle.ViewTContratacionesTitle_noBanco}"/>
+                        <h:outputText value="#{bundle.ViewTContratacionesLabel_noCta}"/>
+                        <h:outputText value="#{tContratacionesController.selected.noCta}" title="#{bundle.ViewTContratacionesTitle_noCta}"/>
+                        <h:outputText value="#{bundle.ViewTContratacionesLabel_LLicencia}"/>
+                        <h:outputText value="#{tContratacionesController.selected.LLicencia}" title="#{bundle.ViewTContratacionesTitle_LLicencia}"/>
+                        <h:outputText value="#{bundle.ViewTContratacionesLabel_diasLicencia}"/>
+                        <h:outputText value="#{tContratacionesController.selected.diasLicencia}" title="#{bundle.ViewTContratacionesTitle_diasLicencia}"/>
+                        <h:outputText value="#{bundle.ViewTContratacionesLabel_diasUtilizados}"/>
+                        <h:outputText value="#{tContratacionesController.selected.diasUtilizados}" title="#{bundle.ViewTContratacionesTitle_diasUtilizados}"/>
+                        <h:outputText value="#{bundle.ViewTContratacionesLabel_horaIngreso}"/>
+                        <h:outputText value="#{tContratacionesController.selected.horaIngreso}" title="#{bundle.ViewTContratacionesTitle_horaIngreso}">
+                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                        </h:outputText>
+                        <h:outputText value="#{bundle.ViewTContratacionesLabel_horaSalida}"/>
+                        <h:outputText value="#{tContratacionesController.selected.horaSalida}" title="#{bundle.ViewTContratacionesTitle_horaSalida}">
+                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                        </h:outputText>
+                        <h:outputText value="#{bundle.ViewTContratacionesLabel_LGeneraRol}"/>
+                        <h:outputText value="#{tContratacionesController.selected.LGeneraRol}" title="#{bundle.ViewTContratacionesTitle_LGeneraRol}"/>
+                        <h:outputText value="#{bundle.ViewTContratacionesLabel_obs}"/>
+                        <h:outputText value="#{tContratacionesController.selected.obs}" title="#{bundle.ViewTContratacionesTitle_obs}"/>
+                        <h:outputText value="#{bundle.ViewTContratacionesLabel_noEmpPre}"/>
+                        <h:outputText value="#{tContratacionesController.selected.noEmpPre}" title="#{bundle.ViewTContratacionesTitle_noEmpPre}"/>
+                        <h:outputText value="#{bundle.ViewTContratacionesLabel_noCdPre}"/>
+                        <h:outputText value="#{tContratacionesController.selected.noCdPre}" title="#{bundle.ViewTContratacionesTitle_noCdPre}"/>
+                        <h:outputText value="#{bundle.ViewTContratacionesLabel_noCargo}"/>
+                        <h:outputText value="#{tContratacionesController.selected.noCargo}" title="#{bundle.ViewTContratacionesTitle_noCargo}"/>
+                        <h:outputText value="#{bundle.ViewTContratacionesLabel_VSueldoImponibleSuc}"/>
+                        <h:outputText value="#{tContratacionesController.selected.VSueldoImponibleSuc}" title="#{bundle.ViewTContratacionesTitle_VSueldoImponibleSuc}"/>
+                        <h:outputText value="#{bundle.ViewTContratacionesLabel_costoHoraSuc}"/>
+                        <h:outputText value="#{tContratacionesController.selected.costoHoraSuc}" title="#{bundle.ViewTContratacionesTitle_costoHoraSuc}"/>
+                        <h:outputText value="#{bundle.ViewTContratacionesLabel_costoHoraExtraSuc}"/>
+                        <h:outputText value="#{tContratacionesController.selected.costoHoraExtraSuc}" title="#{bundle.ViewTContratacionesTitle_costoHoraExtraSuc}"/>
+                        <h:outputText value="#{bundle.ViewTContratacionesLabel_manoObra}"/>
+                        <h:outputText value="#{tContratacionesController.selected.manoObra}" title="#{bundle.ViewTContratacionesTitle_manoObra}"/>
+                        <h:outputText value="#{bundle.ViewTContratacionesLabel_proyectoCodigo}"/>
+                        <h:outputText value="#{tContratacionesController.selected.proyectoCodigo}" title="#{bundle.ViewTContratacionesTitle_proyectoCodigo}"/>
+                        <h:outputText value="#{bundle.ViewTContratacionesLabel_tipoViatico}"/>
+                        <h:outputText value="#{tContratacionesController.selected.tipoViatico}" title="#{bundle.ViewTContratacionesTitle_tipoViatico}"/>
+                        <h:outputText value="#{bundle.ViewTContratacionesLabel_noCdPreAnt}"/>
+                        <h:outputText value="#{tContratacionesController.selected.noCdPreAnt}" title="#{bundle.ViewTContratacionesTitle_noCdPreAnt}"/>
+                        <h:outputText value="#{bundle.ViewTContratacionesLabel_nivelAprobacion}"/>
+                        <h:outputText value="#{tContratacionesController.selected.nivelAprobacion}" title="#{bundle.ViewTContratacionesTitle_nivelAprobacion}"/>
+                        <h:outputText value="#{bundle.ViewTContratacionesLabel_rmu}"/>
+                        <h:outputText value="#{tContratacionesController.selected.rmu}" title="#{bundle.ViewTContratacionesTitle_rmu}"/>
+                        <h:outputText value="#{bundle.ViewTContratacionesLabel_TAreas}"/>
+                        <h:outputText value="#{tContratacionesController.selected.TAreas}" title="#{bundle.ViewTContratacionesTitle_TAreas}"/>
+                        <h:outputText value="#{bundle.ViewTContratacionesLabel_TDatEmpleado}"/>
+                        <h:outputText value="#{tContratacionesController.selected.TDatEmpleado}" title="#{bundle.ViewTContratacionesTitle_TDatEmpleado}"/>
+                        <h:outputText value="#{bundle.ViewTContratacionesLabel_noFuncion}"/>
+                        <h:outputText value="#{tContratacionesController.selected.noFuncion}" title="#{bundle.ViewTContratacionesTitle_noFuncion}"/>
+                        <h:outputText value="#{bundle.ViewTContratacionesLabel_CContrato}"/>
+                        <h:outputText value="#{tContratacionesController.selected.CContrato}" title="#{bundle.ViewTContratacionesTitle_CContrato}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="TContratacionesViewDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

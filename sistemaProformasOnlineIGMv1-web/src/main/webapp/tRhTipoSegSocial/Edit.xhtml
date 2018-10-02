@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="TRhTipoSegSocialEditDlg" widgetVar="TRhTipoSegSocialEditDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.EditTRhTipoSegSocialTitle}">
+            <h:form id="TRhTipoSegSocialEditForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{tRhTipoSegSocialController.selected != null}">
+                        <p:outputLabel value="#{bundle.EditTRhTipoSegSocialLabel_noSeg}" for="noSeg" />
+                        <p:inputText id="noSeg" value="#{tRhTipoSegSocialController.selected.noSeg}" title="#{bundle.EditTRhTipoSegSocialTitle_noSeg}" required="true" requiredMessage="#{bundle.EditTRhTipoSegSocialRequiredMessage_noSeg}"/>
+                        <p:outputLabel value="#{bundle.EditTRhTipoSegSocialLabel_descrip}" for="descrip" />
+                        <p:inputText id="descrip" value="#{tRhTipoSegSocialController.selected.descrip}" title="#{bundle.EditTRhTipoSegSocialTitle_descrip}" required="true" requiredMessage="#{bundle.EditTRhTipoSegSocialRequiredMessage_descrip}"/>
+                        <p:outputLabel value="#{bundle.EditTRhTipoSegSocialLabel_codigo}" for="codigo" />
+                        <p:inputText id="codigo" value="#{tRhTipoSegSocialController.selected.codigo}" title="#{bundle.EditTRhTipoSegSocialTitle_codigo}" required="true" requiredMessage="#{bundle.EditTRhTipoSegSocialRequiredMessage_codigo}"/>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{tRhTipoSegSocialController.update}" value="#{bundle.Save}" update="display,:TRhTipoSegSocialListForm:datalist,:growl" oncomplete="handleSubmit(args, 'TRhTipoSegSocialEditDialog');"/>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="TRhTipoSegSocialEditDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

@@ -12,7 +12,7 @@ import rh.gob.igm.ec.TNacionalidad;
 
 /**
  *
- * @author TOAPANTA_JUAN
+ * @author PULE_DIEGO
  */
 @Stateless
 public class TNacionalidadFacade extends AbstractFacade<TNacionalidad> {

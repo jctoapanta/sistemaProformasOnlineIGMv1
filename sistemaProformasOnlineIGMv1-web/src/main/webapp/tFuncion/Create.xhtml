@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="TFuncionCreateDlg" widgetVar="TFuncionCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateTFuncionTitle}">
+            <h:form id="TFuncionCreateForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{tFuncionController.selected != null}">
+                        <p:outputLabel value="#{bundle.CreateTFuncionLabel_noFuncion}" for="noFuncion" />
+                        <p:inputText id="noFuncion" value="#{tFuncionController.selected.noFuncion}" title="#{bundle.CreateTFuncionTitle_noFuncion}" required="true" requiredMessage="#{bundle.CreateTFuncionRequiredMessage_noFuncion}"/>
+                        <p:outputLabel value="#{bundle.CreateTFuncionLabel_descrip}" for="descrip" />
+                        <p:inputText id="descrip" value="#{tFuncionController.selected.descrip}" title="#{bundle.CreateTFuncionTitle_descrip}" />
+                        <p:outputLabel value="#{bundle.CreateTFuncionLabel_abrev}" for="abrev" />
+                        <p:inputText id="abrev" value="#{tFuncionController.selected.abrev}" title="#{bundle.CreateTFuncionTitle_abrev}" />
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{tFuncionController.create}" value="#{bundle.Save}" update="display,:TFuncionListForm:datalist,:growl" oncomplete="handleSubmit(args,'TFuncionCreateDialog');"/>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="TFuncionCreateDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

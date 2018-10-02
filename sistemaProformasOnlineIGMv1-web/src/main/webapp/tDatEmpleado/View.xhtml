@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="TDatEmpleadoViewDlg" widgetVar="TDatEmpleadoViewDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.ViewTDatEmpleadoTitle}">
+            <h:form id="TDatEmpleadoViewForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{tDatEmpleadoController.selected != null}">
+                        <h:outputText value="#{bundle.ViewTDatEmpleadoLabel_noPersona}"/>
+                        <h:outputText value="#{tDatEmpleadoController.selected.noPersona}" title="#{bundle.ViewTDatEmpleadoTitle_noPersona}"/>
+                        <h:outputText value="#{bundle.ViewTDatEmpleadoLabel_noProveedor}"/>
+                        <h:outputText value="#{tDatEmpleadoController.selected.noProveedor}" title="#{bundle.ViewTDatEmpleadoTitle_noProveedor}"/>
+                        <h:outputText value="#{bundle.ViewTDatEmpleadoLabel_codigo}"/>
+                        <h:outputText value="#{tDatEmpleadoController.selected.codigo}" title="#{bundle.ViewTDatEmpleadoTitle_codigo}"/>
+                        <h:outputText value="#{bundle.ViewTDatEmpleadoLabel_noCedula}"/>
+                        <h:outputText value="#{tDatEmpleadoController.selected.noCedula}" title="#{bundle.ViewTDatEmpleadoTitle_noCedula}"/>
+                        <h:outputText value="#{bundle.ViewTDatEmpleadoLabel_priApellido}"/>
+                        <h:outputText value="#{tDatEmpleadoController.selected.priApellido}" title="#{bundle.ViewTDatEmpleadoTitle_priApellido}"/>
+                        <h:outputText value="#{bundle.ViewTDatEmpleadoLabel_segApellido}"/>
+                        <h:outputText value="#{tDatEmpleadoController.selected.segApellido}" title="#{bundle.ViewTDatEmpleadoTitle_segApellido}"/>
+                        <h:outputText value="#{bundle.ViewTDatEmpleadoLabel_nombres}"/>
+                        <h:outputText value="#{tDatEmpleadoController.selected.nombres}" title="#{bundle.ViewTDatEmpleadoTitle_nombres}"/>
+                        <h:outputText value="#{bundle.ViewTDatEmpleadoLabel_nombreC}"/>
+                        <h:outputText value="#{tDatEmpleadoController.selected.nombreC}" title="#{bundle.ViewTDatEmpleadoTitle_nombreC}"/>
+                        <h:outputText value="#{bundle.ViewTDatEmpleadoLabel_libMilitar}"/>
+                        <h:outputText value="#{tDatEmpleadoController.selected.libMilitar}" title="#{bundle.ViewTDatEmpleadoTitle_libMilitar}"/>
+                        <h:outputText value="#{bundle.ViewTDatEmpleadoLabel_seguroSocial}"/>
+                        <h:outputText value="#{tDatEmpleadoController.selected.seguroSocial}" title="#{bundle.ViewTDatEmpleadoTitle_seguroSocial}"/>
+                        <h:outputText value="#{bundle.ViewTDatEmpleadoLabel_sexo}"/>
+                        <h:outputText value="#{tDatEmpleadoController.selected.sexo}" title="#{bundle.ViewTDatEmpleadoTitle_sexo}"/>
+                        <h:outputText value="#{bundle.ViewTDatEmpleadoLabel_estCivil}"/>
+                        <h:outputText value="#{tDatEmpleadoController.selected.estCivil}" title="#{bundle.ViewTDatEmpleadoTitle_estCivil}"/>
+                        <h:outputText value="#{bundle.ViewTDatEmpleadoLabel_GSangre}"/>
+                        <h:outputText value="#{tDatEmpleadoController.selected.GSangre}" title="#{bundle.ViewTDatEmpleadoTitle_GSangre}"/>
+                        <h:outputText value="#{bundle.ViewTDatEmpleadoLabel_FNacimiento}"/>
+                        <h:outputText value="#{tDatEmpleadoController.selected.FNacimiento}" title="#{bundle.ViewTDatEmpleadoTitle_FNacimiento}">
+                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                        </h:outputText>
+                        <h:outputText value="#{bundle.ViewTDatEmpleadoLabel_FMuerte}"/>
+                        <h:outputText value="#{tDatEmpleadoController.selected.FMuerte}" title="#{bundle.ViewTDatEmpleadoTitle_FMuerte}">
+                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                        </h:outputText>
+                        <h:outputText value="#{bundle.ViewTDatEmpleadoLabel_direccion}"/>
+                        <h:outputText value="#{tDatEmpleadoController.selected.direccion}" title="#{bundle.ViewTDatEmpleadoTitle_direccion}"/>
+                        <h:outputText value="#{bundle.ViewTDatEmpleadoLabel_telefono}"/>
+                        <h:outputText value="#{tDatEmpleadoController.selected.telefono}" title="#{bundle.ViewTDatEmpleadoTitle_telefono}"/>
+                        <h:outputText value="#{bundle.ViewTDatEmpleadoLabel_tipo}"/>
+                        <h:outputText value="#{tDatEmpleadoController.selected.tipo}" title="#{bundle.ViewTDatEmpleadoTitle_tipo}"/>
+                        <h:outputText value="#{bundle.ViewTDatEmpleadoLabel_foto}"/>
+                        <h:outputText value="#{tDatEmpleadoController.selected.foto}" title="#{bundle.ViewTDatEmpleadoTitle_foto}"/>
+                        <h:outputText value="#{bundle.ViewTDatEmpleadoLabel_colorPiel}"/>
+                        <h:outputText value="#{tDatEmpleadoController.selected.colorPiel}" title="#{bundle.ViewTDatEmpleadoTitle_colorPiel}"/>
+                        <h:outputText value="#{bundle.ViewTDatEmpleadoLabel_colorCabello}"/>
+                        <h:outputText value="#{tDatEmpleadoController.selected.colorCabello}" title="#{bundle.ViewTDatEmpleadoTitle_colorCabello}"/>
+                        <h:outputText value="#{bundle.ViewTDatEmpleadoLabel_colorOjos}"/>
+                        <h:outputText value="#{tDatEmpleadoController.selected.colorOjos}" title="#{bundle.ViewTDatEmpleadoTitle_colorOjos}"/>
+                        <h:outputText value="#{bundle.ViewTDatEmpleadoLabel_estatura}"/>
+                        <h:outputText value="#{tDatEmpleadoController.selected.estatura}" title="#{bundle.ViewTDatEmpleadoTitle_estatura}"/>
+                        <h:outputText value="#{bundle.ViewTDatEmpleadoLabel_peso}"/>
+                        <h:outputText value="#{tDatEmpleadoController.selected.peso}" title="#{bundle.ViewTDatEmpleadoTitle_peso}"/>
+                        <h:outputText value="#{bundle.ViewTDatEmpleadoLabel_tallaCamisa}"/>
+                        <h:outputText value="#{tDatEmpleadoController.selected.tallaCamisa}" title="#{bundle.ViewTDatEmpleadoTitle_tallaCamisa}"/>
+                        <h:outputText value="#{bundle.ViewTDatEmpleadoLabel_tallaPantalon}"/>
+                        <h:outputText value="#{tDatEmpleadoController.selected.tallaPantalon}" title="#{bundle.ViewTDatEmpleadoTitle_tallaPantalon}"/>
+                        <h:outputText value="#{bundle.ViewTDatEmpleadoLabel_noCalzado}"/>
+                        <h:outputText value="#{tDatEmpleadoController.selected.noCalzado}" title="#{bundle.ViewTDatEmpleadoTitle_noCalzado}"/>
+                        <h:outputText value="#{bundle.ViewTDatEmpleadoLabel_FIngreso}"/>
+                        <h:outputText value="#{tDatEmpleadoController.selected.FIngreso}" title="#{bundle.ViewTDatEmpleadoTitle_FIngreso}">
+                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                        </h:outputText>
+                        <h:outputText value="#{bundle.ViewTDatEmpleadoLabel_telefono2}"/>
+                        <h:outputText value="#{tDatEmpleadoController.selected.telefono2}" title="#{bundle.ViewTDatEmpleadoTitle_telefono2}"/>
+                        <h:outputText value="#{bundle.ViewTDatEmpleadoLabel_LVivPropia}"/>
+                        <h:outputText value="#{tDatEmpleadoController.selected.LVivPropia}" title="#{bundle.ViewTDatEmpleadoTitle_LVivPropia}"/>
+                        <h:outputText value="#{bundle.ViewTDatEmpleadoLabel_alergia}"/>
+                        <h:outputText value="#{tDatEmpleadoController.selected.alergia}" title="#{bundle.ViewTDatEmpleadoTitle_alergia}"/>
+                        <h:outputText value="#{bundle.ViewTDatEmpleadoLabel_noLocNace}"/>
+                        <h:outputText value="#{tDatEmpleadoController.selected.noLocNace}" title="#{bundle.ViewTDatEmpleadoTitle_noLocNace}"/>
+                        <h:outputText value="#{bundle.ViewTDatEmpleadoLabel_noLocDir}"/>
+                        <h:outputText value="#{tDatEmpleadoController.selected.noLocDir}" title="#{bundle.ViewTDatEmpleadoTitle_noLocDir}"/>
+                        <h:outputText value="#{bundle.ViewTDatEmpleadoLabel_noCabeza}"/>
+                        <h:outputText value="#{tDatEmpleadoController.selected.noCabeza}" title="#{bundle.ViewTDatEmpleadoTitle_noCabeza}"/>
+                        <h:outputText value="#{bundle.ViewTDatEmpleadoLabel_LUsaLentes}"/>
+                        <h:outputText value="#{tDatEmpleadoController.selected.LUsaLentes}" title="#{bundle.ViewTDatEmpleadoTitle_LUsaLentes}"/>
+                        <h:outputText value="#{bundle.ViewTDatEmpleadoLabel_comisariato}"/>
+                        <h:outputText value="#{tDatEmpleadoController.selected.comisariato}" title="#{bundle.ViewTDatEmpleadoTitle_comisariato}"/>
+                        <h:outputText value="#{bundle.ViewTDatEmpleadoLabel_FReingreso}"/>
+                        <h:outputText value="#{tDatEmpleadoController.selected.FReingreso}" title="#{bundle.ViewTDatEmpleadoTitle_FReingreso}">
+                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                        </h:outputText>
+                        <h:outputText value="#{bundle.ViewTDatEmpleadoLabel_aliasBaseDatos}"/>
+                        <h:outputText value="#{tDatEmpleadoController.selected.aliasBaseDatos}" title="#{bundle.ViewTDatEmpleadoTitle_aliasBaseDatos}"/>
+                        <h:outputText value="#{bundle.ViewTDatEmpleadoLabel_pieFirma}"/>
+                        <h:outputText value="#{tDatEmpleadoController.selected.pieFirma}" title="#{bundle.ViewTDatEmpleadoTitle_pieFirma}"/>
+                        <h:outputText value="#{bundle.ViewTDatEmpleadoLabel_noDirec}"/>
+                        <h:outputText value="#{tDatEmpleadoController.selected.noDirec}" title="#{bundle.ViewTDatEmpleadoTitle_noDirec}"/>
+                        <h:outputText value="#{bundle.ViewTDatEmpleadoLabel_nivel}"/>
+                        <h:outputText value="#{tDatEmpleadoController.selected.nivel}" title="#{bundle.ViewTDatEmpleadoTitle_nivel}"/>
+                        <h:outputText value="#{bundle.ViewTDatEmpleadoLabel_cargoLossca}"/>
+                        <h:outputText value="#{tDatEmpleadoController.selected.cargoLossca}" title="#{bundle.ViewTDatEmpleadoTitle_cargoLossca}"/>
+                        <h:outputText value="#{bundle.ViewTDatEmpleadoLabel_patronal}"/>
+                        <h:outputText value="#{tDatEmpleadoController.selected.patronal}" title="#{bundle.ViewTDatEmpleadoTitle_patronal}"/>
+                        <h:outputText value="#{bundle.ViewTDatEmpleadoLabel_personal}"/>
+                        <h:outputText value="#{tDatEmpleadoController.selected.personal}" title="#{bundle.ViewTDatEmpleadoTitle_personal}"/>
+                        <h:outputText value="#{bundle.ViewTDatEmpleadoLabel_iece}"/>
+                        <h:outputText value="#{tDatEmpleadoController.selected.iece}" title="#{bundle.ViewTDatEmpleadoTitle_iece}"/>
+                        <h:outputText value="#{bundle.ViewTDatEmpleadoLabel_proceso}"/>
+                        <h:outputText value="#{tDatEmpleadoController.selected.proceso}" title="#{bundle.ViewTDatEmpleadoTitle_proceso}"/>
+                        <h:outputText value="#{bundle.ViewTDatEmpleadoLabel_subproceso}"/>
+                        <h:outputText value="#{tDatEmpleadoController.selected.subproceso}" title="#{bundle.ViewTDatEmpleadoTitle_subproceso}"/>
+                        <h:outputText value="#{bundle.ViewTDatEmpleadoLabel_partidaPresupuestaria}"/>
+                        <h:outputText value="#{tDatEmpleadoController.selected.partidaPresupuestaria}" title="#{bundle.ViewTDatEmpleadoTitle_partidaPresupuestaria}"/>
+                        <h:outputText value="#{bundle.ViewTDatEmpleadoLabel_gestion}"/>
+                        <h:outputText value="#{tDatEmpleadoController.selected.gestion}" title="#{bundle.ViewTDatEmpleadoTitle_gestion}"/>
+                        <h:outputText value="#{bundle.ViewTDatEmpleadoLabel_unidad}"/>
+                        <h:outputText value="#{tDatEmpleadoController.selected.unidad}" title="#{bundle.ViewTDatEmpleadoTitle_unidad}"/>
+                        <h:outputText value="#{bundle.ViewTDatEmpleadoLabel_email}"/>
+                        <h:outputText value="#{tDatEmpleadoController.selected.email}" title="#{bundle.ViewTDatEmpleadoTitle_email}"/>
+                        <h:outputText value="#{bundle.ViewTDatEmpleadoLabel_LDiscapacidad}"/>
+                        <h:outputText value="#{tDatEmpleadoController.selected.LDiscapacidad}" title="#{bundle.ViewTDatEmpleadoTitle_LDiscapacidad}"/>
+                        <h:outputText value="#{bundle.ViewTDatEmpleadoLabel_noConadis}"/>
+                        <h:outputText value="#{tDatEmpleadoController.selected.noConadis}" title="#{bundle.ViewTDatEmpleadoTitle_noConadis}"/>
+                        <h:outputText value="#{bundle.ViewTDatEmpleadoLabel_autoidentificacionEtnica}"/>
+                        <h:outputText value="#{tDatEmpleadoController.selected.autoidentificacionEtnica}" title="#{bundle.ViewTDatEmpleadoTitle_autoidentificacionEtnica}"/>
+                        <h:outputText value="#{bundle.ViewTDatEmpleadoLabel_nacionalidadIndigena}"/>
+                        <h:outputText value="#{tDatEmpleadoController.selected.nacionalidadIndigena}" title="#{bundle.ViewTDatEmpleadoTitle_nacionalidadIndigena}"/>
+                        <h:outputText value="#{bundle.ViewTDatEmpleadoLabel_LCatastrofica}"/>
+                        <h:outputText value="#{tDatEmpleadoController.selected.LCatastrofica}" title="#{bundle.ViewTDatEmpleadoTitle_LCatastrofica}"/>
+                        <h:outputText value="#{bundle.ViewTDatEmpleadoLabel_noConadisCatastrofica}"/>
+                        <h:outputText value="#{tDatEmpleadoController.selected.noConadisCatastrofica}" title="#{bundle.ViewTDatEmpleadoTitle_noConadisCatastrofica}"/>
+                        <h:outputText value="#{bundle.ViewTDatEmpleadoLabel_calleSecundaria}"/>
+                        <h:outputText value="#{tDatEmpleadoController.selected.calleSecundaria}" title="#{bundle.ViewTDatEmpleadoTitle_calleSecundaria}"/>
+                        <h:outputText value="#{bundle.ViewTDatEmpleadoLabel_referencia}"/>
+                        <h:outputText value="#{tDatEmpleadoController.selected.referencia}" title="#{bundle.ViewTDatEmpleadoTitle_referencia}"/>
+                        <h:outputText value="#{bundle.ViewTDatEmpleadoLabel_extension}"/>
+                        <h:outputText value="#{tDatEmpleadoController.selected.extension}" title="#{bundle.ViewTDatEmpleadoTitle_extension}"/>
+                        <h:outputText value="#{bundle.ViewTDatEmpleadoLabel_contactoApellidos}"/>
+                        <h:outputText value="#{tDatEmpleadoController.selected.contactoApellidos}" title="#{bundle.ViewTDatEmpleadoTitle_contactoApellidos}"/>
+                        <h:outputText value="#{bundle.ViewTDatEmpleadoLabel_contactoNombres}"/>
+                        <h:outputText value="#{tDatEmpleadoController.selected.contactoNombres}" title="#{bundle.ViewTDatEmpleadoTitle_contactoNombres}"/>
+                        <h:outputText value="#{bundle.ViewTDatEmpleadoLabel_contactoTelefono}"/>
+                        <h:outputText value="#{tDatEmpleadoController.selected.contactoTelefono}" title="#{bundle.ViewTDatEmpleadoTitle_contactoTelefono}"/>
+                        <h:outputText value="#{bundle.ViewTDatEmpleadoLabel_contactoCelular}"/>
+                        <h:outputText value="#{tDatEmpleadoController.selected.contactoCelular}" title="#{bundle.ViewTDatEmpleadoTitle_contactoCelular}"/>
+                        <h:outputText value="#{bundle.ViewTDatEmpleadoLabel_emailInstitucional}"/>
+                        <h:outputText value="#{tDatEmpleadoController.selected.emailInstitucional}" title="#{bundle.ViewTDatEmpleadoTitle_emailInstitucional}"/>
+                        <h:outputText value="#{bundle.ViewTDatEmpleadoLabel_noLicencia}"/>
+                        <h:outputText value="#{tDatEmpleadoController.selected.noLicencia}" title="#{bundle.ViewTDatEmpleadoTitle_noLicencia}"/>
+                        <h:outputText value="#{bundle.ViewTDatEmpleadoLabel_idNacionalidad}"/>
+                        <h:outputText value="#{tDatEmpleadoController.selected.idNacionalidad}" title="#{bundle.ViewTDatEmpleadoTitle_idNacionalidad}"/>
+                        <h:outputText value="#{bundle.ViewTDatEmpleadoLabel_noProfesion}"/>
+                        <h:outputText value="#{tDatEmpleadoController.selected.noProfesion}" title="#{bundle.ViewTDatEmpleadoTitle_noProfesion}"/>
+                        <h:outputText value="#{bundle.ViewTDatEmpleadoLabel_noRelig}"/>
+                        <h:outputText value="#{tDatEmpleadoController.selected.noRelig}" title="#{bundle.ViewTDatEmpleadoTitle_noRelig}"/>
+                        <h:outputText value="#{bundle.ViewTDatEmpleadoLabel_noSeg}"/>
+                        <h:outputText value="#{tDatEmpleadoController.selected.noSeg}" title="#{bundle.ViewTDatEmpleadoTitle_noSeg}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="TDatEmpleadoViewDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

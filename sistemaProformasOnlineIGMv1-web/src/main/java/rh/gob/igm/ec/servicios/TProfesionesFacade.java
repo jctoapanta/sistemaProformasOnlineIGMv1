@@ -12,7 +12,7 @@ import rh.gob.igm.ec.TProfesiones;
 
 /**
  *
- * @author TOAPANTA_JUAN
+ * @author PULE_DIEGO
  */
 @Stateless
 public class TProfesionesFacade extends AbstractFacade<TProfesiones> {

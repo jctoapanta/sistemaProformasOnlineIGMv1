@@ -1,284 +1,165 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package rh.gob.igm.ec.controladores;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
+import rh.gob.igm.ec.TNacionalidad;
+import rh.gob.igm.ec.controladores.util.JsfUtil;
+import rh.gob.igm.ec.controladores.util.JsfUtil.PersistAction;
+import rh.gob.igm.ec.servicios.TNacionalidadFacade;
+
+import java.io.Serializable;
 import java.util.List;
-import javax.faces.FacesException;
-import javax.annotation.Resource;
+import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.ejb.EJB;
+import javax.ejb.EJBException;
+import javax.inject.Named;
+import javax.enterprise.context.SessionScoped;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
-import javax.faces.model.SelectItem;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.PersistenceUnit;
-import javax.transaction.UserTransaction;
-import rh.gob.igm.ec.TNacionalidad;
-import rh.gob.igm.ec.controladores.util.JsfUtil;
-import rh.gob.igm.ec.controladores.util.PagingInfo;
-import rh.gob.igm.ec.servicios.TNacionalidadFacade;
+import javax.faces.convert.FacesConverter;
 
-/**
- *
- * @author TOAPANTA_JUAN
- */
-public class TNacionalidadController {
+@Named("tNacionalidadController")
+@SessionScoped
+public class TNacionalidadController implements Serializable {
 
-    private boolean ERROR;
+    @EJB
+    private rh.gob.igm.ec.servicios.TNacionalidadFacade ejbFacade;
+    private List<TNacionalidad> items = null;
+    private TNacionalidad selected;
 
     public TNacionalidadController() {
-        pagingInfo = new PagingInfo();
-        converter = new TNacionalidadConverter();
     }
-    private TNacionalidad TNacionalidad = null;
-    private List<TNacionalidad> TNacionalidadItems = null;
-    private TNacionalidadFacade jpaController = null;
-    private TNacionalidadConverter converter = null;
-    private PagingInfo pagingInfo = null;
-    @Resource
-    private UserTransaction utx = null;
-    @PersistenceUnit(unitName = "gob.igm.ec_rh_ejb_1.0-SNAPSHOTPU")
-    private EntityManagerFactory emf = null;
 
-    public PagingInfo getPagingInfo() {
-        if (pagingInfo.getItemCount() == -1) {
-            pagingInfo.setItemCount(getJpaController().count());
+    public TNacionalidad getSelected() {
+        return selected;
+    }
+
+    public void setSelected(TNacionalidad selected) {
+        this.selected = selected;
+    }
+
+    protected void setEmbeddableKeys() {
+    }
+
+    protected void initializeEmbeddableKey() {
+    }
+
+    private TNacionalidadFacade getFacade() {
+        return ejbFacade;
+    }
+
+    public TNacionalidad prepareCreate() {
+        selected = new TNacionalidad();
+        initializeEmbeddableKey();
+        return selected;
+    }
+
+    public void create() {
+        persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("TNacionalidadCreated"));
+        if (!JsfUtil.isValidationFailed()) {
+            items = null;    // Invalidate list of items to trigger re-query.
         }
-        return pagingInfo;
     }
 
-    public TNacionalidadFacade getJpaController() {
-        if (jpaController == null) {
-            FacesContext facesContext = FacesContext.getCurrentInstance();
-            jpaController = (TNacionalidadFacade) facesContext.getApplication().getELResolver().getValue(facesContext.getELContext(), null, "tNacionalidadJpa");
+    public void update() {
+        persist(PersistAction.UPDATE, ResourceBundle.getBundle("/Bundle").getString("TNacionalidadUpdated"));
+    }
+
+    public void destroy() {
+        persist(PersistAction.DELETE, ResourceBundle.getBundle("/Bundle").getString("TNacionalidadDeleted"));
+        if (!JsfUtil.isValidationFailed()) {
+            selected = null; // Remove selection
+            items = null;    // Invalidate list of items to trigger re-query.
         }
-        return jpaController;
     }
 
-    public SelectItem[] getTNacionalidadItemsAvailableSelectMany() {
-        return JsfUtil.getSelectItems(getJpaController().findAll(), false);
-    }
-
-    public SelectItem[] getTNacionalidadItemsAvailableSelectOne() {
-        return JsfUtil.getSelectItems(getJpaController().findAll(), true);
-    }
-
-    public TNacionalidad getTNacionalidad() {
-        if (TNacionalidad == null) {
-            TNacionalidad = (TNacionalidad) JsfUtil.getObjectFromRequestParameter("jsfcrud.currentTNacionalidad", converter, null);
+    public List<TNacionalidad> getItems() {
+        if (items == null) {
+            items = getFacade().findAll();
         }
-        if (TNacionalidad == null) {
-            TNacionalidad = new TNacionalidad();
-        }
-        return TNacionalidad;
+        return items;
     }
 
-    public String listSetup() {
-        reset(true);
-        return "TNacionalidad_list";
-    }
-
-    public String createSetup() {
-        reset(false);
-        TNacionalidad = new TNacionalidad();
-        return "TNacionalidad_create";
-    }
-
-    public String create() {
-        try {
-            utx.begin();
-        } catch (Exception ex) {
-        }
-        try {
-            Exception transactionException = null;
-            getJpaController().create(TNacionalidad);
+    private void persist(PersistAction persistAction, String successMessage) {
+        if (selected != null) {
+            setEmbeddableKeys();
             try {
-                utx.commit();
-            } catch (javax.transaction.RollbackException ex) {
-                transactionException = ex;
+                if (persistAction != PersistAction.DELETE) {
+                    getFacade().edit(selected);
+                } else {
+                    getFacade().remove(selected);
+                }
+                JsfUtil.addSuccessMessage(successMessage);
+            } catch (EJBException ex) {
+                String msg = "";
+                Throwable cause = ex.getCause();
+                if (cause != null) {
+                    msg = cause.getLocalizedMessage();
+                }
+                if (msg.length() > 0) {
+                    JsfUtil.addErrorMessage(msg);
+                } else {
+                    JsfUtil.addErrorMessage(ex, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
+                }
             } catch (Exception ex) {
+                Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
+                JsfUtil.addErrorMessage(ex, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
             }
-            if (transactionException == null) {
-                JsfUtil.addSuccessMessage("TNacionalidad was successfully created.");
+        }
+    }
+
+    public TNacionalidad getTNacionalidad(java.lang.Short id) {
+        return getFacade().find(id);
+    }
+
+    public List<TNacionalidad> getItemsAvailableSelectMany() {
+        return getFacade().findAll();
+    }
+
+    public List<TNacionalidad> getItemsAvailableSelectOne() {
+        return getFacade().findAll();
+    }
+
+    @FacesConverter(forClass = TNacionalidad.class)
+    public static class TNacionalidadControllerConverter implements Converter {
+
+        @Override
+        public Object getAsObject(FacesContext facesContext, UIComponent component, String value) {
+            if (value == null || value.length() == 0) {
+                return null;
+            }
+            TNacionalidadController controller = (TNacionalidadController) facesContext.getApplication().getELResolver().
+                    getValue(facesContext.getELContext(), null, "tNacionalidadController");
+            return controller.getTNacionalidad(getKey(value));
+        }
+
+        java.lang.Short getKey(String value) {
+            java.lang.Short key;
+            key = Short.valueOf(value);
+            return key;
+        }
+
+        String getStringKey(java.lang.Short value) {
+            StringBuilder sb = new StringBuilder();
+            sb.append(value);
+            return sb.toString();
+        }
+
+        @Override
+        public String getAsString(FacesContext facesContext, UIComponent component, Object object) {
+            if (object == null) {
+                return null;
+            }
+            if (object instanceof TNacionalidad) {
+                TNacionalidad o = (TNacionalidad) object;
+                return getStringKey(o.getIdNacionalidad());
             } else {
-                JsfUtil.ensureAddErrorMessage(transactionException, "A persistence error occurred.");
-            }
-        } catch (Exception e) {
-            try {
-                utx.rollback();
-            } catch (Exception ex) {
-            }
-            JsfUtil.ensureAddErrorMessage(e, "A persistence error occurred.");
-            return null;
-        }
-        return listSetup();
-    }
-
-    public String detailSetup() {
-        return scalarSetup("TNacionalidad_detail");
-    }
-
-    public String editSetup() {
-        return scalarSetup("TNacionalidad_edit");
-    }
-
-    private String scalarSetup(String destination) {
-        reset(false);
-        TNacionalidad = (TNacionalidad) JsfUtil.getObjectFromRequestParameter("jsfcrud.currentTNacionalidad", converter, null);
-        if (TNacionalidad == null) {
-            String requestTNacionalidadString = JsfUtil.getRequestParameter("jsfcrud.currentTNacionalidad");
-            JsfUtil.addErrorMessage("The TNacionalidad with id " + requestTNacionalidadString + " no longer exists.");
-            return relatedOrListOutcome();
-        }
-        return destination;
-    }
-
-    public String edit() {
-        String TNacionalidadString = converter.getAsString(FacesContext.getCurrentInstance(), null, TNacionalidad);
-        String currentTNacionalidadString = JsfUtil.getRequestParameter("jsfcrud.currentTNacionalidad");
-        if (TNacionalidadString == null || TNacionalidadString.length() == 0 || !TNacionalidadString.equals(currentTNacionalidadString)) {
-            String outcome = editSetup();
-            if ("TNacionalidad_edit".equals(outcome)) {
-                JsfUtil.addErrorMessage("Could not edit TNacionalidad. Try again.");
-            }
-            return outcome;
-        }
-        try {
-            utx.begin();
-        } catch (Exception ex) {
-        }
-        try {
-            Exception transactionException = null;
-            getJpaController().edit(TNacionalidad);
-            try {
-                utx.commit();
-            } catch (javax.transaction.RollbackException ex) {
-                transactionException = ex;
-            } catch (Exception ex) {
-            }
-            if (transactionException == null) {
-                JsfUtil.addSuccessMessage("TNacionalidad was successfully updated.");
-            } else {
-                JsfUtil.ensureAddErrorMessage(transactionException, "A persistence error occurred.");
-            }
-        } catch (Exception e) {
-            try {
-                utx.rollback();
-            } catch (Exception ex) {
-            }
-            JsfUtil.ensureAddErrorMessage(e, "A persistence error occurred.");
-            return null;
-        }
-        return detailSetup();
-    }
-
-    public String remove() {
-        String idAsString = JsfUtil.getRequestParameter("jsfcrud.currentTNacionalidad");
-        Short id = new Short(idAsString);
-        try {
-            utx.begin();
-        } catch (Exception ex) {
-        }
-        try {
-            Exception transactionException = null;
-            getJpaController().remove(getJpaController().find(id));
-            try {
-                utx.commit();
-            } catch (javax.transaction.RollbackException ex) {
-                transactionException = ex;
-            } catch (Exception ex) {
-            }
-            if (transactionException == null) {
-                JsfUtil.addSuccessMessage("TNacionalidad was successfully deleted.");
-            } else {
-                JsfUtil.ensureAddErrorMessage(transactionException, "A persistence error occurred.");
-            }
-        } catch (Exception e) {
-            try {
-                utx.rollback();
-            } catch (Exception ex) {
-            }
-            JsfUtil.ensureAddErrorMessage(e, "A persistence error occurred.");
-            return null;
-        }
-        return relatedOrListOutcome();
-    }
-
-    private String relatedOrListOutcome() {
-        String relatedControllerOutcome = relatedControllerOutcome();
-        if ((ERROR)) {
-            return relatedControllerOutcome;
-        }
-        return listSetup();
-    }
-
-    public List<TNacionalidad> getTNacionalidadItems() {
-        if (TNacionalidadItems == null) {
-            getPagingInfo();
-            TNacionalidadItems = getJpaController().findRange(new int[]{pagingInfo.getFirstItem(), pagingInfo.getFirstItem() + pagingInfo.getBatchSize()});
-        }
-        return TNacionalidadItems;
-    }
-
-    public String next() {
-        reset(false);
-        getPagingInfo().nextPage();
-        return "TNacionalidad_list";
-    }
-
-    public String prev() {
-        reset(false);
-        getPagingInfo().previousPage();
-        return "TNacionalidad_list";
-    }
-
-    private String relatedControllerOutcome() {
-        String relatedControllerString = JsfUtil.getRequestParameter("jsfcrud.relatedController");
-        String relatedControllerTypeString = JsfUtil.getRequestParameter("jsfcrud.relatedControllerType");
-        if (relatedControllerString != null && relatedControllerTypeString != null) {
-            FacesContext context = FacesContext.getCurrentInstance();
-            Object relatedController = context.getApplication().getELResolver().getValue(context.getELContext(), null, relatedControllerString);
-            try {
-                Class<?> relatedControllerType = Class.forName(relatedControllerTypeString);
-                Method detailSetupMethod = relatedControllerType.getMethod("detailSetup");
-                return (String) detailSetupMethod.invoke(relatedController);
-            } catch (ClassNotFoundException e) {
-                throw new FacesException(e);
-            } catch (NoSuchMethodException e) {
-                throw new FacesException(e);
-            } catch (IllegalAccessException e) {
-                throw new FacesException(e);
-            } catch (InvocationTargetException e) {
-                throw new FacesException(e);
+                Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "object {0} is of type {1}; expected type: {2}", new Object[]{object, object.getClass().getName(), TNacionalidad.class.getName()});
+                return null;
             }
         }
-        return null;
+
     }
 
-    private void reset(boolean resetFirstItem) {
-        TNacionalidad = null;
-        TNacionalidadItems = null;
-        pagingInfo.setItemCount(-1);
-        if (resetFirstItem) {
-            pagingInfo.setFirstItem(0);
-        }
-    }
-
-    public void validateCreate(FacesContext facesContext, UIComponent component, Object value) {
-        TNacionalidad newTNacionalidad = new TNacionalidad();
-        String newTNacionalidadString = converter.getAsString(FacesContext.getCurrentInstance(), null, newTNacionalidad);
-        String TNacionalidadString = converter.getAsString(FacesContext.getCurrentInstance(), null, TNacionalidad);
-        if (!newTNacionalidadString.equals(TNacionalidadString)) {
-            createSetup();
-        }
-    }
-
-    public Converter getConverter() {
-        return converter;
-    }
-    
 }

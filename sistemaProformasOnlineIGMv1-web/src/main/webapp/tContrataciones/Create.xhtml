@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="TContratacionesCreateDlg" widgetVar="TContratacionesCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateTContratacionesTitle}">
+            <h:form id="TContratacionesCreateForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{tContratacionesController.selected != null}">
+                        <p:outputLabel value="#{bundle.CreateTContratacionesLabel_TContratacionesPK_noCont}" for="TContratacionesPK_noCont" />
+                        <p:inputText id="TContratacionesPK_noCont" value="#{tContratacionesController.selected.TContratacionesPK.noCont}" title="#{bundle.CreateTContratacionesTitle_TContratacionesPK_noCont}" required="true" requiredMessage="#{bundle.CreateTContratacionesRequiredMessage_TContratacionesPK_noCont}"/>
+                        <p:outputLabel value="#{bundle.CreateTContratacionesLabel_noDoc}" for="noDoc" />
+                        <p:inputText id="noDoc" value="#{tContratacionesController.selected.noDoc}" title="#{bundle.CreateTContratacionesTitle_noDoc}" />
+                        <p:outputLabel value="#{bundle.CreateTContratacionesLabel_responsable}" for="responsable" />
+                        <p:inputText id="responsable" value="#{tContratacionesController.selected.responsable}" title="#{bundle.CreateTContratacionesTitle_responsable}" />
+                        <p:outputLabel value="#{bundle.CreateTContratacionesLabel_nivel}" for="nivel" />
+                        <p:inputText id="nivel" value="#{tContratacionesController.selected.nivel}" title="#{bundle.CreateTContratacionesTitle_nivel}" />
+                        <p:outputLabel value="#{bundle.CreateTContratacionesLabel_categoria}" for="categoria" />
+                        <p:inputText id="categoria" value="#{tContratacionesController.selected.categoria}" title="#{bundle.CreateTContratacionesTitle_categoria}" />
+                        <p:outputLabel value="#{bundle.CreateTContratacionesLabel_noEmp}" for="noEmp" />
+                        <p:inputText id="noEmp" value="#{tContratacionesController.selected.noEmp}" title="#{bundle.CreateTContratacionesTitle_noEmp}" />
+                        <p:outputLabel value="#{bundle.CreateTContratacionesLabel_FContrato}" for="FContrato" />
+                        <p:calendar id="FContrato" pattern="MM/dd/yyyy HH:mm:ss" value="#{tContratacionesController.selected.FContrato}" title="#{bundle.EditTContratacionesTitle_FContrato}"  showOn="button"/>
+                        <p:outputLabel value="#{bundle.CreateTContratacionesLabel_FSalida}" for="FSalida" />
+                        <p:calendar id="FSalida" pattern="MM/dd/yyyy HH:mm:ss" value="#{tContratacionesController.selected.FSalida}" title="#{bundle.EditTContratacionesTitle_FSalida}"  showOn="button"/>
+                        <p:outputLabel value="#{bundle.CreateTContratacionesLabel_TSalida}" for="TSalida" />
+                        <p:inputText id="TSalida" value="#{tContratacionesController.selected.TSalida}" title="#{bundle.CreateTContratacionesTitle_TSalida}" />
+                        <p:outputLabel value="#{bundle.CreateTContratacionesLabel_estado}" for="estado" />
+                        <p:inputText id="estado" value="#{tContratacionesController.selected.estado}" title="#{bundle.CreateTContratacionesTitle_estado}" />
+                        <p:outputLabel value="#{bundle.CreateTContratacionesLabel_CMoneda}" for="CMoneda" />
+                        <p:inputText id="CMoneda" value="#{tContratacionesController.selected.CMoneda}" title="#{bundle.CreateTContratacionesTitle_CMoneda}" />
+                        <p:outputLabel value="#{bundle.CreateTContratacionesLabel_VSueldoImponible}" for="VSueldoImponible" />
+                        <p:inputText id="VSueldoImponible" value="#{tContratacionesController.selected.VSueldoImponible}" title="#{bundle.CreateTContratacionesTitle_VSueldoImponible}" />
+                        <p:outputLabel value="#{bundle.CreateTContratacionesLabel_costoHora}" for="costoHora" />
+                        <p:inputText id="costoHora" value="#{tContratacionesController.selected.costoHora}" title="#{bundle.CreateTContratacionesTitle_costoHora}" />
+                        <p:outputLabel value="#{bundle.CreateTContratacionesLabel_costoHoraExtra}" for="costoHoraExtra" />
+                        <p:inputText id="costoHoraExtra" value="#{tContratacionesController.selected.costoHoraExtra}" title="#{bundle.CreateTContratacionesTitle_costoHoraExtra}" />
+                        <p:outputLabel value="#{bundle.CreateTContratacionesLabel_noBanco}" for="noBanco" />
+                        <p:inputText id="noBanco" value="#{tContratacionesController.selected.noBanco}" title="#{bundle.CreateTContratacionesTitle_noBanco}" />
+                        <p:outputLabel value="#{bundle.CreateTContratacionesLabel_noCta}" for="noCta" />
+                        <p:inputText id="noCta" value="#{tContratacionesController.selected.noCta}" title="#{bundle.CreateTContratacionesTitle_noCta}" />
+                        <p:outputLabel value="#{bundle.CreateTContratacionesLabel_LLicencia}" for="LLicencia" />
+                        <p:inputText id="LLicencia" value="#{tContratacionesController.selected.LLicencia}" title="#{bundle.CreateTContratacionesTitle_LLicencia}" />
+                        <p:outputLabel value="#{bundle.CreateTContratacionesLabel_diasLicencia}" for="diasLicencia" />
+                        <p:inputText id="diasLicencia" value="#{tContratacionesController.selected.diasLicencia}" title="#{bundle.CreateTContratacionesTitle_diasLicencia}" />
+                        <p:outputLabel value="#{bundle.CreateTContratacionesLabel_diasUtilizados}" for="diasUtilizados" />
+                        <p:inputText id="diasUtilizados" value="#{tContratacionesController.selected.diasUtilizados}" title="#{bundle.CreateTContratacionesTitle_diasUtilizados}" />
+                        <p:outputLabel value="#{bundle.CreateTContratacionesLabel_horaIngreso}" for="horaIngreso" />
+                        <p:calendar id="horaIngreso" pattern="MM/dd/yyyy HH:mm:ss" value="#{tContratacionesController.selected.horaIngreso}" title="#{bundle.EditTContratacionesTitle_horaIngreso}"  showOn="button"/>
+                        <p:outputLabel value="#{bundle.CreateTContratacionesLabel_horaSalida}" for="horaSalida" />
+                        <p:calendar id="horaSalida" pattern="MM/dd/yyyy HH:mm:ss" value="#{tContratacionesController.selected.horaSalida}" title="#{bundle.EditTContratacionesTitle_horaSalida}"  showOn="button"/>
+                        <p:outputLabel value="#{bundle.CreateTContratacionesLabel_LGeneraRol}" for="LGeneraRol" />
+                        <p:inputText id="LGeneraRol" value="#{tContratacionesController.selected.LGeneraRol}" title="#{bundle.CreateTContratacionesTitle_LGeneraRol}" />
+                        <p:outputLabel value="#{bundle.CreateTContratacionesLabel_obs}" for="obs" />
+                        <p:inputText id="obs" value="#{tContratacionesController.selected.obs}" title="#{bundle.CreateTContratacionesTitle_obs}" />
+                        <p:outputLabel value="#{bundle.CreateTContratacionesLabel_noEmpPre}" for="noEmpPre" />
+                        <p:inputText id="noEmpPre" value="#{tContratacionesController.selected.noEmpPre}" title="#{bundle.CreateTContratacionesTitle_noEmpPre}" />
+                        <p:outputLabel value="#{bundle.CreateTContratacionesLabel_noCdPre}" for="noCdPre" />
+                        <p:inputText id="noCdPre" value="#{tContratacionesController.selected.noCdPre}" title="#{bundle.CreateTContratacionesTitle_noCdPre}" />
+                        <p:outputLabel value="#{bundle.CreateTContratacionesLabel_noCargo}" for="noCargo" />
+                        <p:inputText id="noCargo" value="#{tContratacionesController.selected.noCargo}" title="#{bundle.CreateTContratacionesTitle_noCargo}" />
+                        <p:outputLabel value="#{bundle.CreateTContratacionesLabel_VSueldoImponibleSuc}" for="VSueldoImponibleSuc" />
+                        <p:inputText id="VSueldoImponibleSuc" value="#{tContratacionesController.selected.VSueldoImponibleSuc}" title="#{bundle.CreateTContratacionesTitle_VSueldoImponibleSuc}" />
+                        <p:outputLabel value="#{bundle.CreateTContratacionesLabel_costoHoraSuc}" for="costoHoraSuc" />
+                        <p:inputText id="costoHoraSuc" value="#{tContratacionesController.selected.costoHoraSuc}" title="#{bundle.CreateTContratacionesTitle_costoHoraSuc}" />
+                        <p:outputLabel value="#{bundle.CreateTContratacionesLabel_costoHoraExtraSuc}" for="costoHoraExtraSuc" />
+                        <p:inputText id="costoHoraExtraSuc" value="#{tContratacionesController.selected.costoHoraExtraSuc}" title="#{bundle.CreateTContratacionesTitle_costoHoraExtraSuc}" />
+                        <p:outputLabel value="#{bundle.CreateTContratacionesLabel_manoObra}" for="manoObra" />
+                        <p:inputText id="manoObra" value="#{tContratacionesController.selected.manoObra}" title="#{bundle.CreateTContratacionesTitle_manoObra}" />
+                        <p:outputLabel value="#{bundle.CreateTContratacionesLabel_proyectoCodigo}" for="proyectoCodigo" />
+                        <p:inputText id="proyectoCodigo" value="#{tContratacionesController.selected.proyectoCodigo}" title="#{bundle.CreateTContratacionesTitle_proyectoCodigo}" />
+                        <p:outputLabel value="#{bundle.CreateTContratacionesLabel_tipoViatico}" for="tipoViatico" />
+                        <p:inputText id="tipoViatico" value="#{tContratacionesController.selected.tipoViatico}" title="#{bundle.CreateTContratacionesTitle_tipoViatico}" />
+                        <p:outputLabel value="#{bundle.CreateTContratacionesLabel_noCdPreAnt}" for="noCdPreAnt" />
+                        <p:inputText id="noCdPreAnt" value="#{tContratacionesController.selected.noCdPreAnt}" title="#{bundle.CreateTContratacionesTitle_noCdPreAnt}" />
+                        <p:outputLabel value="#{bundle.CreateTContratacionesLabel_nivelAprobacion}" for="nivelAprobacion" />
+                        <p:inputText id="nivelAprobacion" value="#{tContratacionesController.selected.nivelAprobacion}" title="#{bundle.CreateTContratacionesTitle_nivelAprobacion}" />
+                        <p:outputLabel value="#{bundle.CreateTContratacionesLabel_rmu}" for="rmu" />
+                        <p:inputText id="rmu" value="#{tContratacionesController.selected.rmu}" title="#{bundle.CreateTContratacionesTitle_rmu}" />
+                        <p:outputLabel value="#{bundle.CreateTContratacionesLabel_TAreas}" for="TAreas" />
+                        <p:selectOneMenu id="TAreas" value="#{tContratacionesController.selected.TAreas}" >
+                            <f:selectItems value="#{tAreasController.itemsAvailableSelectOne}"
+                                           var="TAreasItem"
+                                           itemValue="#{TAreasItem}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{bundle.CreateTContratacionesLabel_TDatEmpleado}" for="TDatEmpleado" />
+                        <p:selectOneMenu id="TDatEmpleado" value="#{tContratacionesController.selected.TDatEmpleado}" required="true" requiredMessage="#{bundle.EditTContratacionesRequiredMessage_TDatEmpleado}">
+                            <f:selectItems value="#{tDatEmpleadoController.itemsAvailableSelectOne}"
+                                           var="TDatEmpleadoItem"
+                                           itemValue="#{TDatEmpleadoItem}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{bundle.CreateTContratacionesLabel_noFuncion}" for="noFuncion" />
+                        <p:selectOneMenu id="noFuncion" value="#{tContratacionesController.selected.noFuncion}" >
+                            <f:selectItems value="#{tFuncionController.itemsAvailableSelectOne}"
+                                           var="noFuncionItem"
+                                           itemValue="#{noFuncionItem}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{bundle.CreateTContratacionesLabel_CContrato}" for="CContrato" />
+                        <p:selectOneMenu id="CContrato" value="#{tContratacionesController.selected.CContrato}" >
+                            <f:selectItems value="#{tTiposContratoController.itemsAvailableSelectOne}"
+                                           var="CContratoItem"
+                                           itemValue="#{CContratoItem}"/>
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{tContratacionesController.create}" value="#{bundle.Save}" update="display,:TContratacionesListForm:datalist,:growl" oncomplete="handleSubmit(args,'TContratacionesCreateDialog');"/>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="TContratacionesCreateDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

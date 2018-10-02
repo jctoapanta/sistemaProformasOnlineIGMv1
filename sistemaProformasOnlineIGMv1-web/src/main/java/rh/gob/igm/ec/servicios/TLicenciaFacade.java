@@ -12,7 +12,7 @@ import rh.gob.igm.ec.TLicencia;
 
 /**
  *
- * @author TOAPANTA_JUAN
+ * @author PULE_DIEGO
  */
 @Stateless
 public class TLicenciaFacade extends AbstractFacade<TLicencia> {

@@ -1,295 +1,175 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package rh.gob.igm.ec.controladores;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
+import rh.gob.igm.ec.TContrataciones;
+import rh.gob.igm.ec.controladores.util.JsfUtil;
+import rh.gob.igm.ec.controladores.util.JsfUtil.PersistAction;
+import rh.gob.igm.ec.servicios.TContratacionesFacade;
+
+import java.io.Serializable;
 import java.util.List;
-import javax.faces.FacesException;
-import javax.annotation.Resource;
+import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.ejb.EJB;
+import javax.ejb.EJBException;
+import javax.inject.Named;
+import javax.enterprise.context.SessionScoped;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
-import javax.faces.model.SelectItem;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.PersistenceUnit;
-import javax.transaction.UserTransaction;
-import rh.gob.igm.ec.TContrataciones;
-import rh.gob.igm.ec.controladores.util.JsfUtil;
-import rh.gob.igm.ec.TContratacionesPK;
-import rh.gob.igm.ec.controladores.util.PagingInfo;
-import rh.gob.igm.ec.servicios.TContratacionesFacade;
+import javax.faces.convert.FacesConverter;
 
-/**
- *
- * @author TOAPANTA_JUAN
- */
-public class TContratacionesController {
+@Named("tContratacionesController")
+@SessionScoped
+public class TContratacionesController implements Serializable {
 
-    private boolean ERROR;
+    @EJB
+    private rh.gob.igm.ec.servicios.TContratacionesFacade ejbFacade;
+    private List<TContrataciones> items = null;
+    private TContrataciones selected;
 
     public TContratacionesController() {
-        pagingInfo = new PagingInfo();
-        converter = new TContratacionesConverter();
     }
-    private TContrataciones TContrataciones = null;
-    private List<TContrataciones> TContratacionesItems = null;
-    private TContratacionesFacade jpaController = null;
-    private TContratacionesConverter converter = null;
-    private PagingInfo pagingInfo = null;
-    @Resource
-    private UserTransaction utx = null;
-    @PersistenceUnit(unitName = "gob.igm.ec_rh_ejb_1.0-SNAPSHOTPU")
-    private EntityManagerFactory emf = null;
 
-    public PagingInfo getPagingInfo() {
-        if (pagingInfo.getItemCount() == -1) {
-            pagingInfo.setItemCount(getJpaController().count());
+    public TContrataciones getSelected() {
+        return selected;
+    }
+
+    public void setSelected(TContrataciones selected) {
+        this.selected = selected;
+    }
+
+    protected void setEmbeddableKeys() {
+        selected.getTContratacionesPK().setNoPersona(selected.getTDatEmpleado().getNoPersona());
+    }
+
+    protected void initializeEmbeddableKey() {
+        selected.setTContratacionesPK(new rh.gob.igm.ec.TContratacionesPK());
+    }
+
+    private TContratacionesFacade getFacade() {
+        return ejbFacade;
+    }
+
+    public TContrataciones prepareCreate() {
+        selected = new TContrataciones();
+        initializeEmbeddableKey();
+        return selected;
+    }
+
+    public void create() {
+        persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("TContratacionesCreated"));
+        if (!JsfUtil.isValidationFailed()) {
+            items = null;    // Invalidate list of items to trigger re-query.
         }
-        return pagingInfo;
     }
 
-    public TContratacionesFacade getJpaController() {
-        if (jpaController == null) {
-            FacesContext facesContext = FacesContext.getCurrentInstance();
-            jpaController = (TContratacionesFacade) facesContext.getApplication().getELResolver().getValue(facesContext.getELContext(), null, "tContratacionesJpa");
+    public void update() {
+        persist(PersistAction.UPDATE, ResourceBundle.getBundle("/Bundle").getString("TContratacionesUpdated"));
+    }
+
+    public void destroy() {
+        persist(PersistAction.DELETE, ResourceBundle.getBundle("/Bundle").getString("TContratacionesDeleted"));
+        if (!JsfUtil.isValidationFailed()) {
+            selected = null; // Remove selection
+            items = null;    // Invalidate list of items to trigger re-query.
         }
-        return jpaController;
     }
 
-    public SelectItem[] getTContratacionesItemsAvailableSelectMany() {
-        return JsfUtil.getSelectItems(getJpaController().findAll(), false);
-    }
-
-    public SelectItem[] getTContratacionesItemsAvailableSelectOne() {
-        return JsfUtil.getSelectItems(getJpaController().findAll(), true);
-    }
-
-    public TContrataciones getTContrataciones() {
-        if (TContrataciones == null) {
-            TContrataciones = (TContrataciones) JsfUtil.getObjectFromRequestParameter("jsfcrud.currentTContrataciones", converter, null);
+    public List<TContrataciones> getItems() {
+        if (items == null) {
+            items = getFacade().findAll();
         }
-        if (TContrataciones == null) {
-            TContrataciones = new TContrataciones();
-        }
-        return TContrataciones;
+        return items;
     }
 
-    public String listSetup() {
-        reset(true);
-        return "TContrataciones_list";
-    }
-
-    public String createSetup() {
-        reset(false);
-        TContrataciones = new TContrataciones();
-        TContrataciones.setTContratacionesPK(new TContratacionesPK());
-        return "TContrataciones_create";
-    }
-
-    public String create() {
-        TContrataciones.getTContratacionesPK().setNoPersona(TContrataciones.getTDatEmpleado().getNoPersona());
-        // TODO: no setter methods were found in your primary key class
-        //    rh.gob.igm.ec.TContratacionesPK
-        // and therefore initialization code need manual adjustments.
-        try {
-            utx.begin();
-        } catch (Exception ex) {
-        }
-        try {
-            Exception transactionException = null;
-            getJpaController().create(TContrataciones);
+    private void persist(PersistAction persistAction, String successMessage) {
+        if (selected != null) {
+            setEmbeddableKeys();
             try {
-                utx.commit();
-            } catch (javax.transaction.RollbackException ex) {
-                transactionException = ex;
+                if (persistAction != PersistAction.DELETE) {
+                    getFacade().edit(selected);
+                } else {
+                    getFacade().remove(selected);
+                }
+                JsfUtil.addSuccessMessage(successMessage);
+            } catch (EJBException ex) {
+                String msg = "";
+                Throwable cause = ex.getCause();
+                if (cause != null) {
+                    msg = cause.getLocalizedMessage();
+                }
+                if (msg.length() > 0) {
+                    JsfUtil.addErrorMessage(msg);
+                } else {
+                    JsfUtil.addErrorMessage(ex, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
+                }
             } catch (Exception ex) {
+                Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
+                JsfUtil.addErrorMessage(ex, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
             }
-            if (transactionException == null) {
-                JsfUtil.addSuccessMessage("TContrataciones was successfully created.");
+        }
+    }
+
+    public TContrataciones getTContrataciones(rh.gob.igm.ec.TContratacionesPK id) {
+        return getFacade().find(id);
+    }
+
+    public List<TContrataciones> getItemsAvailableSelectMany() {
+        return getFacade().findAll();
+    }
+
+    public List<TContrataciones> getItemsAvailableSelectOne() {
+        return getFacade().findAll();
+    }
+
+    @FacesConverter(forClass = TContrataciones.class)
+    public static class TContratacionesControllerConverter implements Converter {
+
+        private static final String SEPARATOR = "#";
+        private static final String SEPARATOR_ESCAPED = "\\#";
+
+        @Override
+        public Object getAsObject(FacesContext facesContext, UIComponent component, String value) {
+            if (value == null || value.length() == 0) {
+                return null;
+            }
+            TContratacionesController controller = (TContratacionesController) facesContext.getApplication().getELResolver().
+                    getValue(facesContext.getELContext(), null, "tContratacionesController");
+            return controller.getTContrataciones(getKey(value));
+        }
+
+        rh.gob.igm.ec.TContratacionesPK getKey(String value) {
+            rh.gob.igm.ec.TContratacionesPK key;
+            String values[] = value.split(SEPARATOR_ESCAPED);
+            key = new rh.gob.igm.ec.TContratacionesPK();
+            key.setNoPersona(Integer.parseInt(values[0]));
+            key.setNoCont(Integer.parseInt(values[1]));
+            return key;
+        }
+
+        String getStringKey(rh.gob.igm.ec.TContratacionesPK value) {
+            StringBuilder sb = new StringBuilder();
+            sb.append(value.getNoPersona());
+            sb.append(SEPARATOR);
+            sb.append(value.getNoCont());
+            return sb.toString();
+        }
+
+        @Override
+        public String getAsString(FacesContext facesContext, UIComponent component, Object object) {
+            if (object == null) {
+                return null;
+            }
+            if (object instanceof TContrataciones) {
+                TContrataciones o = (TContrataciones) object;
+                return getStringKey(o.getTContratacionesPK());
             } else {
-                JsfUtil.ensureAddErrorMessage(transactionException, "A persistence error occurred.");
-            }
-        } catch (Exception e) {
-            try {
-                utx.rollback();
-            } catch (Exception ex) {
-            }
-            JsfUtil.ensureAddErrorMessage(e, "A persistence error occurred.");
-            return null;
-        }
-        return listSetup();
-    }
-
-    public String detailSetup() {
-        return scalarSetup("TContrataciones_detail");
-    }
-
-    public String editSetup() {
-        return scalarSetup("TContrataciones_edit");
-    }
-
-    private String scalarSetup(String destination) {
-        reset(false);
-        TContrataciones = (TContrataciones) JsfUtil.getObjectFromRequestParameter("jsfcrud.currentTContrataciones", converter, null);
-        if (TContrataciones == null) {
-            String requestTContratacionesString = JsfUtil.getRequestParameter("jsfcrud.currentTContrataciones");
-            JsfUtil.addErrorMessage("The TContrataciones with id " + requestTContratacionesString + " no longer exists.");
-            return relatedOrListOutcome();
-        }
-        return destination;
-    }
-
-    public String edit() {
-        TContrataciones.getTContratacionesPK().setNoPersona(TContrataciones.getTDatEmpleado().getNoPersona());
-        // TODO: no setter methods were found in your primary key class
-        //    rh.gob.igm.ec.TContratacionesPK
-        // and therefore initialization code need manual adjustments.
-        String TContratacionesString = converter.getAsString(FacesContext.getCurrentInstance(), null, TContrataciones);
-        String currentTContratacionesString = JsfUtil.getRequestParameter("jsfcrud.currentTContrataciones");
-        if (TContratacionesString == null || TContratacionesString.length() == 0 || !TContratacionesString.equals(currentTContratacionesString)) {
-            String outcome = editSetup();
-            if ("TContrataciones_edit".equals(outcome)) {
-                JsfUtil.addErrorMessage("Could not edit TContrataciones. Try again.");
-            }
-            return outcome;
-        }
-        try {
-            utx.begin();
-        } catch (Exception ex) {
-        }
-        try {
-            Exception transactionException = null;
-            getJpaController().edit(TContrataciones);
-            try {
-                utx.commit();
-            } catch (javax.transaction.RollbackException ex) {
-                transactionException = ex;
-            } catch (Exception ex) {
-            }
-            if (transactionException == null) {
-                JsfUtil.addSuccessMessage("TContrataciones was successfully updated.");
-            } else {
-                JsfUtil.ensureAddErrorMessage(transactionException, "A persistence error occurred.");
-            }
-        } catch (Exception e) {
-            try {
-                utx.rollback();
-            } catch (Exception ex) {
-            }
-            JsfUtil.ensureAddErrorMessage(e, "A persistence error occurred.");
-            return null;
-        }
-        return detailSetup();
-    }
-
-    public String remove() {
-        String idAsString = JsfUtil.getRequestParameter("jsfcrud.currentTContrataciones");
-        TContratacionesPK id = converter.getId(idAsString);
-        try {
-            utx.begin();
-        } catch (Exception ex) {
-        }
-        try {
-            Exception transactionException = null;
-            getJpaController().remove(getJpaController().find(id));
-            try {
-                utx.commit();
-            } catch (javax.transaction.RollbackException ex) {
-                transactionException = ex;
-            } catch (Exception ex) {
-            }
-            if (transactionException == null) {
-                JsfUtil.addSuccessMessage("TContrataciones was successfully deleted.");
-            } else {
-                JsfUtil.ensureAddErrorMessage(transactionException, "A persistence error occurred.");
-            }
-        } catch (Exception e) {
-            try {
-                utx.rollback();
-            } catch (Exception ex) {
-            }
-            JsfUtil.ensureAddErrorMessage(e, "A persistence error occurred.");
-            return null;
-        }
-        return relatedOrListOutcome();
-    }
-
-    private String relatedOrListOutcome() {
-        String relatedControllerOutcome = relatedControllerOutcome();
-        if ((ERROR)) {
-            return relatedControllerOutcome;
-        }
-        return listSetup();
-    }
-
-    public List<TContrataciones> getTContratacionesItems() {
-        if (TContratacionesItems == null) {
-            getPagingInfo();
-            TContratacionesItems = getJpaController().findRange(new int[]{pagingInfo.getFirstItem(), pagingInfo.getFirstItem() + pagingInfo.getBatchSize()});
-        }
-        return TContratacionesItems;
-    }
-
-    public String next() {
-        reset(false);
-        getPagingInfo().nextPage();
-        return "TContrataciones_list";
-    }
-
-    public String prev() {
-        reset(false);
-        getPagingInfo().previousPage();
-        return "TContrataciones_list";
-    }
-
-    private String relatedControllerOutcome() {
-        String relatedControllerString = JsfUtil.getRequestParameter("jsfcrud.relatedController");
-        String relatedControllerTypeString = JsfUtil.getRequestParameter("jsfcrud.relatedControllerType");
-        if (relatedControllerString != null && relatedControllerTypeString != null) {
-            FacesContext context = FacesContext.getCurrentInstance();
-            Object relatedController = context.getApplication().getELResolver().getValue(context.getELContext(), null, relatedControllerString);
-            try {
-                Class<?> relatedControllerType = Class.forName(relatedControllerTypeString);
-                Method detailSetupMethod = relatedControllerType.getMethod("detailSetup");
-                return (String) detailSetupMethod.invoke(relatedController);
-            } catch (ClassNotFoundException e) {
-                throw new FacesException(e);
-            } catch (NoSuchMethodException e) {
-                throw new FacesException(e);
-            } catch (IllegalAccessException e) {
-                throw new FacesException(e);
-            } catch (InvocationTargetException e) {
-                throw new FacesException(e);
+                Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "object {0} is of type {1}; expected type: {2}", new Object[]{object, object.getClass().getName(), TContrataciones.class.getName()});
+                return null;
             }
         }
-        return null;
+
     }
 
-    private void reset(boolean resetFirstItem) {
-        TContrataciones = null;
-        TContratacionesItems = null;
-        pagingInfo.setItemCount(-1);
-        if (resetFirstItem) {
-            pagingInfo.setFirstItem(0);
-        }
-    }
-
-    public void validateCreate(FacesContext facesContext, UIComponent component, Object value) {
-        TContrataciones newTContrataciones = new TContrataciones();
-        newTContrataciones.setTContratacionesPK(new TContratacionesPK());
-        String newTContratacionesString = converter.getAsString(FacesContext.getCurrentInstance(), null, newTContrataciones);
-        String TContratacionesString = converter.getAsString(FacesContext.getCurrentInstance(), null, TContrataciones);
-        if (!newTContratacionesString.equals(TContratacionesString)) {
-            createSetup();
-        }
-    }
-
-    public Converter getConverter() {
-        return converter;
-    }
-    
 }

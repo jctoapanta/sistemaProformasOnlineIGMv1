@@ -12,7 +12,7 @@ import rh.gob.igm.ec.TAreas;
 
 /**
  *
- * @author TOAPANTA_JUAN
+ * @author PULE_DIEGO
  */
 @Stateless
 public class TAreasFacade extends AbstractFacade<TAreas> {

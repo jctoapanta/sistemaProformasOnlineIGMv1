@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="TTiposContratoCreateDlg" widgetVar="TTiposContratoCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateTTiposContratoTitle}">
+            <h:form id="TTiposContratoCreateForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{tTiposContratoController.selected != null}">
+                        <p:outputLabel value="#{bundle.CreateTTiposContratoLabel_CContrato}" for="CContrato" />
+                        <p:inputText id="CContrato" value="#{tTiposContratoController.selected.CContrato}" title="#{bundle.CreateTTiposContratoTitle_CContrato}" required="true" requiredMessage="#{bundle.CreateTTiposContratoRequiredMessage_CContrato}"/>
+                        <p:outputLabel value="#{bundle.CreateTTiposContratoLabel_descrip}" for="descrip" />
+                        <p:inputText id="descrip" value="#{tTiposContratoController.selected.descrip}" title="#{bundle.CreateTTiposContratoTitle_descrip}" />
+                        <p:outputLabel value="#{bundle.CreateTTiposContratoLabel_LDuracion}" for="LDuracion" />
+                        <p:inputText id="LDuracion" value="#{tTiposContratoController.selected.LDuracion}" title="#{bundle.CreateTTiposContratoTitle_LDuracion}" />
+                        <p:outputLabel value="#{bundle.CreateTTiposContratoLabel_TTiempo}" for="TTiempo" />
+                        <p:inputText id="TTiempo" value="#{tTiposContratoController.selected.TTiempo}" title="#{bundle.CreateTTiposContratoTitle_TTiempo}" />
+                        <p:outputLabel value="#{bundle.CreateTTiposContratoLabel_duracion}" for="duracion" />
+                        <p:inputText id="duracion" value="#{tTiposContratoController.selected.duracion}" title="#{bundle.CreateTTiposContratoTitle_duracion}" />
+                        <p:outputLabel value="#{bundle.CreateTTiposContratoLabel_LValido}" for="LValido" />
+                        <p:inputText id="LValido" value="#{tTiposContratoController.selected.LValido}" title="#{bundle.CreateTTiposContratoTitle_LValido}" />
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{tTiposContratoController.create}" value="#{bundle.Save}" update="display,:TTiposContratoListForm:datalist,:growl" oncomplete="handleSubmit(args,'TTiposContratoCreateDialog');"/>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="TTiposContratoCreateDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>
