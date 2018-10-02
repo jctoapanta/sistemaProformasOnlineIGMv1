@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="TAreasViewDlg" widgetVar="TAreasViewDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.ViewTAreasTitle}">
+            <h:form id="TAreasViewForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{tAreasController.selected != null}">
+                        <h:outputText value="#{bundle.ViewTAreasLabel_TAreasPK_noCd}"/>
+                        <h:outputText value="#{tAreasController.selected.TAreasPK.noCd}" title="#{bundle.ViewTAreasTitle_TAreasPK_noCd}"/>
+                        <h:outputText value="#{bundle.ViewTAreasLabel_noEmpresa}"/>
+                        <h:outputText value="#{tAreasController.selected.noEmpresa}" title="#{bundle.ViewTAreasTitle_noEmpresa}"/>
+                        <h:outputText value="#{bundle.ViewTAreasLabel_tipo}"/>
+                        <h:outputText value="#{tAreasController.selected.tipo}" title="#{bundle.ViewTAreasTitle_tipo}"/>
+                        <h:outputText value="#{bundle.ViewTAreasLabel_descrip}"/>
+                        <h:outputText value="#{tAreasController.selected.descrip}" title="#{bundle.ViewTAreasTitle_descrip}"/>
+                        <h:outputText value="#{bundle.ViewTAreasLabel_responsable}"/>
+                        <h:outputText value="#{tAreasController.selected.responsable}" title="#{bundle.ViewTAreasTitle_responsable}"/>
+                        <h:outputText value="#{bundle.ViewTAreasLabel_codigo}"/>
+                        <h:outputText value="#{tAreasController.selected.codigo}" title="#{bundle.ViewTAreasTitle_codigo}"/>
+                        <h:outputText value="#{bundle.ViewTAreasLabel_codigoCentroGestion}"/>
+                        <h:outputText value="#{tAreasController.selected.codigoCentroGestion}" title="#{bundle.ViewTAreasTitle_codigoCentroGestion}"/>
+                        <h:outputText value="#{bundle.ViewTAreasLabel_CPartida}"/>
+                        <h:outputText value="#{tAreasController.selected.CPartida}" title="#{bundle.ViewTAreasTitle_CPartida}"/>
+                        <h:outputText value="#{bundle.ViewTAreasLabel_LResponsableP}"/>
+                        <h:outputText value="#{tAreasController.selected.LResponsableP}" title="#{bundle.ViewTAreasTitle_LResponsableP}"/>
+                        <h:outputText value="#{bundle.ViewTAreasLabel_TAreas}"/>
+                        <h:outputText value="#{tAreasController.selected.TAreas}" title="#{bundle.ViewTAreasTitle_TAreas}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="TAreasViewDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

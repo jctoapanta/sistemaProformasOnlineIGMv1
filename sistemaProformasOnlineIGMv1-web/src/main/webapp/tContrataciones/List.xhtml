@@ -1,0 +1,288 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition template="/template.xhtml">
+
+
+        <ui:define name="title">
+            <h:outputText value="#{bundle.ListTContratacionesTitle}"></h:outputText>
+        </ui:define>
+
+        <ui:define name="body">
+            <h:form id="TContratacionesListForm">
+                <p:panel header="#{bundle.ListTContratacionesTitle}">
+                    <p:dataTable id="datalist" value="#{tContratacionesController.items}" var="item"
+                                 selectionMode="single" selection="#{tContratacionesController.selected}"
+                                 paginator="true"
+                                 rowKey="#{item.TContratacionesPK}"
+                                 rows="10"
+                                 rowsPerPageTemplate="10,20,30,40,50"
+                                 >
+
+                        <p:ajax event="rowSelect"   update="createButton viewButton editButton deleteButton"/>
+                        <p:ajax event="rowUnselect" update="createButton viewButton editButton deleteButton"/>
+
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListTContratacionesTitle_TContratacionesPK_noCont}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.TContratacionesPK.noCont}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListTContratacionesTitle_noDoc}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.noDoc}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListTContratacionesTitle_responsable}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.responsable}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListTContratacionesTitle_nivel}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.nivel}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListTContratacionesTitle_categoria}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.categoria}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListTContratacionesTitle_noEmp}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.noEmp}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListTContratacionesTitle_FContrato}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.FContrato}">
+                                <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                            </h:outputText>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListTContratacionesTitle_FSalida}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.FSalida}">
+                                <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                            </h:outputText>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListTContratacionesTitle_TSalida}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.TSalida}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListTContratacionesTitle_estado}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.estado}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListTContratacionesTitle_CMoneda}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.CMoneda}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListTContratacionesTitle_VSueldoImponible}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.VSueldoImponible}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListTContratacionesTitle_costoHora}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.costoHora}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListTContratacionesTitle_costoHoraExtra}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.costoHoraExtra}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListTContratacionesTitle_noBanco}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.noBanco}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListTContratacionesTitle_noCta}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.noCta}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListTContratacionesTitle_LLicencia}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.LLicencia}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListTContratacionesTitle_diasLicencia}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.diasLicencia}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListTContratacionesTitle_diasUtilizados}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.diasUtilizados}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListTContratacionesTitle_horaIngreso}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.horaIngreso}">
+                                <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                            </h:outputText>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListTContratacionesTitle_horaSalida}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.horaSalida}">
+                                <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                            </h:outputText>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListTContratacionesTitle_LGeneraRol}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.LGeneraRol}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListTContratacionesTitle_obs}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.obs}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListTContratacionesTitle_noEmpPre}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.noEmpPre}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListTContratacionesTitle_noCdPre}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.noCdPre}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListTContratacionesTitle_noCargo}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.noCargo}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListTContratacionesTitle_VSueldoImponibleSuc}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.VSueldoImponibleSuc}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListTContratacionesTitle_costoHoraSuc}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.costoHoraSuc}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListTContratacionesTitle_costoHoraExtraSuc}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.costoHoraExtraSuc}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListTContratacionesTitle_manoObra}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.manoObra}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListTContratacionesTitle_proyectoCodigo}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.proyectoCodigo}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListTContratacionesTitle_tipoViatico}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.tipoViatico}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListTContratacionesTitle_noCdPreAnt}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.noCdPreAnt}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListTContratacionesTitle_nivelAprobacion}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.nivelAprobacion}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListTContratacionesTitle_rmu}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.rmu}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListTContratacionesTitle_TAreas}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.TAreas}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListTContratacionesTitle_TDatEmpleado}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.TDatEmpleado}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListTContratacionesTitle_noFuncion}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.noFuncion}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListTContratacionesTitle_CContrato}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.CContrato}"/>
+                        </p:column>
+                        <f:facet name="footer">
+                            <p:commandButton id="createButton" icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{tContratacionesController.prepareCreate}" update=":TContratacionesCreateForm" oncomplete="PF('TContratacionesCreateDialog').show()"/>
+                            <p:commandButton id="viewButton"   icon="ui-icon-search" value="#{bundle.View}" update=":TContratacionesViewForm" oncomplete="PF('TContratacionesViewDialog').show()" disabled="#{empty tContratacionesController.selected}"/>
+                            <p:commandButton id="editButton"   icon="ui-icon-pencil" value="#{bundle.Edit}" update=":TContratacionesEditForm" oncomplete="PF('TContratacionesEditDialog').show()" disabled="#{empty tContratacionesController.selected}"/>
+                            <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{tContratacionesController.destroy}" update=":growl,datalist" disabled="#{empty tContratacionesController.selected}"/>
+                        </f:facet>
+                    </p:dataTable>
+                </p:panel>
+            </h:form>
+
+            <ui:include src="Create.xhtml"/>
+            <ui:include src="Edit.xhtml"/>
+            <ui:include src="View.xhtml"/>
+        </ui:define>
+    </ui:composition>
+
+</html>

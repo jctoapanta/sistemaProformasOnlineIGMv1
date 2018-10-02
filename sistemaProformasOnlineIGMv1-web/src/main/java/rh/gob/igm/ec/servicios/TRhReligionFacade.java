@@ -12,7 +12,7 @@ import rh.gob.igm.ec.TRhReligion;
 
 /**
  *
- * @author TOAPANTA_JUAN
+ * @author PULE_DIEGO
  */
 @Stateless
 public class TRhReligionFacade extends AbstractFacade<TRhReligion> {

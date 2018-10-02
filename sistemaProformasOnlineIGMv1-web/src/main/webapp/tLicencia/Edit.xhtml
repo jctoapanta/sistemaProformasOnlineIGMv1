@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="TLicenciaEditDlg" widgetVar="TLicenciaEditDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.EditTLicenciaTitle}">
+            <h:form id="TLicenciaEditForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{tLicenciaController.selected != null}">
+                        <p:outputLabel value="#{bundle.EditTLicenciaLabel_noLicencia}" for="noLicencia" />
+                        <p:inputText id="noLicencia" value="#{tLicenciaController.selected.noLicencia}" title="#{bundle.EditTLicenciaTitle_noLicencia}" required="true" requiredMessage="#{bundle.EditTLicenciaRequiredMessage_noLicencia}"/>
+                        <p:outputLabel value="#{bundle.EditTLicenciaLabel_descrip}" for="descrip" />
+                        <p:inputText id="descrip" value="#{tLicenciaController.selected.descrip}" title="#{bundle.EditTLicenciaTitle_descrip}" />
+                        <p:outputLabel value="#{bundle.EditTLicenciaLabel_obs}" for="obs" />
+                        <p:inputText id="obs" value="#{tLicenciaController.selected.obs}" title="#{bundle.EditTLicenciaTitle_obs}" />
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{tLicenciaController.update}" value="#{bundle.Save}" update="display,:TLicenciaListForm:datalist,:growl" oncomplete="handleSubmit(args, 'TLicenciaEditDialog');"/>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="TLicenciaEditDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

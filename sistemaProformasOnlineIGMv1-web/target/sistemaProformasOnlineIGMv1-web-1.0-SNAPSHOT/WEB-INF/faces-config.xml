@@ -11,10 +11,14 @@
         <navigation-handler>
 		org.primefaces.mobile.application.MobileNavigationHandler
 	</navigation-handler>
+        <resource-bundle>
+            <base-name>/Bundle</base-name>
+            <var>bundle</var>
+        </resource-bundle>
     </application>
-    <application>
+<!--    <application>
         <el-resolver>rh.gob.igm.ec.controladores.util.JsfCrudELResolver</el-resolver>
-    </application>
+    </application>-->
     <navigation-rule>
         <from-view-id>*</from-view-id>
         <navigation-case>

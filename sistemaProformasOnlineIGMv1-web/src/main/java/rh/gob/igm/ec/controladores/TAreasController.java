@@ -1,295 +1,175 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package rh.gob.igm.ec.controladores;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
+import rh.gob.igm.ec.TAreas;
+import rh.gob.igm.ec.controladores.util.JsfUtil;
+import rh.gob.igm.ec.controladores.util.JsfUtil.PersistAction;
+import rh.gob.igm.ec.servicios.TAreasFacade;
+
+import java.io.Serializable;
 import java.util.List;
-import javax.faces.FacesException;
-import javax.annotation.Resource;
+import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.ejb.EJB;
+import javax.ejb.EJBException;
+import javax.inject.Named;
+import javax.enterprise.context.SessionScoped;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
-import javax.faces.model.SelectItem;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.PersistenceUnit;
-import javax.transaction.UserTransaction;
-import rh.gob.igm.ec.TAreas;
-import rh.gob.igm.ec.controladores.util.JsfUtil;
-import rh.gob.igm.ec.TAreasPK;
-import rh.gob.igm.ec.controladores.util.PagingInfo;
-import rh.gob.igm.ec.servicios.TAreasFacade;
+import javax.faces.convert.FacesConverter;
 
-/**
- *
- * @author TOAPANTA_JUAN
- */
-public class TAreasController {
+@Named("tAreasController")
+@SessionScoped
+public class TAreasController implements Serializable {
 
-    private boolean ERROR;
+    @EJB
+    private rh.gob.igm.ec.servicios.TAreasFacade ejbFacade;
+    private List<TAreas> items = null;
+    private TAreas selected;
 
     public TAreasController() {
-        pagingInfo = new PagingInfo();
-        converter = new TAreasConverter();
     }
-    private TAreas TAreas = null;
-    private List<TAreas> TAreasItems = null;
-    private TAreasFacade jpaController = null;
-    private TAreasConverter converter = null;
-    private PagingInfo pagingInfo = null;
-    @Resource
-    private UserTransaction utx = null;
-    @PersistenceUnit(unitName = "gob.igm.ec_rh_ejb_1.0-SNAPSHOTPU")
-    private EntityManagerFactory emf = null;
 
-    public PagingInfo getPagingInfo() {
-        if (pagingInfo.getItemCount() == -1) {
-            pagingInfo.setItemCount(getJpaController().count());
+    public TAreas getSelected() {
+        return selected;
+    }
+
+    public void setSelected(TAreas selected) {
+        this.selected = selected;
+    }
+
+    protected void setEmbeddableKeys() {
+        selected.getTAreasPK().setNoEmpMatriz(selected.getTAreas().getTAreasPK().getNoEmpMatriz());
+    }
+
+    protected void initializeEmbeddableKey() {
+        selected.setTAreasPK(new rh.gob.igm.ec.TAreasPK());
+    }
+
+    private TAreasFacade getFacade() {
+        return ejbFacade;
+    }
+
+    public TAreas prepareCreate() {
+        selected = new TAreas();
+        initializeEmbeddableKey();
+        return selected;
+    }
+
+    public void create() {
+        persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("TAreasCreated"));
+        if (!JsfUtil.isValidationFailed()) {
+            items = null;    // Invalidate list of items to trigger re-query.
         }
-        return pagingInfo;
     }
 
-    public TAreasFacade getJpaController() {
-        if (jpaController == null) {
-            FacesContext facesContext = FacesContext.getCurrentInstance();
-            jpaController = (TAreasFacade) facesContext.getApplication().getELResolver().getValue(facesContext.getELContext(), null, "tAreasJpa");
+    public void update() {
+        persist(PersistAction.UPDATE, ResourceBundle.getBundle("/Bundle").getString("TAreasUpdated"));
+    }
+
+    public void destroy() {
+        persist(PersistAction.DELETE, ResourceBundle.getBundle("/Bundle").getString("TAreasDeleted"));
+        if (!JsfUtil.isValidationFailed()) {
+            selected = null; // Remove selection
+            items = null;    // Invalidate list of items to trigger re-query.
         }
-        return jpaController;
     }
 
-    public SelectItem[] getTAreasItemsAvailableSelectMany() {
-        return JsfUtil.getSelectItems(getJpaController().findAll(), false);
-    }
-
-    public SelectItem[] getTAreasItemsAvailableSelectOne() {
-        return JsfUtil.getSelectItems(getJpaController().findAll(), true);
-    }
-
-    public TAreas getTAreas() {
-        if (TAreas == null) {
-            TAreas = (TAreas) JsfUtil.getObjectFromRequestParameter("jsfcrud.currentTAreas", converter, null);
+    public List<TAreas> getItems() {
+        if (items == null) {
+            items = getFacade().findAll();
         }
-        if (TAreas == null) {
-            TAreas = new TAreas();
-        }
-        return TAreas;
+        return items;
     }
 
-    public String listSetup() {
-        reset(true);
-        return "TAreas_list";
-    }
-
-    public String createSetup() {
-        reset(false);
-        TAreas = new TAreas();
-        TAreas.setTAreasPK(new TAreasPK());
-        return "TAreas_create";
-    }
-
-    public String create() {
-        TAreas.getTAreasPK().setNoEmpMatriz(TAreas.getTAreas().getTAreasPK().getNoEmpMatriz());
-        // TODO: no setter methods were found in your primary key class
-        //    rh.gob.igm.ec.TAreasPK
-        // and therefore initialization code need manual adjustments.
-        try {
-            utx.begin();
-        } catch (Exception ex) {
-        }
-        try {
-            Exception transactionException = null;
-            getJpaController().create(TAreas);
+    private void persist(PersistAction persistAction, String successMessage) {
+        if (selected != null) {
+            setEmbeddableKeys();
             try {
-                utx.commit();
-            } catch (javax.transaction.RollbackException ex) {
-                transactionException = ex;
+                if (persistAction != PersistAction.DELETE) {
+                    getFacade().edit(selected);
+                } else {
+                    getFacade().remove(selected);
+                }
+                JsfUtil.addSuccessMessage(successMessage);
+            } catch (EJBException ex) {
+                String msg = "";
+                Throwable cause = ex.getCause();
+                if (cause != null) {
+                    msg = cause.getLocalizedMessage();
+                }
+                if (msg.length() > 0) {
+                    JsfUtil.addErrorMessage(msg);
+                } else {
+                    JsfUtil.addErrorMessage(ex, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
+                }
             } catch (Exception ex) {
+                Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
+                JsfUtil.addErrorMessage(ex, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
             }
-            if (transactionException == null) {
-                JsfUtil.addSuccessMessage("TAreas was successfully created.");
+        }
+    }
+
+    public TAreas getTAreas(rh.gob.igm.ec.TAreasPK id) {
+        return getFacade().find(id);
+    }
+
+    public List<TAreas> getItemsAvailableSelectMany() {
+        return getFacade().findAll();
+    }
+
+    public List<TAreas> getItemsAvailableSelectOne() {
+        return getFacade().findAll();
+    }
+
+    @FacesConverter(forClass = TAreas.class)
+    public static class TAreasControllerConverter implements Converter {
+
+        private static final String SEPARATOR = "#";
+        private static final String SEPARATOR_ESCAPED = "\\#";
+
+        @Override
+        public Object getAsObject(FacesContext facesContext, UIComponent component, String value) {
+            if (value == null || value.length() == 0) {
+                return null;
+            }
+            TAreasController controller = (TAreasController) facesContext.getApplication().getELResolver().
+                    getValue(facesContext.getELContext(), null, "tAreasController");
+            return controller.getTAreas(getKey(value));
+        }
+
+        rh.gob.igm.ec.TAreasPK getKey(String value) {
+            rh.gob.igm.ec.TAreasPK key;
+            String values[] = value.split(SEPARATOR_ESCAPED);
+            key = new rh.gob.igm.ec.TAreasPK();
+            key.setNoCd(Short.parseShort(values[0]));
+            key.setNoEmpMatriz(Short.parseShort(values[1]));
+            return key;
+        }
+
+        String getStringKey(rh.gob.igm.ec.TAreasPK value) {
+            StringBuilder sb = new StringBuilder();
+            sb.append(value.getNoCd());
+            sb.append(SEPARATOR);
+            sb.append(value.getNoEmpMatriz());
+            return sb.toString();
+        }
+
+        @Override
+        public String getAsString(FacesContext facesContext, UIComponent component, Object object) {
+            if (object == null) {
+                return null;
+            }
+            if (object instanceof TAreas) {
+                TAreas o = (TAreas) object;
+                return getStringKey(o.getTAreasPK());
             } else {
-                JsfUtil.ensureAddErrorMessage(transactionException, "A persistence error occurred.");
-            }
-        } catch (Exception e) {
-            try {
-                utx.rollback();
-            } catch (Exception ex) {
-            }
-            JsfUtil.ensureAddErrorMessage(e, "A persistence error occurred.");
-            return null;
-        }
-        return listSetup();
-    }
-
-    public String detailSetup() {
-        return scalarSetup("TAreas_detail");
-    }
-
-    public String editSetup() {
-        return scalarSetup("TAreas_edit");
-    }
-
-    private String scalarSetup(String destination) {
-        reset(false);
-        TAreas = (TAreas) JsfUtil.getObjectFromRequestParameter("jsfcrud.currentTAreas", converter, null);
-        if (TAreas == null) {
-            String requestTAreasString = JsfUtil.getRequestParameter("jsfcrud.currentTAreas");
-            JsfUtil.addErrorMessage("The TAreas with id " + requestTAreasString + " no longer exists.");
-            return relatedOrListOutcome();
-        }
-        return destination;
-    }
-
-    public String edit() {
-        TAreas.getTAreasPK().setNoEmpMatriz(TAreas.getTAreas().getTAreasPK().getNoEmpMatriz());
-        // TODO: no setter methods were found in your primary key class
-        //    rh.gob.igm.ec.TAreasPK
-        // and therefore initialization code need manual adjustments.
-        String TAreasString = converter.getAsString(FacesContext.getCurrentInstance(), null, TAreas);
-        String currentTAreasString = JsfUtil.getRequestParameter("jsfcrud.currentTAreas");
-        if (TAreasString == null || TAreasString.length() == 0 || !TAreasString.equals(currentTAreasString)) {
-            String outcome = editSetup();
-            if ("TAreas_edit".equals(outcome)) {
-                JsfUtil.addErrorMessage("Could not edit TAreas. Try again.");
-            }
-            return outcome;
-        }
-        try {
-            utx.begin();
-        } catch (Exception ex) {
-        }
-        try {
-            Exception transactionException = null;
-            getJpaController().edit(TAreas);
-            try {
-                utx.commit();
-            } catch (javax.transaction.RollbackException ex) {
-                transactionException = ex;
-            } catch (Exception ex) {
-            }
-            if (transactionException == null) {
-                JsfUtil.addSuccessMessage("TAreas was successfully updated.");
-            } else {
-                JsfUtil.ensureAddErrorMessage(transactionException, "A persistence error occurred.");
-            }
-        } catch (Exception e) {
-            try {
-                utx.rollback();
-            } catch (Exception ex) {
-            }
-            JsfUtil.ensureAddErrorMessage(e, "A persistence error occurred.");
-            return null;
-        }
-        return detailSetup();
-    }
-
-    public String remove() {
-        String idAsString = JsfUtil.getRequestParameter("jsfcrud.currentTAreas");
-        TAreasPK id = converter.getId(idAsString);
-        try {
-            utx.begin();
-        } catch (Exception ex) {
-        }
-        try {
-            Exception transactionException = null;
-            getJpaController().remove(getJpaController().find(id));
-            try {
-                utx.commit();
-            } catch (javax.transaction.RollbackException ex) {
-                transactionException = ex;
-            } catch (Exception ex) {
-            }
-            if (transactionException == null) {
-                JsfUtil.addSuccessMessage("TAreas was successfully deleted.");
-            } else {
-                JsfUtil.ensureAddErrorMessage(transactionException, "A persistence error occurred.");
-            }
-        } catch (Exception e) {
-            try {
-                utx.rollback();
-            } catch (Exception ex) {
-            }
-            JsfUtil.ensureAddErrorMessage(e, "A persistence error occurred.");
-            return null;
-        }
-        return relatedOrListOutcome();
-    }
-
-    private String relatedOrListOutcome() {
-        String relatedControllerOutcome = relatedControllerOutcome();
-        if ((ERROR)) {
-            return relatedControllerOutcome;
-        }
-        return listSetup();
-    }
-
-    public List<TAreas> getTAreasItems() {
-        if (TAreasItems == null) {
-            getPagingInfo();
-            TAreasItems = getJpaController().findRange(new int[]{pagingInfo.getFirstItem(), pagingInfo.getFirstItem() + pagingInfo.getBatchSize()});
-        }
-        return TAreasItems;
-    }
-
-    public String next() {
-        reset(false);
-        getPagingInfo().nextPage();
-        return "TAreas_list";
-    }
-
-    public String prev() {
-        reset(false);
-        getPagingInfo().previousPage();
-        return "TAreas_list";
-    }
-
-    private String relatedControllerOutcome() {
-        String relatedControllerString = JsfUtil.getRequestParameter("jsfcrud.relatedController");
-        String relatedControllerTypeString = JsfUtil.getRequestParameter("jsfcrud.relatedControllerType");
-        if (relatedControllerString != null && relatedControllerTypeString != null) {
-            FacesContext context = FacesContext.getCurrentInstance();
-            Object relatedController = context.getApplication().getELResolver().getValue(context.getELContext(), null, relatedControllerString);
-            try {
-                Class<?> relatedControllerType = Class.forName(relatedControllerTypeString);
-                Method detailSetupMethod = relatedControllerType.getMethod("detailSetup");
-                return (String) detailSetupMethod.invoke(relatedController);
-            } catch (ClassNotFoundException e) {
-                throw new FacesException(e);
-            } catch (NoSuchMethodException e) {
-                throw new FacesException(e);
-            } catch (IllegalAccessException e) {
-                throw new FacesException(e);
-            } catch (InvocationTargetException e) {
-                throw new FacesException(e);
+                Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "object {0} is of type {1}; expected type: {2}", new Object[]{object, object.getClass().getName(), TAreas.class.getName()});
+                return null;
             }
         }
-        return null;
+
     }
 
-    private void reset(boolean resetFirstItem) {
-        TAreas = null;
-        TAreasItems = null;
-        pagingInfo.setItemCount(-1);
-        if (resetFirstItem) {
-            pagingInfo.setFirstItem(0);
-        }
-    }
-
-    public void validateCreate(FacesContext facesContext, UIComponent component, Object value) {
-        TAreas newTAreas = new TAreas();
-        newTAreas.setTAreasPK(new TAreasPK());
-        String newTAreasString = converter.getAsString(FacesContext.getCurrentInstance(), null, newTAreas);
-        String TAreasString = converter.getAsString(FacesContext.getCurrentInstance(), null, TAreas);
-        if (!newTAreasString.equals(TAreasString)) {
-            createSetup();
-        }
-    }
-
-    public Converter getConverter() {
-        return converter;
-    }
-    
 }

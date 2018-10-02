@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="TDatEmpleadoCreateDlg" widgetVar="TDatEmpleadoCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateTDatEmpleadoTitle}">
+            <h:form id="TDatEmpleadoCreateForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{tDatEmpleadoController.selected != null}">
+                        <p:outputLabel value="#{bundle.CreateTDatEmpleadoLabel_noPersona}" for="noPersona" />
+                        <p:inputText id="noPersona" value="#{tDatEmpleadoController.selected.noPersona}" title="#{bundle.CreateTDatEmpleadoTitle_noPersona}" required="true" requiredMessage="#{bundle.CreateTDatEmpleadoRequiredMessage_noPersona}"/>
+                        <p:outputLabel value="#{bundle.CreateTDatEmpleadoLabel_noProveedor}" for="noProveedor" />
+                        <p:inputText id="noProveedor" value="#{tDatEmpleadoController.selected.noProveedor}" title="#{bundle.CreateTDatEmpleadoTitle_noProveedor}" />
+                        <p:outputLabel value="#{bundle.CreateTDatEmpleadoLabel_codigo}" for="codigo" />
+                        <p:inputText id="codigo" value="#{tDatEmpleadoController.selected.codigo}" title="#{bundle.CreateTDatEmpleadoTitle_codigo}" />
+                        <p:outputLabel value="#{bundle.CreateTDatEmpleadoLabel_noCedula}" for="noCedula" />
+                        <p:inputText id="noCedula" value="#{tDatEmpleadoController.selected.noCedula}" title="#{bundle.CreateTDatEmpleadoTitle_noCedula}" />
+                        <p:outputLabel value="#{bundle.CreateTDatEmpleadoLabel_priApellido}" for="priApellido" />
+                        <p:inputText id="priApellido" value="#{tDatEmpleadoController.selected.priApellido}" title="#{bundle.CreateTDatEmpleadoTitle_priApellido}" />
+                        <p:outputLabel value="#{bundle.CreateTDatEmpleadoLabel_segApellido}" for="segApellido" />
+                        <p:inputText id="segApellido" value="#{tDatEmpleadoController.selected.segApellido}" title="#{bundle.CreateTDatEmpleadoTitle_segApellido}" />
+                        <p:outputLabel value="#{bundle.CreateTDatEmpleadoLabel_nombres}" for="nombres" />
+                        <p:inputText id="nombres" value="#{tDatEmpleadoController.selected.nombres}" title="#{bundle.CreateTDatEmpleadoTitle_nombres}" />
+                        <p:outputLabel value="#{bundle.CreateTDatEmpleadoLabel_nombreC}" for="nombreC" />
+                        <p:inputText id="nombreC" value="#{tDatEmpleadoController.selected.nombreC}" title="#{bundle.CreateTDatEmpleadoTitle_nombreC}" />
+                        <p:outputLabel value="#{bundle.CreateTDatEmpleadoLabel_libMilitar}" for="libMilitar" />
+                        <p:inputText id="libMilitar" value="#{tDatEmpleadoController.selected.libMilitar}" title="#{bundle.CreateTDatEmpleadoTitle_libMilitar}" />
+                        <p:outputLabel value="#{bundle.CreateTDatEmpleadoLabel_seguroSocial}" for="seguroSocial" />
+                        <p:inputText id="seguroSocial" value="#{tDatEmpleadoController.selected.seguroSocial}" title="#{bundle.CreateTDatEmpleadoTitle_seguroSocial}" />
+                        <p:outputLabel value="#{bundle.CreateTDatEmpleadoLabel_sexo}" for="sexo" />
+                        <p:inputText id="sexo" value="#{tDatEmpleadoController.selected.sexo}" title="#{bundle.CreateTDatEmpleadoTitle_sexo}" />
+                        <p:outputLabel value="#{bundle.CreateTDatEmpleadoLabel_estCivil}" for="estCivil" />
+                        <p:inputText id="estCivil" value="#{tDatEmpleadoController.selected.estCivil}" title="#{bundle.CreateTDatEmpleadoTitle_estCivil}" />
+                        <p:outputLabel value="#{bundle.CreateTDatEmpleadoLabel_GSangre}" for="GSangre" />
+                        <p:inputText id="GSangre" value="#{tDatEmpleadoController.selected.GSangre}" title="#{bundle.CreateTDatEmpleadoTitle_GSangre}" />
+                        <p:outputLabel value="#{bundle.CreateTDatEmpleadoLabel_FNacimiento}" for="FNacimiento" />
+                        <p:calendar id="FNacimiento" pattern="MM/dd/yyyy HH:mm:ss" value="#{tDatEmpleadoController.selected.FNacimiento}" title="#{bundle.EditTDatEmpleadoTitle_FNacimiento}"  showOn="button"/>
+                        <p:outputLabel value="#{bundle.CreateTDatEmpleadoLabel_FMuerte}" for="FMuerte" />
+                        <p:calendar id="FMuerte" pattern="MM/dd/yyyy HH:mm:ss" value="#{tDatEmpleadoController.selected.FMuerte}" title="#{bundle.EditTDatEmpleadoTitle_FMuerte}"  showOn="button"/>
+                        <p:outputLabel value="#{bundle.CreateTDatEmpleadoLabel_direccion}" for="direccion" />
+                        <p:inputText id="direccion" value="#{tDatEmpleadoController.selected.direccion}" title="#{bundle.CreateTDatEmpleadoTitle_direccion}" />
+                        <p:outputLabel value="#{bundle.CreateTDatEmpleadoLabel_telefono}" for="telefono" />
+                        <p:inputText id="telefono" value="#{tDatEmpleadoController.selected.telefono}" title="#{bundle.CreateTDatEmpleadoTitle_telefono}" />
+                        <p:outputLabel value="#{bundle.CreateTDatEmpleadoLabel_tipo}" for="tipo" />
+                        <p:inputText id="tipo" value="#{tDatEmpleadoController.selected.tipo}" title="#{bundle.CreateTDatEmpleadoTitle_tipo}" />
+                        <p:outputLabel value="#{bundle.CreateTDatEmpleadoLabel_foto}" for="foto" />
+                        <p:inputText id="foto" value="#{tDatEmpleadoController.selected.foto}" title="#{bundle.CreateTDatEmpleadoTitle_foto}" />
+                        <p:outputLabel value="#{bundle.CreateTDatEmpleadoLabel_colorPiel}" for="colorPiel" />
+                        <p:inputText id="colorPiel" value="#{tDatEmpleadoController.selected.colorPiel}" title="#{bundle.CreateTDatEmpleadoTitle_colorPiel}" />
+                        <p:outputLabel value="#{bundle.CreateTDatEmpleadoLabel_colorCabello}" for="colorCabello" />
+                        <p:inputText id="colorCabello" value="#{tDatEmpleadoController.selected.colorCabello}" title="#{bundle.CreateTDatEmpleadoTitle_colorCabello}" />
+                        <p:outputLabel value="#{bundle.CreateTDatEmpleadoLabel_colorOjos}" for="colorOjos" />
+                        <p:inputText id="colorOjos" value="#{tDatEmpleadoController.selected.colorOjos}" title="#{bundle.CreateTDatEmpleadoTitle_colorOjos}" />
+                        <p:outputLabel value="#{bundle.CreateTDatEmpleadoLabel_estatura}" for="estatura" />
+                        <p:inputText id="estatura" value="#{tDatEmpleadoController.selected.estatura}" title="#{bundle.CreateTDatEmpleadoTitle_estatura}" />
+                        <p:outputLabel value="#{bundle.CreateTDatEmpleadoLabel_peso}" for="peso" />
+                        <p:inputText id="peso" value="#{tDatEmpleadoController.selected.peso}" title="#{bundle.CreateTDatEmpleadoTitle_peso}" />
+                        <p:outputLabel value="#{bundle.CreateTDatEmpleadoLabel_tallaCamisa}" for="tallaCamisa" />
+                        <p:inputText id="tallaCamisa" value="#{tDatEmpleadoController.selected.tallaCamisa}" title="#{bundle.CreateTDatEmpleadoTitle_tallaCamisa}" />
+                        <p:outputLabel value="#{bundle.CreateTDatEmpleadoLabel_tallaPantalon}" for="tallaPantalon" />
+                        <p:inputText id="tallaPantalon" value="#{tDatEmpleadoController.selected.tallaPantalon}" title="#{bundle.CreateTDatEmpleadoTitle_tallaPantalon}" />
+                        <p:outputLabel value="#{bundle.CreateTDatEmpleadoLabel_noCalzado}" for="noCalzado" />
+                        <p:inputText id="noCalzado" value="#{tDatEmpleadoController.selected.noCalzado}" title="#{bundle.CreateTDatEmpleadoTitle_noCalzado}" />
+                        <p:outputLabel value="#{bundle.CreateTDatEmpleadoLabel_FIngreso}" for="FIngreso" />
+                        <p:calendar id="FIngreso" pattern="MM/dd/yyyy HH:mm:ss" value="#{tDatEmpleadoController.selected.FIngreso}" title="#{bundle.EditTDatEmpleadoTitle_FIngreso}"  showOn="button"/>
+                        <p:outputLabel value="#{bundle.CreateTDatEmpleadoLabel_telefono2}" for="telefono2" />
+                        <p:inputText id="telefono2" value="#{tDatEmpleadoController.selected.telefono2}" title="#{bundle.CreateTDatEmpleadoTitle_telefono2}" />
+                        <p:outputLabel value="#{bundle.CreateTDatEmpleadoLabel_LVivPropia}" for="LVivPropia" />
+                        <p:inputText id="LVivPropia" value="#{tDatEmpleadoController.selected.LVivPropia}" title="#{bundle.CreateTDatEmpleadoTitle_LVivPropia}" />
+                        <p:outputLabel value="#{bundle.CreateTDatEmpleadoLabel_alergia}" for="alergia" />
+                        <p:inputText id="alergia" value="#{tDatEmpleadoController.selected.alergia}" title="#{bundle.CreateTDatEmpleadoTitle_alergia}" />
+                        <p:outputLabel value="#{bundle.CreateTDatEmpleadoLabel_noLocNace}" for="noLocNace" />
+                        <p:inputText id="noLocNace" value="#{tDatEmpleadoController.selected.noLocNace}" title="#{bundle.CreateTDatEmpleadoTitle_noLocNace}" />
+                        <p:outputLabel value="#{bundle.CreateTDatEmpleadoLabel_noLocDir}" for="noLocDir" />
+                        <p:inputText id="noLocDir" value="#{tDatEmpleadoController.selected.noLocDir}" title="#{bundle.CreateTDatEmpleadoTitle_noLocDir}" />
+                        <p:outputLabel value="#{bundle.CreateTDatEmpleadoLabel_noCabeza}" for="noCabeza" />
+                        <p:inputText id="noCabeza" value="#{tDatEmpleadoController.selected.noCabeza}" title="#{bundle.CreateTDatEmpleadoTitle_noCabeza}" />
+                        <p:outputLabel value="#{bundle.CreateTDatEmpleadoLabel_LUsaLentes}" for="LUsaLentes" />
+                        <p:inputText id="LUsaLentes" value="#{tDatEmpleadoController.selected.LUsaLentes}" title="#{bundle.CreateTDatEmpleadoTitle_LUsaLentes}" />
+                        <p:outputLabel value="#{bundle.CreateTDatEmpleadoLabel_comisariato}" for="comisariato" />
+                        <p:inputText id="comisariato" value="#{tDatEmpleadoController.selected.comisariato}" title="#{bundle.CreateTDatEmpleadoTitle_comisariato}" />
+                        <p:outputLabel value="#{bundle.CreateTDatEmpleadoLabel_FReingreso}" for="FReingreso" />
+                        <p:calendar id="FReingreso" pattern="MM/dd/yyyy HH:mm:ss" value="#{tDatEmpleadoController.selected.FReingreso}" title="#{bundle.EditTDatEmpleadoTitle_FReingreso}"  showOn="button"/>
+                        <p:outputLabel value="#{bundle.CreateTDatEmpleadoLabel_aliasBaseDatos}" for="aliasBaseDatos" />
+                        <p:inputText id="aliasBaseDatos" value="#{tDatEmpleadoController.selected.aliasBaseDatos}" title="#{bundle.CreateTDatEmpleadoTitle_aliasBaseDatos}" />
+                        <p:outputLabel value="#{bundle.CreateTDatEmpleadoLabel_pieFirma}" for="pieFirma" />
+                        <p:inputText id="pieFirma" value="#{tDatEmpleadoController.selected.pieFirma}" title="#{bundle.CreateTDatEmpleadoTitle_pieFirma}" />
+                        <p:outputLabel value="#{bundle.CreateTDatEmpleadoLabel_noDirec}" for="noDirec" />
+                        <p:inputText id="noDirec" value="#{tDatEmpleadoController.selected.noDirec}" title="#{bundle.CreateTDatEmpleadoTitle_noDirec}" />
+                        <p:outputLabel value="#{bundle.CreateTDatEmpleadoLabel_nivel}" for="nivel" />
+                        <p:inputText id="nivel" value="#{tDatEmpleadoController.selected.nivel}" title="#{bundle.CreateTDatEmpleadoTitle_nivel}" />
+                        <p:outputLabel value="#{bundle.CreateTDatEmpleadoLabel_cargoLossca}" for="cargoLossca" />
+                        <p:inputText id="cargoLossca" value="#{tDatEmpleadoController.selected.cargoLossca}" title="#{bundle.CreateTDatEmpleadoTitle_cargoLossca}" />
+                        <p:outputLabel value="#{bundle.CreateTDatEmpleadoLabel_patronal}" for="patronal" />
+                        <p:inputText id="patronal" value="#{tDatEmpleadoController.selected.patronal}" title="#{bundle.CreateTDatEmpleadoTitle_patronal}" />
+                        <p:outputLabel value="#{bundle.CreateTDatEmpleadoLabel_personal}" for="personal" />
+                        <p:inputText id="personal" value="#{tDatEmpleadoController.selected.personal}" title="#{bundle.CreateTDatEmpleadoTitle_personal}" />
+                        <p:outputLabel value="#{bundle.CreateTDatEmpleadoLabel_iece}" for="iece" />
+                        <p:inputText id="iece" value="#{tDatEmpleadoController.selected.iece}" title="#{bundle.CreateTDatEmpleadoTitle_iece}" />
+                        <p:outputLabel value="#{bundle.CreateTDatEmpleadoLabel_proceso}" for="proceso" />
+                        <p:inputText id="proceso" value="#{tDatEmpleadoController.selected.proceso}" title="#{bundle.CreateTDatEmpleadoTitle_proceso}" />
+                        <p:outputLabel value="#{bundle.CreateTDatEmpleadoLabel_subproceso}" for="subproceso" />
+                        <p:inputText id="subproceso" value="#{tDatEmpleadoController.selected.subproceso}" title="#{bundle.CreateTDatEmpleadoTitle_subproceso}" />
+                        <p:outputLabel value="#{bundle.CreateTDatEmpleadoLabel_partidaPresupuestaria}" for="partidaPresupuestaria" />
+                        <p:inputText id="partidaPresupuestaria" value="#{tDatEmpleadoController.selected.partidaPresupuestaria}" title="#{bundle.CreateTDatEmpleadoTitle_partidaPresupuestaria}" />
+                        <p:outputLabel value="#{bundle.CreateTDatEmpleadoLabel_gestion}" for="gestion" />
+                        <p:inputText id="gestion" value="#{tDatEmpleadoController.selected.gestion}" title="#{bundle.CreateTDatEmpleadoTitle_gestion}" />
+                        <p:outputLabel value="#{bundle.CreateTDatEmpleadoLabel_unidad}" for="unidad" />
+                        <p:inputText id="unidad" value="#{tDatEmpleadoController.selected.unidad}" title="#{bundle.CreateTDatEmpleadoTitle_unidad}" />
+                        <p:outputLabel value="#{bundle.CreateTDatEmpleadoLabel_email}" for="email" />
+                        <p:inputText id="email" value="#{tDatEmpleadoController.selected.email}" title="#{bundle.CreateTDatEmpleadoTitle_email}" />
+                        <p:outputLabel value="#{bundle.CreateTDatEmpleadoLabel_LDiscapacidad}" for="LDiscapacidad" />
+                        <p:inputText id="LDiscapacidad" value="#{tDatEmpleadoController.selected.LDiscapacidad}" title="#{bundle.CreateTDatEmpleadoTitle_LDiscapacidad}" />
+                        <p:outputLabel value="#{bundle.CreateTDatEmpleadoLabel_noConadis}" for="noConadis" />
+                        <p:inputText id="noConadis" value="#{tDatEmpleadoController.selected.noConadis}" title="#{bundle.CreateTDatEmpleadoTitle_noConadis}" />
+                        <p:outputLabel value="#{bundle.CreateTDatEmpleadoLabel_autoidentificacionEtnica}" for="autoidentificacionEtnica" />
+                        <p:inputText id="autoidentificacionEtnica" value="#{tDatEmpleadoController.selected.autoidentificacionEtnica}" title="#{bundle.CreateTDatEmpleadoTitle_autoidentificacionEtnica}" />
+                        <p:outputLabel value="#{bundle.CreateTDatEmpleadoLabel_nacionalidadIndigena}" for="nacionalidadIndigena" />
+                        <p:inputText id="nacionalidadIndigena" value="#{tDatEmpleadoController.selected.nacionalidadIndigena}" title="#{bundle.CreateTDatEmpleadoTitle_nacionalidadIndigena}" />
+                        <p:outputLabel value="#{bundle.CreateTDatEmpleadoLabel_LCatastrofica}" for="LCatastrofica" />
+                        <p:inputText id="LCatastrofica" value="#{tDatEmpleadoController.selected.LCatastrofica}" title="#{bundle.CreateTDatEmpleadoTitle_LCatastrofica}" />
+                        <p:outputLabel value="#{bundle.CreateTDatEmpleadoLabel_noConadisCatastrofica}" for="noConadisCatastrofica" />
+                        <p:inputText id="noConadisCatastrofica" value="#{tDatEmpleadoController.selected.noConadisCatastrofica}" title="#{bundle.CreateTDatEmpleadoTitle_noConadisCatastrofica}" />
+                        <p:outputLabel value="#{bundle.CreateTDatEmpleadoLabel_calleSecundaria}" for="calleSecundaria" />
+                        <p:inputText id="calleSecundaria" value="#{tDatEmpleadoController.selected.calleSecundaria}" title="#{bundle.CreateTDatEmpleadoTitle_calleSecundaria}" />
+                        <p:outputLabel value="#{bundle.CreateTDatEmpleadoLabel_referencia}" for="referencia" />
+                        <p:inputText id="referencia" value="#{tDatEmpleadoController.selected.referencia}" title="#{bundle.CreateTDatEmpleadoTitle_referencia}" />
+                        <p:outputLabel value="#{bundle.CreateTDatEmpleadoLabel_extension}" for="extension" />
+                        <p:inputText id="extension" value="#{tDatEmpleadoController.selected.extension}" title="#{bundle.CreateTDatEmpleadoTitle_extension}" />
+                        <p:outputLabel value="#{bundle.CreateTDatEmpleadoLabel_contactoApellidos}" for="contactoApellidos" />
+                        <p:inputText id="contactoApellidos" value="#{tDatEmpleadoController.selected.contactoApellidos}" title="#{bundle.CreateTDatEmpleadoTitle_contactoApellidos}" />
+                        <p:outputLabel value="#{bundle.CreateTDatEmpleadoLabel_contactoNombres}" for="contactoNombres" />
+                        <p:inputText id="contactoNombres" value="#{tDatEmpleadoController.selected.contactoNombres}" title="#{bundle.CreateTDatEmpleadoTitle_contactoNombres}" />
+                        <p:outputLabel value="#{bundle.CreateTDatEmpleadoLabel_contactoTelefono}" for="contactoTelefono" />
+                        <p:inputText id="contactoTelefono" value="#{tDatEmpleadoController.selected.contactoTelefono}" title="#{bundle.CreateTDatEmpleadoTitle_contactoTelefono}" />
+                        <p:outputLabel value="#{bundle.CreateTDatEmpleadoLabel_contactoCelular}" for="contactoCelular" />
+                        <p:inputText id="contactoCelular" value="#{tDatEmpleadoController.selected.contactoCelular}" title="#{bundle.CreateTDatEmpleadoTitle_contactoCelular}" />
+                        <p:outputLabel value="#{bundle.CreateTDatEmpleadoLabel_emailInstitucional}" for="emailInstitucional" />
+                        <p:inputText id="emailInstitucional" value="#{tDatEmpleadoController.selected.emailInstitucional}" title="#{bundle.CreateTDatEmpleadoTitle_emailInstitucional}" />
+                        <p:outputLabel value="#{bundle.CreateTDatEmpleadoLabel_noLicencia}" for="noLicencia" />
+                        <p:selectOneMenu id="noLicencia" value="#{tDatEmpleadoController.selected.noLicencia}" >
+                            <f:selectItems value="#{tLicenciaController.itemsAvailableSelectOne}"
+                                           var="noLicenciaItem"
+                                           itemValue="#{noLicenciaItem}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{bundle.CreateTDatEmpleadoLabel_idNacionalidad}" for="idNacionalidad" />
+                        <p:selectOneMenu id="idNacionalidad" value="#{tDatEmpleadoController.selected.idNacionalidad}" >
+                            <f:selectItems value="#{tNacionalidadController.itemsAvailableSelectOne}"
+                                           var="idNacionalidadItem"
+                                           itemValue="#{idNacionalidadItem}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{bundle.CreateTDatEmpleadoLabel_noProfesion}" for="noProfesion" />
+                        <p:selectOneMenu id="noProfesion" value="#{tDatEmpleadoController.selected.noProfesion}" >
+                            <f:selectItems value="#{tProfesionesController.itemsAvailableSelectOne}"
+                                           var="noProfesionItem"
+                                           itemValue="#{noProfesionItem}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{bundle.CreateTDatEmpleadoLabel_noRelig}" for="noRelig" />
+                        <p:selectOneMenu id="noRelig" value="#{tDatEmpleadoController.selected.noRelig}" >
+                            <f:selectItems value="#{tRhReligionController.itemsAvailableSelectOne}"
+                                           var="noReligItem"
+                                           itemValue="#{noReligItem}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{bundle.CreateTDatEmpleadoLabel_noSeg}" for="noSeg" />
+                        <p:selectOneMenu id="noSeg" value="#{tDatEmpleadoController.selected.noSeg}" >
+                            <f:selectItems value="#{tRhTipoSegSocialController.itemsAvailableSelectOne}"
+                                           var="noSegItem"
+                                           itemValue="#{noSegItem}"/>
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{tDatEmpleadoController.create}" value="#{bundle.Save}" update="display,:TDatEmpleadoListForm:datalist,:growl" oncomplete="handleSubmit(args,'TDatEmpleadoCreateDialog');"/>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="TDatEmpleadoCreateDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

@@ -8,7 +8,7 @@ import javax.persistence.metamodel.CollectionAttribute;
 import javax.persistence.metamodel.SingularAttribute;
 import javax.persistence.metamodel.StaticMetamodel;
 
-@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2018-09-19T14:24:43")
+@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2018-10-02T12:47:48")
 @StaticMetamodel(Tcanton.class)
 public class Tcanton_ { 
 

@@ -12,7 +12,7 @@ import rh.gob.igm.ec.TRhTipoSegSocial;
 
 /**
  *
- * @author TOAPANTA_JUAN
+ * @author PULE_DIEGO
  */
 @Stateless
 public class TRhTipoSegSocialFacade extends AbstractFacade<TRhTipoSegSocial> {

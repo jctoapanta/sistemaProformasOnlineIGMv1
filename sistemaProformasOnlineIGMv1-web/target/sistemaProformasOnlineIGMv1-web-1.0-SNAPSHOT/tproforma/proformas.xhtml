@@ -15,13 +15,16 @@
                 <h:panelGroup id="display">
                     <p:panel>
                         <h:panelGrid columns="2" cellspacing="10" >
-                            <p:outputLabel value="Ciu:" for="ciu"/>
+                            <p:outputLabel value="Ciu:  " for="ciu"/>
                             <p:outputLabel id="ciu" value="#{login.cliente.ciu}" />
-                            <p:outputLabel value="Nombres:" for="nombres" />
+                            <p:outputLabel value="Nombres:  " for="nombres" />
                             <p:outputLabel id="nombres" value="#{login.cliente.nombres}"/>
-                            <p:outputLabel value="Apellidos:" for="apellidos" />
+                            <p:outputLabel value="Apellidos:  " for="apellidos" />
                             <p:outputLabel id="apellidos" value="#{login.cliente.apellidos}"/>                                              
                             <h:inputHidden id="ciuHidden" value="#{login.cliente.ciu}" binding="#{order.ciuH}"/>
+                            <p:outputLabel value="Dirección de facturación: " for="dirEntrega"/>
+                            <b></b>
+                            <h:outputText id="dirEntrega" value="#{tdireccionesusrController.buscaDirEnvioCliente().toString()}"/>
                         </h:panelGrid>
                     </p:panel>                   
                     <p:fieldset style="margin-bottom:12px;">
@@ -95,8 +98,7 @@
                                             <f:selectItems value="#{tdireccionesusrController.selectedItems}"/>
                                             <p:ajax process="@this" partialSubmit="true" update="tipoEntregaHidden2, ciuHidden, dirEntrega"/>
                                         </p:selectOneMenu>
-                                        <p:outputLabel value="Dirección de entrega: " for="dirEntrega"/>
-                                        <h:outputText id="dirEntrega" value="#{tdireccionesusrController.buscaDirEnvioCliente().toString()}"/>
+
                                     </h:panelGrid>
                                     <h:inputHidden id="tipoEntregaHidden2" value="#{tdireccionesusrController.selectedItem}" binding="#{order.tipoEntregaH}"/>
                                 </div>
@@ -104,11 +106,23 @@
                         </table>
                     </p:fieldset> 
                     <p:commandButton value="#{bundle.Save} #{bundle.CreateTdetproformaLabel_tproforma}" ajax="false" 
-                                     update="display,:TproformaListForm:datalist,:growl"  class="btn btn-primary"
-                                     actionListener="#{order.addProforma}" onclick="TproformaCreateDialog.hide()"/>
-                    <p:commandButton value="#{bundle.Cancel}" action="#{order.limpiar}" onclick="TproformaCreateDialog.hide()" class="btn btn-danger"/>
+                                     update="display,:TproformaListForm:datalist,:growl"  class="btn btn-primary" 
+                                     actionListener="#{order.addProforma}" onclick="TproformaCreateDialog.hide()">
+                      
+                    </p:commandButton>
+                    <p:commandButton value="Confirmar dirección" actionListener="#{order.addProforma}" update="display,:TproformaListForm:datalist,:growl" >
+                        <p:confirm  header="Confirmar" message="Desea que la dirección de faturacion sea la misma de envio" icon="ui-icon-alert" />
+                        
+                    </p:commandButton>
+                    <p:confirmDialog global="true">
+                        <p:commandButton value="SI" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check"/>
+                        <p:commandButton value="NO Enviar a otra direcciòn" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" ajax="false" update="display,:TproformaListForm:datalist,:growl,:TdireccionesusrListForm" onclick="location.href = '../faces/tdireccionesusr/List.xhtml'"/>
+                    </p:confirmDialog>
+      <p:commandButton value="#{bundle.Cancel}" action="#{order.limpiar}" onclick="TproformaCreateDialog.hide()" class="btn btn-danger"/>
                 </h:panelGroup>                    
             </h:form>
+
         </p:dialog>
+      
     </ui:composition>
 </html>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="TFuncionEditDlg" widgetVar="TFuncionEditDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.EditTFuncionTitle}">
+            <h:form id="TFuncionEditForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{tFuncionController.selected != null}">
+                        <p:outputLabel value="#{bundle.EditTFuncionLabel_noFuncion}" for="noFuncion" />
+                        <p:inputText id="noFuncion" value="#{tFuncionController.selected.noFuncion}" title="#{bundle.EditTFuncionTitle_noFuncion}" required="true" requiredMessage="#{bundle.EditTFuncionRequiredMessage_noFuncion}"/>
+                        <p:outputLabel value="#{bundle.EditTFuncionLabel_descrip}" for="descrip" />
+                        <p:inputText id="descrip" value="#{tFuncionController.selected.descrip}" title="#{bundle.EditTFuncionTitle_descrip}" />
+                        <p:outputLabel value="#{bundle.EditTFuncionLabel_abrev}" for="abrev" />
+                        <p:inputText id="abrev" value="#{tFuncionController.selected.abrev}" title="#{bundle.EditTFuncionTitle_abrev}" />
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{tFuncionController.update}" value="#{bundle.Save}" update="display,:TFuncionListForm:datalist,:growl" oncomplete="handleSubmit(args, 'TFuncionEditDialog');"/>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="TFuncionEditDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

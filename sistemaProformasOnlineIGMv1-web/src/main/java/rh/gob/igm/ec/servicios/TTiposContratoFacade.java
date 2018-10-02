@@ -12,7 +12,7 @@ import rh.gob.igm.ec.TTiposContrato;
 
 /**
  *
- * @author TOAPANTA_JUAN
+ * @author PULE_DIEGO
  */
 @Stateless
 public class TTiposContratoFacade extends AbstractFacade<TTiposContrato> {
