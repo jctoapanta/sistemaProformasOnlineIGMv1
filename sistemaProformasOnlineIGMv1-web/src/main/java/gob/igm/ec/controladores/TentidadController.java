@@ -13,6 +13,7 @@ import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -30,6 +31,7 @@ import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
 import javax.inject.Inject;
 import javax.mail.MessagingException;
+import javax.servlet.http.HttpServletRequest;
 import validar.*;
 
 @Named("tentidadController")
@@ -38,7 +40,7 @@ public class TentidadController extends FacesUtil implements Serializable {
 
     @Inject
     private TdireccionesusrController tdireccion;
-    
+
     @Inject
     private Login login;
 
@@ -106,9 +108,13 @@ public class TentidadController extends FacesUtil implements Serializable {
         }
     }
 
-    public String booking() {
-        String regla = "/registro";
+    public void booking() {
+        //String regla = "/registro";
         try {
+            HttpServletRequest request = (HttpServletRequest)FacesContext.getCurrentInstance().getExternalContext().getRequest();
+            String txtProperty = request.getParameter("TentidadBookingForm:ciu");
+            
+            login.getCliente().setCiu(txtProperty);
             List<Object> usuario = null;
             ValidarIdentificacion validaID = new ValidarIdentificacion();
             usuario = this.ejbFacade.buscarExisteUsuario(selected.getCiu());
@@ -121,7 +127,7 @@ public class TentidadController extends FacesUtil implements Serializable {
                         this.encriptUtil = new EncriptUtil();
                         encriptado = this.encriptUtil.encrypt3DES(selected.getClave());
                         selected.setClave(encriptado);
-                        regla = "/index";
+                        //regla = "/index";
                     } catch (NoSuchAlgorithmException | InvalidKeyException | NoSuchPaddingException | IOException | IllegalStateException | IllegalBlockSizeException | BadPaddingException ex) {
                         Logger.getLogger(TentidadController.class.getName()).log(Level.SEVERE, null, ex);
                     }
@@ -137,14 +143,14 @@ public class TentidadController extends FacesUtil implements Serializable {
                 JsfUtil.addErrorMessage("Cliente con Documento de Identificación " + selected.getCiu() + " ya existe.");
             }
 
-            //prepareCreate();
+            tdireccion.prepareCreate();
             items = null;
 
         } catch (Exception ex) {
             Logger.getLogger(TentidadController.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        return regla;
+        //return regla;
     }
 
     public void update() {

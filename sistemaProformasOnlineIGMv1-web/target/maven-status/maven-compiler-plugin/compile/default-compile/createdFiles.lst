@@ -17,6 +17,7 @@ gob\igm\ec\controladores\TsucursalController.class
 gob\igm\ec\servicios\TentidadFacade.class
 gob\igm\ec\servicios\TcontrolIvaFacade.class
 gob\igm\ec\servicios\TUsuarioSucursalFacade.class
+gob\igm\ec\controladores\Logout.class
 rh\gob\igm\ec\servicios\AbstractFacade.class
 gob\igm\ec\controladores\TitemController.class
 rh\gob\igm\ec\controladores\TProfesionesController.class

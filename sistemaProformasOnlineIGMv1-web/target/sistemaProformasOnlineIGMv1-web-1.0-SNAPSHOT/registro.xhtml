@@ -6,7 +6,8 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:p="http://primefaces.org/ui">
 
-    <ui:composition template="/templateBooking.xhtml"> 
+
+    <ui:composition template="/templateBooking.xhtml">
         <ui:define name="title">
             <h:outputText value="#{bundle.ListTentidadTitle}"></h:outputText>
         </ui:define>
@@ -42,8 +43,6 @@
                                 </p:inputText>
                                 <p:outputLabel value="#{bundle.CreateTentidadLabel_telefonoCelular}" for="telefonoCelular" />
                                 <p:inputText id="telefonoCelular" maxlength="10" value="#{tentidadController.selected.telefonoCelular}" title="#{bundle.CreateTentidadTitle_telefonoCelular}"/>
-                                <p:outputLabel value="#{bundle.CreateTentidadLabel_fax}" for="fax" />
-                                <p:inputText id="fax" value="#{tentidadController.selected.fax}" title="#{bundle.CreateTentidadTitle_fax}" />
                                 <p:outputLabel value="#{bundle.CreateTentidadLabel_email}" for="email" />
                                 <p:inputText id="email" value="#{tentidadController.selected.email}" title="#{bundle.CreateTentidadTitle_email}" required="true" 
                                              requiredMessage="#{bundle.CreateTentidadRequiredMessage_email}"
@@ -54,15 +53,21 @@
                                 <p:password id="clave" value="#{tentidadController.selected.clave}" title="#{bundle.CreateTentidadTitle_clave}" required="true" match="claveConfirma" validatorMessage="#{bundle.msgError_claveConfirmacion}"/>
                                 <p:outputLabel value="#{bundle.CreateTentidadLabel_claveConfirmacion}" for="claveConfirma" />
                                 <p:password id="claveConfirma" value="#{tentidadController.claveConfirma}" title="#{bundle.CreateTentidadTitle_claveConfirmacion}"/>
+                                <h:inputHidden id="ciuHidden" value="#{tentidadController.selected.ciu}" binding="#{tdireccionesusrController.ciuH}"/>
+                                <h:inputHidden id="ciuParamR" value="#{tentidadController.selected.ciu}" binding="#{tdireccionesusrController.ciuH}"/>
                             </p:panelGrid>
                         </p:panelGrid>
-                        <p:commandButton action="#{tentidadController.booking}" oncomplete="location.reload(forceGet)" ajax="false" value="#{bundle.Save}" update="@(.ui-message) display :growl TentidadBookingForm">
-                            <f:param name="ciuParam" value="#{tentidadController.selected.ciu}"/>
+                                
+                        <p:commandButton actionListener="#{tentidadController.booking}" 
+                                         update="@(.ui-message) display :growl :TdireccionesusrCreateForm" oncomplete="PF('TdireccionesusrCreateDialog').show()"
+                                         value="#{bundle.Save}">
                         </p:commandButton>
-                        <p:commandButton value="#{bundle.Cancel}" immediate="true" actionListener="/index" oncomplete="location.reload()"/>
+                        <p:commandButton value="#{bundle.Cancel}" immediate="true" action="/index" oncomplete="location.reload()"/>
                     </h:panelGroup>
                 </h:form>            
             </div>
+            <ui:include src="/tdireccionesusr/Create.xhtml"/>
         </ui:define>
     </ui:composition>
+
 </html>

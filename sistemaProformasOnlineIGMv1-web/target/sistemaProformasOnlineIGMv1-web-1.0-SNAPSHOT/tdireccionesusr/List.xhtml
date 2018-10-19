@@ -17,7 +17,7 @@
                 <h:panelGrid columns="2" cellspacing="5" >
                     <p:outputLabel value="Ciu:" for="ciu"/>
                     <p:outputLabel id="ciu" value="#{login.cliente.ciu}" />
-                    <h:inputHidden id="ciuHidden" value="#{login.cliente.ciu}" binding="#{order.ciuH}"/>
+                    <h:inputHidden id="ciuHidden1" value="#{login.cliente.ciu}" binding="#{order.ciuH}"/>
                     <p:outputLabel value="Nombres:" for="nombres" />
                     <p:outputLabel id="nombres" value="#{login.cliente.nombres}"/>
                     <p:outputLabel value="Apellidos:" for="apellidos" />
@@ -36,10 +36,9 @@
                                  rows="10"
                                  rowsPerPageTemplate="10,20,30,40,50"
                                  >
-
                         <p:ajax event="rowSelect"   update="createButton viewButton editButton deleteButton"/>
                         <p:ajax event="rowUnselect" update="createButton viewButton editButton deleteButton"/>
-                        <h:outputText value="#{login.cliente.ciu}" binding="#{order.ciuH}"/>
+<!--                        <h:outputText value="#{login.cliente.ciu}" binding="#{order.ciuH}"/>-->
 
                         <p:column>
                             <f:facet name="header">
@@ -77,14 +76,11 @@
                             </f:facet>
                             <h:outputText value="#{item.idTipoDireccion.descTipoDireccion}"/>
                         </p:column>
-                        <p:column style=" text-align: center">
-                            <f:facet name="header">Enviar a:</f:facet>
-                            <p:commandButton id="updateButton" icon="ui-icon-extlink" value="...esta direccion" action="#{tdireccionesusrController.seleccionaDirEnvio(tdireccionesusrController.selected)}" update=":growl">
-                                <f:setPropertyActionListener value="#{item}" target="#{tdireccionesusrController.selected}" />
-                            </p:commandButton>
-                        </p:column>
+                        
                         <f:facet name="footer">
-                            <p:commandButton id="createButton" icon="ui-icon-plus"   value="#{bundle.ListTdireccionesusrCreateLink}" actionListener="#{tdireccionesusrController.prepareCreate}" update=":TdireccionesusrCreateForm" oncomplete="PF('TdireccionesusrCreateDialog').show()"/>
+                            <p:commandButton id="createButton" icon="ui-icon-plus"   value="#{bundle.ListTdireccionesusrCreateLink}" actionListener="#{tdireccionesusrController.prepareCreate}" update=":TdireccionesusrCreateForm" oncomplete="PF('TdireccionesusrCreateDialog').show()">
+                                <f:param name="ciuParam" value="#{login.cliente.ciu}"/>
+                            </p:commandButton>
                             <p:commandButton id="viewButton"   icon="ui-icon-search" value="#{bundle.View}" update=":TdireccionesusrViewForm" oncomplete="PF('TdireccionesusrViewDialog').show()" disabled="#{empty tdireccionesusrController.selected}"/>
                             <p:commandButton id="editButton"   icon="ui-icon-pencil" value="#{bundle.Edit}" update=":TdireccionesusrEditForm" oncomplete="PF('TdireccionesusrEditDialog').show()" disabled="#{empty tdireccionesusrController.selected}"/>
                             <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{tdireccionesusrController.destroy}" update=":growl,datalist" disabled="#{empty tdireccionesusrController.selected}"/>

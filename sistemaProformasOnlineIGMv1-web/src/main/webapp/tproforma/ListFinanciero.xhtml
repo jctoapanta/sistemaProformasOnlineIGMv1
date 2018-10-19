@@ -31,10 +31,6 @@
                                  rowsPerPageTemplate="10,20,30,40,50"
                                  >      
                        
-                        <!--<p:ajax event="rowSelect" update=":TproformaListFormF:botonAprobar"/>-->
-                       <!-- <p:ajax event="rowUnselect"/>
-                        <p:ajax event="rowSelectCheckbox" process="@this"/>-->
-
                         <p:column width="6%">
                             <f:facet name="header">
                                 <h:outputText value="#{bundle.ListTproformaTitle_tproformaPK_idProforma}"/>
@@ -71,7 +67,7 @@
                         <p:column selectionMode="multiple" headerText="seleccionar todo" width="2%" />
                        
                          <f:facet name="footer">
-                             <p:commandButton id="botonAprobar"   icon="ui-icon-pencil" value="#{bundle.aprobar}" actionListener ="#{tproformaController.aprobar}" update=":TproformaListFormF:datalist" disabled="false" ajax="true" />
+                             <p:commandButton id="botonAprobar"   icon="ui-icon-pencil" value="#{bundle.Aprobar}" actionListener ="#{tproformaController.aprobar}" update=":TproformaListFormF:datalist" disabled="false" ajax="true" />
                         </f:facet>
                     </p:dataTable>
                 </p:panel>  
