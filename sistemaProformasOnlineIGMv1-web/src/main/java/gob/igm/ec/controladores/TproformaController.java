@@ -98,12 +98,12 @@ public class TproformaController implements Serializable {
     private List<Tproforma> itemsXCiu = null;
     private List<Tproforma> itemsXCiuTotal = null;
     private List<Tproforma> itemsXEstado = null;
-    private List<Tproforma> itemsSeleccionados =new ArrayList() ;
+    private List<Tproforma> itemsSeleccionados = new ArrayList();
     private Tproforma selected;
     private EncriptUtil encriptUtil;
     @Resource(name = "ptvDS")
     private DataSource PTV;
-    private Tproforma[] proformasSelected; 
+    private Tproforma[] proformasSelected;
 
     public TproformaController() {
     }
@@ -289,7 +289,7 @@ public class TproformaController implements Serializable {
     public void setItemsXCiuTotal(List<Tproforma> itemsXCiuTotal) {
         this.itemsXCiuTotal = itemsXCiuTotal;
     }
-    
+
     /**
      * @return the itemsXCiu
      */
@@ -342,26 +342,21 @@ public class TproformaController implements Serializable {
         }
 
     }
-    
-    public void aprobar(ActionEvent evento){
-        
-         
-       if(this.itemsSeleccionados.isEmpty()){
+
+    public void aprobar(ActionEvent evento) {
+
+        if (this.itemsSeleccionados.isEmpty()) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Por favor seleccione al menos una proforma", ""));
-       }
-       else{
-        for (Tproforma proforma:this.itemsSeleccionados) {
-            this.ejbFacade.aprobarFinanciero(proforma.getTproformaPK().getIdProforma(),"P");
-               
+        } else {
+            for (Tproforma proforma : this.itemsSeleccionados) {
+                this.ejbFacade.aprobarFinanciero(proforma.getTproformaPK().getIdProforma(), "P");
+
+            }
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Se ha aprobado con éxito", ""));
+            this.itemsSeleccionados.removeAll(this.itemsSeleccionados);
+            this.itemsXEstado = getFacade().buscarProformsXEstado("V");
         }
-         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Se ha aprobado con éxito", ""));
-         this.itemsSeleccionados.removeAll(this.itemsSeleccionados);
-         this.itemsXEstado=getFacade().buscarProformsXEstado("V");
-        }
-      
-    }
-             
-       
+
     }
 
-
+}

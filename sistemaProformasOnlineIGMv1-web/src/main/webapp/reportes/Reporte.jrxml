@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created with Jaspersoft Studio version 6.4.3.final using JasperReports Library version 6.4.3  -->
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="595" pageHeight="420" orientation="Landscape" whenNoDataType="NoPages" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="9cc64e3a-d62d-47a3-9701-60e347a9d64f">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="595" pageHeight="420" orientation="Landscape" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="9cc64e3a-d62d-47a3-9701-60e347a9d64f">
 	<property name="ireport.zoom" value="1.5"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
@@ -320,7 +319,7 @@ Sector El Dorado Quito Pichincha Postal           Telèfonos: 593 2 397 5100 al 
 			<frame>
 				<reportElement mode="Opaque" x="0" y="2" width="540" height="16" forecolor="#CCE7BA" backcolor="#CCE7BA" uuid="9fd31a61-3a27-4a4a-936e-d645e95bb26f"/>
 				<staticText>
-					<reportElement x="343" y="3" width="65" height="14" uuid="aa2345c3-93a6-451b-9caf-41a4d9043fb6">
+					<reportElement x="343" y="2" width="65" height="14" uuid="aa2345c3-93a6-451b-9caf-41a4d9043fb6">
 						<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="5f925e37-e574-415f-952c-4cefd0f3333b"/>
 						<property name="com.jaspersoft.studio.unit.width" value="px"/>
 						<property name="com.jaspersoft.studio.unit.height" value="px"/>
@@ -332,7 +331,7 @@ Sector El Dorado Quito Pichincha Postal           Telèfonos: 593 2 397 5100 al 
 					<text><![CDATA[VALOR UNIT.]]></text>
 				</staticText>
 				<staticText>
-					<reportElement x="280" y="3" width="55" height="14" uuid="a87bd2f2-f82c-4dab-b0d4-887b8ff7ee4a">
+					<reportElement x="280" y="2" width="55" height="14" uuid="a87bd2f2-f82c-4dab-b0d4-887b8ff7ee4a">
 						<property name="com.jaspersoft.studio.unit.width" value="px"/>
 						<property name="com.jaspersoft.studio.unit.height" value="px"/>
 						<property name="com.jaspersoft.studio.unit.y" value="px"/>
@@ -353,7 +352,7 @@ Sector El Dorado Quito Pichincha Postal           Telèfonos: 593 2 397 5100 al 
 					<text><![CDATA[Nº]]></text>
 				</staticText>
 				<staticText>
-					<reportElement x="498" y="3" width="35" height="14" uuid="1db83f28-fca9-45ca-a0aa-98f41e3164f4">
+					<reportElement x="498" y="2" width="35" height="14" uuid="1db83f28-fca9-45ca-a0aa-98f41e3164f4">
 						<property name="com.jaspersoft.studio.unit.width" value="px"/>
 						<property name="com.jaspersoft.studio.unit.height" value="px"/>
 						<property name="com.jaspersoft.studio.unit.y" value="px"/>
@@ -364,7 +363,7 @@ Sector El Dorado Quito Pichincha Postal           Telèfonos: 593 2 397 5100 al 
 					<text><![CDATA[TOTAL]]></text>
 				</staticText>
 				<staticText>
-					<reportElement x="469" y="3" width="20" height="14" uuid="c157724b-5ada-43d6-83e6-fc1e28562f12">
+					<reportElement x="469" y="2" width="20" height="14" uuid="c157724b-5ada-43d6-83e6-fc1e28562f12">
 						<property name="com.jaspersoft.studio.unit.width" value="px"/>
 						<property name="com.jaspersoft.studio.unit.height" value="px"/>
 						<property name="com.jaspersoft.studio.unit.y" value="px"/>
@@ -375,7 +374,7 @@ Sector El Dorado Quito Pichincha Postal           Telèfonos: 593 2 397 5100 al 
 					<text><![CDATA[IVA]]></text>
 				</staticText>
 				<staticText>
-					<reportElement x="412" y="3" width="50" height="14" uuid="cacbe75f-8d4b-4cb0-a1bf-7a80ecb9bf01">
+					<reportElement x="412" y="2" width="50" height="14" uuid="cacbe75f-8d4b-4cb0-a1bf-7a80ecb9bf01">
 						<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="5f925e37-e574-415f-952c-4cefd0f3333b"/>
 						<property name="com.jaspersoft.studio.unit.width" value="px"/>
 						<property name="com.jaspersoft.studio.unit.height" value="px"/>

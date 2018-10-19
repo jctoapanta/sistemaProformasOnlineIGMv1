@@ -42,6 +42,7 @@ import javax.faces.context.FacesContext;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.component.html.HtmlInputHidden;
 import javax.faces.context.ExternalContext;
+import javax.faces.event.AjaxBehaviorEvent;
 import javax.faces.model.SelectItem;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -52,6 +53,20 @@ import org.apache.log4j.Logger;
 @Named("order")
 @SessionScoped
 public class OrderBean extends FacesUtil implements Serializable {
+
+    /**
+     * @return the mostrar
+     */
+    public boolean isMostrar() {
+        return mostrar;
+    }
+
+    /**
+     * @param mostrar the mostrar to set
+     */
+    public void setMostrar(boolean mostrar) {
+        this.mostrar = mostrar;
+    }
 
     /**
      * @return the seleccionadoFormaEntrega
@@ -81,10 +96,9 @@ public class OrderBean extends FacesUtil implements Serializable {
         this.detalleproforma = detalleproforma;
     }
 
-     @EJB
+    @EJB
     private TtarifarioFacade ttarifarioFacade;
-    
-    
+
     /**
      * @return the tipoEntregaH
      */
@@ -157,13 +171,13 @@ public class OrderBean extends FacesUtil implements Serializable {
     private BigInteger mostrariva;
     private static Logger logger;
     private String seleccionadoFormaEntrega;
+    private boolean mostrar=false;
 
     public OrderBean() {
         this.direccionesControlador = new TdireccionesusrController();
         this.listaitems = new ArrayList<>();
+        this.cantidad=BigDecimal.ZERO;
     }
-    
-    
 
     /**
      * @return the mostrariva
@@ -247,17 +261,15 @@ public class OrderBean extends FacesUtil implements Serializable {
         return ORDERLIST;
 
     }
-    
-    public void limpiar(){
+
+    public void limpiar() {
         //Limpia luego de generar una proforma
         //se encuentra en cero para el siguiente pedido
         this.setSeleccionadoItem(0);
         this.setCantidad(BigDecimal.ZERO);
-        this.detalleproforma=new Tdetproforma();
-        this.detalleProformas=new ArrayList();
-       
-       
-        
+        this.detalleproforma = new Tdetproforma();
+        this.detalleProformas = new ArrayList();
+
     }
 
     public String addAction() {
@@ -286,117 +298,117 @@ public class OrderBean extends FacesUtil implements Serializable {
         return null;
     }
 
-public String addProforma() {
+    public String addProforma() {
 
-    if(ORDERLIST.isEmpty())
-        JsfUtil.addErrorMessage("Usted no ha seleccionado ningun item por favor vuelva a CREAR NUEVO PEDIDO y seleccione al menos un item "); 
-    else{
-        short reg = 0;
-        Long direccionDomicilioUsrExiste;
-        List<Tdireccionesusr> direccionEncontrada = new ArrayList<>();
-        Tdireccionesusr dirFacturacion = new Tdireccionesusr();
-        List<Tdireccionesusr> direccionEnvioEncontrada = new ArrayList<>();
-        Tdireccionesusr dirEnvio = new Tdireccionesusr();
-        String regla = "/tproforma/ListProXCli.xhtml";
-        BigDecimal cantidad;
-        BigDecimal valor = new BigDecimal("90");
-        BigDecimal tarifario = null;
-        try {
-            Date fechaActual = new Date();
-            ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
-            String tEntrega = ec.getRequestParameterMap().get("principalForm:tipoEntregaHidden2");
-            Short vIdPeriodo;
-            Short vOnline = 1;
-            direccionDomicilioUsrExiste = this.direccionesServicio.buscarExisteDireccionDomicilioCliente(this.getCiuH().getValue().toString());
-            if (direccionDomicilioUsrExiste.equals(0L)) {
-                JsfUtil.addErrorMessage("Usted aún no ha registrado una dirección, por favor agréguela.");
-                regla = "/tdireccionesusr/List.xhtml";
-            } else {
-                direccionEncontrada = this.direccionesControlador.buscaDomicilioCliente();
-                for (Tdireccionesusr tdireccionesusr : direccionEncontrada) {
-                    dirFacturacion = tdireccionesusr;
-                }
-                direccionEnvioEncontrada = this.direccionesControlador.buscaDirEnvioCliente();
-                for (Tdireccionesusr tdireccionesusr : direccionEnvioEncontrada) {
-                    dirEnvio = tdireccionesusr;
-                }
-                regla = this.direccionesControlador.activaDirEnvio();
-                
-                
-                if(tEntrega.isEmpty())
-                {
-                     JsfUtil.addErrorMessage("Por favor seleccione la forma de entrega"); 
-                }
-                else
-                {
-                if (regla.equals("/tproforma/ListProXCli")) {
-                    vIdPeriodo = Short.parseShort(new SimpleDateFormat("yy").format(fechaActual));
-                    this.proformapk.setIdPeriodo(vIdPeriodo);
-                    this.proformapk.setIdSucursal(1L);
-                    this.proformapk.setIdProforma(this.ejbFacade.maxId() + 1L);
-                    this.selected.setTproformaPK(this.proformapk);
-                    entidad.setCiu(this.getCiuH().getValue().toString());
-                    this.selected.setCiu(entidad);
-                    this.selected.setEstado("G");
-                    this.selected.setTipoProforma("OP");
-                    this.selected.setFechaCreacion(fechaActual);
-                    this.selected.setDirCabeceraEf(dirFacturacion.getTparroquia().getTcanton().getTprovincia().getProvincia() + "/" + dirFacturacion.getTparroquia().getTcanton().getCanton() + "/" + dirFacturacion.getTparroquia().getParroquia() + "/" + dirFacturacion.toString());
-                    this.selected.setDirEnvioEf(dirEnvio.getTparroquia().getTcanton().getTprovincia().getProvincia() + "/" + dirEnvio.getTparroquia().getTcanton().getCanton() + "/" + dirEnvio.getTparroquia().getParroquia() + "/" + dirEnvio.toString());
-                    this.selected.setLVentaOnline(vOnline);
-                    this.selected.setFormaEntrega(Short.parseShort(this.getTipoEntregaH().getValue().toString()));
-                    this.ejbFacade.create(selected);
-                    this.detalleProformas = new ArrayList();
-                    for (Order order : ORDERLIST) {
-                        reg++;
-                        getDetalleproforma().setCantidad(order.getCantidad());
-                        getDetalleproforma().setDetalleItem(order.getDescripcion());
-                        this.detalleItems.setIdItem(order.getIdItem());
-                        getDetalleproforma().setIdItem(detalleItems);
-                        getDetalleproforma().setIvaPorcentaje(BigDecimal.valueOf(0.12));
-                        getDetalleproforma().setPvpTotal(order.totalp);
-                        this.detproformapk.setIdPeriodo(vIdPeriodo);
-                        this.detproformapk.setIdProforma(this.proformapk.getIdProforma());
-                        this.detproformapk.setIdSucursal(1L);
-                        this.detproformapk.setNoReg(reg);
-                        getDetalleproforma().setTdetproformaPK(detproformapk);
-                        this.tdetproformaFacade.create(getDetalleproforma());
-                        cantidad = this.tdetproformaFacade.cantidad_peso(this.proformapk.getIdProforma()).multiply(valor);
-
-                        switch (this.selected.getFormaEntrega()) {
-                            case 1:
-                                tarifario = new BigDecimal("0.0");
-                                this.selected.setDirEnvioEf("OFICINAS IGM QUITO, Av. Seniergues E4-676 y Gral., Telmo Paz y Miño");
-                                break;
-                            case 2:
-                                tarifario = new BigDecimal("0.0");
-                                this.selected.setDirEnvioEf("OFICINAS IGM GUAYAQUIL, Av G. Pareja Rolando Nº 402 (la Garzota)");
-                                break;
-                            case 3:
-                                tarifario = this.ttarifarioFacade.valor_tarifario(cantidad);
-                                this.selected.setDirEnvioEf(dirEnvio.getTparroquia().getTcanton().getTprovincia().getProvincia() + "/" + dirEnvio.getTparroquia().getTcanton().getCanton() + "/" + dirEnvio.getTparroquia().getParroquia() + "/" + dirEnvio.toString());
-                                break;
-                            default:
-                                break;
-                        }
-                            JsfUtil.addSuccessMessage("Su pedido ha sido guardado correctamente.");
-                        }
-                        
-                        this.ejbFacade.grabarRecargo(tarifario, this.proformapk.getIdProforma(), this.selected.getDirEnvioEf());
-                     //   this.generarPDFp(selected);
-                        ORDERLIST.removeAll(ORDERLIST);
-                        this.limpiar();
-                        return regla;
-                    } else {
-                        return regla;
+        if (ORDERLIST.isEmpty()) {
+            JsfUtil.addErrorMessage("Usted no ha seleccionado ningun item por favor vuelva a CREAR NUEVO PEDIDO y seleccione al menos un item ");
+        } else {
+            short reg = 0;
+            Long direccionDomicilioUsrExiste;
+            List<Tdireccionesusr> direccionEncontrada = new ArrayList<>();
+            Tdireccionesusr dirFacturacion = new Tdireccionesusr();
+            List<Tdireccionesusr> direccionEnvioEncontrada = new ArrayList<>();
+            Tdireccionesusr dirEnvio = new Tdireccionesusr();
+            String regla = "/tproforma/ListProXCli.xhtml";
+            BigDecimal cantidad;
+            BigDecimal valor = new BigDecimal("90");
+            BigDecimal tarifario = null;
+            try {
+                Date fechaActual = new Date();
+                ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
+                String tEntrega = ec.getRequestParameterMap().get("principalForm:tipoEntregaHidden2");
+                Short vIdPeriodo;
+                Short vOnline = 1;
+                direccionDomicilioUsrExiste = this.direccionesServicio.buscarExisteDireccionDomicilioCliente(this.getCiuH().getValue().toString());
+                if (direccionDomicilioUsrExiste.equals(0L)) {
+                    JsfUtil.addErrorMessage("Usted aún no ha registrado una dirección, por favor agréguela.");
+                    regla = "/tdireccionesusr/List.xhtml";
+                } else {
+                    direccionEncontrada = this.direccionesControlador.buscaDomicilioCliente();
+                    for (Tdireccionesusr tdireccionesusr : direccionEncontrada) {
+                        dirFacturacion = tdireccionesusr;
                     }
-                    
+                    direccionEnvioEncontrada = this.direccionesControlador.buscaDirEnvioCliente();
+                    for (Tdireccionesusr tdireccionesusr : direccionEnvioEncontrada) {
+                        dirEnvio = tdireccionesusr;
+                    }
+                    regla = this.direccionesControlador.activaDirEnvio();
+
+                    if (tEntrega.isEmpty()) {
+                        JsfUtil.addErrorMessage("Por favor seleccione la forma de entrega");
+                    } else {
+                        if (regla.equals("/tproforma/ListProXCli")) {
+                            vIdPeriodo = Short.parseShort(new SimpleDateFormat("yy").format(fechaActual));
+                            this.proformapk.setIdPeriodo(vIdPeriodo);
+                            this.proformapk.setIdSucursal(1L);
+                            this.proformapk.setIdProforma(this.ejbFacade.maxId() + 1L);
+                            this.selected.setTproformaPK(this.proformapk);
+                            entidad.setCiu(this.getCiuH().getValue().toString());
+                            this.selected.setCiu(entidad);
+                            this.selected.setEstado("G");
+                            this.selected.setTipoProforma("OP");
+                            this.selected.setFechaCreacion(fechaActual);
+                            this.selected.setDirCabeceraEf(dirFacturacion.getTparroquia().getTcanton().getTprovincia().getProvincia() + "/" + dirFacturacion.getTparroquia().getTcanton().getCanton() + "/" + dirFacturacion.getTparroquia().getParroquia() + "/" + dirFacturacion.toString());
+                            if (direccionEnvioEncontrada.isEmpty()) {
+                                this.selected.setDirEnvioEf(dirFacturacion.getTparroquia().getTcanton().getTprovincia().getProvincia() + "/" + dirFacturacion.getTparroquia().getTcanton().getCanton() + "/" + dirFacturacion.getTparroquia().getParroquia() + "/" + dirFacturacion.toString());
+                            } else {
+                                this.selected.setDirEnvioEf(dirEnvio.getTparroquia().getTcanton().getTprovincia().getProvincia() + "/" + dirEnvio.getTparroquia().getTcanton().getCanton() + "/" + dirEnvio.getTparroquia().getParroquia() + "/" + dirEnvio.toString());
+                            }
+                            this.selected.setLVentaOnline(vOnline);
+                            this.selected.setFormaEntrega(Short.parseShort(this.getTipoEntregaH().getValue().toString()));
+                            this.ejbFacade.create(selected);
+                            this.detalleProformas = new ArrayList();
+                            for (Order order : ORDERLIST) {
+                                reg++;
+                                getDetalleproforma().setCantidad(order.getCantidad());
+                                getDetalleproforma().setDetalleItem(order.getDescripcion());
+                                this.detalleItems.setIdItem(order.getIdItem());
+                                getDetalleproforma().setIdItem(detalleItems);
+                                getDetalleproforma().setIvaPorcentaje(BigDecimal.valueOf(0.12));
+                                getDetalleproforma().setPvpTotal(order.totalp);
+                                this.detproformapk.setIdPeriodo(vIdPeriodo);
+                                this.detproformapk.setIdProforma(this.proformapk.getIdProforma());
+                                this.detproformapk.setIdSucursal(1L);
+                                this.detproformapk.setNoReg(reg);
+                                getDetalleproforma().setTdetproformaPK(detproformapk);
+                                this.tdetproformaFacade.create(getDetalleproforma());
+                                cantidad = this.tdetproformaFacade.cantidad_peso(this.proformapk.getIdProforma()).multiply(valor);
+
+                                switch (this.selected.getFormaEntrega()) {
+                                    case 1:
+                                        tarifario = new BigDecimal("0.0");
+                                        this.selected.setDirEnvioEf("OFICINAS IGM QUITO, Av. Seniergues E4-676 y Gral., Telmo Paz y Miño");
+                                        break;
+                                    case 2:
+                                        tarifario = new BigDecimal("0.0");
+                                        this.selected.setDirEnvioEf("OFICINAS IGM GUAYAQUIL, Av G. Pareja Rolando Nº 402 (la Garzota)");
+                                        break;
+                                    case 3:
+                                        tarifario = this.ttarifarioFacade.valor_tarifario(cantidad);
+                                        break;
+                                    default:
+                                        break;
+                                }
+                                JsfUtil.addSuccessMessage("Su pedido ha sido guardado correctamente.");
+                            }
+
+                            this.ejbFacade.grabarRecargo(tarifario, this.proformapk.getIdProforma(), this.selected.getDirEnvioEf());
+                            //   this.generarPDFp(selected);
+                            ORDERLIST.removeAll(ORDERLIST);
+                            this.limpiar();
+                            return regla;
+                        } else {
+                            return regla;
+                        }
+
+                    }
+
                 }
-       
+                return regla;
+            } catch (Exception e) {
+                logger.error(e.getMessage(), e);
             }
-            return regla;
-        } catch (Exception e) {
-            logger.error(e.getMessage(), e);
-        }}
+        }
         return "#";
     }
 
@@ -651,5 +663,18 @@ public String addProforma() {
      */
     public void setDirEntregaH(HtmlInputHidden dirEntregaH) {
         this.dirEntregaH = dirEntregaH;
+    }
+    
+    /**
+     * Muestra direcciones
+     * @return mostrar
+     */
+    public void mostrarDirecciones(AjaxBehaviorEvent event){
+        
+        if (direccionesControlador.getSelectedItem().equals("3")){
+            setMostrar(true);
+        } else{
+            setMostrar(false);
+        }
     }
 }

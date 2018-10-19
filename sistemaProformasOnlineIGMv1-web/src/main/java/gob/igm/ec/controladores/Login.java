@@ -21,6 +21,8 @@ import gob.igm.ec.controladores.util.constantes;
 import gob.igm.ec.servicios.TdireccionesusrFacade;
 
 import gob.igm.ec.servicios.TentidadFacade;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.io.Serializable;
 import java.util.List;
 import javax.faces.event.ActionEvent;
@@ -29,6 +31,10 @@ import org.apache.log4j.Logger;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  * The Class Login.
@@ -113,28 +119,30 @@ public class Login extends FacesUtil implements Serializable {
                     cliente.setNombres(tentidad.getNombres());
                     cliente.setDireccion(tentidad.getDireccion());
                 }
-                direccionDomicilioUsrExiste = this.direccionesServicio.buscarExisteDireccionDomicilioCliente(this.aliasBase);
-                direccionEnvioUsrExiste = this.direccionesServicio.buscarExisteDireccionEnvioCliente(this.aliasBase);
+                //direccionDomicilioUsrExiste = this.direccionesServicio.buscarExisteDireccionDomicilioCliente(this.aliasBase);
+                //direccionEnvioUsrExiste = this.direccionesServicio.buscarExisteDireccionEnvioCliente(this.aliasBase);
                 if (getUsuario().isEmpty()) {
                     JsfUtil.addErrorMessage("Usuario no existe o Clave incorrecta, favor verifique");
                     regla = "/index.xhtml";
-                } else {
-                    if (direccionDomicilioUsrExiste.equals(0L)) {
-                        if (direccionEnvioUsrExiste.equals(0L)) {
-                            JsfUtil.addErrorMessage("Usted debe registrar una Dirección para Facturación y al menos una Dirección para Envío, por favor agréguelas.");
-                            regla = "/tdireccionesusr/List.xhtml";
-                        } else {
-                            JsfUtil.addErrorMessage("Usted debe registrar una Dirección para Facturación, por favor agréguela.");
-                            regla = "/tdireccionesusr/List.xhtml";
-                        }
-                    } else {
-                        if (direccionEnvioUsrExiste.equals(0L)) {
-                            JsfUtil.addErrorMessage("Usted debe registrar al menos una dirección de envío, por favor agréguela.");
-                            regla = "/tdireccionesusr/List.xhtml";
-                        } else {
-                            regla = "/tproforma/ListProXCli.xhtml";
-                        }
-                    }
+                } //else {
+                //                    if (direccionDomicilioUsrExiste.equals(0L)) {
+                //                        if (direccionEnvioUsrExiste.equals(0L)) {
+                //                            JsfUtil.addErrorMessage("Usted debe registrar una Dirección para Facturación y al menos una Dirección para Envío, por favor agréguelas.");
+                //                            regla = "/tdireccionesusr/List.xhtml";
+                //                        } else {
+                //                            JsfUtil.addErrorMessage("Usted debe registrar una Dirección para Facturación, por favor agréguela.");
+                //                            regla = "/tdireccionesusr/List.xhtml";
+                //                        }
+                //                    } else {
+                //                        if (direccionEnvioUsrExiste.equals(0L)) {
+                //                            JsfUtil.addErrorMessage("Usted debe registrar al menos una dirección de envío, por favor agréguela.");
+                //                            regla = "/tdireccionesusr/List.xhtml";
+                //                        } else {
+                //                        }
+                //                    }
+                //                }
+                else {
+                    regla = "/tproforma/ListProXCli.xhtml";
                 }
             }
         } catch (Exception ex) {
@@ -166,15 +174,6 @@ public class Login extends FacesUtil implements Serializable {
             super.addErrorMessage(super.getRecursoGeneral().getString("msgErrorBooking"));
         }
         return regla;
-    }
-
-    /**
-     * Cierra la sesi�n del usuario.
-     *
-     * @param evento Evento generado por la p�gina
-     */
-    public void cerrarSession(ActionEvent evento) {
-        super.getRequest().getSession().invalidate();
     }
 
     /**

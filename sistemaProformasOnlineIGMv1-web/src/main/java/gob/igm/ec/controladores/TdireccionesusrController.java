@@ -74,6 +74,7 @@ public class TdireccionesusrController extends FacesUtil implements Serializable
     private List<SelectItem> selectedItems = new ArrayList<>();
     private Long idDireccionC = new Long(0);
     private HtmlDataTable SomeDataTable;
+    private String radio;
 
     /**
      * @return the selectedItems
@@ -139,7 +140,7 @@ public class TdireccionesusrController extends FacesUtil implements Serializable
         return Dir;
     }
 
-    public void seleccionaDirEnvio(Tdireccionesusr direccionSelec) {
+    public void seleccionaDirEnvio() {
         //Actualiza el valor de lenvio a null de todos los registros del usuario
         for (Tdireccionesusr tdireccionesusr : this.direccionesXCiu) {
             tdireccionesusr.setLEnvio((short) 0);
@@ -195,6 +196,10 @@ public class TdireccionesusrController extends FacesUtil implements Serializable
         selectedItems.add(new SelectItem("1", "Retiro en oficina IGM Quito"));
         selectedItems.add(new SelectItem("2", "Retiro en oficina IGM Guayaquil"));
         selectedItems.add(new SelectItem("3", "Entrega a Domicilio"));
+        FacesContext fc = FacesContext.getCurrentInstance();
+        Map<String, String> params
+                = fc.getExternalContext().getRequestParameterMap();
+        String data = params.get("ciuParam");
     }
 
     public Tdireccionesusr getSelected() {
@@ -222,11 +227,17 @@ public class TdireccionesusrController extends FacesUtil implements Serializable
     }
 
     public String create() {
+        
+        FacesContext fc = FacesContext.getCurrentInstance();
+        Map<String, String> params
+                = fc.getExternalContext().getRequestParameterMap();
+        String data = params.get("ciuParam");
+        
         Tentidad ciu = new Tentidad();
         Long cuentaDireccionesUsr;
         List<Tdireccionesusr> direccionEnvioSeleccionada = new ArrayList<>();
         String regla = new String();
-        ciu.setCiu(ciuH.getValue().toString());
+        ciu.setCiu(data);
         siguienteIdDireccion = this.ejbFacade.obtenerSiguienteValor();
         if (siguienteIdDireccion == null) {
             siguienteIdDireccion = Long.decode("1");
@@ -237,23 +248,23 @@ public class TdireccionesusrController extends FacesUtil implements Serializable
         if (!JsfUtil.isValidationFailed()) {
             items = null;    // Invalidate list of items to trigger re-query.
         }
-        cuentaDireccionesUsr = this.ejbFacade.cuentaDireccionesCliente(this.getCiuH().getValue().toString());
+        cuentaDireccionesUsr = this.ejbFacade.cuentaDireccionesCliente(ciu.getCiu());
         if (cuentaDireccionesUsr >= 2L) {
-            direccionEnvioSeleccionada = this.buscaDirEnvioCliente();
-            if (direccionEnvioSeleccionada.size()==0) {
-                regla = "/tdireccionesusr/List.xhtml";
-                templateControl.refresh();
-                JsfUtil.addErrorMessage("Por favor seleccione la Dirección en DÓNDE desea recibir su pedido!!! Pulse el botón <Enviar a:> en su listado de Direcciones");
-
-            } else {
+//            direccionEnvioSeleccionada = this.buscaDirEnvioCliente();
+//            if (direccionEnvioSeleccionada.isEmpty()) {
+//                regla = "/tdireccionesusr/List.xhtml#";
+//                templateControl.refresh();
+//                JsfUtil.addErrorMessage("Por favor seleccione la Dirección en DÓNDE desea recibir su pedido!!! Pulse el botón <Enviar a:> en su listado de Direcciones");
+//
+//            } else {
                 JsfUtil.addSuccessMessage("En este momento ya se encuentra en la Pantalla de Pedidos, puede generar su requerimiento...Gracias por registrar sus datos.");
                 regla = "/tproforma/ListProXCli.xhtml";
                 templateControl.refresh();
-            }
+//            }
         } else {
-            regla = "/tdireccionesusr/List.xhtml";
+            regla = "/index.xhtml";
             templateControl.refresh();
-            JsfUtil.addErrorMessage("Por favor agregue al menos una Dirección adicional!!!");
+            //JsfUtil.addErrorMessage("Por favor agregue al menos una Dirección adicional!!!");
         }
         return regla;
     }
@@ -370,7 +381,7 @@ public class TdireccionesusrController extends FacesUtil implements Serializable
      * @return the direccionesXCiu
      */
     public List<Tdireccionesusr> getDireccionesXCiu() {
-        direccionesXCiu = this.ejbFacade.buscarDireccionesXCliente(this.ciuH.getValue().toString());
+        direccionesXCiu = this.ejbFacade.buscarDireccionesXCliente(getCiur().getValue().toString());
         if (direccionesXCiu.isEmpty()) {
             JsfUtil.addErrorMessage("Usted aun no dispone de Direcciones registradas");
         }
@@ -543,4 +554,24 @@ public class TdireccionesusrController extends FacesUtil implements Serializable
     public void setIdDireccionC(Long idDireccionC) {
         this.idDireccionC = idDireccionC;
     }
+
+    public void changeRadio(ValueChangeEvent event) {
+
+        setRadio((String) event.getNewValue());
+    }
+
+    /**
+     * @return the radio
+     */
+    public String getRadio() {
+        return radio;
+    }
+
+    /**
+     * @param radio the radio to set
+     */
+    public void setRadio(String radio) {
+        this.radio = radio;
+    }
+
 }

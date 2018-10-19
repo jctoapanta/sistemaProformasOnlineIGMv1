@@ -3,7 +3,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
     <style type="text/css">
 
         #h_bodyid{
@@ -40,7 +41,9 @@
                         <h:inputSecret id="intClave" value="#{login.clave}" maxlength="50"/>
                         <br />
                         <p:commandButton id="btnLoginInicial" value="#{bundle.Ingresar}" action="#{login.ingresar}" ajax="false"
-                                         styleClass="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" update="pnlPrincipal, :TproformaListForm"/>
+                                         styleClass="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" update="pnlPrincipal, :TproformaListForm">
+                            <f:param name="ciuParam" value="#{login.aliasBase}"/>
+                        </p:commandButton>
                         <br />
                         <div>
                             <h:commandLink id="lnkRegistro" value="#{bundle.Registro}-#{bundle.Usuario}" action="/registro" actionListener="#{tentidadController.prepareCreate}" immediate="true"/>
@@ -53,39 +56,6 @@
             </h:form>
         </div>
 
-        <div class="container">
-            <input type="radio" class="radio" name="progress" value="five" id="five"></input>
-            <label for="five" class="label">Registro Login</label>
-
-            <input type="radio" class="radio" name="progress" value="twentyfive" id="twentyfive"></input>
-            <label for="twentyfive" class="label">Crear nuevo pedido</label>
-
-            <input type="radio" class="radio" name="progress" value="fifty" id="fifty"></input>
-            <label for="fifty" class="label">Direccion a enviar</label>
-
-            <input type="radio" class="radio" name="progress" value="seventyfive" id="seventyfive"></input>
-            <label for="seventyfive" class="label">Enviar comprobante de pago</label>
-
-            <input type="radio" class="radio" name="progress" value="onehundred" id="onehundred"></input>
-            <label for="onehundred" class="label">Confirmacion</label>
-
-            <div class="progress">
-                <div class="progress-bar"></div>
-            </div>
-        </div>
-
-   
     </h:body>
-
-
-
-
-
-
-
-
-
-
-
 </html>
 

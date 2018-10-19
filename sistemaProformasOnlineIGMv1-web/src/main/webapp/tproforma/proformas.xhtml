@@ -22,6 +22,7 @@
                             <p:outputLabel value="Apellidos:  " for="apellidos" />
                             <p:outputLabel id="apellidos" value="#{login.cliente.apellidos}"/>                                              
                             <h:inputHidden id="ciuHidden" value="#{login.cliente.ciu}" binding="#{order.ciuH}"/>
+                            <h:inputHidden id="ciuHiddenD" value="#{login.cliente.ciu}" binding="#{tdireccionesusrController.ciur}"/>
                             <p:outputLabel value="Dirección de facturación: " for="dirEntrega"/>
                             <b></b>
                             <h:outputText id="dirEntrega" value="#{tdireccionesusrController.buscaDirEnvioCliente().toString()}"/>
@@ -44,85 +45,111 @@
                                     </div>
                                     <div class="form-group">
                                         <br />
+                                        <br />
                                         <p:commandButton id="btnIngresar" icon="ui-icon-cart" class="glyphicon glyphicon-plus"
                                                          actionListener="#{order.addAction}" ajax="true" 
                                                          update=":principalForm" onclick="PF('TproformaCreateDialog').show()"/>
                                     </div>
                                 </h:panelGrid>
-                                <h:panelGrid columns="2" cellpadding="10" style="margin-left: 83px; background-size: auto" width="720px">
-                                        <p:dataTable id="listadetalles" value="#{order.orderList}" var="o" style="margin-bottom:10%;width:95%" >
-                                            <p:column sortBy="#{o.descripcion}" width="60%">
-                                                <f:facet name="header">
-                                                    <h:outputText value="Descripción" />
-                                                </f:facet>
-                                                <h:outputText value="#{o.descripcion}"/>
-                                            </p:column>
-                                            <p:column sortBy="#{o.cantidad}">
-                                                <f:facet name="header">
-                                                    <h:outputText value="Cantidad"/>
-                                                </f:facet>
-                                                <h:outputText value="#{o.cantidad}"/>
-                                            </p:column>
-                                            <p:column>
-                                                <f:facet name="header">
-                                                    <h:outputText value="Precio Unitario"/>
-                                                </f:facet>
-                                                <h:outputText value="#{o.total}"/>
-                                            </p:column>
-                                            <p:column>
-                                                <f:facet name="header">
-                                                    <h:outputText value="Iva %"/>
-                                                </f:facet>
-                                                <h:outputText value="#{o.piva}"/>
-                                            </p:column>
-                                            <p:column style="text-align: center">
-                                                <f:facet name="header">Borrar Item</f:facet>
-                                                <p:commandButton icon="ui-icon-trash" action="#{order.deleteAction(o)}" 
-                                                                 update=":principalForm" onclick="PF('TproformaCreateDialog').show()" 
-                                                                 ajax="true"/>   				
-                                            </p:column>
-                                            <f:facet name="footer">
-                                                El valor total de la proforma, sin recargos, es: #{order.totalp}
+                                <h:panelGrid columns="2" cellpadding="10" style="margin-left: 42px; background-size: auto" width="720px">
+                                    <p:dataTable id="listadetalles" value="#{order.orderList}" var="o" style="margin-bottom:10%;width:95%" >
+                                        <p:column sortBy="#{o.descripcion}" width="60%">
+                                            <f:facet name="header">
+                                                <h:outputText value="Descripción" />
                                             </f:facet>
-                                        </p:dataTable>
-                   
-                        <div>
-                        <p:outputLabel style="font-size: xx-larger; font-style: italic; font-size : semi-condensed; font-family: serif; color: #ff3333" value="Por favor revise bien su pedido, ya que no se pueden anular facturas canceladas, el IGM no se hace responsable de un error cometido por el cliente"  />                        
-                        </div>
+                                            <h:outputText value="#{o.descripcion}"/>
+                                        </p:column>
+                                        <p:column sortBy="#{o.cantidad}">
+                                            <f:facet name="header">
+                                                <h:outputText value="Cantidad"/>
+                                            </f:facet>
+                                            <h:outputText value="#{o.cantidad}"/>
+                                        </p:column>
+                                        <p:column>
+                                            <f:facet name="header">
+                                                <h:outputText value="Precio Unitario"/>
+                                            </f:facet>
+                                            <h:outputText value="#{o.total}"/>
+                                        </p:column>
+                                        <p:column>
+                                            <f:facet name="header">
+                                                <h:outputText value="Iva %"/>
+                                            </f:facet>
+                                            <h:outputText value="#{o.piva}"/>
+                                        </p:column>
+                                        <p:column style="text-align: center">
+                                            <f:facet name="header">Borrar Item</f:facet>
+                                            <p:commandButton icon="ui-icon-trash" action="#{order.deleteAction(o)}" 
+                                                             update=":principalForm" onclick="PF('TproformaCreateDialog').show()" 
+                                                             ajax="true"/>   				
+                                        </p:column>
+                                        <f:facet name="footer">
+                                            El valor total de la proforma, sin recargos, es: #{order.totalp}
+                                        </f:facet>
+                                    </p:dataTable>
+
                                 </h:panelGrid>
                                 <div>
                                     <h:panelGrid columns="2" cellpadding="4">
                                         <p:outputLabel value="Forma de entrega:" for="IdFormaEntrega"/>
-                                        <p:selectOneMenu id="IdFormaEntrega" style="width:290px" panelStyle="width:180px" value="#{tdireccionesusrController.selectedItem}" immediate="true">
+                                        <p:selectOneMenu id="IdFormaEntrega" style="width:290px" panelStyle="width:180px" 
+                                                         value="#{tdireccionesusrController.selectedItem}"
+                                                         >
                                             <f:selectItem itemLabel="Seleccionar forma de entrega" itemValue="#{null}" noSelectionOption="true"/>
                                             <f:selectItems value="#{tdireccionesusrController.selectedItems}"/>
-                                            <p:ajax process="@this" partialSubmit="true" update="tipoEntregaHidden2, ciuHidden, dirEntrega"/>
+                                            <f:ajax event="valueChange" listener="#{order.mostrarDirecciones}" render="principalForm:tipoEntregaHidden2"/>
+                                            <f:ajax event="valueChange" listener="#{order.mostrarDirecciones}" render="principalForm:ciuHidden"/>
+                                            <f:ajax event="valueChange" listener="#{order.mostrarDirecciones}" render="principalForm:dirEntrega"/>
+                                            <f:ajax event="valueChange" listener="#{order.mostrarDirecciones}" render="TproformaCreateDlg:selecDirRadio"/>
+                                            <f:ajax event="valueChange" listener="#{order.mostrarDirecciones}" render="principalForm:etipoEntrega"/>
+                                            <f:ajax render="tabladir" />
                                         </p:selectOneMenu>
 
                                     </h:panelGrid>
                                     <h:inputHidden id="tipoEntregaHidden2" value="#{tdireccionesusrController.selectedItem}" binding="#{order.tipoEntregaH}"/>
+                                    <p:outputLabel id="etipoEntrega" value="#{tdireccionesusrController.selectedItem}"  rendered="false"/>
+                                    <br/>
+                                    <p:separator/>
+                                    <div>
+                                        <h:panelGrid id="tabladir" columns="1" cellpadding="10" style="margin-left: 42px; background-size: auto" width="720px">
+                                                <p:column width="83%">
+                                                    <p:selectOneRadio id="selecDirRadio" layout="pageDirection" plain="true" rendered="#{order.mostrar}" value="#{tdireccionesusrController.selected}">
+                                                        <f:selectItems itemLabel="Provincia #{d.tparroquia.tcanton.tprovincia.provincia} / Dirección: #{d.callePrincipalDireccion} #{d.numeroDireccion} y #{d.calleSecundariaDireccion}" 
+                                                                      
+                                                                       value="#{tdireccionesusrController.direccionesXCiu}" 
+                                                                       var="d"  />
+                                                        <p:ajax listener="#{tdireccionesusrController.seleccionaDirEnvio}"/> 
+                                                    </p:selectOneRadio>
+                                                </p:column>
+                                        </h:panelGrid>
+                                    </div>
                                 </div>
+                                <p:separator/>
+                                <div align="justify">
+                                    <h:outputText style="font-size: x-large; font-style: italic; font-family: serif; color: #ff3333" value="Por favor revise bien su pedido, ya que no se pueden anular facturas canceladas, el IGM no se hace responsable de un error cometido por el cliente"  />                        
+                                </div>
+                                <br/>
                             </td>
                         </table>
                     </p:fieldset> 
                     <p:commandButton value="#{bundle.Save} #{bundle.CreateTdetproformaLabel_tproforma}" ajax="false" 
-                                     update="display,:TproformaListForm:datalist,:growl"  class="btn btn-primary" 
+                                     update="display,:TproformaListForm:datalist,:growl :TproformaCreateDlg:selecDirRadio"  class="btn btn-primary" 
                                      actionListener="#{order.addProforma}" onclick="TproformaCreateDialog.hide()">
-                      
+
                     </p:commandButton>
                     <p:commandButton value="Confirmar dirección" actionListener="#{order.addProforma}" update="display,:TproformaListForm:datalist,:growl" >
-                        <p:confirm  header="Confirmar" message="Desea que la dirección de faturacion sea la misma de envio" icon="ui-icon-alert" />
-                        
+                        <p:confirm id="wConfirma" header="Confirmar" message="Desea que la dirección de facturación sea la misma de envío" icon="ui-icon-alert" />
+
                     </p:commandButton>
                     <p:confirmDialog global="true">
                         <p:commandButton value="SI" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check"/>
-                        <p:commandButton value="NO Enviar a otra direcciòn" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" ajax="false" update="display,:TproformaListForm:datalist,:growl,:TdireccionesusrListForm" onclick="location.href = '../faces/tdireccionesusr/List.xhtml'"/>
+                        <p:commandButton value="NO...Enviar a otra direcciòn" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" ajax="false" update="display,:TproformaListForm:datalist,:growl"/>
                     </p:confirmDialog>
-      <p:commandButton value="#{bundle.Cancel}" action="#{order.limpiar}" onclick="TproformaCreateDialog.hide()" class="btn btn-danger"/>
+                    <p:commandButton value="#{bundle.Cancel}" action="#{order.limpiar}" onclick="TproformaCreateDialog.hide()" class="btn btn-danger"/>
                 </h:panelGroup>                    
             </h:form>
 
         </p:dialog>
-      
+
     </ui:composition>
 </html>
